@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Taste of Taiwan - Interactive Lesson</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+
+        .worksheet-section { display: none; }
+        .worksheet-section.active { display: block; animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Sidebar Navigation */
+        .nav-item.active { background-color: #eef2ff; color: #3730a3; font-weight: 600; }
+        .nav-item .icon-complete { opacity: 0; transition: opacity 0.3s; }
+        .nav-item.completed .icon-complete { opacity: 1; }
+        
+        /* Feedback Styles */
+        .correct { border-color: #22c55e !important; background-color: #f0fdf4 !important; }
+        .incorrect { border-color: #ef4444 !important; background-color: #fef2f2 !important; }
+        .correct-answer-text { color: #15803d; font-weight: 600; }
+        .correct-radio + span { color: #16a34a; font-weight: bold; }
+        .explanation { border-left: 4px solid #94a3b8; padding-left: 1rem; background-color: #f8fafc; }
+        .input-wrapper { position: relative; display: inline-block; }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 antialiased">
+
+    <div class="container mx-auto max-w-7xl p-4 sm:p-6 md:p-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <!-- Sidebar -->
+            <aside class="md:col-span-1">
+                <div class="sticky top-8 bg-white p-4 rounded-2xl shadow-lg">
+                    <h2 class="text-xl font-bold text-slate-800 mb-4 text-center">Lesson Sections</h2>
+                    <nav id="lesson-nav" class="space-y-2"></nav>
+                    <div class="mt-6 text-center">
+                        <button id="reset-all-btn" class="w-full bg-slate-200 text-slate-700 px-4 py-2 rounded-lg font-semibold hover:bg-slate-300 transition-colors text-sm">
+                            Reset All Progress
+                        </button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="md:col-span-3">
+                <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                    <!-- Header -->
+                    <header class="text-center mb-8 pb-6 border-b border-slate-200">
+                        <h1 class="text-3xl md:text-4xl font-bold text-slate-900">A Taste of Taiwan</h1>
+                        <p class="text-slate-600 mt-2">An Interactive B1 Reading Lesson</p>
+                    </header>
+
+                    <!-- Part 1: Warm-up -->
+                    <section id="warm-up" class="worksheet-section space-y-4">
+                        <h2 class="text-2xl font-semibold text-slate-800 flex items-center"><span class="text-3xl mr-3">🗣️</span> Warm-up Discussion</h2>
+                        <p class="text-slate-600">Let's talk about your trip! Think about your answers to the questions below.</p>
+                        <ul class="list-disc list-inside space-y-3 text-slate-700 pl-2">
+                            <li>What was your favorite city or place you visited in Taiwan? Why?</li>
+                            <li>Can you describe the most delicious food you ate there?</li>
+                            <li>What was something that surprised you about the culture or the people?</li>
+                            <li>If a friend asked you for one "must-do" activity in Taiwan, what would you recommend?</li>
+                        </ul>
+                    </section>
+                    
+                    <!-- Part 2: Vocabulary Matching -->
+                    <section id="vocabulary" class="worksheet-section">
+                        <h2 class="text-2xl font-semibold text-slate-800 flex items-center"><span class="text-3xl mr-3">📝</span> Vocabulary Matching</h2>
+                        <p class="text-slate-600 mb-6">Match the words with their correct definitions.</p>
+                        <div id="vocab-container" class="space-y-4">
+                            <!-- JS will render questions here -->
+                        </div>
+                        <div class="section-controls text-right mt-6"></div>
+                    </section>
+
+                    <!-- Part 3: Reading -->
+                    <section id="reading" class="worksheet-section">
+                        <h2 class="text-2xl font-semibold text-slate-800 flex items-center"><span class="text-3xl mr-3">📖</span> Reading</h2>
+                        <article class="prose max-w-none mt-4 text-slate-700 leading-relaxed">
+                            <h3 class="text-xl font-bold text-slate-900">My Unforgettable Weekend in Taipei</h3>
+                            <p>Last month, I spent an amazing weekend exploring Taipei, the capital of Taiwan. From the moment I arrived, I was impressed by how clean and <strong>efficient</strong> the city was. The Metro system, known as the MRT, was fantastic. It was so easy to <strong>navigate</strong> the city and visit all the famous sights.</p>
+                            <p>My first stop was Taipei 101, the famous <strong>landmark</strong> skyscraper. The elevator to the top was incredibly fast! From the observation deck on the 89th floor, the view of the entire city was breathtaking. You could see the mountains surrounding the city and the <strong>bustling</strong> streets below.</p>
+                            <p>In the evening, I went to the Shilin Night Market. It was a completely different world! The market was so <strong>vibrant</strong>, filled with lights, sounds, and amazing smells. I walked past hundreds of food <strong>vendors</strong>, each selling delicious-looking snacks. I tried the famous stinky tofu, which has a very strong smell but tastes surprisingly good, and a huge fried chicken cutlet. It was a paradise for food lovers.</p>
+                            <p>On my second day, I took a short train ride to Jiufen, an old town in the mountains. The <strong>scenery</strong> on the way was beautiful. Jiufen is famous for its narrow, winding streets, traditional teahouses, and red lanterns. It felt like stepping back in time. I bought a few small <strong>souvenirs</strong> for my family there, including some tasty pineapple cakes.</p>
+                            <p>My weekend in Taipei was short but packed with wonderful experiences. The mix of modern city life and traditional culture is truly special. I can’t wait to go back and explore more of this beautiful island.</p>
+                        </article>
+                    </section>
+
+                    <!-- Part 4: Comprehension -->
+                    <section id="comprehension" class="worksheet-section space-y-8">
+                        <div>
+                            <h2 class="text-2xl font-semibold text-slate-800 flex items-center"><span class="text-3xl mr-3">🤔</span> True or False?</h2>
+                            <p class="text-slate-600 mb-4">Read the statements and choose True or False.</p>
+                            <div id="true-false-questions" class="space-y-4"></div>
+                            <div class="section-controls text-right mt-4"></div>
+                        </div>
+                        <hr class="border-slate-200">
+                        <div>
+                            <h2 class="text-2xl font-semibold text-slate-800 flex items-center"><span class="text-3xl mr-3">✍️</span> Summary Completion</h2>
+                            <p class="text-slate-600 mb-4">Fill in the blanks to complete the summary. Use one word from the text for each blank.</p>
+                            <div id="summary-cloze" class="space-y-4 text-slate-700 leading-relaxed bg-slate-50 p-4 rounded-lg"></div>
+                            <div class="section-controls text-right mt-4"></div>
+                        </div>
+                    </section>
+
+                    <!-- Part 5: Scenario Task -->
+                    <section id="scenario" class="worksheet-section">
+                         <h2 class="text-2xl font-semibold text-slate-800 flex items-center"><span class="text-3xl mr-3">✈️</span> Scenario-based Task</h2>
+                         <div class="mt-4 bg-blue-50 p-4 rounded-lg border border-blue-200">
+                             <p class="font-semibold text-blue-800">Your Task:</p>
+                             <p class="text-blue-700 mt-1">Imagine your teacher is planning a trip to Taiwan and has asked you for advice. Based on the reading text and <strong>your own recent trip</strong>, write a short email (80-100 words).</p>
+                             <ul class="list-disc list-inside text-blue-700 mt-2 text-sm">
+                                 <li>Recommend one place to visit that was in the article.</li>
+                                 <li>Recommend one place or activity from your own experience.</li>
+                                 <li>Explain why you recommend them.</li>
+                             </ul>
+                         </div>
+                         <div class="mt-6">
+                             <div class="bg-slate-100 p-2 rounded-t-lg text-sm text-slate-500 border-t border-x border-slate-300">
+                                 To: Teacher | From: [Your Name] | Subject: My recommendations for your trip to Taiwan!
+                             </div>
+                             <textarea id="email-textarea" class="w-full h-64 p-4 border border-slate-300 rounded-b-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Hi,&#10;&#10;I heard you are planning a trip to Taiwan! That's so exciting.&#10;&#10;..."></textarea>
+                         </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+        <footer class="text-center mt-8 text-sm text-slate-500">
+            <p>Designed by Fajarudin Akbar | <a href="https://fajarudinakbar.online" target="_blank" class="hover:underline text-blue-600">fajarudinakbar.online</a></p>
+        </footer>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // --- DATA ---
+    const sections = [
+        { id: 'warm-up', name: 'Warm-up' },
+        { id: 'vocabulary', name: 'Vocabulary' },
+        { id: 'reading', name: 'Reading' },
+        { id: 'comprehension', name: 'Comprehension' },
+        { id: 'scenario', name: 'Scenario Task' }
+    ];
+
+    const vocabData = [
+        { word: 'Bustling', answer: 'h' },
+        { word: 'Efficient', answer: 'a' },
+        { word: 'Scenery', answer: 'c' },
+        { word: 'Vibrant', answer: 'f' },
+        { word: 'Vendor', answer: 'g' },
+        { word: 'Souvenir', answer: 'b' },
+        { word: 'Landmark', answer: 'd' },
+        { word: 'Navigate', answer: 'e' }
+    ];
+
+    const vocabDefinitions = [
+        { id: 'a', text: 'Working well without wasting time or energy.' },
+        { id: 'b', text: 'An object you buy to remember a place you visited.' },
+        { id: 'c', text: 'The natural view of a landscape, like mountains or coastlines.' },
+        { id: 'd', text: 'A famous building or place that is easy to recognize.' },
+        { id: 'e', text: 'To find your way around a city or area.' },
+        { id: 'f', text: 'Full of energy, life, and bright colors.' },
+        { id: 'g', text: 'A person who sells things, often on the street.' },
+        { id: 'h', text: 'Full of busy activity and people.' }
+    ];
+    
+    const tfQuestionsData = [
+        { q: "The writer thought the MRT system was difficult to use.", a: false, explanation: "The text says the MRT was 'fantastic' and 'easy to navigate'." },
+        { q: "The writer only saw mountains from the top of Taipei 101.", a: false, explanation: "The text mentions seeing 'mountains' and the 'bustling streets below'." },
+        { q: "The Shilin Night Market was quiet and calm.", a: false, explanation: "The market was described as 'vibrant, filled with lights, sounds, and amazing smells'." },
+        { q: "The writer traveled to Jiufen by bus.", a: false, explanation: "The writer took a 'short train ride' to Jiufen." },
+        { q: "Jiufen is a modern, new city.", a: false, explanation: "Jiufen is described as an 'old town' that felt like 'stepping back in time'." }
+    ];
+
+    const summaryAnswers = ['mrt', 'view', 'vendors', 'lanterns', 'souvenir'];
+
+    // --- STATE ---
+    let currentSectionIndex = 0;
+    const completedSections = new Set();
+
+    // --- UI ELEMENTS ---
+    const navContainer = document.getElementById('lesson-nav');
+    const allSections = document.querySelectorAll('.worksheet-section');
+
+    // --- NAVIGATION & VIEW MANAGEMENT ---
+    function setupNavigation() {
+        navContainer.innerHTML = '';
+        sections.forEach((section, index) => {
+            const navItem = document.createElement('a');
+            navItem.href = '#';
+            navItem.className = 'nav-item flex items-center justify-between p-3 rounded-lg cursor-pointer transition-colors hover:bg-slate-100';
+            navItem.dataset.index = index;
+            navItem.innerHTML = `
+                <span>${index + 1}. ${section.name}</span>
+                <span class="icon-complete text-green-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                </span>
+            `;
+            navItem.addEventListener('click', (e) => {
+                e.preventDefault();
+                currentSectionIndex = index;
+                updateView();
+            });
+            navContainer.appendChild(navItem);
+        });
+    }
+    
+    function updateView() {
+        allSections.forEach((sec, index) => {
+            sec.classList.toggle('active', index === currentSectionIndex);
+        });
+        document.querySelectorAll('.nav-item').forEach((item, index) => {
+            item.classList.toggle('active', index === currentSectionIndex);
+            item.classList.toggle('completed', completedSections.has(index));
+        });
+        window.scrollTo(0, 0);
+    }
+    
+    // --- RENDER FUNCTIONS ---
+    function renderVocab() {
+        const container = document.getElementById('vocab-container');
+        container.innerHTML = '';
+
+        const shuffledDefs = [...vocabDefinitions].sort(() => Math.random() - 0.5);
+        const optionsHTML = shuffledDefs.map(def => `<option value="${def.id}">${def.id}. ${def.text}</option>`).join('');
+
+        vocabData.forEach((item, index) => {
+            container.innerHTML += `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center p-3 rounded-lg border border-slate-200 transition-colors">
+                    <p class="font-medium text-slate-800">${index + 1}. ${item.word}</p>
+                    <select data-index="${index}" class="vocab-select w-full p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 transition">
+                        <option value="">Select a definition...</option>
+                        ${optionsHTML}
+                    </select>
+                </div>
+            `;
+        });
+    }
+
+    function renderTrueFalse() {
+        const container = document.getElementById('true-false-questions');
+        container.innerHTML = '';
+        tfQuestionsData.forEach((item, index) => {
+            container.innerHTML += `
+                <div id="tf-q-${index}" class="p-4 rounded-lg border border-slate-200 transition-colors">
+                    <p class="text-slate-700 mb-2">${index + 1}. ${item.q}</p>
+                    <div class="flex space-x-6">
+                        <label class="flex items-center space-x-2 cursor-pointer text-slate-600"><input type="radio" name="tf-${index}" value="true" class="form-radio"><span>True</span></label>
+                        <label class="flex items-center space-x-2 cursor-pointer text-slate-600"><input type="radio" name="tf-${index}" value="false" class="form-radio"><span>False</span></label>
+                    </div>
+                    <div class="explanation mt-2 text-sm text-slate-600" style="display: none;"></div>
+                </div>`;
+        });
+    }
+
+    function renderSummary() {
+        const container = document.getElementById('summary-cloze');
+        const summaryText = "The writer had an amazing trip to Taipei. They found it easy to travel around the city using the (1) __MRT__. They visited the famous skyscraper, Taipei 101, and enjoyed the breathtaking (2) __VIEW__ from the top. In the evening, they explored the Shilin Night Market, which was full of delicious food from many different (3) __VENDORS__. They also took a trip to the old town of Jiufen, which is famous for its teahouses and red (4) __LANTERNS__. The writer bought some pineapple cakes as a (5) __SOUVENIR__ before leaving.";
+        container.innerHTML = `<p>${summaryText.replace(/__([A-Z]+)__/g, (match, word) => `<span class="input-wrapper"><input type="text" data-answer="${word.toLowerCase()}" class="inline-block w-32 mx-1 px-2 py-1 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 transition"></span>`)}</p>`;
+    }
+
+    // --- CHECKING & FEEDBACK LOGIC ---
+    function checkVocab(section) {
+        let score = 0;
+        resetStyles(section, true);
+        section.querySelectorAll('.vocab-select').forEach((select) => {
+            const index = parseInt(select.dataset.index);
+            const isCorrect = select.value === vocabData[index].answer;
+            const container = select.closest('.grid');
+
+            container.classList.toggle('correct', isCorrect);
+            container.classList.toggle('incorrect', !isCorrect);
+
+            if (isCorrect) {
+                score++;
+            } else {
+                const correctAnswerId = vocabData[index].answer;
+                const correctDefinition = vocabDefinitions.find(def => def.id === correctAnswerId);
+                const answerSpan = document.createElement('div');
+                answerSpan.className = 'correct-answer-text mt-1 text-sm md:col-start-2';
+                answerSpan.textContent = `(Correct: ${correctDefinition.id}. ${correctDefinition.text})`;
+                container.appendChild(answerSpan);
+            }
+        });
+        updateScore(section, score, vocabData.length);
+    }
+
+    function checkTrueFalse(section) {
+        let score = 0;
+        resetStyles(section, true);
+        tfQuestionsData.forEach((item, index) => {
+            const container = document.getElementById(`tf-q-${index}`);
+            const selected = container.querySelector(`input[name="tf-${index}"]:checked`);
+            const isCorrect = selected && (JSON.parse(selected.value) === item.a);
+
+            container.classList.toggle('correct', isCorrect);
+            container.classList.toggle('incorrect', !isCorrect && selected); // Only incorrect if an answer was selected
+
+            if(isCorrect) score++;
+            else if(!isCorrect && selected) { // Show correct answer only if they got it wrong
+                const correctRadio = container.querySelector(`input[value="${item.a}"]`);
+                if(correctRadio) correctRadio.classList.add('correct-radio');
+            }
+            
+            const explanationDiv = container.querySelector('.explanation');
+            explanationDiv.textContent = `Explanation: ${item.explanation}`;
+            explanationDiv.style.display = 'block';
+        });
+        updateScore(section, score, tfQuestionsData.length);
+    }
+    
+    function checkSummary(section) {
+        let score = 0;
+        resetStyles(section, true);
+        section.querySelectorAll('input').forEach((input, index) => {
+            const isCorrect = input.value.trim().toLowerCase() === summaryAnswers[index];
+            input.classList.toggle('correct', isCorrect);
+            input.classList.toggle('incorrect', !isCorrect);
+            if(isCorrect) {
+                score++;
+            } else {
+                const answerSpan = document.createElement('span');
+                answerSpan.className = 'correct-answer-text ml-1 text-sm';
+                answerSpan.textContent = `(${summaryAnswers[index]})`;
+                input.closest('.input-wrapper').appendChild(answerSpan);
+            }
+        });
+        updateScore(section, score, summaryAnswers.length);
+    }
+
+    function updateScore(section, score, maxScore) {
+        const scoreContainer = section.querySelector('.score-container');
+        if (!scoreContainer) return;
+        scoreContainer.textContent = `Score: ${score} / ${maxScore}`;
+        scoreContainer.style.display = 'block';
+        if (score === maxScore) {
+            completedSections.add(currentSectionIndex);
+        }
+        updateView();
+    }
+
+    // --- EVENT LISTENERS & SETUP ---
+    function setupSection(sectionId, checkFn) {
+        const section = document.getElementById(sectionId);
+        if (!section) return;
+        const controls = section.querySelector('.section-controls');
+        if (!controls) return;
+
+        controls.innerHTML = `
+            <div class="score-container text-md font-bold text-slate-800" style="display: none;"></div>
+            <button class="check-btn bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors shadow-md shadow-blue-500/20 text-sm">Check Answers</button>`;
+        const checkButton = controls.querySelector('.check-btn');
+        checkButton.addEventListener('click', () => {
+            checkFn(section);
+            checkButton.style.display = 'none';
+        });
+    }
+
+    function setupComprehensionSection() {
+        const section = document.getElementById('comprehension');
+        const tfControls = section.querySelector('#true-false-questions').nextElementSibling;
+        const summaryControls = section.querySelector('#summary-cloze').nextElementSibling;
+        
+        tfControls.innerHTML = `<button class="check-btn bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors shadow-md shadow-blue-500/20 text-sm">Check Answers</button>`;
+        summaryControls.innerHTML = `<div class="score-container text-md font-bold text-slate-800" style="display: none;"></div><button class="check-btn bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors shadow-md shadow-blue-500/20 text-sm">Check Answers</button>`;
+
+        const tfCheck = tfControls.querySelector('.check-btn');
+        tfCheck.addEventListener('click', () => {
+            checkTrueFalse(section);
+            tfCheck.style.display = 'none';
+        });
+
+        const summaryCheck = summaryControls.querySelector('.check-btn');
+        summaryCheck.addEventListener('click', () => {
+            checkSummary(section);
+            summaryCheck.style.display = 'none';
+        });
+    }
+
+    // --- RESET LOGIC ---
+    function resetStyles(section, partial = false) {
+        if (!section) return;
+        if (!partial) {
+            completedSections.delete(currentSectionIndex);
+            updateView();
+        }
+        section.querySelectorAll('.correct, .incorrect').forEach(el => el.classList.remove('correct', 'incorrect'));
+        section.querySelectorAll('.correct-answer-text').forEach(el => el.remove());
+        section.querySelectorAll('.correct-radio').forEach(el => el.classList.remove('correct-radio'));
+        section.querySelectorAll('.explanation').forEach(el => { el.style.display = 'none'; });
+        
+        section.querySelectorAll('.score-container').forEach(sc => sc.style.display = 'none');
+        section.querySelectorAll('.check-btn').forEach(cb => cb.style.display = 'inline-flex');
+    }
+
+    function resetAll() {
+        const vocabSection = document.getElementById('vocabulary');
+        resetStyles(vocabSection);
+        vocabSection.querySelectorAll('.vocab-select').forEach(s => s.selectedIndex = 0);
+
+        const compSection = document.getElementById('comprehension');
+        resetStyles(compSection);
+        compSection.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+        compSection.querySelectorAll('input[type="text"]').forEach(i => i.value = '');
+
+        completedSections.clear();
+        updateView();
+    }
+    
+    document.getElementById('reset-all-btn').addEventListener('click', resetAll);
+
+    // --- INITIALIZE ---
+    setupNavigation();
+    renderVocab();
+    renderTrueFalse();
+    renderSummary();
+    
+    setupSection('vocabulary', checkVocab);
+    setupComprehensionSection();
+    
+    updateView();
+});
+</script>
+</body>
+</html>
