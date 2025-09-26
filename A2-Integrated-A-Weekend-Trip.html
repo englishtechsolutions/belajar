@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Weekend Trip - Interactive Lesson</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+
+        .worksheet-section { display: none; }
+        .worksheet-section.active { display: block; animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Sidebar Navigation */
+        .nav-item.active { background-color: #eef2ff; color: #3730a3; font-weight: 600; }
+        .nav-item .icon-complete { opacity: 0; transition: opacity 0.3s; }
+        .nav-item.completed .icon-complete { opacity: 1; }
+        
+        /* Feedback Styles */
+        .correct { border-color: #22c55e !important; background-color: #f0fdf4 !important; }
+        .incorrect { border-color: #ef4444 !important; background-color: #fef2f2 !important; }
+        .correct-answer-text { color: #15803d; font-weight: 600; }
+        .correct-radio + span { color: #16a34a; font-weight: bold; }
+        .explanation { border-left: 4px solid #94a3b8; padding-left: 1rem; background-color: #f8fafc; }
+        .input-wrapper { position: relative; display: inline-block; }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 antialiased">
+
+    <div class="container mx-auto max-w-7xl p-4 sm:p-6 md:p-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <!-- Sidebar -->
+            <aside class="md:col-span-1">
+                <div class="sticky top-8 bg-white p-4 rounded-2xl shadow-lg">
+                    <h2 class="text-xl font-bold text-slate-800 mb-4 text-center">Lesson Sections</h2>
+                    <nav id="lesson-nav" class="space-y-2"></nav>
+                    <div class="mt-6 text-center">
+                        <button id="reset-all-btn" class="w-full bg-slate-200 text-slate-700 px-4 py-2 rounded-lg font-semibold hover:bg-slate-300 transition-colors text-sm">
+                            Reset All Progress
+                        </button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="md:col-span-3">
+                <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                    <!-- Header -->
+                    <header class="text-center mb-8 pb-6 border-b border-slate-200">
+                        <h1 class="text-3xl md:text-4xl font-bold text-slate-900">A Weekend Trip</h1>
+                        <p class="text-slate-600 mt-2">An Interactive A2 English Lesson</p>
+                    </header>
+
+                    <!-- Part 1: Warm-up -->
+                    <section id="warm-up" class="worksheet-section space-y-4">
+                        <h2 class="text-2xl font-semibold text-slate-800 flex items-center"><span class="text-3xl mr-3">🗣️</span> Warm-up Discussion</h2>
+                        <p class="text-slate-600">Work with a partner. Ask and answer these questions:</p>
+                        <ul class="list-disc list-inside space-y-3 text-slate-700 pl-2">
+                            <li>What do you usually do on the weekend?</li>
+                            <li>Do you like to travel? Why or why not?</li>
+                            <li>What is a beautiful place to visit in your country?</li>
+                        </ul>
+                    </section>
+                    
+                    <!-- Part 2: Vocabulary Matching -->
+                    <section id="vocabulary" class="worksheet-section">
+                        <h2 class="text-2xl font-semibold text-slate-800 flex items-center"><span class="text-3xl mr-3">📝</span> Vocabulary Matching</h2>
+                        <p class="text-slate-600 mb-6">Match the words with their correct definitions.</p>
+                        <div id="vocab-container" class="space-y-4">
+                            <!-- JS will render questions here -->
+                        </div>
+                        <div class="section-controls text-right mt-6"></div>
+                    </section>
+
+                    <!-- Part 3: Reading -->
+                    <section id="reading" class="worksheet-section">
+                        <h2 class="text-2xl font-semibold text-slate-800 flex items-center"><span class="text-3xl mr-3">🎧📖</span> Listening & Reading</h2>
+                        <audio controls class="w-full mt-4">
+                            <source src="https://github.com/englishtechsolutions/media/raw/refs/heads/main/A2%20-%20A%20Weekend%20Trip.mp3" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                        <article class="prose max-w-none mt-4 text-slate-700 leading-relaxed">
+                            <p>Last Saturday, my friend Anna and I took a trip to the city. We woke up early and went to the train station. The journey on the train was one hour long. We talked and looked out the window.</p>
+                            <p>When we arrived, we first went to a big <strong>museum</strong>. It was very interesting! We saw many old paintings and sculptures. After the museum, we were hungry, so we found a small café for lunch. I ate a <strong>delicious</strong> sandwich, and Anna had a big salad.</p>
+                            <p>In the afternoon, we walked around the city center and <strong>explored</strong> the old streets. I bought a small <strong>souvenir</strong> for my family. We took a lot of photos.</p>
+                            <p>We were tired in the evening, so we bought a <strong>ticket</strong> and took the train back home. It was a fun and exciting day!</p>
+                        </article>
+                    </section>
+
+                    <!-- Part 4: Comprehension -->
+                    <section id="comprehension" class="worksheet-section space-y-8">
+                        <div>
+                            <h2 class="text-2xl font-semibold text-slate-800 flex items-center"><span class="text-3xl mr-3">🤔</span> True or False?</h2>
+                            <p class="text-slate-600 mb-4">Read the statements and choose True or False.</p>
+                            <div id="true-false-questions" class="space-y-4"></div>
+                            <div class="section-controls text-right mt-4"></div>
+                        </div>
+                        <hr class="border-slate-200">
+                        <div>
+                            <h2 class="text-2xl font-semibold text-slate-800 flex items-center"><span class="text-3xl mr-3">✍️</span> Summary Completion</h2>
+                            <p class="text-slate-600 mb-4">Fill in the blanks to complete the summary.</p>
+                            <div id="summary-cloze" class="space-y-4 text-slate-700 leading-relaxed bg-slate-50 p-4 rounded-lg"></div>
+                            <div class="section-controls text-right mt-4"></div>
+                        </div>
+                         <hr class="border-slate-200">
+                        <div>
+                            <h2 class="text-2xl font-semibold text-slate-800 flex items-center"><span class="text-3xl mr-3">📋</span> Complete the Table</h2>
+                            <p class="text-slate-600 mb-4">Read the text again and fill in the blanks with the correct information.</p>
+                            <div id="table-fill-in" class="space-y-3 bg-slate-50 p-4 rounded-lg"></div>
+                            <div class="section-controls text-right mt-4"></div>
+                        </div>
+                    </section>
+
+                    <!-- Part 5: Scenario Task -->
+                    <section id="scenario" class="worksheet-section">
+                         <h2 class="text-2xl font-semibold text-slate-800 flex items-center"><span class="text-3xl mr-3">✈️</span> Plan & Write</h2>
+                         <div class="mt-4 bg-amber-50 p-4 rounded-lg border border-amber-200">
+                             <p class="font-semibold text-amber-800">Step 1: Plan Your Trip</p>
+                             <p class="text-amber-700 mt-1">Work in pairs. Imagine you are planning a weekend day trip together. Decide on:</p>
+                             <ul class="list-disc list-inside text-amber-700 mt-2 text-sm">
+                                 <li><strong>Where</strong> will you go? (e.g., the beach, the mountains, another city)</li>
+                                 <li><strong>How</strong> will you get there? (e.g., by bus, train, car)</li>
+                                 <li><strong>What</strong> two activities will you do there? (e.g., visit a castle, swim, go hiking)</li>
+                             </ul>
+                         </div>
+                          <div class="mt-6 bg-amber-50 p-4 rounded-lg border border-amber-200">
+                             <p class="font-semibold text-amber-800">Step 2: Write a Postcard</p>
+                             <p class="text-amber-700 mt-1">Now, imagine you are on your trip. Write a short postcard (40-50 words) to your friend or family.</p>
+                         </div>
+                         <div class="mt-6">
+                             <div class="bg-slate-100 p-2 rounded-t-lg text-sm text-slate-500 border-t border-x border-slate-300">
+                                 Postcard
+                             </div>
+                             <textarea id="email-textarea" class="w-full h-64 p-4 border border-slate-300 rounded-b-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition" placeholder="Dear [Friend's Name],&#10;&#10;I am having a great time in [Place].&#10;&#10;Yesterday, we..."></textarea>
+                         </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+        <footer class="text-center mt-8 text-sm text-slate-500">
+             <p>Designed by Fajarudin Akbar | <a href="https://fajarudinakbar.online" target="_blank" class="hover:underline text-blue-600">fajarudinakbar.online</a></p>
+        </footer>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // --- DATA ---
+    const sections = [
+        { id: 'warm-up', name: 'Warm-up' },
+        { id: 'vocabulary', name: 'Vocabulary' },
+        { id: 'reading', name: 'Listening & Reading' },
+        { id: 'comprehension', name: 'Comprehension' },
+        { id: 'scenario', name: 'Scenario Task' }
+    ];
+
+    const vocabData = [
+        { word: 'Souvenir', answer: 'c' },
+        { word: 'Delicious', answer: 'e' },
+        { word: 'Museum', answer: 'a' },
+        { word: 'Ticket', answer: 'b' },
+        { word: 'Explore', answer: 'f' },
+        { word: 'Journey', answer: 'd' }
+    ];
+
+    const vocabDefinitions = [
+        { id: 'a', text: 'A place where you can see old or interesting things.' },
+        { id: 'b', text: 'A piece of paper that lets you travel on a train or bus.' },
+        { id: 'c', text: 'Something you buy to remember a place you visited.' },
+        { id: 'd', text: 'To go from one place to another.' },
+        { id: 'e', text: 'When food tastes very good.' },
+        { id: 'f', text: 'To look around a new place and learn about it.' }
+    ];
+    
+    const tfQuestionsData = [
+        { q: "They travelled to the city by car.", a: false, explanation: "The text says they 'went to the train station'." },
+        { q: "The train journey was two hours long.", a: false, explanation: "The text states the journey was 'one hour long'." },
+        { q: "They went to a museum in the morning.", a: true, explanation: "The text says, 'When we arrived, we first went to a big museum'." },
+        { q: "They ate lunch at a big restaurant.", a: false, explanation: "The text says they 'found a small café for lunch'." },
+        { q: "They bought a souvenir for family.", a: true, explanation: "The text says, 'I bought a small souvenir for my family'." }
+    ];
+
+    const summaryAnswers = ['saturday', 'station', 'museum', 'explored', 'photos'];
+    
+    const tableQuestions = [
+        { q: 'Where did they go?', a: 'the city' },
+        { q: 'How did they travel?', a: 'by train' },
+        { q: 'What did they eat for lunch?', a: 'a sandwich and a salad' },
+        { q: 'What did they do in the afternoon?', a: 'explored the old streets' }
+    ];
+
+
+    // --- STATE ---
+    let currentSectionIndex = 0;
+    const completedSections = new Set();
+
+    // --- UI ELEMENTS ---
+    const navContainer = document.getElementById('lesson-nav');
+    const allSections = document.querySelectorAll('.worksheet-section');
+
+    // --- NAVIGATION & VIEW MANAGEMENT ---
+    function setupNavigation() {
+        navContainer.innerHTML = '';
+        sections.forEach((section, index) => {
+            const navItem = document.createElement('a');
+            navItem.href = '#';
+            navItem.className = 'nav-item flex items-center justify-between p-3 rounded-lg cursor-pointer transition-colors hover:bg-slate-100';
+            navItem.dataset.index = index;
+            navItem.innerHTML = `
+                <span>${index + 1}. ${section.name}</span>
+                <span class="icon-complete text-green-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                </span>
+            `;
+            navItem.addEventListener('click', (e) => {
+                e.preventDefault();
+                currentSectionIndex = index;
+                updateView();
+            });
+            navContainer.appendChild(navItem);
+        });
+    }
+    
+    function updateView() {
+        allSections.forEach((sec, index) => {
+            sec.classList.toggle('active', index === currentSectionIndex);
+        });
+        document.querySelectorAll('.nav-item').forEach((item, index) => {
+            item.classList.toggle('active', index === currentSectionIndex);
+            item.classList.toggle('completed', completedSections.has(index));
+        });
+        window.scrollTo(0, 0);
+    }
+    
+    // --- RENDER FUNCTIONS ---
+    function renderVocab() {
+        const container = document.getElementById('vocab-container');
+        container.innerHTML = '';
+
+        const shuffledDefs = [...vocabDefinitions].sort(() => Math.random() - 0.5);
+        const optionsHTML = shuffledDefs.map(def => `<option value="${def.id}">${def.id}. ${def.text}</option>`).join('');
+
+        vocabData.forEach((item, index) => {
+            container.innerHTML += `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center p-3 rounded-lg border border-slate-200 transition-colors">
+                    <p class="font-medium text-slate-800">${index + 1}. ${item.word}</p>
+                    <select data-index="${index}" class="vocab-select w-full p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-indigo-500 transition">
+                        <option value="">Select a definition...</option>
+                        ${optionsHTML}
+                    </select>
+                </div>
+            `;
+        });
+    }
+
+    function renderTrueFalse() {
+        const container = document.getElementById('true-false-questions');
+        container.innerHTML = '';
+        tfQuestionsData.forEach((item, index) => {
+            container.innerHTML += `
+                <div id="tf-q-${index}" class="p-4 rounded-lg border border-slate-200 transition-colors">
+                    <p class="text-slate-700 mb-2">${index + 1}. ${item.q}</p>
+                    <div class="flex space-x-6">
+                        <label class="flex items-center space-x-2 cursor-pointer text-slate-600"><input type="radio" name="tf-${index}" value="true" class="form-radio text-indigo-600 focus:ring-indigo-500"><span>True</span></label>
+                        <label class="flex items-center space-x-2 cursor-pointer text-slate-600"><input type="radio" name="tf-${index}" value="false" class="form-radio text-indigo-600 focus:ring-indigo-500"><span>False</span></label>
+                    </div>
+                    <div class="explanation mt-2 text-sm text-slate-600" style="display: none;"></div>
+                </div>`;
+        });
+    }
+
+    function renderSummary() {
+        const container = document.getElementById('summary-cloze');
+        const summaryText = "Last (1) __SATURDAY__, Anna and her friend went to the city. They went to the train (2) __STATION__ in the morning. First, they visited a (3) __MUSEUM__. After lunch, they (4) __EXPLORED__ the city and took many (5) __PHOTOS__.";
+        container.innerHTML = `<p>${summaryText.replace(/__([A-Z]+)__/g, (match, word) => `<span class="input-wrapper"><input type="text" data-answer="${word.toLowerCase()}" class="inline-block w-28 mx-1 px-2 py-1 border border-slate-300 rounded-md focus:ring-2 focus:ring-indigo-500 transition"></span>`)}</p>`;
+    }
+
+    function renderTableFillIn() {
+        const container = document.getElementById('table-fill-in');
+        container.innerHTML = '';
+        tableQuestions.forEach((item, index) => {
+            container.innerHTML += `
+            <div id="table-q-${index}" class="grid grid-cols-1 sm:grid-cols-3 gap-2 items-center">
+                <label class="font-medium text-slate-700 sm:col-span-1">${item.q}</label>
+                <div class="sm:col-span-2 input-wrapper w-full">
+                     <input type="text" data-answer="${item.a}" class="w-full px-2 py-1 border border-slate-300 rounded-md focus:ring-2 focus:ring-indigo-500 transition">
+                </div>
+            </div>
+            `;
+        });
+    }
+
+    // --- CHECKING & FEEDBACK LOGIC ---
+    function checkVocab(section) {
+        let score = 0;
+        resetStyles(section, true);
+        section.querySelectorAll('.vocab-select').forEach((select) => {
+            const index = parseInt(select.dataset.index);
+            const isCorrect = select.value === vocabData[index].answer;
+            const container = select.closest('.grid');
+
+            container.classList.toggle('correct', isCorrect);
+            container.classList.toggle('incorrect', !isCorrect);
+
+            if (isCorrect) {
+                score++;
+            } else {
+                const correctAnswerId = vocabData[index].answer;
+                const correctDefinition = vocabDefinitions.find(def => def.id === correctAnswerId);
+                const answerSpan = document.createElement('div');
+                answerSpan.className = 'correct-answer-text mt-1 text-sm md:col-start-2';
+                answerSpan.textContent = `(Correct: ${correctDefinition.id}. ${correctDefinition.text})`;
+                container.appendChild(answerSpan);
+            }
+        });
+        updateScore(section, score, vocabData.length);
+    }
+
+    function checkTrueFalse() {
+        resetStyles(document.querySelector('#true-false-questions').parentElement, true);
+        tfQuestionsData.forEach((item, index) => {
+            const container = document.getElementById(`tf-q-${index}`);
+            const selected = container.querySelector(`input[name="tf-${index}"]:checked`);
+            const isCorrect = selected && (JSON.parse(selected.value) === item.a);
+            container.classList.toggle('correct', isCorrect);
+            container.classList.toggle('incorrect', !isCorrect && selected);
+            if(!isCorrect && selected) {
+                const correctRadio = container.querySelector(`input[value="${item.a}"]`);
+                if(correctRadio) correctRadio.classList.add('correct-radio');
+            }
+            const explanationDiv = container.querySelector('.explanation');
+            explanationDiv.textContent = `Explanation: ${item.explanation}`;
+            explanationDiv.style.display = 'block';
+        });
+    }
+    
+    function checkSummary() {
+        resetStyles(document.querySelector('#summary-cloze').parentElement, true);
+        document.querySelectorAll('#summary-cloze input').forEach((input, index) => {
+            const isCorrect = input.value.trim().toLowerCase() === summaryAnswers[index];
+            input.classList.toggle('correct', isCorrect);
+            input.classList.toggle('incorrect', !isCorrect);
+            if(!isCorrect) {
+                const answerSpan = document.createElement('span');
+                answerSpan.className = 'correct-answer-text ml-1 text-sm';
+                answerSpan.textContent = `(${summaryAnswers[index]})`;
+                input.closest('.input-wrapper').appendChild(answerSpan);
+            }
+        });
+    }
+
+    function checkTableFillIn() {
+        resetStyles(document.querySelector('#table-fill-in').parentElement, true);
+        document.querySelectorAll('#table-fill-in input').forEach((input, index) => {
+             const isCorrect = input.value.trim().toLowerCase().includes(tableQuestions[index].a);
+             input.classList.toggle('correct', isCorrect);
+             input.classList.toggle('incorrect', !isCorrect);
+             if(!isCorrect) {
+                const answerSpan = document.createElement('span');
+                answerSpan.className = 'correct-answer-text ml-1 text-sm';
+                answerSpan.textContent = `(Answer: ${tableQuestions[index].a})`;
+                input.closest('.input-wrapper').appendChild(answerSpan);
+             }
+        });
+    }
+
+
+    function updateScore(section, score, maxScore) {
+        const scoreContainer = section.querySelector('.score-container');
+        if (!scoreContainer) return;
+        scoreContainer.innerHTML = `Score: <span class="text-indigo-600">${score} / ${maxScore}</span>`;
+        scoreContainer.style.display = 'block';
+        if (score === maxScore) {
+            completedSections.add(sections.findIndex(s => s.id === section.id));
+        }
+        updateView();
+    }
+    
+    function checkComprehension() {
+        let totalScore = 0;
+        
+        tfQuestionsData.forEach((item, index) => {
+             const selected = document.querySelector(`input[name="tf-${index}"]:checked`);
+             if (selected && (JSON.parse(selected.value) === item.a)) totalScore++;
+        });
+
+        document.querySelectorAll('#summary-cloze input').forEach((input, index) => {
+            if (input.value.trim().toLowerCase() === summaryAnswers[index]) totalScore++;
+        });
+        
+        document.querySelectorAll('#table-fill-in input').forEach((input, index) => {
+             if(input.value.trim().toLowerCase().includes(tableQuestions[index].a)) totalScore++;
+        });
+
+        if (totalScore === (tfQuestionsData.length + summaryAnswers.length + tableQuestions.length)) {
+            completedSections.add(currentSectionIndex);
+        }
+        updateView();
+    }
+
+
+    // --- EVENT LISTENERS & SETUP ---
+    function setupSection(sectionId, checkFn) {
+        const section = document.getElementById(sectionId);
+        if (!section) return;
+        const controls = section.querySelector('.section-controls');
+        if (!controls) return;
+
+        controls.innerHTML = `
+            <div class="score-container text-md font-bold text-slate-800 text-right" style="display: none;"></div>
+            <button class="check-btn bg-indigo-600 text-white font-bold py-2 px-5 rounded-lg hover:bg-indigo-700 transition-colors shadow-md shadow-indigo-500/20 text-sm">Check Answers</button>`;
+        const checkButton = controls.querySelector('.check-btn');
+        
+        checkButton.addEventListener('click', () => {
+            checkFn(section);
+            checkButton.style.display = 'none';
+        });
+    }
+
+    function setupComprehensionSection() {
+        const section = document.getElementById('comprehension');
+        const controls = [
+            section.querySelector('#true-false-questions + .section-controls'),
+            section.querySelector('#summary-cloze + .section-controls'),
+            section.querySelector('#table-fill-in + .section-controls')
+        ];
+        const checkFunctions = [checkTrueFalse, checkSummary, checkTableFillIn];
+        
+        controls.forEach((control, index) => {
+            if (!control) return;
+            control.innerHTML = `<button class="check-btn bg-indigo-600 text-white font-bold py-2 px-5 rounded-lg hover:bg-indigo-700 transition-colors shadow-md shadow-indigo-500/20 text-sm">Check</button>`;
+            const checkButton = control.querySelector('.check-btn');
+            checkButton.addEventListener('click', () => {
+                checkFunctions[index]();
+                checkButton.style.display = 'none';
+                checkComprehension();
+            });
+        });
+    }
+
+    // --- RESET LOGIC ---
+    function resetStyles(section, partial = false) {
+        if (!section) return;
+        
+        section.querySelectorAll('.correct, .incorrect').forEach(el => el.classList.remove('correct', 'incorrect'));
+        section.querySelectorAll('.correct-answer-text').forEach(el => el.remove());
+        section.querySelectorAll('.correct-radio').forEach(el => el.classList.remove('correct-radio'));
+        section.querySelectorAll('.explanation').forEach(el => { el.style.display = 'none'; });
+        
+        section.querySelectorAll('.score-container').forEach(sc => sc.style.display = 'none');
+        section.querySelectorAll('.check-btn').forEach(cb => cb.style.display = 'inline-flex');
+    }
+
+    function resetAll() {
+        allSections.forEach(section => resetStyles(section));
+
+        const vocabSection = document.getElementById('vocabulary');
+        if(vocabSection) vocabSection.querySelectorAll('.vocab-select').forEach(s => s.selectedIndex = 0);
+
+        const compSection = document.getElementById('comprehension');
+        if (compSection) {
+            compSection.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+            compSection.querySelectorAll('input[type="text"]').forEach(i => i.value = '');
+        }
+
+        completedSections.clear();
+        updateView();
+    }
+    
+    document.getElementById('reset-all-btn').addEventListener('click', resetAll);
+
+    // --- INITIALIZE ---
+    setupNavigation();
+    renderVocab();
+    renderTrueFalse();
+    renderSummary();
+    renderTableFillIn();
+    
+    setupSection('vocabulary', checkVocab);
+    setupComprehensionSection();
+    
+    updateView();
+});
+</script>
+</body>
+</html>
