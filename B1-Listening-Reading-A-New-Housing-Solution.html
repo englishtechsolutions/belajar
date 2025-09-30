@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A New Housing Solution for Indonesia? - Interactive Lesson</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+
+        .worksheet-section { display: none; }
+        .worksheet-section.active { display: block; animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Sidebar Navigation */
+        .nav-item.active { background-color: #eef2ff; color: #3730a3; font-weight: 600; }
+        .nav-item .icon-complete { opacity: 0; transition: opacity 0.3s; }
+        .nav-item.completed .icon-complete { opacity: 1; }
+        
+        /* Feedback Styles */
+        .correct { border-color: #22c55e !important; background-color: #f0fdf4 !important; }
+        .incorrect { border-color: #ef4444 !important; background-color: #fef2f2 !important; }
+        .correct-answer-text { color: #15803d; font-weight: 600; }
+        .correct-radio + span { color: #16a34a; font-weight: bold; }
+        .explanation { border-left: 4px solid #94a3b8; padding-left: 1rem; background-color: #f8fafc; }
+        .input-wrapper { position: relative; display: inline-block; }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 antialiased">
+
+    <div class="container mx-auto max-w-7xl p-4 sm:p-6 md:p-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <!-- Sidebar -->
+            <aside class="md-col-span-1">
+                <div class="sticky top-8 bg-white p-4 rounded-2xl shadow-lg">
+                    <h2 class="text-xl font-bold text-slate-800 mb-4 text-center">Lesson Sections</h2>
+                    <nav id="lesson-nav" class="space-y-2"></nav>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="md:col-span-3">
+                <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                    <!-- Header -->
+                    <header class="text-center mb-8 pb-6 border-b border-slate-200">
+                        <h1 class="text-3xl md:text-4xl font-bold text-slate-900">A New Housing Solution for Indonesia?</h1>
+                        <p class="text-slate-600 mt-2">An Interactive B1 Listening/Reading Lesson</p>
+                    </header>
+
+                    <!-- Part 1: Warm-up -->
+                    <section id="warm-up" class="worksheet-section space-y-4">
+                        <h2 class="text-2xl font-semibold text-slate-800 flex items-center"><span class="text-3xl mr-3">🗣️</span> Warm-up Discussion</h2>
+                        <p class="text-slate-600">Discuss these questions with a partner or in a small group.</p>
+                        <ul class="list-disc list-inside space-y-3 text-slate-700 pl-2">
+                            <li>What kind of home do you live in (a house, apartment, rented room, etc.)?</li>
+                            <li>What are some common problems people face when trying to find a place to live in a big city?</li>
+                            <li>Would you prefer to live close to the city center or far away in a quieter area? Why?</li>
+                        </ul>
+                    </section>
+                    
+                    <!-- Part 2: Vocabulary Matching -->
+                    <section id="vocabulary" class="worksheet-section">
+                        <h2 class="text-2xl font-semibold text-slate-800 flex items-center"><span class="text-3xl mr-3">📝</span> Vocabulary Matching</h2>
+                        <p class="text-slate-600 mb-6">Match the words with their correct definitions.</p>
+                        <div id="vocab-container" class="space-y-4">
+                            <!-- JS will render questions here -->
+                        </div>
+                        <div class="section-controls text-right mt-6"></div>
+                    </section>
+
+                    <!-- Part 3: Reading Passage -->
+                    <section id="reading" class="worksheet-section">
+                        <h2 class="text-2xl font-semibold text-slate-800 flex items-center"><span class="text-3xl mr-3">🎧</span> Listening & Reading</h2>
+                        <div class="mt-4">
+                            <audio controls class="w-full">
+                                <source src="https://github.com/englishtechsolutions/media/raw/refs/heads/main/B1%20Listening%20-%20A%20Fairer%20Housing%20Option%20than%20Subsidized%20Houses.mp3" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                        </div>
+                        <article class="prose max-w-none mt-4 text-slate-700 leading-relaxed space-y-4">
+                            <h4>Flats: A Fairer Housing Option than Subsidized Houses?</h4>
+                            <p>In Indonesia, many middle-class people do not have good housing choices. They often live in small rented rooms that are not comfortable, expensive apartments, or buy houses with heavy <strong>loans</strong>. Because of this, the idea of rumah flat in Menteng, Jakarta, has become popular.</p>
+                            <p>A rumah flat is a shared <strong>low-rise</strong> building, usually three to four floors, where several families can live. It is cheaper than normal houses, has a good location, and is designed to be comfortable. The Menteng flat was built with a housing <strong>cooperative</strong> system. <strong>Residents</strong> are involved in the planning, and there are no marketing or profit costs. The goal is only to provide a place to live.</p>
+                            <h5 class="font-semibold">Why Flats Are Useful</h5>
+                            <p>The design is simple, so <strong>maintenance</strong> is easier and cheaper. Living in low-rise buildings reduces loneliness compared to high-rise apartments. Flats are usually built near city centers, so people do not need to travel far for work. This saves time and transport costs.</p>
+                            <h5 class="font-semibold">The Cost Problem</h5>
+                            <p>Even though flats are cheaper than houses, the first payment is still high. In Menteng, the cost to join starts from Rp380 million to more than Rp1 billion. Many middle-class families cannot afford this. Also, the government does not yet provide special loans for flats. Current housing loans only support traditional houses.</p>
+                            <h5 class="font-semibold">What It Means</h5>
+                            <p>The Menteng flat is a <strong>creative</strong> idea that shows how people can build housing together. But it also shows that the government has failed to give fair housing options for everyone. Instead of focusing only on small <strong>subsidized</strong> houses far from the city, the government should support new ideas like flats.</p>
+                             <h5 class="font-semibold">What Should Be Done</h5>
+                            <p>Find land near public transport for building flats. Give easier loans for people who want to buy flat units. Make sure flats are not used for <strong>speculation</strong> or investment, but only for living. If the government supports this model with strong policies and fair <strong>financing</strong>, flats could become a better housing choice for Indonesia’s middle class.</p>
+                            <p class="text-sm italic text-slate-500 mt-4">Adapted from <a href="https://theconversation.com/rumah-flat-solusi-hunian-yang-lebih-adil-dari-rumah-subsidi-265489" target="_blank" class="text-indigo-600 hover:underline">https://theconversation.com/rumah-flat-solusi-hunian-yang-lebih-adil-dari-rumah-subsidi-265489</a></p>
+                        </article>
+                    </section>
+
+                    <!-- Part 4: True or False -->
+                    <section id="true-false" class="worksheet-section space-y-8">
+                        <div>
+                            <h2 class="text-2xl font-semibold text-slate-800 flex items-center"><span class="text-3xl mr-3">🤔</span> True or False?</h2>
+                            <p class="text-slate-600 mb-4">Based on the text, are these statements true or false?</p>
+                            <div id="true-false-questions" class="space-y-4"></div>
+                            <div class="section-controls text-right mt-4"></div>
+                        </div>
+                    </section>
+
+                    <!-- Part 5: Cloze Test -->
+                    <section id="cloze-test" class="worksheet-section space-y-8">
+                        <div>
+                            <h2 class="text-2xl font-semibold text-slate-800 flex items-center"><span class="text-3xl mr-3">✍️</span> Cloze Test</h2>
+                            <p class="text-slate-600 mb-4">Complete the summary using the words from the box. You will use each word only once.</p>
+                            <div class="text-center mb-4 p-2 bg-slate-100 rounded-md text-slate-600 text-sm">
+                                afford | support | problem | creative | cooperative | policies | comfortable | fairer | investment | travel
+                            </div>
+                            <div id="cloze-test-container" class="space-y-4 text-slate-700 leading-relaxed bg-slate-50 p-4 rounded-lg"></div>
+                            <div class="section-controls text-right mt-4"></div>
+                        </div>
+                    </section>
+                    
+                    <!-- Part 6: Pros and Cons -->
+                    <section id="pros-cons" class="worksheet-section space-y-8">
+                         <div>
+                            <h2 class="text-2xl font-semibold text-slate-800 flex items-center"><span class="text-3xl mr-3">📋</span> Pros and Cons</h2>
+                            <p class="text-slate-600 mb-4">Fill in the table with the advantages (Pros) and disadvantages (Cons) of a rumah flat, based on the text.</p>
+                            <div id="pros-cons-table" class="space-y-3 p-4 rounded-lg"></div>
+                            <div class="section-controls text-right mt-4"></div>
+                        </div>
+                    </section>
+
+                    <!-- Part 7: Scenario Task -->
+                    <section id="scenario" class="worksheet-section">
+                         <h2 class="text-2xl font-semibold text-slate-800 flex items-center"><span class="text-3xl mr-3">💡</span> Scenario-Based Task</h2>
+                         <div class="mt-4 bg-indigo-50 p-5 rounded-lg border border-indigo-200">
+                             <p class="font-semibold text-indigo-800">Scenario:</p>
+                             <p class="text-indigo-700 mt-2">Your friend, Budi, works in the center of Jakarta. He is tired of his long daily commute from a rented house far from the city. He has saved some money and is considering two options:</p>
+                             <ul class="list-disc list-inside text-indigo-700 mt-3 space-y-1">
+                                 <li>Buying a cheap, subsidized house far from his office.</li>
+                                 <li>Trying to join a new <i>rumah flat</i> cooperative that is building near a train station close to his work.</li>
+                             </ul>
+                             <p class="text-indigo-800 mt-4 font-semibold">Your Task:</p>
+                             <p class="text-indigo-700 mt-1">Discuss with a partner. Based on the article, what advice would you give Budi? What are the good and bad points of each option that he should consider?</p>
+                         </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+        <footer class="text-center mt-8 text-sm text-slate-500">
+             <p>Designed by Fajarudin Akbar | <a href="https://fajarudinakbar.online" target="_blank" class="hover:underline text-blue-600">fajarudinakbar.online</a></p>
+        </footer>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // --- DATA ---
+    const sections = [
+        { id: 'warm-up', name: 'Warm-up' },
+        { id: 'vocabulary', name: 'Vocabulary' },
+        { id: 'reading', name: 'Listening & Reading' },
+        { id: 'true-false', name: 'True or False' },
+        { id: 'cloze-test', name: 'Cloze Test' },
+        { id: 'pros-cons', name: 'Pros and Cons' },
+        { id: 'scenario', name: 'Scenario Task' }
+    ];
+
+    const vocabData = [
+        { word: 'Subsidized', answer: 'e' },
+        { word: 'Residents', answer: 'a' },
+        { word: 'Maintenance', answer: 'h' },
+        { word: 'Loan', answer: 'd' },
+        { word: 'Speculation', answer: 'i' },
+        { word: 'Cooperative', answer: 'c' },
+        { word: 'Low-rise', answer: 'b' },
+        { word: 'Affordable', answer: 'j' },
+        { word: 'Creative', answer: 'g' },
+        { word: 'Financing', answer: 'f' }
+    ];
+
+    const vocabDefinitions = [
+        { id: 'a', text: 'People who live in a particular place or building.' },
+        { id: 'b', text: 'Not very tall; having only a few floors.' },
+        { id: 'c', text: 'An organization owned and run by its members for their benefit.' },
+        { id: 'd', text: 'Money that you borrow, usually from a bank, and must pay back.' },
+        { id: 'e', text: 'Partly paid for by the government to make it cheaper for people.' },
+        { id: 'f', text: 'The management of money, especially by governments or companies.' },
+        { id: 'g', text: 'New and original.' },
+        { id: 'h', text: 'The work needed to keep something in good condition.' },
+        { id: 'i', text: 'Buying something to sell later for a profit, not to use.' },
+        { id: 'j', text: 'Not too expensive, so that people have enough money to buy it.' }
+    ];
+    
+    const tfQuestionsData = [
+        { q: "Middle-class people in Indonesia have many great housing choices.", a: false, explanation: "The text says they 'do not have good housing choices'." },
+        { q: "A rumah flat is a type of tall, high-rise apartment building.", a: false, explanation: "The text describes it as a 'low-rise building, usually three to four floors'." },
+        { q: "The main goal of a housing cooperative is to make a large profit.", a: false, explanation: "The text states, 'The goal is only to provide a place to live'." },
+        { q: "Residents of the Menteng flat were part of the planning process.", a: true, explanation: "The text confirms, 'Residents are involved in the planning'." },
+        { q: "Living in a low-rise flat can make people feel less lonely.", a: true, explanation: "The text mentions it 'reduces loneliness compared to high-rise apartments'." },
+        { q: "Flats are usually located far away from city centers.", a: false, explanation: "The text says they are 'usually built near city centers'." },
+        { q: "The initial payment for a flat in Menteng is very cheap.", a: false, explanation: "The text says the first payment is 'still high' and many 'cannot afford this'." },
+        { q: "The government currently provides special loans for rumah flat.", a: false, explanation: "The text states the government 'does not yet provide special loans for flats'." },
+        { q: "The author thinks the government should support new ideas like flats.", a: true, explanation: "The author states the government 'should support new ideas like flats'." },
+        { q: "The text suggests that flats should not be used for investment.", a: true, explanation: "The text says to 'make sure flats are not used for speculation or investment'." }
+    ];
+
+    const clozeAnswers = ['creative', 'comfortable', 'travel', 'cooperative', 'problem', 'afford', 'support', 'fairer', 'policies', 'investment'];
+    
+    const prosConsData = {
+        pros: [
+            { text: 'Cheaper than normal houses', isGiven: true },
+            { text: 'Good location', isGiven: false, answer: ['good location', 'near city centers'] },
+            { text: 'Simple design / Cheaper maintenance', isGiven: false, answer: ['simple design', 'cheaper maintenance', 'easier maintenance'] },
+            { text: 'Reduces loneliness', isGiven: false, answer: ['reduces loneliness'] }
+        ],
+        cons: [
+            { text: 'High first payment', isGiven: true },
+            { text: 'No special government loans / financing', isGiven: false, answer: ['no special loans', 'no government loans', 'no financing'] }
+        ]
+    };
+
+
+    // --- STATE ---
+    let currentSectionIndex = 0;
+    const completedSections = new Set();
+    const attemptCounters = {};
+
+
+    // --- UI ELEMENTS ---
+    const navContainer = document.getElementById('lesson-nav');
+    const allSections = document.querySelectorAll('.worksheet-section');
+
+    // --- NAVIGATION & VIEW MANAGEMENT ---
+    function setupNavigation() {
+        navContainer.innerHTML = '';
+        sections.forEach((section, index) => {
+            const navItem = document.createElement('a');
+            navItem.href = '#';
+            navItem.className = 'nav-item flex items-center justify-between p-3 rounded-lg cursor-pointer transition-colors hover:bg-slate-100';
+            navItem.dataset.index = index;
+            navItem.innerHTML = `
+                <span>${index + 1}. ${section.name}</span>
+                <span class="icon-complete text-green-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                </span>
+            `;
+            navItem.addEventListener('click', (e) => {
+                e.preventDefault();
+                currentSectionIndex = index;
+                updateView();
+            });
+            navContainer.appendChild(navItem);
+        });
+    }
+    
+    function updateView() {
+        allSections.forEach((sec, index) => {
+            sec.classList.toggle('active', index === currentSectionIndex);
+        });
+        document.querySelectorAll('.nav-item').forEach((item, index) => {
+            item.classList.toggle('active', index === currentSectionIndex);
+            item.classList.toggle('completed', completedSections.has(index));
+        });
+        window.scrollTo(0, 0);
+    }
+    
+    // --- RENDER FUNCTIONS ---
+    function renderVocab() {
+        const container = document.getElementById('vocab-container');
+        container.innerHTML = '';
+
+        const shuffledDefs = [...vocabDefinitions].sort(() => Math.random() - 0.5);
+        const optionsHTML = shuffledDefs.map(def => `<option value="${def.id}">${def.id}. ${def.text}</option>`).join('');
+
+        vocabData.forEach((item, index) => {
+            container.innerHTML += `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center p-3 rounded-lg border border-slate-200 transition-colors">
+                    <p class="font-medium text-slate-800">${index + 1}. ${item.word}</p>
+                    <select data-index="${index}" class="vocab-select w-full p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-indigo-500 transition">
+                        <option value="">Select a definition...</option>
+                        ${optionsHTML}
+                    </select>
+                </div>
+            `;
+        });
+    }
+
+    function renderTrueFalse() {
+        const container = document.getElementById('true-false-questions');
+        container.innerHTML = '';
+        tfQuestionsData.forEach((item, index) => {
+            container.innerHTML += `
+                <div id="tf-q-${index}" class="p-4 rounded-lg border border-slate-200 transition-colors">
+                    <p class="text-slate-700 mb-2">${index + 1}. ${item.q}</p>
+                    <div class="flex space-x-6">
+                        <label class="flex items-center space-x-2 cursor-pointer text-slate-600"><input type="radio" name="tf-${index}" value="true" class="form-radio text-indigo-600 focus:ring-indigo-500"><span>True</span></label>
+                        <label class="flex items-center space-x-2 cursor-pointer text-slate-600"><input type="radio" name="tf-${index}" value="false" class="form-radio text-indigo-600 focus:ring-indigo-500"><span>False</span></label>
+                    </div>
+                    <div class="explanation mt-2 text-sm text-slate-600" style="display: none;"></div>
+                </div>`;
+        });
+    }
+
+    function renderCloze() {
+        const container = document.getElementById('cloze-test-container');
+        const clozeText = "The rumah flat is a (1) __creative__ idea to help solve Indonesia's housing issues. These low-rise buildings are designed to be (2) __comfortable__ and are often in good locations, so people don't have to (3) __travel__ far for work. Many are built using a (4) __cooperative__ system, where the goal is to provide homes, not make a profit. However, there is a big (5) __problem__ with cost. Many middle-class families cannot (6) __afford__ the high initial payment. The government does not yet (7) __support__ this housing model with special loans. The author believes this shows a failure to provide (8) __fairer__ housing options. For flats to be successful, the government needs to create better (9) __policies__ and fair financing. It's also important that these homes are for living in, not for (10) __investment__.";
+        container.innerHTML = `<p>${clozeText.replace(/__([a-z]+)__/g, (match, word) => `<span class="input-wrapper"><input type="text" data-answer="${word.toLowerCase()}" class="inline-block w-28 mx-1 px-2 py-1 border border-slate-300 rounded-md focus:ring-2 focus:ring-indigo-500 transition"></span>`)}</p>`;
+    }
+
+    function renderProsCons() {
+        const container = document.getElementById('pros-cons-table');
+        let prosHTML = '', consHTML = '';
+
+        prosConsData.pros.forEach((item, index) => {
+            prosHTML += item.isGiven
+                ? `<li class="p-2 bg-slate-100 rounded-md">${index + 1}. ${item.text}</li>`
+                : `<li class="flex items-center gap-2"><span class="font-medium">${index + 1}.</span><div class="input-wrapper flex-1"><input type="text" class="w-full px-2 py-1 border border-slate-300 rounded-md focus:ring-2 focus:ring-indigo-500 transition"></div></li>`;
+        });
+        prosConsData.cons.forEach((item, index) => {
+            consHTML += item.isGiven
+                ? `<li class="p-2 bg-slate-100 rounded-md">${index + 1}. ${item.text}</li>`
+                : `<li class="flex items-center gap-2"><span class="font-medium">${index + 1}.</span><div class="input-wrapper flex-1"><input type="text" class="w-full px-2 py-1 border border-slate-300 rounded-md focus:ring-2 focus:ring-indigo-500 transition"></div></li>`;
+        });
+        
+        container.innerHTML = `
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="font-bold text-lg text-green-700 mb-2 text-center">Pros (Advantages)</h3>
+                    <ul class="space-y-2">${prosHTML}</ul>
+                </div>
+                 <div>
+                    <h3 class="font-bold text-lg text-red-700 mb-2 text-center">Cons (Disadvantages)</h3>
+                    <ul class="space-y-2">${consHTML}</ul>
+                </div>
+            </div>
+        `;
+    }
+
+    // --- CHECKING & FEEDBACK LOGIC ---
+    function checkVocab(section, isFinalAttempt) {
+        let score = 0;
+        resetStyles(section);
+        section.querySelectorAll('.vocab-select').forEach((select) => {
+            const index = parseInt(select.dataset.index);
+            const isCorrect = select.value === vocabData[index].answer;
+            const container = select.closest('.grid');
+
+            container.classList.toggle('correct', isCorrect);
+            container.classList.toggle('incorrect', !isCorrect);
+
+            if (isCorrect) {
+                score++;
+            } else if (isFinalAttempt) {
+                const correctAnswerId = vocabData[index].answer;
+                const correctDefinition = vocabDefinitions.find(def => def.id === correctAnswerId);
+                const answerSpan = document.createElement('div');
+                answerSpan.className = 'correct-answer-text mt-1 text-sm md:col-start-2';
+                answerSpan.textContent = `(Correct: ${correctDefinition.id}. ${correctDefinition.text})`;
+                container.appendChild(answerSpan);
+            }
+        });
+        updateScore(section, score, vocabData.length);
+    }
+
+    function checkTrueFalse(section, isFinalAttempt) {
+        let score = 0;
+        resetStyles(section);
+        tfQuestionsData.forEach((item, index) => {
+            const container = document.getElementById(`tf-q-${index}`);
+            const selected = container.querySelector(`input[name="tf-${index}"]:checked`);
+            const isCorrect = selected && (JSON.parse(selected.value) === item.a);
+            if(isCorrect) score++;
+            container.classList.toggle('correct', isCorrect);
+            container.classList.toggle('incorrect', !isCorrect && selected);
+            
+            if(!isCorrect && selected && isFinalAttempt) {
+                const correctRadio = container.querySelector(`input[value="${item.a}"]`);
+                if(correctRadio) correctRadio.classList.add('correct-radio');
+            }
+
+            if (isFinalAttempt) {
+                const explanationDiv = container.querySelector('.explanation');
+                explanationDiv.textContent = `Explanation: ${item.explanation}`;
+                explanationDiv.style.display = 'block';
+            }
+        });
+        updateScore(section, score, tfQuestionsData.length);
+    }
+    
+    function checkCloze(section, isFinalAttempt) {
+        let score = 0;
+        resetStyles(section);
+        section.querySelectorAll('input').forEach((input, index) => {
+            const isCorrect = input.value.trim().toLowerCase() === clozeAnswers[index];
+            input.classList.toggle('correct', isCorrect);
+            input.classList.toggle('incorrect', !isCorrect);
+            if(isCorrect) {
+                score++;
+            } else if (isFinalAttempt) {
+                const answerSpan = document.createElement('span');
+                answerSpan.className = 'correct-answer-text ml-1 text-sm';
+                answerSpan.textContent = `(${clozeAnswers[index]})`;
+                input.closest('.input-wrapper').appendChild(answerSpan);
+            }
+        });
+        updateScore(section, score, clozeAnswers.length);
+    }
+
+    function checkProsCons(section, isFinalAttempt) {
+        let score = 0;
+        resetStyles(section);
+        let proInputs = section.querySelectorAll('#pros-cons-table > div > div:first-child input');
+        let conInputs = section.querySelectorAll('#pros-cons-table > div > div:last-child input');
+        
+        const proAnswers = prosConsData.pros.filter(p => !p.isGiven);
+        const conAnswers = prosConsData.cons.filter(c => !c.isGiven);
+        const maxScore = proAnswers.length + conAnswers.length;
+
+        proInputs.forEach((input, index) => {
+            const answerArray = proAnswers[index].answer;
+            const isCorrect = answerArray.some(ans => input.value.trim().toLowerCase().includes(ans));
+            if(isCorrect) score++;
+            input.classList.toggle('correct', isCorrect);
+            input.classList.toggle('incorrect', !isCorrect);
+            if(!isCorrect && isFinalAttempt) {
+                 const answerSpan = document.createElement('span');
+                 answerSpan.className = 'correct-answer-text ml-1 text-sm';
+                 answerSpan.textContent = `(${answerArray[0]})`;
+                 input.closest('.input-wrapper').appendChild(answerSpan);
+            }
+        });
+         conInputs.forEach((input, index) => {
+            const answerArray = conAnswers[index].answer;
+            const isCorrect = answerArray.some(ans => input.value.trim().toLowerCase().includes(ans));
+            if(isCorrect) score++;
+            input.classList.toggle('correct', isCorrect);
+            input.classList.toggle('incorrect', !isCorrect);
+            if(!isCorrect && isFinalAttempt) {
+                 const answerSpan = document.createElement('span');
+                 answerSpan.className = 'correct-answer-text ml-1 text-sm';
+                 answerSpan.textContent = `(${answerArray[0]})`;
+                 input.closest('.input-wrapper').appendChild(answerSpan);
+            }
+        });
+        updateScore(section, score, maxScore);
+    }
+
+
+    function updateScore(section, score, maxScore) {
+        const scoreContainer = section.querySelector('.score-container');
+        if (!scoreContainer) return;
+        scoreContainer.innerHTML = `Score: <span class="text-indigo-600">${score} / ${maxScore}</span>`;
+        scoreContainer.style.display = 'block';
+        if (score === maxScore) {
+            completedSections.add(sections.findIndex(s => s.id === section.id));
+        }
+        updateView();
+    }
+    
+    // --- EVENT LISTENERS & SETUP ---
+    function setupSection(sectionId, checkFn) {
+        const section = document.getElementById(sectionId);
+        if (!section) return;
+        const controls = section.querySelector('.section-controls');
+        if (!controls) return;
+
+        attemptCounters[sectionId] = 0;
+
+        controls.innerHTML = `
+            <div class="score-container text-md font-bold text-slate-800" style="display: none;"></div>
+            <button class="try-again-btn bg-slate-500 text-white font-bold py-2 px-5 rounded-lg hover:bg-slate-600 transition-colors text-sm" style="display: none;">Try Again</button>
+            <button class="check-btn bg-indigo-600 text-white font-bold py-2 px-5 rounded-lg hover:bg-indigo-700 transition-colors shadow-md shadow-indigo-500/20 text-sm">Check Answers</button>`;
+        
+        const checkButton = controls.querySelector('.check-btn');
+        const tryAgainButton = controls.querySelector('.try-again-btn');
+        const scoreContainer = controls.querySelector('.score-container');
+        
+        checkButton.addEventListener('click', () => {
+            attemptCounters[sectionId]++;
+            const isFinalAttempt = attemptCounters[sectionId] >= 2;
+            
+            checkFn(section, isFinalAttempt);
+            
+            checkButton.style.display = 'none';
+            if (!isFinalAttempt) {
+                tryAgainButton.style.display = 'inline-flex';
+            }
+        });
+
+        tryAgainButton.addEventListener('click', () => {
+            resetStyles(section);
+            tryAgainButton.style.display = 'none';
+            checkButton.style.display = 'inline-flex';
+            scoreContainer.style.display = 'none';
+        });
+    }
+
+    // --- RESET LOGIC ---
+    function resetStyles(section) {
+        if (!section) return;
+        
+        section.querySelectorAll('.correct, .incorrect').forEach(el => el.classList.remove('correct', 'incorrect'));
+        section.querySelectorAll('.correct-answer-text').forEach(el => el.remove());
+        section.querySelectorAll('.correct-radio').forEach(el => el.classList.remove('correct-radio'));
+        section.querySelectorAll('.explanation').forEach(el => { el.style.display = 'none'; });
+    }
+
+    // --- INITIALIZE ---
+    setupNavigation();
+    renderVocab();
+    renderTrueFalse();
+    renderCloze();
+    renderProsCons();
+    
+    setupSection('vocabulary', checkVocab);
+    setupSection('true-false', checkTrueFalse);
+    setupSection('cloze-test', checkCloze);
+    setupSection('pros-cons', checkProsCons);
+    
+    updateView();
+});
+</script>
+</body>
+</html>
