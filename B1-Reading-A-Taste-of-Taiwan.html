@@ -92,24 +92,23 @@
                         </article>
                     </section>
 
-                    <!-- Part 4: Comprehension -->
-                    <section id="comprehension" class="worksheet-section space-y-8">
-                        <div>
-                            <h2 class="text-2xl font-semibold text-slate-800 flex items-center"><span class="text-3xl mr-3">🤔</span> True or False?</h2>
-                            <p class="text-slate-600 mb-4">Read the statements and choose True or False.</p>
-                            <div id="true-false-questions" class="space-y-4"></div>
-                            <div class="section-controls text-right mt-4"></div>
-                        </div>
-                        <hr class="border-slate-200">
-                        <div>
-                            <h2 class="text-2xl font-semibold text-slate-800 flex items-center"><span class="text-3xl mr-3">✍️</span> Summary Completion</h2>
-                            <p class="text-slate-600 mb-4">Fill in the blanks to complete the summary. Use one word from the text for each blank.</p>
-                            <div id="summary-cloze" class="space-y-4 text-slate-700 leading-relaxed bg-slate-50 p-4 rounded-lg"></div>
-                            <div class="section-controls text-right mt-4"></div>
-                        </div>
+                    <!-- Part 4: True or False -->
+                    <section id="true-false" class="worksheet-section space-y-4">
+                        <h2 class="text-2xl font-semibold text-slate-800 flex items-center"><span class="text-3xl mr-3">🤔</span> True or False?</h2>
+                        <p class="text-slate-600 mb-4">Read the statements and choose True or False.</p>
+                        <div id="true-false-questions" class="space-y-4"></div>
+                        <div class="section-controls text-right mt-4"></div>
                     </section>
 
-                    <!-- Part 5: Scenario Task -->
+                    <!-- Part 5: Summary Completion -->
+                    <section id="summary-completion" class="worksheet-section space-y-4">
+                        <h2 class="text-2xl font-semibold text-slate-800 flex items-center"><span class="text-3xl mr-3">✍️</span> Summary Completion</h2>
+                        <p class="text-slate-600 mb-4">Fill in the blanks to complete the summary. Use one word from the text for each blank.</p>
+                        <div id="summary-cloze" class="text-slate-700 leading-relaxed bg-slate-50 p-4 rounded-lg"></div>
+                         <div class="section-controls text-right mt-4"></div>
+                    </section>
+
+                    <!-- Part 6: Scenario Task -->
                     <section id="scenario" class="worksheet-section">
                          <h2 class="text-2xl font-semibold text-slate-800 flex items-center"><span class="text-3xl mr-3">✈️</span> Scenario-based Task</h2>
                          <div class="mt-4 bg-blue-50 p-4 rounded-lg border border-blue-200">
@@ -143,7 +142,8 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'warm-up', name: 'Warm-up' },
         { id: 'vocabulary', name: 'Vocabulary' },
         { id: 'reading', name: 'Reading' },
-        { id: 'comprehension', name: 'Comprehension' },
+        { id: 'true-false', name: 'True or False' },
+        { id: 'summary-completion', name: 'Summary Completion' },
         { id: 'scenario', name: 'Scenario Task' }
     ];
 
@@ -176,13 +176,19 @@ document.addEventListener('DOMContentLoaded', () => {
         { q: "The writer traveled to Jiufen by bus.", a: false, explanation: "The writer took a 'short train ride' to Jiufen." },
         { q: "Jiufen is a modern, new city.", a: false, explanation: "Jiufen is described as an 'old town' that felt like 'stepping back in time'." }
     ];
-
-    const summaryAnswers = ['mrt', 'view', 'vendors', 'lanterns', 'souvenir'];
+    
+    const summaryData = [
+        { text: "The writer found it easy to travel around Taipei using the (1) __BLANK__.", answer: "mrt", explanation: "The text says the Metro system, or MRT, was 'fantastic' and 'easy to navigate'." },
+        { text: "From the top of the Taipei 101 skyscraper, there was a breathtaking (2) __BLANK__ of the city.", answer: "view", explanation: "The text describes the 'breathtaking view' from the observation deck." },
+        { text: "The Shilin Night Market was filled with hundreds of food (3) __BLANK__ selling delicious snacks.", answer: "vendors", explanation: "The text mentions 'hundreds of food vendors' at the market." },
+        { text: "The old town of Jiufen was famous for its traditional teahouses and red (4) __BLANK__.", answer: "lanterns", explanation: "The text states that Jiufen is famous for its 'red lanterns'." },
+        { text: "For his family, the writer bought some pineapple cakes as a (5) __BLANK__.", answer: "souvenir", explanation: "The text says the writer bought 'a few small souvenirs', including pineapple cakes." }
+    ];
 
     // --- STATE ---
     let currentSectionIndex = 0;
     const completedSections = new Set();
-
+    
     // --- UI ELEMENTS ---
     const navContainer = document.getElementById('lesson-nav');
     const allSections = document.querySelectorAll('.worksheet-section');
@@ -260,8 +266,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderSummary() {
         const container = document.getElementById('summary-cloze');
-        const summaryText = "The writer had an amazing trip to Taipei. They found it easy to travel around the city using the (1) __MRT__. They visited the famous skyscraper, Taipei 101, and enjoyed the breathtaking (2) __VIEW__ from the top. In the evening, they explored the Shilin Night Market, which was full of delicious food from many different (3) __VENDORS__. They also took a trip to the old town of Jiufen, which is famous for its teahouses and red (4) __LANTERNS__. The writer bought some pineapple cakes as a (5) __SOUVENIR__ before leaving.";
-        container.innerHTML = `<p>${summaryText.replace(/__([A-Z]+)__/g, (match, word) => `<span class="input-wrapper"><input type="text" data-answer="${word.toLowerCase()}" class="inline-block w-32 mx-1 px-2 py-1 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 transition"></span>`)}</p>`;
+        container.innerHTML = '';
+        const list = document.createElement('div');
+        list.className = "space-y-4";
+        
+        summaryData.forEach((item, index) => {
+            const itemDiv = document.createElement('div');
+            itemDiv.id = `summary-q-${index}`;
+            itemDiv.className = "transition-colors"; 
+
+            const textWithInput = item.text.replace('__BLANK__', 
+                `<span class="input-wrapper">
+                    <input type="text" data-answer="${item.answer}" class="inline-block w-32 mx-1 px-2 py-1 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 transition">
+                </span>`
+            );
+
+            itemDiv.innerHTML = `
+                <p class="text-slate-700 leading-relaxed">${textWithInput}</p>
+                <div class="explanation mt-2 text-sm text-slate-600" style="display: none;"></div>
+            `;
+            list.appendChild(itemDiv);
+        });
+        container.appendChild(list);
     }
 
     // --- CHECKING & FEEDBACK LOGIC ---
@@ -294,54 +320,65 @@ document.addEventListener('DOMContentLoaded', () => {
         let score = 0;
         resetStyles(section, true);
         tfQuestionsData.forEach((item, index) => {
-            const container = document.getElementById(`tf-q-${index}`);
-            const selected = container.querySelector(`input[name="tf-${index}"]:checked`);
+            const questionEl = section.querySelector(`#tf-q-${index}`);
+            const selected = questionEl.querySelector(`input[name="tf-${index}"]:checked`);
             const isCorrect = selected && (JSON.parse(selected.value) === item.a);
 
-            container.classList.toggle('correct', isCorrect);
-            container.classList.toggle('incorrect', !isCorrect && selected); // Only incorrect if an answer was selected
+            questionEl.classList.toggle('correct', isCorrect);
+            questionEl.classList.toggle('incorrect', !isCorrect && selected);
 
-            if(isCorrect) score++;
-            else if(!isCorrect && selected) { // Show correct answer only if they got it wrong
-                const correctRadio = container.querySelector(`input[value="${item.a}"]`);
-                if(correctRadio) correctRadio.classList.add('correct-radio');
-            }
+            if (isCorrect) score++;
             
-            const explanationDiv = container.querySelector('.explanation');
+            const explanationDiv = questionEl.querySelector('.explanation');
             explanationDiv.textContent = `Explanation: ${item.explanation}`;
             explanationDiv.style.display = 'block';
         });
         updateScore(section, score, tfQuestionsData.length);
     }
-    
+
     function checkSummary(section) {
         let score = 0;
         resetStyles(section, true);
-        section.querySelectorAll('input').forEach((input, index) => {
-            const isCorrect = input.value.trim().toLowerCase() === summaryAnswers[index];
+        summaryData.forEach((item, index) => {
+            const questionEl = section.querySelector(`#summary-q-${index}`);
+            const input = questionEl.querySelector('input[type="text"]');
+            const userAnswer = input.value.trim().toLowerCase();
+            const isCorrect = userAnswer === item.answer;
+
             input.classList.toggle('correct', isCorrect);
             input.classList.toggle('incorrect', !isCorrect);
-            if(isCorrect) {
+
+            if (isCorrect) {
                 score++;
             } else {
                 const answerSpan = document.createElement('span');
                 answerSpan.className = 'correct-answer-text ml-1 text-sm';
-                answerSpan.textContent = `(${summaryAnswers[index]})`;
-                input.closest('.input-wrapper').appendChild(answerSpan);
+                answerSpan.textContent = `(${item.answer})`;
+                if (!input.closest('.input-wrapper').querySelector('.correct-answer-text')) {
+                    input.closest('.input-wrapper').appendChild(answerSpan);
+                }
             }
+            
+            const explanationDiv = questionEl.querySelector('.explanation');
+            explanationDiv.textContent = `Explanation: ${item.explanation}`;
+            explanationDiv.style.display = 'block';
         });
-        updateScore(section, score, summaryAnswers.length);
+        updateScore(section, score, summaryData.length);
     }
-
+    
     function updateScore(section, score, maxScore) {
-        const scoreContainer = section.querySelector('.score-container');
+        const controlsContainer = section.querySelector('.section-controls');
+        const scoreContainer = controlsContainer.querySelector('.score-container');
         if (!scoreContainer) return;
         scoreContainer.textContent = `Score: ${score} / ${maxScore}`;
         scoreContainer.style.display = 'block';
         if (score === maxScore) {
-            completedSections.add(currentSectionIndex);
+            const sectionIndex = sections.findIndex(s => s.id === section.id);
+            if (sectionIndex !== -1) {
+                completedSections.add(sectionIndex);
+            }
+            updateView();
         }
-        updateView();
     }
 
     // --- EVENT LISTENERS & SETUP ---
@@ -352,7 +389,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!controls) return;
 
         controls.innerHTML = `
-            <div class="score-container text-md font-bold text-slate-800" style="display: none;"></div>
+            <div class="score-container text-md font-bold text-slate-800 mb-2" style="display: none;"></div>
             <button class="check-btn bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors shadow-md shadow-blue-500/20 text-sm">Check Answers</button>`;
         const checkButton = controls.querySelector('.check-btn');
         checkButton.addEventListener('click', () => {
@@ -361,54 +398,44 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function setupComprehensionSection() {
-        const section = document.getElementById('comprehension');
-        const tfControls = section.querySelector('#true-false-questions').nextElementSibling;
-        const summaryControls = section.querySelector('#summary-cloze').nextElementSibling;
-        
-        tfControls.innerHTML = `<button class="check-btn bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors shadow-md shadow-blue-500/20 text-sm">Check Answers</button>`;
-        summaryControls.innerHTML = `<div class="score-container text-md font-bold text-slate-800" style="display: none;"></div><button class="check-btn bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors shadow-md shadow-blue-500/20 text-sm">Check Answers</button>`;
-
-        const tfCheck = tfControls.querySelector('.check-btn');
-        tfCheck.addEventListener('click', () => {
-            checkTrueFalse(section);
-            tfCheck.style.display = 'none';
-        });
-
-        const summaryCheck = summaryControls.querySelector('.check-btn');
-        summaryCheck.addEventListener('click', () => {
-            checkSummary(section);
-            summaryCheck.style.display = 'none';
-        });
-    }
-
     // --- RESET LOGIC ---
-    function resetStyles(section, partial = false) {
-        if (!section) return;
-        if (!partial) {
-            completedSections.delete(currentSectionIndex);
+    function resetStyles(container, partial = false) {
+        if (!container) return;
+        
+        const sectionEl = container.closest('.worksheet-section');
+        const sectionIndex = sections.findIndex(s => s.id === sectionEl.id);
+
+        if (!partial && sectionIndex !== -1) {
+            completedSections.delete(sectionIndex);
             updateView();
         }
-        section.querySelectorAll('.correct, .incorrect').forEach(el => el.classList.remove('correct', 'incorrect'));
-        section.querySelectorAll('.correct-answer-text').forEach(el => el.remove());
-        section.querySelectorAll('.correct-radio').forEach(el => el.classList.remove('correct-radio'));
-        section.querySelectorAll('.explanation').forEach(el => { el.style.display = 'none'; });
         
-        section.querySelectorAll('.score-container').forEach(sc => sc.style.display = 'none');
-        section.querySelectorAll('.check-btn').forEach(cb => cb.style.display = 'inline-flex');
+        container.querySelectorAll('.correct, .incorrect').forEach(el => el.classList.remove('correct', 'incorrect'));
+        container.querySelectorAll('.correct-answer-text').forEach(el => el.remove());
+        container.querySelectorAll('.correct-radio').forEach(el => el.classList.remove('correct-radio'));
+        
+        if (sectionEl) {
+            sectionEl.querySelectorAll('.explanation').forEach(el => { el.style.display = 'none'; });
+            const controls = sectionEl.querySelector('.section-controls');
+            if(controls) {
+                const scoreContainer = controls.querySelector('.score-container');
+                if (scoreContainer) scoreContainer.style.display = 'none';
+                const checkBtn = controls.querySelector('.check-btn');
+                if (checkBtn) checkBtn.style.display = 'inline-flex';
+            }
+        }
     }
 
     function resetAll() {
-        const vocabSection = document.getElementById('vocabulary');
-        resetStyles(vocabSection);
-        vocabSection.querySelectorAll('.vocab-select').forEach(s => s.selectedIndex = 0);
-
-        const compSection = document.getElementById('comprehension');
-        resetStyles(compSection);
-        compSection.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
-        compSection.querySelectorAll('input[type="text"]').forEach(i => i.value = '');
+        document.querySelectorAll('.worksheet-section').forEach(section => {
+             section.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+             section.querySelectorAll('input[type="text"]').forEach(i => i.value = '');
+             section.querySelectorAll('select').forEach(s => s.selectedIndex = 0);
+             resetStyles(section, true);
+        });
 
         completedSections.clear();
+        currentSectionIndex = 0;
         updateView();
     }
     
@@ -421,10 +448,12 @@ document.addEventListener('DOMContentLoaded', () => {
     renderSummary();
     
     setupSection('vocabulary', checkVocab);
-    setupComprehensionSection();
+    setupSection('true-false', checkTrueFalse);
+    setupSection('summary-completion', checkSummary);
     
     updateView();
 });
 </script>
 </body>
 </html>
+
