@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B1 Reading - Working with AI: Your New Robot Colleague</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+
+        .worksheet-section { display: none; }
+        .worksheet-section.active { display: block; animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Sidebar Navigation */
+        .nav-item.active { background-color: #eef2ff; color: #3730a3; font-weight: 600; }
+        .nav-item .icon-complete { opacity: 0; transition: opacity 0.3s; }
+        .nav-item.completed .icon-complete { opacity: 1; }
+        
+        /* Feedback Styles */
+        .correct { border-color: #22c55e !important; background-color: #f0fdf4 !important; }
+        .incorrect { border-color: #ef4444 !important; background-color: #fef2f2 !important; }
+        .correct-answer-text { color: #15803d; font-weight: 600; }
+        .correct-radio + span { color: #16a34a; font-weight: bold; }
+        .explanation { border-left: 4px solid #94a3b8; padding-left: 1rem; background-color: #f8fafc; }
+        .input-wrapper { position: relative; display: inline-block; }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 antialiased">
+
+    <div class="container mx-auto max-w-7xl p-4 sm:p-6 md:p-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <!-- Sidebar -->
+            <aside class="md-col-span-1">
+                <div class="sticky top-8 bg-white p-4 rounded-2xl shadow-lg">
+                    <h2 class="text-xl font-bold text-slate-800 mb-4 text-center">Lesson Sections</h2>
+                    <nav id="lesson-nav" class="space-y-2"></nav>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="md:col-span-3">
+                <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                    <!-- Header -->
+                    <header class="text-center mb-8 pb-6 border-b border-slate-200">
+                        <h1 class="text-3xl md:text-4xl font-bold text-slate-900">Working with AI: Your New Robot Colleague</h1>
+                        <p class="text-slate-600 mt-2">An Interactive B1 Reading Lesson</p>
+                    </header>
+
+                    <!-- Part 1: Warm-up -->
+                    <section id="warm-up" class="worksheet-section space-y-4">
+                        <h2 class="text-2xl font-semibold text-slate-800 flex items-center"><span class="text-3xl mr-3">🗣️</span> Warm-up Discussion</h2>
+                        <p class="text-slate-600">Discuss these questions with a partner or in a small group.</p>
+                        <ul class="list-disc list-inside space-y-3 text-slate-700 pl-2">
+                            <li>What is Artificial Intelligence (AI)? Can you give an example?</li>
+                            <li>Do you use any AI tools in your daily life (e.g., phone assistants, translation apps)?</li>
+                            <li>How do you think AI is changing jobs and workplaces?</li>
+                            <li>Are you optimistic or worried about the future with more AI? Why?</li>
+                            <li>What kind of tasks would you like an AI to do for you at work or school?</li>
+                        </ul>
+                    </section>
+                    
+                    <!-- Part 2: Vocabulary Matching -->
+                    <section id="vocabulary" class="worksheet-section">
+                        <h2 class="text-2xl font-semibold text-slate-800 flex items-center"><span class="text-3xl mr-3">📝</span> Vocabulary Matching</h2>
+                        <p class="text-slate-600 mb-6">Match the words with their correct definitions.</p>
+                        <div id="vocab-container" class="space-y-4">
+                            <!-- JS will render questions here -->
+                        </div>
+                        <div class="section-controls text-right mt-6"></div>
+                    </section>
+
+                    <!-- Part 3: Reading Passage -->
+                    <section id="reading" class="worksheet-section">
+                        <h2 class="text-2xl font-semibold text-slate-800 flex items-center"><span class="text-3xl mr-3">📖</span> Reading</h2>
+                        <article class="prose max-w-none mt-4 text-slate-700 leading-relaxed space-y-4">
+                            <h4>Your New Teammate is a Robot</h4>
+                            <p>Have you ever imagined having a robot as a <strong>colleague</strong>? For many people, this is becoming a reality. <strong>Artificial Intelligence</strong>, or AI, is changing workplaces around the world, and it's important to understand how.</p>
+                            <p>AI is not just about robots from science fiction movies. It's intelligent <strong>software</strong> that can learn, solve problems, and make decisions. Companies are using AI to <strong>automate</strong> repetitive <strong>tasks</strong>. For example, an AI can answer common customer questions online or analyze huge amounts of <strong>data</strong> much faster than a human. This makes the company more <strong>efficient</strong> because it saves time and reduces mistakes. When AI handles the boring jobs, employees can then focus on more creative and complex parts of their work.</p>
+                            <p>However, many people are worried. They ask, "Will a robot take my job?" It's true that some jobs might disappear, especially those with simple, repetitive tasks. But experts believe that AI will also create new jobs. For example, we will need people to design, manage, and fix these AI systems. The economy will change, but it won't stop.</p>
+                            <p>The biggest <strong>challenge</strong> is learning to work with AI. Instead of seeing AI as a competitor, we should see it as a helpful tool. The goal is to <strong>collaborate</strong> with AI, not compete against it. To succeed in the future, workers will need to develop new <strong>skills</strong>. Communication, teamwork, and creative problem-solving will become more important because these are things that humans do best. So, your future job might not be about competing with AI, but about using it as a partner to achieve amazing results.</p>
+                        </article>
+                    </section>
+
+                    <!-- Part 4: True or False -->
+                    <section id="true-false" class="worksheet-section space-y-8">
+                        <div>
+                            <h2 class="text-2xl font-semibold text-slate-800 flex items-center"><span class="text-3xl mr-3">🤔</span> True or False?</h2>
+                            <p class="text-slate-600 mb-4">Based on the text, are these statements true or false?</p>
+                            <div id="true-false-questions" class="space-y-4"></div>
+                            <div class="section-controls text-right mt-4"></div>
+                        </div>
+                    </section>
+
+                    <!-- Part 5: Cloze Test -->
+                    <section id="cloze-test" class="worksheet-section space-y-8">
+                        <div>
+                            <h2 class="text-2xl font-semibold text-slate-800 flex items-center"><span class="text-3xl mr-3">✍️</span> Cloze Test</h2>
+                            <p class="text-slate-600 mb-4">Complete the summary using the words from the box. You will use each word only once.</p>
+                            <div class="text-center mb-4 p-2 bg-slate-100 rounded-md text-slate-600 text-sm">
+                                creative | tool | tasks | reality | skills | changes | software | collaborate | jobs | worried
+                            </div>
+                            <div id="cloze-test-container" class="space-y-4 text-slate-700 leading-relaxed bg-slate-50 p-4 rounded-lg"></div>
+                            <div class="section-controls text-right mt-4"></div>
+                        </div>
+                    </section>
+                    
+                    <!-- Part 6: Pros and Cons -->
+                    <section id="pros-cons" class="worksheet-section space-y-8">
+                         <div>
+                            <h2 class="text-2xl font-semibold text-slate-800 flex items-center"><span class="text-3xl mr-3">📋</span> Pros and Cons of AI</h2>
+                            <p class="text-slate-600 mb-4">Complete the table based on the information in the reading text.</p>
+                            <div id="pros-cons-table" class="space-y-3 p-4 rounded-lg"></div>
+                            <div class="section-controls text-right mt-4"></div>
+                        </div>
+                    </section>
+
+                    <!-- Part 7: Scenario Task -->
+                    <section id="scenario" class="worksheet-section">
+                         <h2 class="text-2xl font-semibold text-slate-800 flex items-center"><span class="text-3xl mr-3">💡</span> Workplace Scenario</h2>
+                         <div class="mt-4 bg-indigo-50 p-5 rounded-lg border border-indigo-200">
+                             <p class="font-semibold text-indigo-800">Scenario:</p>
+                             <p class="text-indigo-700 mt-2">Imagine you are a manager. You want to use AI to help your team. Choose one of the departments below and discuss the following points with a partner:</p>
+                              <div class="flex flex-wrap gap-3 my-3">
+                                <span class="bg-indigo-100 text-indigo-800 text-base font-medium px-3 py-1 rounded-full">Customer Service</span>
+                                <span class="bg-indigo-100 text-indigo-800 text-base font-medium px-3 py-1 rounded-full">Marketing</span>
+                                <span class="bg-indigo-100 text-indigo-800 text-base font-medium px-3 py-1 rounded-full">Administration</span>
+                            </div>
+                             <ul class="list-disc list-inside text-indigo-700 mt-3 space-y-1">
+                                 <li>What specific tasks in that department could an AI tool help with?</li>
+                                 <li>What are the benefits for the employees?</li>
+                                 <li>What new skills might the employees need to learn?</li>
+                             </ul>
+                         </div>
+                    </section>
+                </div>
+            </main>
+        </div>
+        <footer class="text-center mt-8 text-sm text-slate-500">
+             <p>Designed by Fajarudin Akbar | <a href="https://fajarudinakbar.online" target="_blank" class="hover:underline text-blue-600">fajarudinakbar.online</a></p>
+        </footer>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // --- DATA ---
+    const sections = [
+        { id: 'warm-up', name: 'Warm-up' },
+        { id: 'vocabulary', name: 'Vocabulary' },
+        { id: 'reading', name: 'Reading' },
+        { id: 'true-false', name: 'True or False' },
+        { id: 'cloze-test', name: 'Cloze Test' },
+        { id: 'pros-cons', name: 'Pros and Cons' },
+        { id: 'scenario', name: 'Scenario Task' }
+    ];
+
+    const vocabData = [
+        { word: 'Artificial Intelligence (AI)', answer: 'e' },
+        { word: 'automate', answer: 'j' },
+        { word: 'efficient', answer: 'g' },
+        { word: 'task', answer: 'a' },
+        { word: 'colleague', answer: 'b' },
+        { word: 'challenge', answer: 'i' },
+        { word: 'skill', answer: 'f' },
+        { word: 'collaborate', answer: 'c' },
+        { word: 'data', answer: 'h' },
+        { word: 'software', answer: 'd' }
+    ];
+
+    const vocabDefinitions = [
+        { id: 'a', text: 'a piece of work to be done' },
+        { id: 'b', text: 'a person you work with' },
+        { id: 'c', text: 'to work together with someone' },
+        { id: 'd', text: 'programs used by a computer' },
+        { id: 'e', text: 'technology that can think and learn like a human' },
+        { id: 'f', text: 'a particular ability' },
+        { id: 'g', text: 'working well without wasting time or energy' },
+        { id: 'h', text: 'facts or information' },
+        { id: 'i', text: 'a new or difficult thing to do' },
+        { id: 'j', text: 'to make a process happen automatically' }
+    ];
+    
+    const tfQuestionsData = [
+        { q: "AI is only found in science fiction movies.", a: false, explanation: "The text says AI is becoming a 'reality' in workplaces." },
+        { q: "AI can help make work more efficient by doing repetitive jobs.", a: true, explanation: "It can automate repetitive tasks, making companies more efficient." },
+        { q: "Analyzing large amounts of data is a task AI can perform.", a: true, explanation: "The text mentions it can 'analyze huge amounts of data'." },
+        { q: "The text says that AI will not create any new jobs.", a: false, explanation: "Experts believe AI will also 'create new jobs'." },
+        { q: "Workers will need to learn new skills to work successfully with AI.", a: true, explanation: "Workers will need new skills like communication and teamwork." },
+        { q: "The text suggests we should see AI as a competitor.", a: false, explanation: "We should see it as a 'helpful tool', not a competitor." }
+    ];
+
+    const clozeAnswers = ['reality', 'software', 'changes', 'tasks', 'creative', 'worried', 'jobs', 'skills', 'collaborate', 'tool'];
+    
+    const prosConsData = {
+        pros: [
+            { text: 'Makes work more', isGiven: false, answer: ['efficient'] },
+            { text: 'Employees can focus on more', isGiven: false, answer: ['creative'] },
+            { text: 'It saves', isGiven: false, answer: ['time'] }
+        ],
+        cons: [
+            { text: 'Some jobs might', isGiven: false, answer: ['disappear'] },
+            { text: 'People are', isGiven: false, answer: ['worried'] }
+        ]
+    };
+
+    // --- STATE ---
+    let currentSectionIndex = 0;
+    const completedSections = new Set();
+    const attemptCounters = {};
+
+    // --- UI ELEMENTS ---
+    const navContainer = document.getElementById('lesson-nav');
+    const allSections = document.querySelectorAll('.worksheet-section');
+
+    // --- NAVIGATION & VIEW MANAGEMENT ---
+    function setupNavigation() {
+        navContainer.innerHTML = '';
+        sections.forEach((section, index) => {
+            const navItem = document.createElement('a');
+            navItem.href = '#';
+            navItem.className = 'nav-item flex items-center justify-between p-3 rounded-lg cursor-pointer transition-colors hover:bg-slate-100';
+            navItem.dataset.index = index;
+            navItem.innerHTML = `
+                <span>${index + 1}. ${section.name}</span>
+                <span class="icon-complete text-green-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                </span>
+            `;
+            navItem.addEventListener('click', (e) => {
+                e.preventDefault();
+                currentSectionIndex = index;
+                updateView();
+            });
+            navContainer.appendChild(navItem);
+        });
+    }
+    
+    function updateView() {
+        allSections.forEach((sec, index) => {
+            sec.classList.toggle('active', index === currentSectionIndex);
+        });
+        document.querySelectorAll('.nav-item').forEach((item, index) => {
+            item.classList.toggle('active', index === currentSectionIndex);
+            item.classList.toggle('completed', completedSections.has(index));
+        });
+        window.scrollTo(0, 0);
+    }
+    
+    // --- RENDER FUNCTIONS ---
+    function renderVocab() {
+        const container = document.getElementById('vocab-container');
+        container.innerHTML = '';
+
+        const shuffledDefs = [...vocabDefinitions].sort(() => Math.random() - 0.5);
+        const optionsHTML = shuffledDefs.map(def => `<option value="${def.id}">${def.id}. ${def.text}</option>`).join('');
+
+        vocabData.forEach((item, index) => {
+            container.innerHTML += `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center p-3 rounded-lg border border-slate-200 transition-colors">
+                    <p class="font-medium text-slate-800">${index + 1}. ${item.word}</p>
+                    <select data-index="${index}" class="vocab-select w-full p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-indigo-500 transition">
+                        <option value="">Select a definition...</option>
+                        ${optionsHTML}
+                    </select>
+                </div>
+            `;
+        });
+    }
+
+    function renderTrueFalse() {
+        const container = document.getElementById('true-false-questions');
+        container.innerHTML = '';
+        tfQuestionsData.forEach((item, index) => {
+            container.innerHTML += `
+                <div id="tf-q-${index}" class="p-4 rounded-lg border border-slate-200 transition-colors">
+                    <p class="text-slate-700 mb-2">${index + 1}. ${item.q}</p>
+                    <div class="flex space-x-6">
+                        <label class="flex items-center space-x-2 cursor-pointer text-slate-600"><input type="radio" name="tf-${index}" value="true" class="form-radio text-indigo-600 focus:ring-indigo-500"><span>True</span></label>
+                        <label class="flex items-center space-x-2 cursor-pointer text-slate-600"><input type="radio" name="tf-${index}" value="false" class="form-radio text-indigo-600 focus:ring-indigo-500"><span>False</span></label>
+                    </div>
+                    <div class="explanation mt-2 text-sm text-slate-600" style="display: none;"></div>
+                </div>`;
+        });
+    }
+
+    function renderCloze() {
+        const container = document.getElementById('cloze-test-container');
+        const clozeText = "Working with AI is becoming a (1) __reality__ for many people. This intelligent (2) __software__ is bringing many (3) __changes__ to the workplace. It can automate simple (4) __tasks__, which helps employees focus on more (5) __creative__ work. Some people are (6) __worried__ that they will lose their positions, and it's true that some (7) __jobs__ will disappear. However, new ones will be created. To prepare for the future, it is important for workers to develop new (8) __skills__ and learn to (9) __collaborate__ with AI. We should see it as a helpful (10) __tool__ rather than a threat.";
+        container.innerHTML = `<p>${clozeText.replace(/__([a-z]+)__/g, (match, word) => `<span class="input-wrapper"><input type="text" data-answer="${word.toLowerCase()}" class="inline-block w-28 mx-1 px-2 py-1 border border-slate-300 rounded-md focus:ring-2 focus:ring-indigo-500 transition"></span>`)}</p>`;
+    }
+
+    function renderProsCons() {
+        const container = document.getElementById('pros-cons-table');
+        let prosHTML = '', consHTML = '';
+
+        prosConsData.pros.forEach((item, index) => {
+            prosHTML += `<li class="flex items-center gap-2"><span class="text-slate-700">${index + 1}. ${item.text}</span><div class="input-wrapper flex-1"><input type="text" class="w-full px-2 py-1 border border-slate-300 rounded-md focus:ring-2 focus:ring-indigo-500 transition"></div></li>`;
+        });
+        prosConsData.cons.forEach((item, index) => {
+             consHTML += `<li class="flex items-center gap-2"><span class="text-slate-700">${index + 1}. ${item.text}</span><div class="input-wrapper flex-1"><input type="text" class="w-full px-2 py-1 border border-slate-300 rounded-md focus:ring-2 focus:ring-indigo-500 transition"></div></li>`;
+        });
+        
+        container.innerHTML = `
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="font-bold text-lg text-green-700 mb-2 text-center">Positive Effects of AI</h3>
+                    <ul class="space-y-3">${prosHTML}</ul>
+                </div>
+                 <div>
+                    <h3 class="font-bold text-lg text-red-700 mb-2 text-center">Negative Effects / Worries</h3>
+                    <ul class="space-y-3">${consHTML}</ul>
+                </div>
+            </div>
+        `;
+    }
+
+    // --- CHECKING & FEEDBACK LOGIC ---
+    function checkVocab(section, isFinalAttempt) {
+        let score = 0;
+        resetStyles(section);
+        section.querySelectorAll('.vocab-select').forEach((select) => {
+            const index = parseInt(select.dataset.index);
+            const isCorrect = select.value === vocabData[index].answer;
+            const container = select.closest('.grid');
+
+            container.classList.toggle('correct', isCorrect);
+            container.classList.toggle('incorrect', !isCorrect);
+
+            if (isCorrect) {
+                score++;
+            } else if (isFinalAttempt) {
+                const correctAnswerId = vocabData[index].answer;
+                const correctDefinition = vocabDefinitions.find(def => def.id === correctAnswerId);
+                const answerSpan = document.createElement('div');
+                answerSpan.className = 'correct-answer-text mt-1 text-sm md:col-start-2';
+                answerSpan.textContent = `(Correct: ${correctDefinition.id}. ${correctDefinition.text})`;
+                container.appendChild(answerSpan);
+            }
+        });
+        updateScore(section, score, vocabData.length);
+    }
+
+    function checkTrueFalse(section, isFinalAttempt) {
+        let score = 0;
+        resetStyles(section);
+        tfQuestionsData.forEach((item, index) => {
+            const container = document.getElementById(`tf-q-${index}`);
+            const selected = container.querySelector(`input[name="tf-${index}"]:checked`);
+            const isCorrect = selected && (JSON.parse(selected.value) === item.a);
+            if(isCorrect) score++;
+            container.classList.toggle('correct', isCorrect);
+            container.classList.toggle('incorrect', !isCorrect && selected);
+            
+            if(!isCorrect && selected && isFinalAttempt) {
+                const correctRadio = container.querySelector(`input[value="${item.a}"]`);
+                if(correctRadio) correctRadio.classList.add('correct-radio');
+            }
+
+            if (isFinalAttempt) {
+                const explanationDiv = container.querySelector('.explanation');
+                explanationDiv.textContent = `Explanation: ${item.explanation}`;
+                explanationDiv.style.display = 'block';
+            }
+        });
+        updateScore(section, score, tfQuestionsData.length);
+    }
+    
+    function checkCloze(section, isFinalAttempt) {
+        let score = 0;
+        resetStyles(section);
+        section.querySelectorAll('input').forEach((input, index) => {
+            const isCorrect = input.value.trim().toLowerCase() === clozeAnswers[index];
+            input.classList.toggle('correct', isCorrect);
+            input.classList.toggle('incorrect', !isCorrect);
+            if(isCorrect) {
+                score++;
+            } else if (isFinalAttempt) {
+                const answerSpan = document.createElement('span');
+                answerSpan.className = 'correct-answer-text ml-1 text-sm';
+                answerSpan.textContent = `(${clozeAnswers[index]})`;
+                input.closest('.input-wrapper').appendChild(answerSpan);
+            }
+        });
+        updateScore(section, score, clozeAnswers.length);
+    }
+
+    function checkProsCons(section, isFinalAttempt) {
+        let score = 0;
+        resetStyles(section);
+        let proInputs = section.querySelectorAll('#pros-cons-table > div > div:first-child input');
+        let conInputs = section.querySelectorAll('#pros-cons-table > div > div:last-child input');
+        
+        const proAnswers = prosConsData.pros;
+        const conAnswers = prosConsData.cons;
+        const maxScore = proAnswers.length + conAnswers.length;
+
+        proInputs.forEach((input, index) => {
+            const answerArray = proAnswers[index].answer;
+            const isCorrect = answerArray.some(ans => input.value.trim().toLowerCase().includes(ans));
+            if(isCorrect) score++;
+            input.classList.toggle('correct', isCorrect);
+            input.classList.toggle('incorrect', !isCorrect);
+            if(!isCorrect && isFinalAttempt) {
+                 const answerSpan = document.createElement('span');
+                 answerSpan.className = 'correct-answer-text ml-1 text-sm';
+                 answerSpan.textContent = `(${answerArray[0]})`;
+                 input.closest('.input-wrapper').appendChild(answerSpan);
+            }
+        });
+         conInputs.forEach((input, index) => {
+            const answerArray = conAnswers[index].answer;
+            const isCorrect = answerArray.some(ans => input.value.trim().toLowerCase().includes(ans));
+            if(isCorrect) score++;
+            input.classList.toggle('correct', isCorrect);
+            input.classList.toggle('incorrect', !isCorrect);
+            if(!isCorrect && isFinalAttempt) {
+                 const answerSpan = document.createElement('span');
+                 answerSpan.className = 'correct-answer-text ml-1 text-sm';
+                 answerSpan.textContent = `(${answerArray[0]})`;
+                 input.closest('.input-wrapper').appendChild(answerSpan);
+            }
+        });
+        updateScore(section, score, maxScore);
+    }
+
+
+    function updateScore(section, score, maxScore) {
+        const scoreContainer = section.querySelector('.score-container');
+        if (!scoreContainer) return;
+        scoreContainer.innerHTML = `Score: <span class="text-indigo-600">${score} / ${maxScore}</span>`;
+        scoreContainer.style.display = 'block';
+        if (score === maxScore) {
+            completedSections.add(sections.findIndex(s => s.id === section.id));
+        }
+        updateView();
+    }
+    
+    // --- EVENT LISTENERS & SETUP ---
+    function setupSection(sectionId, checkFn) {
+        const section = document.getElementById(sectionId);
+        if (!section) return;
+        const controls = section.querySelector('.section-controls');
+        if (!controls) return;
+
+        attemptCounters[sectionId] = 0;
+
+        controls.innerHTML = `
+            <div class="score-container text-md font-bold text-slate-800" style="display: none;"></div>
+            <button class="try-again-btn bg-slate-500 text-white font-bold py-2 px-5 rounded-lg hover:bg-slate-600 transition-colors text-sm" style="display: none;">Try Again</button>
+            <button class="check-btn bg-indigo-600 text-white font-bold py-2 px-5 rounded-lg hover:bg-indigo-700 transition-colors shadow-md shadow-indigo-500/20 text-sm">Check Answers</button>`;
+        
+        const checkButton = controls.querySelector('.check-btn');
+        const tryAgainButton = controls.querySelector('.try-again-btn');
+        const scoreContainer = controls.querySelector('.score-container');
+        
+        checkButton.addEventListener('click', () => {
+            attemptCounters[sectionId]++;
+            const isFinalAttempt = attemptCounters[sectionId] >= 2;
+            
+            checkFn(section, isFinalAttempt);
+            
+            checkButton.style.display = 'none';
+            if (!isFinalAttempt) {
+                tryAgainButton.style.display = 'inline-flex';
+            }
+        });
+
+        tryAgainButton.addEventListener('click', () => {
+            resetStyles(section);
+            tryAgainButton.style.display = 'none';
+            checkButton.style.display = 'inline-flex';
+            scoreContainer.style.display = 'none';
+        });
+    }
+
+    // --- RESET LOGIC ---
+    function resetStyles(section) {
+        if (!section) return;
+        
+        section.querySelectorAll('.correct, .incorrect').forEach(el => el.classList.remove('correct', 'incorrect'));
+        section.querySelectorAll('.correct-answer-text').forEach(el => el.remove());
+        section.querySelectorAll('.correct-radio').forEach(el => el.classList.remove('correct-radio'));
+        section.querySelectorAll('.explanation').forEach(el => { el.style.display = 'none'; });
+    }
+
+    // --- INITIALIZE ---
+    setupNavigation();
+    renderVocab();
+    renderTrueFalse();
+    renderCloze();
+    renderProsCons();
+    
+    setupSection('vocabulary', checkVocab);
+    setupSection('true-false', checkTrueFalse);
+    setupSection('cloze-test', checkCloze);
+    setupSection('pros-cons', checkProsCons);
+    
+    updateView();
+});
+</script>
+</body>
+</html>
