@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B1 Reading - Managing Conflict in the Workplace</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .sidebar-item.active {
+            background-color: #E0E7FF; /* Indigo-100 */
+            color: #3730A3; /* Indigo-800 */
+            font-weight: 600;
+        }
+        .drop-zone {
+            border: 2px dashed #D1D5DB;
+            min-height: 40px;
+            transition: background-color 0.2s;
+        }
+        .drop-zone-over {
+            background-color: #E0E7FF;
+        }
+        .draggable-item {
+            cursor: grab;
+        }
+        .draggable-item:active {
+            cursor: grabbing;
+        }
+        .feedback-correct {
+            color: #16A34A; /* Green-600 */
+        }
+        .feedback-incorrect {
+            color: #DC2626; /* Red-600 */
+        }
+        .quiz-option-correct {
+            background-color: #DCFCE7; /* Green-100 */
+            border-left: 4px solid #22C55E; /* Green-500 */
+        }
+        .quiz-option-incorrect {
+            background-color: #FEE2E2; /* Red-100 */
+            border-left: 4px solid #EF4444; /* Red-500 */
+        }
+        .takeaway {
+            background-color: #F0F9FF; /* Sky-50 */
+            border-left: 4px solid #0EA5E9; /* Sky-500 */
+            padding: 1rem;
+            margin-top: 1.25rem;
+            margin-bottom: 1.25rem;
+            border-radius: 0.375rem; /* rounded-md */
+        }
+        .takeaway-icon {
+            display: inline-block;
+            margin-right: 0.5rem;
+            vertical-align: -0.25em; /* align icon better with text */
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="flex flex-col md:flex-row min-h-screen">
+        <!-- Sidebar Navigation -->
+        <aside class="w-full md:w-1/4 lg:w-1/5 bg-white border-r border-gray-200 p-6">
+            <h1 class="text-xl font-bold text-indigo-800 mb-2">B1 Reading</h1>
+            <h2 class="text-lg font-semibold text-gray-700 mb-6">Managing Conflict in the Workplace</h2>
+            <nav>
+                <ul id="sidebar-nav" class="space-y-2">
+                    <!-- Navigation items will be injected by JavaScript -->
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 p-6 md:p-10">
+            <div id="content-container">
+                <!-- Content sections will be injected by JavaScript -->
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const appState = {
+            currentStep: 0,
+            steps: [
+                { id: 'warmup', title: '1. Warm-up Discussion', completed: false, type: 'static' },
+                { id: 'vocabulary', title: '2. Key Vocabulary', completed: false, type: 'quiz' },
+                { id: 'reading', title: '3. Reading Text', completed: false, type: 'static' },
+                { id: 'comprehension', title: '4. Check Understanding', completed: false, type: 'quiz' },
+                { id: 'summary', title: '5. Summarize Learning', completed: false, type: 'quiz' },
+                { id: 'problems', title: '6. Problems & Solutions', completed: false, type: 'quiz' },
+                { id: 'scenario', title: '7. Final Task: Scenario', completed: false, type: 'quiz' },
+            ],
+            answers: {
+                vocabulary: ['d', 'h', 'e', 'g', 'a', 'c', 'b', 'f'],
+                comprehension: [false, false, false, false, true, true],
+                summary: ['communication', 'listen', 'empathy', 'manager', 'respect', 'solutions']
+            }
+        };
+
+        // DOM Elements
+        const sidebarNav = document.getElementById('sidebar-nav');
+        const contentContainer = document.getElementById('content-container');
+
+        const vocabDefinitions = [
+            { id: 'a', text: "The ability to understand another person's feelings." },
+            { id: 'b', text: "To stop something from happening." },
+            { id: 'c', text: "A feeling of annoyance because you cannot achieve or change something." },
+            { id: 'd', text: "A serious disagreement or argument." },
+            { id: 'e', text: "An answer to a problem." },
+            { id: 'f', text: "Producing good results or achieving a lot." },
+            { id: 'g', text: "People that you work with in a job." },
+            { id: 'h', text: "To control or deal with something successfully." }
+        ];
+
+        // --- CONTENT TEMPLATES ---
+
+        const contentTemplates = {
+            warmup: `
+                <div id="warmup" class="content-section space-y-6">
+                    <h2 class="text-2xl font-bold text-gray-900 border-b pb-2">Warm-up Discussion</h2>
+                    <p class="text-lg text-gray-600">Discuss these questions with a partner, or reflect on them by yourself.</p>
+                    <div class="space-y-4 bg-white p-6 rounded-lg shadow-sm">
+                        <p class="font-semibold">1. What does the word "conflict" mean to you? Is it always a bad thing?</p>
+                        <p class="font-semibold">2. Think about a time you disagreed with a friend, family member, or colleague. What was the disagreement about?</p>
+                        <p class="font-semibold">3. What is one good way to solve a disagreement?</p>
+                        <textarea class="w-full mt-4 p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500" rows="5" placeholder="Write your thoughts here..."></textarea>
+                    </div>
+                    <button onclick="markStepAsComplete(0)" class="mt-4 bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors">Mark as Complete</button>
+                </div>`,
+            vocabulary: `
+                <div id="vocabulary" class="content-section space-y-6">
+                    <h2 class="text-2xl font-bold text-gray-900 border-b pb-2">Vocabulary Matching</h2>
+                    <p class="text-lg text-gray-600">Drag the correct definition on the right to match the word on the left.</p>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div id="vocab-words" class="space-y-3">
+                            <!-- Words and drop zones will be injected here -->
+                        </div>
+                        <div id="vocab-defs" class="space-y-3 bg-indigo-50 p-4 rounded-lg">
+                            <!-- Draggable definitions will be injected here -->
+                        </div>
+                    </div>
+                    <div class="mt-6 flex items-center gap-4">
+                        <button id="check-vocab-btn" onclick="checkVocabulary()" class="bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors">Check Answers</button>
+                        <button onclick="resetVocabulary()" class="bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors">Reset</button>
+                    </div>
+                    <p id="vocab-feedback" class="mt-4 font-medium"></p>
+                </div>`,
+            reading: `
+                <div id="reading" class="content-section space-y-6">
+                    <h2 class="text-2xl font-bold text-gray-900 border-b pb-2">How to Manage Conflict in the Workplace</h2>
+                    <div class="bg-white p-6 md:p-8 rounded-lg shadow-sm text-lg text-gray-700 leading-relaxed">                       
+                        <p class="mb-6">Conflict happens in every workplace. Even in a friendly and professional team, people will sometimes disagree. They might have different opinions, working styles, or goals. This is normal and can even be helpful. When managed well, conflict can lead to better understanding, stronger teamwork, and more creative solutions. However, when it is ignored or handled badly, it can create stress and damage relationships.</p>
+
+                        <div class="takeaway">
+                           <p><span class="takeaway-icon">💡</span> <strong class="font-semibold">Key Idea:</strong> Well-managed conflict can be a positive force, leading to stronger teams and better solutions.</p>
+                        </div>
+                        
+                        <h3 class="text-xl font-bold text-indigo-700 mt-8 mb-4 flex items-center">
+                            <svg class="w-6 h-6 mr-3 takeaway-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                            The Power of Communication
+                        </h3>
+                        <p class="mb-4">The first and most important step is communication. Many problems come from misunderstanding. When people stop talking, small issues can grow. To avoid this, both sides should listen carefully. Listening does not mean agreeing—it means showing respect and trying to understand.</p>
+                        <p class="mb-4">It is also important to speak calmly and clearly. Using polite language and focusing on facts makes a big difference. For example, instead of saying, “You never help me,” it’s better to say, “I need more support with this task.” This sounds less emotional and helps others understand without feeling attacked.</p>
+
+                        <div class="takeaway">
+                           <p><span class="takeaway-icon">🗣️</span> <strong class="font-semibold">Strategy:</strong> Focus on facts, not feelings. Say "I need..." instead of "You never...".</p>
+                        </div>
+
+                        <h3 class="text-xl font-bold text-indigo-700 mt-8 mb-4 flex items-center">
+                           <svg class="w-6 h-6 mr-3 takeaway-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                            The Role of Empathy
+                        </h3>
+                        <p class="mb-6">Another key skill is empathy: seeing things from another person’s point of view. Colleagues may have different pressures or ways of thinking. One person may like to make quick decisions, while another prefers to plan. These differences can lead to frustration, but they can also be strengths if the team learns to balance them.</p>
+                        
+                        <h3 class="text-xl font-bold text-indigo-700 mt-8 mb-4 flex items-center">
+                            <svg class="w-6 h-6 mr-3 takeaway-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            A Manager's Responsibility
+                        </h3>
+                        <p class="mb-6">Managers have a special role. A good manager creates a positive atmosphere and does not ignore conflict. They should bring people together to discuss the issue openly, ask questions, and make sure everyone has a chance to speak.</p>
+
+                        <h3 class="text-xl font-bold text-indigo-700 mt-8 mb-4 flex items-center">
+                             <svg class="w-6 h-6 mr-3 takeaway-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                            How to Prevent Conflict
+                        </h3>
+                        <p class="mb-6">There are also practical ways to prevent conflict before it starts. Regular team meetings, clear communication channels, and honest feedback help keep relationships strong. When people feel heard and respected, they are less likely to become defensive or upset.</p>
+                        
+                        <div class="takeaway">
+                           <p><span class="takeaway-icon">🌱</span> <strong class="font-semibold">Final Thought:</strong> Conflict is not just a problem to solve, but an opportunity for learning and growth. Teams that handle disagreements well become more creative, productive, and successful.</p>
+                        </div>
+                    </div>
+                     <button onclick="markStepAsComplete(2)" class="mt-4 bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors">Mark as Complete</button>
+                </div>`,
+            comprehension: `
+                <div id="comprehension" class="content-section space-y-6">
+                    <h2 class="text-2xl font-bold text-gray-900 border-b pb-2">Reading Comprehension: True or False?</h2>
+                    <p class="text-lg text-gray-600">Read the statements below. Are they true (T) or false (F) according to the article?</p>
+                    <div id="comprehension-questions" class="space-y-4">
+                        <!-- Questions will be injected here -->
+                    </div>
+                    <div class="mt-6 flex items-center gap-4">
+                        <button id="check-comprehension-btn" onclick="checkComprehension()" class="bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors">Check Answers</button>
+                        <button onclick="resetComprehension()" class="bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors">Reset</button>
+                    </div>
+                </div>`,
+            summary: `
+                <div id="summary" class="content-section space-y-6">
+                    <h2 class="text-2xl font-bold text-gray-900 border-b pb-2">Summary: Fill in the Blanks</h2>
+                    <p class="text-lg text-gray-600">Complete the summary by dragging words from the box into the correct blanks.</p>
+                    <div id="summary-words" class="flex flex-wrap gap-3 bg-indigo-50 p-4 rounded-lg mb-6">
+                        <!-- Draggable summary words will be injected here -->
+                    </div>
+                    <div id="summary-text" class="text-lg leading-relaxed bg-white p-6 rounded-lg shadow-sm">
+                        The article explains that workplace conflict is normal and can be positive if handled well. The most important skill is good (1) <span class="drop-zone inline-block w-32 align-middle" data-index="0"></span>. You should (2) <span class="drop-zone inline-block w-24 align-middle" data-index="1"></span> carefully to the other person and speak calmly. It is also helpful to have (3) <span class="drop-zone inline-block w-28 align-middle" data-index="2"></span>, which means understanding their point of view. A good (4) <span class="drop-zone inline-block w-28 align-middle" data-index="3"></span> has an important role in helping the team discuss problems openly. By working together with patience and (5) <span class="drop-zone inline-block w-24 align-middle" data-index="4"></span>, teams can find creative (6) <span class="drop-zone inline-block w-28 align-middle" data-index="5"></span> and become stronger.
+                    </div>
+                    <div class="mt-6 flex items-center gap-4">
+                        <button id="check-summary-btn" onclick="checkSummary()" class="bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors">Check Summary</button>
+                        <button onclick="resetSummary()" class="bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors">Reset</button>
+                    </div>
+                    <p id="summary-feedback" class="mt-4 font-medium"></p>
+                </div>`,
+            problems: `
+                <div id="problems" class="content-section space-y-6">
+                    <h2 class="text-2xl font-bold text-gray-900 border-b pb-2">Problem & Solution: Complete the Table</h2>
+                    <p class="text-lg text-gray-600">Read the article again and complete the table with the missing information.</p>
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <p class="font-semibold">Problem: People misunderstand each other due to a lack of communication.</p>
+                            <textarea id="problem-1" class="w-full mt-2 p-2 border rounded-md" placeholder="Type your recommended strategy..."></textarea>
+                            <div id="solution-1" class="hidden mt-2 p-3 bg-green-50 text-green-800 rounded-md"></div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <p class="font-semibold">Problem: A person feels attacked by emotional language.</p>
+                            <textarea id="problem-2" class="w-full mt-2 p-2 border rounded-md" placeholder="Type your recommended strategy..."></textarea>
+                             <div id="solution-2" class="hidden mt-2 p-3 bg-green-50 text-green-800 rounded-md"></div>
+                        </div>
+                         <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <p class="font-semibold">Problem: Colleagues have different working styles which causes frustration.</p>
+                            <p class="text-gray-600 mt-2">Recommended Solution: Use empathy to understand their point of view and balance the differences.</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <p class="font-semibold">Problem: Small issues are ignored and grow into big problems.</p>
+                            <textarea id="problem-3" class="w-full mt-2 p-2 border rounded-md" placeholder="Type your recommended strategy..."></textarea>
+                             <div id="solution-3" class="hidden mt-2 p-3 bg-green-50 text-green-800 rounded-md"></div>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex items-center gap-4">
+                        <button id="check-problems-btn" onclick="checkProblems()" class="bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors">Submit & Compare</button>
+                        <button onclick="resetProblems()" class="bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors">Reset</button>
+                    </div>
+                </div>`,
+            scenario: `
+                <div id="scenario" class="content-section space-y-6">
+                    <h2 class="text-2xl font-bold text-gray-900 border-b pb-2">Scenario Task</h2>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="font-semibold text-lg mb-2">Scenario:</h3>
+                        <p class="text-gray-700">You are working on a project with a colleague named Budi. You like to plan everything carefully before you start. Budi likes to start working immediately and figure things out as he goes. This is causing frustration because you feel unprepared and Budi feels you are too slow. You have an important deadline next week.</p>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="font-semibold text-lg mb-2">Question:</h3>
+                        <p class="text-gray-700">Based on the advice in the article, what are two things you could say or do to manage this conflict with Budi?</p>
+                        <textarea id="scenario-answer" class="w-full mt-2 p-3 border rounded-md" rows="6" placeholder="Write your response here..."></textarea>
+                    </div>
+                    <div class="mt-6 flex items-center gap-4">
+                        <button id="check-scenario-btn" onclick="checkScenario()" class="bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors">Submit for Review</button>
+                        <button onclick="resetScenario()" class="bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors">Reset</button>
+                    </div>
+                    <div id="scenario-feedback" class="hidden mt-6 bg-indigo-50 p-6 rounded-lg border border-indigo-200">
+                        <h4 class="font-bold text-indigo-800 text-lg mb-2">Model Answers & Feedback</h4>
+                        <p class="mb-4">Your response has been submitted. Here are some examples of excellent strategies based on the article. Compare them with your own ideas.</p>
+                        <ul class="list-disc list-inside space-y-3 text-gray-800">
+                           <li><strong class="font-semibold">Strategy: Communication/Listening.</strong> I could ask Budi to sit down and talk. I would listen carefully to understand why he prefers his working style before explaining my own needs.</li>
+                           <li><strong class="font-semibold">Strategy: Calm Language/Focus on Facts.</strong> I could calmly explain my point of view using facts. For example, "I feel I need a clear plan to meet the deadline without making mistakes. Can we agree on a short plan for the first phase?"</li>
+                           <li><strong class="font-semibold">Strategy: Empathy/Finding Solutions.</strong> I could try to use empathy and find a compromise. Maybe we can plan the first part of the project together, and then he can start working on that part while I plan the next steps.</li>
+                           <li><strong class="font-semibold">Strategy: Involving a Manager.</strong> If we cannot agree, we could ask our manager for help to clarify our roles and find a good way to work together.</li>
+                        </ul>
+                    </div>
+                </div>`,
+        };
+        
+        // --- INITIALIZATION ---
+
+        function init() {
+            // Render all content sections but hide them
+            let allContentHTML = '';
+            appState.steps.forEach(step => {
+                allContentHTML += contentTemplates[step.id] || `<div id="${step.id}" class="content-section"><h2>${step.title}</h2><p>Content coming soon.</p></div>`;
+            });
+            contentContainer.innerHTML = allContentHTML;
+
+            renderSidebar();
+            navigateToStep(0);
+            
+            // Post-render initializations for interactive elements
+            setupVocabulary();
+            setupComprehension();
+            setupSummary();
+        }
+
+        // --- NAVIGATION & RENDERING ---
+
+        function renderSidebar() {
+            sidebarNav.innerHTML = appState.steps.map((step, index) => `
+                <li>
+                    <a href="#" onclick="event.preventDefault(); navigateToStep(${index})" 
+                       class="sidebar-item flex items-center justify-between p-3 rounded-lg text-gray-600 hover:bg-gray-100 transition-colors"
+                       data-step-id="${step.id}">
+                        <span>${step.title}</span>
+                        <span class="status-icon">${step.completed ? '✔️' : ''}</span>
+                    </a>
+                </li>
+            `).join('');
+        }
+
+        function navigateToStep(stepIndex) {
+            appState.currentStep = stepIndex;
+
+            // Hide all content sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.style.display = 'none';
+            });
+
+            // Show the current section
+            const currentSection = document.getElementById(appState.steps[stepIndex].id);
+            if (currentSection) {
+                currentSection.style.display = 'block';
+            }
+
+            // Update active state in sidebar
+            document.querySelectorAll('.sidebar-item').forEach((item, index) => {
+                item.classList.toggle('active', index === stepIndex);
+            });
+        }
+        
+        function markStepAsComplete(stepIndex) {
+            const step = appState.steps[stepIndex];
+            if (!step.completed) {
+                step.completed = true;
+                renderSidebar();
+                // Re-apply active state which is lost during re-render
+                document.querySelector(`.sidebar-item[data-step-id="${step.id}"]`).classList.add('active');
+            }
+        }
+
+        // --- ACTIVITY SETUP & LOGIC ---
+
+        function setupVocabulary() {
+            const words = [
+                "1. Conflict", "2. Manage", "3. Solution", "4. Colleagues", 
+                "5. Empathy", "6. Frustration", "7. Prevent", "8. Productive"
+            ];
+            const definitions = [...vocabDefinitions]; // Use a copy to shuffle
+
+            const wordsContainer = document.getElementById('vocab-words');
+            const defsContainer = document.getElementById('vocab-defs');
+
+            wordsContainer.innerHTML = words.map((word, index) => `
+                <div class="vocab-item-container border-b pb-3 mb-2">
+                    <div class="flex items-center gap-4">
+                        <span class="font-semibold w-32">${word}</span>
+                        <div class="drop-zone flex-1 p-2 rounded-lg" data-index="${index}"></div>
+                        <span id="feedback-vocab-${index}" class="text-xl w-8 text-center"></span>
+                    </div>
+                    <div id="correction-vocab-${index}" class="mt-2 pl-36 text-sm text-green-800"></div>
+                </div>
+            `).join('');
+            
+            // Shuffle and display definitions
+            definitions.sort(() => Math.random() - 0.5);
+            defsContainer.innerHTML = definitions.map(def => `
+                <div class="draggable-item bg-white p-3 rounded-md shadow-sm border" draggable="true" data-def-id="${def.id}">
+                    ${def.text}
+                </div>
+            `).join('');
+            
+            setupDragDrop();
+        }
+
+        function setupComprehension() {
+            const questions = [
+                "Conflict never happens in friendly and professional teams.",
+                "If you listen to someone, it means you agree with their opinion.",
+                "Saying 'You never help me' is a good example of calm, clear communication.",
+                "Managers should let team members solve all conflicts by themselves.",
+                "Having different working styles in a team can be a strength.",
+                "A team that handles conflict well can be more productive."
+            ];
+            const explanations = [
+                `F (The text says, "Even in a friendly and professional team, people will sometimes disagree.")`,
+                `F (The text says, "Listening does not mean agreeing...")`,
+                `F (The text says this is an example of what not to say.)`,
+                `F (The text says, "...the manager should not ignore it. Instead, they should bring the people together...")`,
+                `T (The text says, "...they can also be strengths if the team learns to balance them.")`,
+                `T (The text says, "Teams that know how to handle conflict effectively are often more creative and productive.")`
+            ];
+
+            const container = document.getElementById('comprehension-questions');
+            container.innerHTML = questions.map((q, i) => `
+                <div id="comprehension-q-${i}" class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                    <p class="mb-3">${i + 1}. ${q}</p>
+                    <div class="flex gap-4">
+                        <label class="flex items-center">
+                            <input type="radio" name="q${i}" value="true" class="mr-2"> True
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="q${i}" value="false" class="mr-2"> False
+                        </label>
+                    </div>
+                    <div id="feedback-comp-${i}" class="hidden mt-3 text-sm font-medium"></div>
+                </div>
+            `).join('');
+        }
+
+        function setupSummary() {
+            const words = [...appState.answers.summary];
+            words.sort(() => Math.random() - 0.5); // Shuffle
+            const container = document.getElementById('summary-words');
+            container.innerHTML = words.map(word => `
+                <div class="draggable-item bg-white p-2 px-4 rounded-full shadow-sm border" draggable="true" data-word="${word}">
+                    ${word}
+                </div>
+            `).join('');
+            setupDragDrop();
+        }
+        
+        function setupDragDrop() {
+            const draggables = document.querySelectorAll('.draggable-item');
+            const dropZones = document.querySelectorAll('.drop-zone');
+            
+            draggables.forEach(draggable => {
+                draggable.addEventListener('dragstart', e => {
+                    e.dataTransfer.setData('text/plain', JSON.stringify({
+                        id: e.target.dataset.defId,
+                        word: e.target.dataset.word,
+                        html: e.target.innerHTML,
+                    }));
+                    setTimeout(() => e.target.classList.add('opacity-50'), 0);
+                });
+
+                draggable.addEventListener('dragend', e => {
+                    e.target.classList.remove('opacity-50');
+                });
+            });
+
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', e => {
+                    e.preventDefault();
+                    zone.classList.add('drop-zone-over');
+                });
+                zone.addEventListener('dragleave', () => {
+                    zone.classList.remove('drop-zone-over');
+                });
+                zone.addEventListener('drop', e => {
+                    e.preventDefault();
+                    zone.classList.remove('drop-zone-over');
+                    const data = JSON.parse(e.dataTransfer.getData('text'));
+                    
+                    // Allow only one item per drop zone
+                    if(zone.children.length > 0) {
+                        const originalContainerId = data.id ? 'vocab-defs' : 'summary-words';
+                        const originalContainer = document.getElementById(originalContainerId);
+                        originalContainer.appendChild(zone.firstElementChild);
+                    }
+                    
+                    const droppedElement = document.querySelector(`[data-def-id="${data.id}"]`) || document.querySelector(`[data-word="${data.word}"]`);
+
+                    if(droppedElement) {
+                        zone.innerHTML = ''; // Clear previous content
+                        zone.appendChild(droppedElement);
+                    }
+                });
+            });
+        }
+        
+        // --- CHECKING FUNCTIONS ---
+
+        function checkVocabulary() {
+            let correctCount = 0;
+            const dropZones = document.querySelectorAll('#vocab-words .drop-zone');
+            
+            dropZones.forEach((zone, index) => {
+                const droppedItem = zone.querySelector('.draggable-item');
+                const feedbackEl = document.getElementById(`feedback-vocab-${index}`);
+                const correctionEl = document.getElementById(`correction-vocab-${index}`);
+                correctionEl.innerHTML = ''; // Clear previous correction
+
+                const isCorrect = droppedItem && droppedItem.dataset.defId === appState.answers.vocabulary[index];
+
+                if (isCorrect) {
+                    feedbackEl.textContent = '✔️';
+                    feedbackEl.className = 'text-xl w-8 text-center feedback-correct';
+                    correctCount++;
+                } else {
+                    feedbackEl.textContent = '❌';
+                    feedbackEl.className = 'text-xl w-8 text-center feedback-incorrect';
+                    const correctAnswerId = appState.answers.vocabulary[index];
+                    const correctAnswer = vocabDefinitions.find(def => def.id === correctAnswerId);
+                    if (correctAnswer) {
+                        correctionEl.innerHTML = `<strong class="font-semibold">Correct Answer:</strong> ${correctAnswer.text}`;
+                    }
+                }
+            });
+
+            const feedback = document.getElementById('vocab-feedback');
+            feedback.textContent = `You got ${correctCount} out of 8 correct.`;
+            feedback.className = correctCount === 8 ? 'mt-4 font-medium feedback-correct' : 'mt-4 font-medium feedback-incorrect';
+            
+            document.getElementById('check-vocab-btn').disabled = true;
+
+            if (correctCount === 8) {
+                markStepAsComplete(1);
+            } else {
+                // Also mark as complete since answers are shown
+                markStepAsComplete(1);
+            }
+        }
+
+        function checkComprehension() {
+            let correctCount = 0;
+            const totalQuestions = appState.answers.comprehension.length;
+             const explanations = [
+                `The statement is false.`,
+                `The statement is false.`,
+                `The statement is false.`,
+                `The statement is false.`,
+                `The statement is true.`,
+                `The statement is true.`
+            ];
+            const citations = [
+                `The text says, <i>"Even in a friendly and professional team, people will sometimes disagree."</i>`,
+                `The text says, <i>"Listening does not mean agreeing—it means showing respect and trying to understand..."</i>`,
+                `The article advises against this, suggesting instead, <i>"...it’s better to say, ‘I need more support with this task.’"</i>`,
+                `The article states the opposite: <i>"...the manager should not ignore it. Instead, they should bring the people together to discuss the issue openly."</i>`,
+                `The text notes that differences, <i>"...can also be strengths if the team learns to balance them."</i>`,
+                `The article concludes, <i>"Teams that know how to handle conflict effectively are often more creative and productive."</i>`
+            ];
+
+            for (let i = 0; i < totalQuestions; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                const questionContainer = document.getElementById(`comprehension-q-${i}`);
+                const feedbackEl = document.getElementById(`feedback-comp-${i}`);
+                
+                questionContainer.classList.remove('quiz-option-correct', 'quiz-option-incorrect');
+                
+                if (selected) {
+                    const isCorrect = (selected.value === 'true') === appState.answers.comprehension[i];
+                    if (isCorrect) {
+                        correctCount++;
+                        questionContainer.classList.add('quiz-option-correct');
+                        feedbackEl.innerHTML = `<strong>Correct.</strong> ${citations[i]}`;
+                        feedbackEl.className = 'block mt-3 p-3 bg-green-50 text-sm font-medium feedback-correct rounded-md';
+                    } else {
+                        questionContainer.classList.add('quiz-option-incorrect');
+                        feedbackEl.innerHTML = `<strong>Incorrect.</strong> ${explanations[i]} ${citations[i]}`;
+                        feedbackEl.className = 'block mt-3 p-3 bg-red-50 text-sm font-medium feedback-incorrect rounded-md';
+                    }
+                } else {
+                    questionContainer.classList.add('quiz-option-incorrect');
+                    feedbackEl.innerHTML = `Please select an answer. The correct answer is <strong>${appState.answers.comprehension[i] ? 'True' : 'False'}</strong>.`;
+                    feedbackEl.className = 'block mt-3 p-3 bg-red-50 text-sm font-medium feedback-incorrect rounded-md';
+                }
+            }
+
+            if (correctCount === totalQuestions) {
+                markStepAsComplete(3);
+            }
+            document.getElementById('check-comprehension-btn').disabled = true;
+        }
+        
+        function checkSummary() {
+            let correctCount = 0;
+            const dropZones = document.querySelectorAll('#summary-text .drop-zone');
+            
+            dropZones.forEach((zone, index) => {
+                const droppedItem = zone.querySelector('.draggable-item');
+                zone.style.borderStyle = 'solid';
+                const isCorrect = droppedItem && droppedItem.dataset.word === appState.answers.summary[index];
+
+                if (isCorrect) {
+                    zone.style.borderColor = '#22C55E'; // Green
+                    correctCount++;
+                } else {
+                    zone.style.borderColor = '#EF4444'; // Red
+                }
+            });
+
+            const feedback = document.getElementById('summary-feedback');
+            let feedbackHTML = `You placed ${correctCount} out of 6 words correctly.`;
+
+            if (correctCount < 6) {
+                const correctAnswersList = appState.answers.summary.map((answer, i) => `<li class="ml-4">${i + 1}. <strong>${answer}</strong></li>`).join('');
+                feedbackHTML += `
+                    <div class="mt-4 p-4 bg-green-50 rounded-lg border border-green-200">
+                        <h4 class="font-bold text-green-800">Correct Answers:</h4>
+                        <ol class="list-none mt-2 space-y-1 text-green-800">
+                            ${correctAnswersList}
+                        </ol>
+                    </div>
+                `;
+            }
+            
+            feedback.innerHTML = feedbackHTML;
+            feedback.className = correctCount === 6 ? 'mt-4 font-medium feedback-correct' : 'mt-4 font-medium';
+
+
+            markStepAsComplete(4);
+            document.getElementById('check-summary-btn').disabled = true;
+        }
+        
+        function checkProblems() {
+            const solutions = {
+                1: 'Listen carefully to each other and speak calmly and clearly.',
+                2: 'Use polite language and focus on facts (e.g., say “I need more support with this task.”).',
+                3: 'The manager should bring people together to discuss the issue openly. / Use regular team meetings and clear communication channels to prevent them.'
+            };
+
+            for(let i=1; i<=3; i++) {
+                const el = document.getElementById(`solution-${i}`);
+                if(el) {
+                    el.innerHTML = `<strong class="font-semibold">Model Answer:</strong> ${solutions[i]}`;
+                    el.classList.remove('hidden');
+                }
+            }
+            markStepAsComplete(5);
+            document.getElementById('check-problems-btn').disabled = true;
+        }
+
+        function checkScenario() {
+            document.getElementById('scenario-feedback').classList.remove('hidden');
+            markStepAsComplete(6);
+            document.getElementById('check-scenario-btn').disabled = true;
+        }
+
+        // --- RESET FUNCTIONS ---
+
+        function resetVocabulary() {
+            setupVocabulary(); // Re-initializes the whole section, which is cleanest
+            document.getElementById('vocab-feedback').textContent = '';
+            document.getElementById('check-vocab-btn').disabled = false;
+        }
+
+        function resetComprehension() {
+            const totalQuestions = appState.answers.comprehension.length;
+            for (let i = 0; i < totalQuestions; i++) {
+                const radios = document.querySelectorAll(`input[name="q${i}"]`);
+                radios.forEach(radio => radio.checked = false);
+
+                const questionContainer = document.getElementById(`comprehension-q-${i}`);
+                questionContainer.classList.remove('quiz-option-correct', 'quiz-option-incorrect');
+                
+                const feedbackEl = document.getElementById(`feedback-comp-${i}`);
+                feedbackEl.className = 'hidden mt-3 text-sm font-medium';
+                feedbackEl.innerHTML = '';
+            }
+            document.getElementById('check-comprehension-btn').disabled = false;
+        }
+
+        function resetSummary() {
+            const summaryTextContainer = document.getElementById('summary-text');
+            summaryTextContainer.innerHTML = `The article explains that workplace conflict is normal and can be positive if handled well. The most important skill is good (1) <span class="drop-zone inline-block w-32 align-middle" data-index="0"></span>. You should (2) <span class="drop-zone inline-block w-24 align-middle" data-index="1"></span> carefully to the other person and speak calmly. It is also helpful to have (3) <span class="drop-zone inline-block w-28 align-middle" data-index="2"></span>, which means understanding their point of view. A good (4) <span class="drop-zone inline-block w-28 align-middle" data-index="3"></span> has an important role in helping the team discuss problems openly. By working together with patience and (5) <span class="drop-zone inline-block w-24 align-middle" data-index="4"></span>, teams can find creative (6) <span class="drop-zone inline-block w-28 align-middle" data-index="5"></span> and become stronger.`;
+            
+            setupSummary(); // Re-populates words and re-attaches drag/drop listeners
+            
+            document.getElementById('summary-feedback').textContent = '';
+            document.getElementById('check-summary-btn').disabled = false;
+        }
+
+        function resetProblems() {
+            document.getElementById('problem-1').value = '';
+            document.getElementById('problem-2').value = '';
+            document.getElementById('problem-3').value = '';
+            document.getElementById('solution-1').classList.add('hidden');
+            document.getElementById('solution-2').classList.add('hidden');
+            document.getElementById('solution-3').classList.add('hidden');
+            document.getElementById('check-problems-btn').disabled = false;
+        }
+
+        function resetScenario() {
+            document.getElementById('scenario-answer').value = '';
+            document.getElementById('scenario-feedback').classList.add('hidden');
+            document.getElementById('check-scenario-btn').disabled = false;
+        }
+        
+        // --- START THE APP ---
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+
+    <footer class="text-center py-6 text-sm text-gray-500 border-t mt-10">
+        <p>
+            Designed by <a href="https://fajarudinakbar.online" target="_blank" rel="noopener noreferrer" class="text-indigo-600 hover:underline font-medium">fajarudinakbar.online</a>
+        </p>
+    </footer>
+
+</body>
+</html>
+
