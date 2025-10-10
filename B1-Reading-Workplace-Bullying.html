@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B1 Reading - Workplace Bullying</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .lesson-content {
+            display: none;
+        }
+        .lesson-content.active {
+            display: block;
+        }
+        nav a.active {
+            background-color: #4f46e5; /* indigo-600 */
+            color: white;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .feedback {
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-top: 4px;
+        }
+        .feedback.correct {
+            color: #16a34a; /* green-600 */
+        }
+        .feedback.incorrect {
+            color: #dc2626; /* red-600 */
+        }
+        .answer-key {
+            background-color: #f1f5f9;
+            border-left: 4px solid #4f46e5; /* indigo-600 */
+            padding: 0.75rem;
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+        .key-term {
+            cursor: pointer;
+            background-color: #e0e7ff; /* indigo-100 */
+            color: #3730a3; /* indigo-800 */
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        .key-term:hover {
+            background-color: #c7d2fe; /* indigo-200 */
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+    <!-- Definition Modal -->
+    <div id="definition-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl max-w-sm w-full p-6 text-center">
+            <h3 id="modal-term" class="text-2xl font-bold text-indigo-600 mb-2 capitalize"></h3>
+            <p id="modal-definition" class="text-slate-600 mb-4"></p>
+            <button id="close-modal" class="bg-indigo-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-indigo-700 transition-colors">Close</button>
+        </div>
+    </div>
+
+    <div class="flex h-screen">
+        <!-- Navigation Pane -->
+        <nav class="w-72 bg-slate-900 text-slate-300 p-5 space-y-2 flex flex-col shadow-2xl z-10">
+            <div class="px-2 mb-6">
+                 <h1 class="text-xl font-bold text-white">B1-B2 Reading</h1>
+                 <p class="text-slate-400 text-sm">Workplace Bullying</p>
+            </div>
+            <a href="#warm-up" class="nav-link active block py-2.5 px-4 rounded-lg transition duration-200 hover:bg-slate-800 hover:text-white">
+                1. Warm-up
+            </a>
+            <a href="#vocabulary" class="nav-link block py-2.5 px-4 rounded-lg transition duration-200 hover:bg-slate-800 hover:text-white">
+                2. Key Vocabulary
+            </a>
+            <a href="#reading1" class="nav-link block py-2.5 px-4 rounded-lg transition duration-200 hover:bg-slate-800 hover:text-white">
+                3. Case Study
+            </a>
+            <a href="#grammar" class="nav-link block py-2.5 px-4 rounded-lg transition duration-200 hover:bg-slate-800 hover:text-white">
+                4. Reporting Language
+            </a>
+            <a href="#reading2" class="nav-link block py-2.5 px-4 rounded-lg transition duration-200 hover:bg-slate-800 hover:text-white">
+                5. Company Policy
+            </a>
+            <a href="#final-tasks" class="nav-link block py-2.5 px-4 rounded-lg transition duration-200 hover:bg-slate-800 hover:text-white">
+                6. Final Scenario
+            </a>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-6 md:p-10 overflow-y-auto">
+             <div class="w-full">
+                 <!-- Header -->
+                <header class="bg-white rounded-2xl shadow-lg p-8 mb-10 border border-slate-200">
+                    <h1 id="main-header" class="text-3xl md:text-4xl font-extrabold text-slate-800 tracking-tight">1. Warm-up</h1>
+                    <p class="text-lg text-slate-600 mt-2">Let's begin by exploring our initial thoughts on workplace culture and conflict.</p>
+                </header>
+
+                <div class="space-y-10">
+                    <!-- 1. Warm-up Discussion -->
+                    <section id="warm-up" class="lesson-content active lesson-section bg-white rounded-2xl shadow-xl p-8 md:p-10 border border-slate-200">
+                        <h2 class="text-2xl font-bold text-slate-800 mb-6 border-b border-slate-200 pb-4">Discussion Prompts</h2>
+                        <div class="space-y-6 text-slate-700">
+                            <div>
+                                <label for="q1" class="font-semibold block mb-2">What is the difference between a disagreement at work and "bullying"?</label>
+                                <textarea id="q1" rows="3" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-shadow" placeholder="Type your thoughts here..."></textarea>
+                            </div>
+                            <div>
+                                <label for="q2" class="font-semibold block mb-2">In your experience, what is the role of the Human Resources (HR) department in resolving employee conflicts?</label>
+                                <textarea id="q2" rows="3" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-shadow" placeholder="Type your thoughts here..."></textarea>
+                            </div>
+                             <div>
+                                <label for="q3" class="font-semibold block mb-2">What makes a "good" or "bad" company culture?</label>
+                                <textarea id="q3" rows="3" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-shadow" placeholder="Type your thoughts here..."></textarea>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 2. Vocabulary Focus -->
+                    <section id="vocabulary" class="lesson-content lesson-section bg-white rounded-2xl shadow-xl p-8 md:p-10 border border-slate-200">
+                        <h2 class="text-2xl font-bold text-slate-800 mb-4 border-b border-slate-200 pb-4">Building a Shared Language</h2>
+                        <p class="mb-6 text-slate-600">To discuss this topic accurately, we need a shared understanding of key legal and professional terms. Review the vocabulary below before we proceed to the discussion points.</p>
+                        
+                        <!-- Part A: Core Vocabulary -->
+                        <h3 class="text-xl font-semibold text-slate-700 mb-4">Part A: Core Vocabulary</h3>
+                        <p class="mb-4 text-slate-600">Match the definitions with the correct term using the dropdown menus.</p>
+                        <div id="vocab-a-container" class="space-y-4 text-slate-700">
+                            <!-- Definitions -->
+                            <div class="md:flex items-center gap-4 space-y-2 md:space-y-0"><p class="flex-1">a. A formal process to resolve a dispute using a neutral third person.</p><select data-answer="Mediation" class="vocab-a-select p-2 border-2 border-slate-300 rounded-md bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 w-full md:w-52" data-attempts="0"><option value="">Select a term...</option><option>Harassment</option><option>Grievance</option><option>Allegation</option><option>Compensation</option><option>Mediation</option><option>Liable</option><option>Misconduct</option><option>Tribunal</option></select><div class="feedback w-36 flex-shrink-0"></div></div>
+                            <div class="md:flex items-center gap-4 space-y-2 md:space-y-0"><p class="flex-1">b. Responsible by law; legally answerable.</p><select data-answer="Liable" class="vocab-a-select p-2 border-2 border-slate-300 rounded-md bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 w-full md:w-52" data-attempts="0"><option value="">Select a term...</option><option>Harassment</option><option>Grievance</option><option>Allegation</option><option>Compensation</option><option>Mediation</option><option>Liable</option><option>Misconduct</option><option>Tribunal</option></select><div class="feedback w-36 flex-shrink-0"></div></div>
+                            <div class="md:flex items-center gap-4 space-y-2 md:space-y-0"><p class="flex-1">c. A claim that someone has done something illegal or wrong.</p><select data-answer="Allegation" class="vocab-a-select p-2 border-2 border-slate-300 rounded-md bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 w-full md:w-52" data-attempts="0"><option value="">Select a term...</option><option>Harassment</option><option>Grievance</option><option>Allegation</option><option>Compensation</option><option>Mediation</option><option>Liable</option><option>Misconduct</option><option>Tribunal</option></select><div class="feedback w-36 flex-shrink-0"></div></div>
+                            <div class="md:flex items-center gap-4 space-y-2 md:space-y-0"><p class="flex-1">d. Behavior that is intimidating, degrading, or offensive to a person.</p><select data-answer="Harassment" class="vocab-a-select p-2 border-2 border-slate-300 rounded-md bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 w-full md:w-52" data-attempts="0"><option value="">Select a term...</option><option>Harassment</option><option>Grievance</option><option>Allegation</option><option>Compensation</option><option>Mediation</option><option>Liable</option><option>Misconduct</option><option>Tribunal</option></select><div class="feedback w-36 flex-shrink-0"></div></div>
+                            <div class="md:flex items-center gap-4 space-y-2 md:space-y-0"><p class="flex-1">e. An official complaint made by an employee to their employer.</p><select data-answer="Grievance" class="vocab-a-select p-2 border-2 border-slate-300 rounded-md bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 w-full md:w-52" data-attempts="0"><option value="">Select a term...</option><option>Harassment</option><option>Grievance</option><option>Allegation</option><option>Compensation</option><option>Mediation</option><option>Liable</option><option>Misconduct</option><option>Tribunal</option></select><div class="feedback w-36 flex-shrink-0"></div></div>
+                            <div class="md:flex items-center gap-4 space-y-2 md:space-y-0"><p class="flex-1">f. A legal body that resolves disputes, similar to a court.</p><select data-answer="Tribunal" class="vocab-a-select p-2 border-2 border-slate-300 rounded-md bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 w-full md:w-52" data-attempts="0"><option value="">Select a term...</option><option>Harassment</option><option>Grievance</option><option>Allegation</option><option>Compensation</option><option>Mediation</option><option>Liable</option><option>Misconduct</option><option>Tribunal</option></select><div class="feedback w-36 flex-shrink-0"></div></div>
+                            <div class="md:flex items-center gap-4 space-y-2 md:space-y-0"><p class="flex-1">g. Unacceptable or improper behavior by an employee.</p><select data-answer="Misconduct" class="vocab-a-select p-2 border-2 border-slate-300 rounded-md bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 w-full md:w-52" data-attempts="0"><option value="">Select a term...</option><option>Harassment</option><option>Grievance</option><option>Allegation</option><option>Compensation</option><option>Mediation</option><option>Liable</option><option>Misconduct</option><option>Tribunal</option></select><div class="feedback w-36 flex-shrink-0"></div></div>
+                            <div class="md:flex items-center gap-4 space-y-2 md:space-y-0"><p class="flex-1">h. Money awarded to someone to recognize loss or injury.</p><select data-answer="Compensation" class="vocab-a-select p-2 border-2 border-slate-300 rounded-md bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 w-full md:w-52" data-attempts="0"><option value="">Select a term...</option><option>Harassment</option><option>Grievance</option><option>Allegation</option><option>Compensation</option><option>Mediation</option><option>Liable</option><option>Misconduct</option><option>Tribunal</option></select><div class="feedback w-36 flex-shrink-0"></div></div>
+                        </div>
+                        <div class="mt-6 text-center">
+                            <button id="check-vocab-a" class="bg-indigo-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-indigo-700 transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105">Check Answers</button>
+                        </div>
+                        
+                        <!-- Part B: Advanced Vocabulary -->
+                        <h3 class="text-xl font-semibold text-slate-700 mt-10 mb-4">Part B: Advanced Vocabulary</h3>
+                        <p class="mb-4 text-slate-600">Complete the sentences below to check your understanding.</p>
+                        <div class="my-4 p-4 bg-slate-100 rounded-lg text-center">
+                            <code class="text-slate-800 font-semibold text-base">escalate</code> | <code class="text-slate-800 font-semibold text-base">impartial</code> | <code class="text-slate-800 font-semibold text-base">confidentiality</code> | <code class="text-slate-800 font-semibold text-base">retaliation</code>
+                        </div>
+                        <div class="space-y-4 text-slate-700 text-lg">
+                             <div class="flex items-center gap-2 flex-wrap"><span>1. The investigation must be handled by an</span><input type="text" id="adv-vocab-1" data-answer="impartial" class="p-1 border-b-2 w-32 focus:outline-none focus:border-indigo-500" data-attempts="0"><span>third party to ensure fairness.</span><div id="feedback-adv-vocab-1" class="feedback"></div></div>
+                             <div class="flex items-center gap-2 flex-wrap"><span>2. Employees must be able to file a complaint without fear of</span><input type="text" id="adv-vocab-2" data-answer="retaliation" class="p-1 border-b-2 w-32 focus:outline-none focus:border-indigo-500" data-attempts="0"><span>from their manager or colleagues.</span><div id="feedback-adv-vocab-2" class="feedback"></div></div>
+                             <div class="flex items-center gap-2 flex-wrap"><span>3. If the issue is not solved informally, the employee may need to</span><input type="text" id="adv-vocab-3" data-answer="escalate" class="p-1 border-b-2 w-32 focus:outline-none focus:border-indigo-500" data-attempts="0"><span>the matter to HR.</span><div id="feedback-adv-vocab-3" class="feedback"></div></div>
+                             <div class="flex items-center gap-2 flex-wrap"><span>4. All discussions during the investigation are held in strict</span><input type="text" id="adv-vocab-4" data-answer="confidentiality" class="p-1 border-b-2 w-40 focus:outline-none focus:border-indigo-500" data-attempts="0"><span>to protect everyone involved.</span><div id="feedback-adv-vocab-4" class="feedback"></div></div>
+                        </div>
+                        <div class="mt-6 text-center"><button id="check-vocab-b" class="bg-indigo-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-indigo-700 transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105">Check Answers</button></div>
+                        
+                        <div class="mt-10 border-t border-slate-200 pt-8">
+                            <h3 class="text-xl font-semibold text-slate-700 mb-4">🗣️ Discussion Points</h3>
+                               <div class="space-y-6 text-slate-700">
+                                 <div><label for="q-vocab-1" class="font-semibold block mb-2">In your opinion, which is more difficult for a company to manage: an allegation of misconduct or the fear of retaliation? Why?</label><textarea id="q-vocab-1" rows="3" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-shadow" placeholder="Type your thoughts here..."></textarea></div>
+                                 <div><label for="q-vocab-2" class="font-semibold block mb-2">Why is confidentiality so important when dealing with a workplace grievance?</label><textarea id="q-vocab-2" rows="3" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-shadow" placeholder="Type your thoughts here..."></textarea></div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 3. Reading 1: The Case Study -->
+                    <section id="reading1" class="lesson-content lesson-section bg-white rounded-2xl shadow-xl p-8 md:p-10 border border-slate-200">
+                        <h2 class="text-2xl font-bold text-slate-800 mb-4 border-b border-slate-200 pb-4">Analyzing a Real-World Example</h2>
+                        <p class="mb-6 text-slate-600">Read the case study below. Click on each section to reveal the story, and click on the highlighted words to see their definitions.</p>
+                        
+                        <div id="case-study-accordion" class="space-y-2">
+                            <!-- Accordion Item 1 -->
+                            <div>
+                                <h3 id="accordion-heading-1">
+                                    <button type="button" class="accordion-button flex items-center justify-between w-full p-5 font-semibold text-left text-slate-700 bg-slate-100 rounded-lg hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500" data-accordion-target="#accordion-body-1" aria-expanded="true" aria-controls="accordion-body-1">
+                                        <span>Part 1: The Ruling</span>
+                                        <svg class="accordion-icon w-6 h-6 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                    </button>
+                                </h3>
+                                <div id="accordion-body-1" class="accordion-content" aria-labelledby="accordion-heading-1">
+                                    <div class="p-5 border border-t-0 border-slate-200 rounded-b-lg">
+                                        <p class="text-slate-600">A senior accountant at a Sydney-based financial services firm has been awarded significant <span class="key-term">compensation</span> after a <span class="key-term">tribunal</span> found the company failed to protect her from workplace <span class="key-term">harassment</span>.</p>
+                                    </div>
+                                </div>
+                            </div>
+                             <!-- Accordion Item 2 -->
+                            <div>
+                                <h3 id="accordion-heading-2">
+                                    <button type="button" class="accordion-button flex items-center justify-between w-full p-5 font-semibold text-left text-slate-700 bg-slate-100 rounded-lg hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500" data-accordion-target="#accordion-body-2" aria-expanded="false" aria-controls="accordion-body-2">
+                                        <span>Part 2: The Complaint</span>
+                                        <svg class="accordion-icon w-6 h-6 shrink-0 transition-transform duration-200 rotate-180" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                    </button>
+                                </h3>
+                                <div id="accordion-body-2" class="accordion-content" aria-labelledby="accordion-heading-2">
+                                    <div class="p-5 border border-t-0 border-slate-200 rounded-b-lg">
+                                        <p class="text-slate-600">Maria Rossi, who had worked at FinCorp Advisory for over ten years, filed a formal <span class="key-term">grievance</span> last year. Her <span class="key-term">allegation</span> was against a department manager who, she claimed, created a hostile work environment. According to Rossi, the manager constantly criticized her work in front of colleagues, excluded her from important meetings, and often gave her impossible deadlines.</p>
+                                    </div>
+                                </div>
+                            </div>
+                             <!-- Accordion Item 3 -->
+                            <div>
+                                <h3 id="accordion-heading-3">
+                                    <button type="button" class="accordion-button flex items-center justify-between w-full p-5 font-semibold text-left text-slate-700 bg-slate-100 rounded-lg hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500" data-accordion-target="#accordion-body-3" aria-expanded="false" aria-controls="accordion-body-3">
+                                        <span>Part 3: The Company's Response</span>
+                                        <svg class="accordion-icon w-6 h-6 shrink-0 transition-transform duration-200 rotate-180" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                    </button>
+                                </h3>
+                                <div id="accordion-body-3" class="accordion-content" aria-labelledby="accordion-heading-3">
+                                    <div class="p-5 border border-t-0 border-slate-200 rounded-b-lg">
+                                       <p class="text-slate-600">Rossi initially tried to resolve the issue informally. However, when the behavior continued, she followed the company’s official procedure. The company started an internal investigation, but the process was slow and lacked clear communication. They suggested <span class="key-term">mediation</span>, but the manager refused to participate.</p>
+                                    </div>
+                                </div>
+                            </div>
+                             <!-- Accordion Item 4 -->
+                            <div>
+                                <h3 id="accordion-heading-4">
+                                    <button type="button" class="accordion-button flex items-center justify-between w-full p-5 font-semibold text-left text-slate-700 bg-slate-100 rounded-lg hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500" data-accordion-target="#accordion-body-4" aria-expanded="false" aria-controls="accordion-body-4">
+                                        <span>Part 4: The Outcome</span>
+                                        <svg class="accordion-icon w-6 h-6 shrink-0 transition-transform duration-200 rotate-180" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                    </button>
+                                </h3>
+                                <div id="accordion-body-4" class="accordion-content" aria-labelledby="accordion-heading-4">
+                                    <div class="p-5 border border-t-0 border-slate-200 rounded-b-lg">
+                                       <p class="text-slate-600">Feeling she had no other choice, Rossi took her case to the Fair Work Commission. The tribunal heard evidence that other employees had witnessed the manager's behavior. They concluded that the manager's actions constituted bullying and that FinCorp Advisory was <span class="key-term">liable</span> because it did not take reasonable steps to stop it. The manager was dismissed for serious <span class="key-term">misconduct</span>, and the company was ordered to pay Rossi $85,000 in compensation for lost wages and emotional distress.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-10 border-t border-slate-200 pt-8">
+                            <h3 class="text-xl font-semibold text-slate-700 mb-4">🗣️ Discussion Points</h3>
+                            <div class="space-y-6 text-slate-700">
+                                <div><label for="q4" class="font-semibold block mb-2">What was the company’s biggest mistake in this case, in your view?</label><textarea id="q4" rows="3" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-shadow" placeholder="Type your thoughts here..."></textarea></div>
+                                <div><label for="q5" class="font-semibold block mb-2">Do you think the other employees who "witnessed the manager's behavior" had a responsibility to do something earlier?</label><textarea id="q5" rows="3" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-shadow" placeholder="Type your thoughts here..."></textarea></div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 4. Grammar Focus: Reporting Verbs -->
+                    <section id="grammar" class="lesson-content lesson-section bg-white rounded-2xl shadow-xl p-8 md:p-10 border border-slate-200">
+                        <h2 class="text-2xl font-bold text-slate-800 mb-4 border-b border-slate-200 pb-4">Communicating with Precision</h2>
+                        <p class="mb-2 text-slate-600">When we discuss a grievance or allegation, the verbs we use are critical. They carry specific legal and professional weight. For example, "claimed" suggests a statement is unproven, while "admitted" implies accepting responsibility.</p>
+                        <p class="mb-6 text-slate-600">Practice using these precise reporting verbs before we move on to the discussion.</p>
+                        <div class="space-y-6">
+                            <div>
+                                <p class="text-slate-700">1. The company to Maria: "We think mediation is a good idea." (<strong class="text-indigo-600">suggested</strong>)</p>
+                                <textarea id="grammar-1" rows="2" class="w-full p-3 border border-slate-300 rounded-lg mt-1 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-shadow" placeholder="Rewrite the sentence here..."></textarea>
+                                <button class="text-sm text-indigo-600 hover:underline mt-1 show-answer-btn" data-target="answer-1">Show Suggested Answer</button>
+                                <div id="answer-1" class="hidden answer-key">The company suggested (that) Maria/they try mediation.</div>
+                            </div>
+                            <div>
+                                <p class="text-slate-700">2. The manager: "I did not exclude her from meetings." (<strong class="text-indigo-600">denied</strong>)</p>
+                                <textarea id="grammar-2" rows="2" class="w-full p-3 border border-slate-300 rounded-lg mt-1 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-shadow" placeholder="Rewrite the sentence here..."></textarea>
+                                <button class="text-sm text-indigo-600 hover:underline mt-1 show-answer-btn" data-target="answer-2">Show Suggested Answer</button>
+                                <div id="answer-2" class="hidden answer-key">The manager denied excluding her from meetings. / The manager denied that he had excluded her from meetings.</div>
+                            </div>
+                            <div>
+                                <p class="text-slate-700">3. Maria to the company: "You did not protect me." (<strong class="text-indigo-600">accused</strong>)</p>
+                                <textarea id="grammar-3" rows="2" class="w-full p-3 border border-slate-300 rounded-lg mt-1 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-shadow" placeholder="Rewrite the sentence here..."></textarea>
+                                <button class="text-sm text-indigo-600 hover:underline mt-1 show-answer-btn" data-target="answer-3">Show Suggested Answer</button>
+                                <div id="answer-3" class="hidden answer-key">Maria accused the company of not protecting her.</div>
+                            </div>
+                        </div>
+                        <div class="mt-10 border-t border-slate-200 pt-8">
+                            <h3 class="text-xl font-semibold text-slate-700 mb-4">🗣️ Discussion Points</h3>
+                            <div class="space-y-6 text-slate-700">
+                                 <div><label for="q-grammar-1" class="font-semibold block mb-2">Look at the verbs <code class="bg-slate-200 text-slate-800 px-1.5 py-0.5 rounded-md">claimed</code> and <code class="bg-slate-200 text-slate-800 px-1.5 py-0.5 rounded-md">admitted</code>. What is the difference in meaning?</label><textarea id="q-grammar-1" rows="3" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-shadow" placeholder="Type your thoughts here..."></textarea></div>
+                                 <div><label for="q-grammar-2" class="font-semibold block mb-2">In a legal situation, why is it important to use precise reporting verbs?</label><textarea id="q-grammar-2" rows="3" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-shadow" placeholder="Type your thoughts here..."></textarea></div>
+                            </div>
+                        </div>
+                    </section>
+
+                     <!-- 5. Reading 2: The Company Policy -->
+                    <section id="reading2" class="lesson-content lesson-section bg-white rounded-2xl shadow-xl p-8 md:p-10 border border-slate-200">
+                          <h2 class="text-2xl font-bold text-slate-800 mb-4 border-b border-slate-200 pb-4">From Theory to Practice: Company Policy</h2>
+                        <p class="mb-6 text-slate-600">Now, let's compare the case study with an ideal company policy. How does reality stack up against the official procedure?</p>
+                        <div class="bg-slate-50 p-6 rounded-lg prose max-w-none text-slate-800 border border-slate-200">
+                            <h3 class="font-bold text-slate-800">FinCorp Advisory - Respectful Workplace Policy (Excerpt)</h3>
+                            <ul class="list-disc list-inside space-y-2">
+                                 <li><strong>Our Commitment:</strong> FinCorp Advisory is committed to providing a safe and professional work environment...</li>
+                                 <li><strong>Procedure for Raising a Concern:</strong><ol class="list-decimal list-inside pl-4 mt-1 space-y-1"><li><strong>Informal Resolution</strong>...</li><li><strong>Formal Grievance</strong>...</li><li><strong>Investigation</strong>...</li><li><strong>Action & Resolution</strong>...</li></ol></li>
+                                 <li><strong>No Retaliation:</strong> The company guarantees that no employee will face retaliation for making a complaint in good faith.</li>
+                            </ul>
+                        </div>
+                        <div class="mt-10 border-t border-slate-200 pt-8">
+                            <h3 class="text-xl font-semibold text-slate-700 mb-4">🗣️ Discussion Points</h3>
+                               <div class="space-y-6 text-slate-700">
+                                 <div><label for="q6" class="font-semibold block mb-2">In the case of Maria Rossi, at which step did FinCorp's actual process fail when compared to this "ideal" policy?</label><textarea id="q6" rows="3" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-shadow" placeholder="Type your thoughts here..."></textarea></div>
+                                 <div><label for="q7" class="font-semibold block mb-2">Is Step 1 ("Informal Resolution") always a good idea? In what situations might it be a bad idea?</label><textarea id="q7" rows="3" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-shadow" placeholder="Type your thoughts here..."></textarea></div>
+                                 <div><label for="q8" class="font-semibold block mb-2">Which part of this policy do you think is the most important for protecting employees?</label><textarea id="q8" rows="3" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-shadow" placeholder="Type your thoughts here..."></textarea></div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- 6. Final Tasks: Scenario & Written Response -->
+                    <section id="final-tasks" class="lesson-content lesson-section bg-white rounded-2xl shadow-xl p-8 md:p-10 border border-slate-200">
+                        <h2 class="text-2xl font-bold text-slate-800 mb-6 border-b border-slate-200 pb-4">Applying Your Knowledge</h2>
+                        
+                        <h3 class="text-xl font-semibold text-slate-700 mb-2">Part A: Scenario Discussion</h3>
+                        <p class="mb-4 text-slate-600">Let's put everything together. Read the scenario below and prepare to discuss your responsibilities and potential actions.</p>
+                        <div class="bg-indigo-50 border-l-4 border-indigo-500 text-indigo-900 p-4 rounded-r-lg mb-6">
+                            <p>You are the Head of the Accounting Department... You have noticed that David, an experienced team leader, is putting pressure on a junior accountant, Chloe. You've overheard sarcastic comments, know she was excluded from a team lunch, and have seen that her performance has dropped. She has not made a formal complaint.</p>
+                        </div>
+                        <div class="space-y-6 text-slate-700">
+                             <div><label for="q-final-1" class="font-semibold block mb-2">Referring to the "Respectful Workplace Policy," what are your responsibilities right now, even without a formal complaint from Chloe?</label><textarea id="q-final-1" rows="3" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-shadow" placeholder="Type your thoughts here..."></textarea></div>
+                             <div><label for="q-final-2" class="font-semibold block mb-2">How could you use reporting verbs to discuss this situation with the HR manager? (e.g., "I'm concerned because Chloe's colleague claimed that...")</label><textarea id="q-final-2" rows="3" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-shadow" placeholder="Type your thoughts here..."></textarea></div>
+                             <div><label for="q-final-3" class="font-semibold block mb-2">What are the potential consequences for David, Chloe, and the company if this situation escalates?</label><textarea id="q-final-3" rows="3" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-shadow" placeholder="Type your thoughts here..."></textarea></div>
+                        </div>
+
+
+                        <h3 class="text-xl font-semibold text-slate-700 mb-4 mt-10 border-t border-slate-200 pt-8">Part B: Written Response</h3>
+                        <p class="mb-4 text-slate-600">Now, take action. Draft a concise, formal email (approx. 100-120 words) to the HR Department based on the scenario.</p>
+                        <div class="border border-slate-300 rounded-lg overflow-hidden shadow-sm">
+                            <div class="p-4 bg-slate-100 border-b border-slate-300">
+                                <p><strong>To:</strong> H. Resources</p>
+                                <p><strong>From:</strong> [Your Name], Head of Accounting</p>
+                                <p><strong>Subject:</strong> Confidential Concern Regarding Team Dynamics</p>
+                            </div>
+                            <textarea id="email-task" class="w-full p-4 h-64 border-none focus:ring-0" placeholder="Your email should:&#10;- State the purpose of your email clearly and confidentially.&#10;- Briefly describe the behaviors you have observed.&#10;- Mention the impact on the employee.&#10;- Request a meeting to discuss next steps."></textarea>
+                            <div class="p-2 bg-slate-100 border-t border-slate-300 text-right">
+                                <span id="word-count" class="text-sm text-slate-600 font-medium">Word Count: 0</span>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Footer -->
+                <footer class="mt-12 text-center">
+                    <p class="text-sm text-slate-500 py-4">
+                        Designed by 
+                        <a href="https://fajarudinakbar.online" target="_blank" rel="noopener noreferrer" class="font-semibold text-slate-600 hover:text-indigo-600 transition-colors">
+                            fajarudinakbar.online
+                        </a>
+                    </p>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const navLinks = document.querySelectorAll('.nav-link');
+    const contentSections = document.querySelectorAll('.lesson-content');
+    const mainHeader = document.getElementById('main-header');
+    const headerDescriptions = {
+        '#warm-up': "Let's begin by exploring our initial thoughts on workplace culture and conflict.",
+        '#vocabulary': "Let's build a shared understanding of the key terms involved in workplace issues.",
+        '#reading1': "Analyze a real-world case study to see the consequences of inaction.",
+        '#grammar': "Learn how to communicate sensitive situations with professional precision.",
+        '#reading2': "Compare the case study with an ideal company policy.",
+        '#final-tasks': "Apply your knowledge to a realistic professional scenario."
+    };
+
+    function switchSection(hash) {
+        navLinks.forEach(link => {
+            if (link.getAttribute('href') === hash) {
+                link.classList.add('active');
+                mainHeader.textContent = link.textContent.trim();
+                document.querySelector('main header > p').textContent = headerDescriptions[hash];
+            } else {
+                link.classList.remove('active');
+            }
+        });
+
+        contentSections.forEach(section => {
+            if ('#' + section.id === hash) {
+                section.classList.add('active');
+            } else {
+                section.classList.remove('active');
+            }
+        });
+        
+        // Scroll main content to top
+        document.querySelector('main').scrollTop = 0;
+    }
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', e => {
+            e.preventDefault();
+            const hash = link.getAttribute('href');
+            switchSection(hash);
+            history.pushState(null, null, hash);
+        });
+    });
+
+    // Initial load
+    switchSection(window.location.hash || '#warm-up');
+
+    // --- Vocabulary Part A: Dropdown ---
+    const checkVocabABtn = document.getElementById('check-vocab-a');
+    if (checkVocabABtn) {
+        checkVocabABtn.addEventListener('click', () => {
+            const selects = document.querySelectorAll('.vocab-a-select');
+            selects.forEach(select => {
+                if (select.disabled) return;
+                let attempts = parseInt(select.dataset.attempts || '0');
+                const feedbackEl = select.nextElementSibling;
+                const userAnswer = select.value;
+                const correctAnswer = select.dataset.answer;
+
+                if (userAnswer === correctAnswer) {
+                    feedbackEl.textContent = 'Correct!';
+                    feedbackEl.className = 'feedback correct';
+                    select.classList.remove('border-red-500', 'border-slate-300');
+                    select.classList.add('border-green-500');
+                    select.disabled = true;
+                } else {
+                    attempts++;
+                    select.dataset.attempts = attempts;
+                    select.classList.remove('border-green-500', 'border-slate-300');
+                    select.classList.add('border-red-500');
+                    if (attempts >= 2) {
+                        feedbackEl.innerHTML = `Answer: <strong class="text-slate-700">${correctAnswer}</strong>`;
+                        feedbackEl.className = 'feedback incorrect';
+                        select.value = correctAnswer;
+                        select.classList.remove('border-red-500');
+                        select.classList.add('border-slate-400');
+                        select.disabled = true;
+                    } else {
+                        feedbackEl.textContent = 'Incorrect (1 attempt left)';
+                        feedbackEl.className = 'feedback incorrect';
+                    }
+                }
+            });
+        });
+    }
+
+    // --- Vocabulary Part B: Fill in the Blanks ---
+    const checkVocabBBtn = document.getElementById('check-vocab-b');
+    checkVocabBBtn.addEventListener('click', () => {
+        const inputs = document.querySelectorAll('#vocabulary input[type="text"]');
+        inputs.forEach(input => {
+            if (input.disabled) return;
+            let attempts = parseInt(input.dataset.attempts || '0');
+            const feedbackEl = document.getElementById(`feedback-${input.id}`);
+            const userAnswer = input.value.trim().toLowerCase();
+            const correctAnswer = input.dataset.answer;
+
+            if (userAnswer === correctAnswer) {
+                feedbackEl.textContent = 'Correct!';
+                feedbackEl.className = 'feedback correct';
+                input.classList.remove('border-red-500');
+                input.classList.add('border-green-500');
+                input.disabled = true;
+            } else {
+                attempts++;
+                input.dataset.attempts = attempts;
+                input.classList.add('border-red-500');
+                if (attempts >= 2) {
+                    feedbackEl.textContent = 'Answer shown.';
+                    feedbackEl.className = 'feedback incorrect';
+                    input.value = correctAnswer;
+                    input.classList.remove('border-red-500');
+                    input.classList.add('border-green-500');
+                    input.disabled = true;
+                } else {
+                    feedbackEl.textContent = 'Try again (1 attempt left)';
+                    feedbackEl.className = 'feedback incorrect';
+                }
+            }
+        });
+    });
+    
+    // --- Accordion Logic ---
+    document.querySelectorAll('.accordion-button').forEach(button => {
+        const body = document.querySelector(button.dataset.accordionTarget);
+        // Open the first accordion item by default
+        if (button.getAttribute('aria-expanded') === 'true') {
+            body.style.maxHeight = body.scrollHeight + "px";
+        } else {
+             body.style.maxHeight = null;
+        }
+
+        button.addEventListener('click', () => {
+            const expanded = button.getAttribute('aria-expanded') === 'true' || false;
+            button.setAttribute('aria-expanded', !expanded);
+            button.querySelector('.accordion-icon').classList.toggle('rotate-180');
+            
+            if (!expanded) {
+                body.style.maxHeight = body.scrollHeight + "px";
+            } else {
+                body.style.maxHeight = null;
+            }
+        });
+    });
+
+    // --- Definition Modal Logic ---
+    const definitions = {
+        'harassment': 'Behavior that is intimidating, degrading, or offensive to a person.',
+        'grievance': 'An official complaint made by an employee to their employer.',
+        'allegation': 'A claim that someone has done something illegal or wrong.',
+        'compensation': 'Money awarded to someone to recognize loss or injury.',
+        'mediation': 'A formal process to resolve a dispute using a neutral third person.',
+        'liable': 'Responsible by law; legally answerable.',
+        'misconduct': 'Unacceptable or improper behavior by an employee.',
+        'tribunal': 'A legal body that resolves disputes, similar to a court.'
+    };
+    
+    const modal = document.getElementById('definition-modal');
+    const modalTerm = document.getElementById('modal-term');
+    const modalDefinition = document.getElementById('modal-definition');
+    const closeModalBtn = document.getElementById('close-modal');
+
+    document.querySelectorAll('.key-term').forEach(term => {
+        term.addEventListener('click', () => {
+            const termKey = term.textContent.toLowerCase();
+            if (definitions[termKey]) {
+                modalTerm.textContent = term.textContent;
+                modalDefinition.textContent = definitions[termKey];
+                modal.classList.remove('hidden');
+            }
+        });
+    });
+
+    const closeModal = () => modal.classList.add('hidden');
+    closeModalBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+    // --- Grammar Focus: Show Answer ---
+    document.querySelectorAll('.show-answer-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const targetId = btn.dataset.target;
+            const answerEl = document.getElementById(targetId);
+            answerEl.classList.toggle('hidden');
+            btn.textContent = answerEl.classList.contains('hidden') ? 'Show Suggested Answer' : 'Hide Answer';
+        });
+    });
+
+    // --- Final Task: Word Count ---
+    const emailTextarea = document.getElementById('email-task');
+    const wordCountEl = document.getElementById('word-count');
+    emailTextarea.addEventListener('input', () => {
+        const text = emailTextarea.value.trim();
+        const words = text.split(/\s+/).filter(Boolean).length;
+        wordCountEl.textContent = `Word Count: ${words}`;
+        if (words > 120 || (words > 0 && words < 100)) {
+            wordCountEl.classList.add('text-red-600', 'font-bold');
+        } else {
+            wordCountEl.classList.remove('text-red-600', 'font-bold');
+        }
+    });
+
+});
+</script>
+</body>
+</html>
