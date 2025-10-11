@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B1 Reading/Speaking - Building a Shared Communication Culture</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .step {
+            display: none;
+        }
+        .step.active {
+            display: block;
+        }
+        .sidebar-link {
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+        .sidebar-link.active {
+            border-left-color: #4f46e5; /* indigo-600 */
+            background-color: #eef2ff; /* indigo-50 */
+            color: #4338ca; /* indigo-700 */
+            font-weight: 600;
+        }
+        .progress-bar-step {
+            transition: all 0.3s ease;
+        }
+        .draggable {
+            cursor: grab;
+            user-select: none;
+        }
+        .dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+        .drop-zone {
+            transition: background-color 0.2s;
+            border-style: dashed;
+        }
+        .drag-over {
+            background-color: #e0f2fe; /* light blue */
+        }
+        .correct-answer {
+            border-color: #16a34a; /* green-600 */
+            color: #16a34a;
+            background-color: #f0fdf4; /* green-50 */
+        }
+        .incorrect-answer {
+            border-color: #dc2626; /* red-600 */
+            color: #dc2626;
+            background-color: #fef2f2; /* red-50 */
+        }
+        .correct-answer label, .correct-answer {
+            color: #15803d; /* green-700 */
+        }
+        .incorrect-answer label, .incorrect-answer {
+             color: #b91c1c; /* red-700 */
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="flex flex-col lg:flex-row min-h-screen bg-white">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-full lg:w-1/4 bg-gray-50 border-b lg:border-r p-6 flex flex-col justify-between">
+            <div>
+                <h2 class="text-lg font-bold text-gray-800 mb-6">B1 Reading/Speaking</h2>
+                <nav id="sidebar-nav" class="space-y-4">
+                    <!-- Nav items will be injected by JS -->
+                </nav>
+            </div>
+            <div class="text-center text-sm text-gray-500 mt-6">
+                Designed by <a href="https://fajarudinakbar.online" target="_blank" rel="noopener noreferrer" class="text-indigo-600 hover:underline">fajarudinakbar.online</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1">
+            <div class="w-full max-w-4xl mx-auto">
+                <header class="bg-white p-6 border-b">
+                    <div class="flex justify-between items-center">
+                         <h1 class="text-2xl font-bold text-gray-800">Building a Shared Communication Culture</h1>
+                    </div>
+                    <div id="main-header-progress" class="mt-4">
+                        <!-- Main header progress will be injected by JS -->
+                    </div>
+                </header>
+
+                <main class="p-6 sm:p-8">
+                    <div id="worksheet-content">
+                        <!-- Step 1: Warm-up -->
+                        <div class="step active" data-step="1">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-4">Part 1: Warm-up Discussion</h2>
+                            <div class="space-y-4 text-gray-700">
+                                <p>Discuss the following questions with your student.</p>
+                                <ol class="list-decimal list-inside space-y-3 pl-2">
+                                    <li>When you work with people from other countries, what is the biggest communication challenge?</li>
+                                    <li>Can you think of a time when a cultural difference caused a small misunderstanding at work?</li>
+                                    <li>Why is it important for a manager to understand the cultural background of their team members?</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Vocabulary -->
+                        <div class="step" data-step="2">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-4">Part 2: Vocabulary Matching</h2>
+                            <p class="text-gray-700 mb-6">Drag the definitions on the right to match the vocabulary words on the left.</p>
+                            <div class="grid md:grid-cols-2 gap-6" id="vocab-matching">
+                                <div class="space-y-3" id="vocab-terms">
+                                    <!-- Terms will be injected by JS -->
+                                </div>
+                                <div class="space-y-3" id="vocab-definitions-draggable">
+                                     <!-- Draggable definitions will be injected by JS -->
+                                </div>
+                            </div>
+                            <div class="mt-6 flex items-center gap-4">
+                                <button onclick="checkVocabAnswers()" class="bg-blue-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-blue-700 transition-colors">Check Answers</button>
+                                <button onclick="resetVocab()" class="text-gray-600 hover:text-gray-900 font-semibold py-2 px-4 rounded-lg">Reset</button>
+                                <p id="vocab-score" class="font-medium"></p>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Reading -->
+                        <div class="step" data-step="3">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-4">Part 3: Reading</h2>
+                            <article class="prose max-w-none text-gray-700 space-y-4">
+                                <h3 class="font-semibold text-gray-800">Different Ways of Working</h3>
+                                <p>In the global business world, understanding cultural differences is key to success. For example, communication styles can vary greatly. In Germany, people often use direct communication. If a German manager says, "This tax report needs more details in section three," they mean exactly that. The feedback is clear, specific, and focused on the task. They value efficiency and clarity.</p>
+                                <p>In contrast, in Japan, people often use indirect communication. A Japanese manager might say, "Perhaps we could review section three one more time to make it even stronger." The message is the same, but the delivery is softer to maintain group harmony. They often have a strong sense of hierarchy, so showing respect to senior colleagues is very important.</p>
+                                <p>These differences can also be seen in attitudes toward punctuality. A manager from Switzerland might see arriving five minutes late to a meeting as unprofessional. However, a manager from Brazil might see relationships as more important than a strict schedule. Understanding these different attitudes helps build a team culture where everyone feels respected and can work together effectively.</p>
+                            </article>
+                        </div>
+
+                        <!-- Step 4: Comprehension Checks -->
+                        <div class="step" data-step="4">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-6">Part 4: Comprehension Checks</h2>
+                            <!-- A. True or False -->
+                            <div class="mb-8">
+                                <h3 class="font-medium text-gray-700 mb-4">A. True or False?</h3>
+                                <div id="true-false-questions" class="space-y-3">
+                                    <!-- Questions injected by JS -->
+                                </div>
+                                <button onclick="checkTrueFalse()" class="mt-4 bg-blue-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-blue-700 transition-colors">Check Answers</button>
+                            </div>
+                             <!-- B. Summary Fill-in-the-Blank -->
+                            <div class="mb-8">
+                                <h3 class="font-medium text-gray-700 mb-4">B. Summary Fill-in-the-Blank</h3>
+                                <div id="summary-fill-in" class="p-5 bg-gray-50 rounded-lg text-gray-700 leading-relaxed">
+                                    <!-- Summary text injected by JS -->
+                                </div>
+                                 <button onclick="checkSummaryFill()" class="mt-4 bg-blue-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-blue-700 transition-colors">Check Answers</button>
+                            </div>
+                            <!-- C. Table Fill-in-the-Blank -->
+                            <div>
+                                <h3 class="font-medium text-gray-700 mb-4">C. Table Fill-in-the-Blank</h3>
+                                <div id="table-fill-in" class="overflow-x-auto">
+                                    <!-- Table injected by JS -->
+                                </div>
+                                 <button onclick="checkTableFill()" class="mt-4 bg-blue-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-blue-700 transition-colors">Check Answers</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 5: Speaking Task -->
+                        <div class="step" data-step="5">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-4">Part 5: Scenario-Based Speaking Task</h2>
+                            <div class="bg-blue-50 border-l-4 border-blue-500 p-5 rounded-r-lg mb-6">
+                                <h3 class="font-semibold text-blue-800">Scenario</h3>
+                                <p class="text-blue-900 mt-2">You are a tax manager in an international company. A new team member, Alex, has just joined your team from a different country. You want to have a welcome meeting to understand Alex's work style and explain your team's way of working. You want to make sure Alex feels comfortable and that you both have a clear understanding of each other's expectations.</p>
+                            </div>
+                            <div class="space-y-4 text-gray-700">
+                                <p>Read the scenario and prepare to discuss the following questions.</p>
+                                <ol class="list-decimal list-inside space-y-3 pl-2">
+                                    <li>How would you start the conversation with Alex to make them feel welcome?</li>
+                                    <li>What questions would you ask to understand Alex's attitude towards communication? (e.g., direct vs. indirect feedback)</li>
+                                    <li>How would you explain your team's values regarding deadlines and punctuality?</li>
+                                    <li>Imagine Alex says, "In my culture, it is rude to disagree with a manager." How would you respond to encourage open communication?</li>
+                                    <li>How would you ask Alex about their experience with teamwork and collaboration?</li>
+                                    <li>If your team communicates mostly by email, what advice would you give Alex about the team's email style?</li>
+                                    <li>How would you describe the role of meetings in your team?</li>
+                                    <li>What would you do if you noticed Alex was struggling to adapt to the team's communication style after a few weeks?</li>
+                                    <li>How could you use this conversation to set goals with Alex for the first month?</li>
+                                    <li>What final message would you give Alex to help build a shared communication culture?</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                    </div>
+                </main>
+                
+                <footer class="bg-gray-50 p-6 flex justify-between items-center border-t mt-8">
+                    <button id="prev-btn" onclick="navigate(-1)" class="bg-gray-200 text-gray-700 font-semibold py-2 px-6 rounded-lg hover:bg-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Previous</button>
+                    <button id="next-btn" onclick="navigate(1)" class="bg-indigo-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Next</button>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // --- STATE & DATA ---
+    let currentStep = 1;
+    const totalSteps = 5;
+    let vocabAttempts = 0;
+    let trueFalseAttempts = 0;
+    let summaryAttempts = 0;
+    let tableAttempts = 0;
+
+    const stepsData = [
+        { section: "Prepare", title: "1. Warm-up Discussion", type: "Article" },
+        { section: "Prepare", title: "2. Vocabulary Matching", type: "Exercise" },
+        { section: "Do", title: "3. Reading", type: "Article" },
+        { section: "Do", title: "4. Comprehension Checks", type: "Exercise" },
+        { section: "Evaluate", title: "5. Scenario-Based Speaking Task", type: "Exercise" },
+    ];
+
+    const vocabData = [
+        { term: "1. Direct communication", definition: "j. Saying exactly what you mean in a very clear way.", id: "vocab-1" },
+        { term: "2. Indirect communication", definition: "g. Expressing meaning through suggestion, context, and non-verbal cues.", id: "vocab-2" },
+        { term: "3. Punctuality", definition: "i. The quality of being on time.", id: "vocab-3" },
+        { term: "4. Hierarchy", definition: "a. A system where people are ranked one above the other according to status.", id: "vocab-4" },
+        { term: "5. Culture", definition: "e. A set of shared beliefs and practices of a group of people.", id: "vocab-5" },
+        { term: "6. Value", definition: "c. A belief about what is important in life.", id: "vocab-6" },
+        { term: "7. Feedback", definition: "f. Information or criticism about someone's performance on a task.", id: "vocab-7" },
+        { term: "8. Adapt", definition: "b. To change your behavior to deal with a new situation.", id: "vocab-8" },
+        { term: "9. Collaboration", definition: "d. The act of working together with other people to achieve something.", id: "vocab-9" },
+        { term: "10. Deadline", definition: "h. The time by which something must be finished.", id: "vocab-10" }
+    ];
+
+    const trueFalseData = [
+        { q: "1. Direct communication is common in Japan.", a: false, ex: "The text states that in Japan, people often use <strong>indirect communication</strong> to maintain group harmony." },
+        { q: "2. A German manager's feedback is usually very clear and specific.", a: true, ex: "Correct. The text says that German feedback is '<strong>clear, specific, and focused</strong> on the task.'" },
+        { q: "3. Indirect communication focuses on maintaining group harmony.", a: true, ex: "Correct. The text mentions that the delivery of indirect communication is 'softer to <strong>maintain group harmony</strong>.'" },
+        { q: "4. Attitudes toward punctuality are the same in every culture.", a: false, ex: "The text provides examples of <strong>different attitudes</strong> to punctuality in Switzerland and Brazil." },
+        { q: "5. Understanding cultural differences is not important for a team's success.", a: false, ex: "The text explicitly states that 'understanding cultural differences is <strong>key to success</strong>' in the global business world." },
+        { q: "6. In Germany, efficiency is a highly regarded value.", a: true, ex: "Correct. The text states that people in Germany 'value <strong>efficiency and clarity</strong>.'" },
+        { q: "7. A Japanese manager's feedback might be less direct than a German manager's.", a: true, ex: "Correct. The text contrasts the 'direct' German style with the 'softer,' 'indirect' Japanese style." },
+        { q: "8. The text suggests that hierarchy is not important in Japan.", a: false, ex: "The text states that in Japan, people 'often have a <strong>strong sense of hierarchy</strong>.'" },
+        { q: "9. A manager from Switzerland likely values punctuality highly.", a: true, ex: "Correct. The text uses a Swiss manager as an example of someone who would see being late as <strong>unprofessional</strong>." },
+        { q: "10. The main idea of the text is that all cultures communicate in the same way.", a: false, ex: "The main idea is the opposite; the text highlights that communication styles can '<strong>vary greatly</strong>' between cultures." }
+    ];
+    
+    const summaryAnswers = { 1: "culture", 2: "direct", 3: "efficiency", 4: "feedback", 5: "indirect", 6: "harmony", 7: "hierarchy", 8: "respect", 9: "punctuality", 10: "values" };
+
+    const tableAnswers = { 1: "Direct", 2: "Indirect", 3: "Efficiency", 4: "harmony", 5: "hierarchy", 6: "more details", 7: "review section three", 8: "task", 9: "respectful", 10: "culture" };
+
+
+    // --- INITIALIZATION ---
+    document.addEventListener('DOMContentLoaded', () => {
+        setupSidebar();
+        setupVocabMatching();
+        setupTrueFalse();
+        setupSummaryFill();
+        setupTableFill();
+        updateDisplay();
+    });
+
+    // --- SETUP FUNCTIONS ---
+
+    function setupSidebar() {
+        const nav = document.getElementById('sidebar-nav');
+        let currentSection = "";
+        stepsData.forEach((step, index) => {
+            if (step.section !== currentSection) {
+                currentSection = step.section;
+                const sectionHeader = document.createElement('h3');
+                sectionHeader.className = "text-sm font-semibold text-gray-500 uppercase tracking-wider mt-6 first:mt-0";
+                sectionHeader.textContent = currentSection;
+                nav.appendChild(sectionHeader);
+            }
+            const link = document.createElement('a');
+            link.href = "#";
+            link.className = "sidebar-link flex items-center p-3 rounded-md text-gray-600 hover:bg-gray-200";
+            link.dataset.step = index + 1;
+            link.innerHTML = `
+                <span>${step.title}</span>
+            `;
+            link.onclick = (e) => {
+                e.preventDefault();
+                goToStep(index + 1);
+            };
+            nav.appendChild(link);
+        });
+    }
+
+    function setupVocabMatching() {
+        const termsContainer = document.getElementById('vocab-terms');
+        const definitionsContainer = document.getElementById('vocab-definitions-draggable');
+        
+        const shuffledDefinitions = [...vocabData].sort(() => Math.random() - 0.5);
+
+        termsContainer.innerHTML = vocabData.map(item => `
+            <div class="flex items-center">
+                <div class="w-2/5 font-medium text-gray-800 pr-2">${item.term}</div>
+                <div id="${item.id}-drop" class="drop-zone w-3/5 border-2 border-gray-300 rounded-lg p-3 min-h-[52px]"></div>
+            </div>
+        `).join('');
+
+        definitionsContainer.innerHTML = shuffledDefinitions.map(item => `
+            <div id="${item.id}" draggable="true" class="draggable bg-gray-100 border border-gray-300 p-3 rounded-lg hover:bg-gray-200">
+                ${item.definition}
+            </div>
+        `).join('');
+        
+        addVocabEventListeners();
+    }
+    
+    function setupTrueFalse() {
+        const container = document.getElementById('true-false-questions');
+        container.innerHTML = trueFalseData.map((item, index) => `
+            <div class="tf-question p-3 border border-gray-200 rounded-lg" data-answer="${item.a}">
+                <p class="text-gray-800 mb-2">${item.q}</p>
+                <div class="flex gap-4">
+                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="tf-${index}" value="true" class="form-radio"> True</label>
+                    <label class="flex items-center gap-2 cursor-pointer"><input type="radio" name="tf-${index}" value="false" class="form-radio"> False</label>
+                </div>
+                <div class="explanation hidden mt-2 p-3 bg-indigo-50 border-l-4 border-indigo-300 text-indigo-800 text-sm rounded-r-lg">
+                    ${item.ex}
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function setupSummaryFill() {
+        const container = document.getElementById('summary-fill-in');
+        const words = ["direct", "harmony", "culture", "values", "respect", "indirect", "hierarchy", "punctuality", "efficiency", "feedback"];
+        const createSelect = (id) => {
+            const options = words.map(w => `<option value="${w}">${w}</option>`).join('');
+            return `<select id="summary-${id}" class="inline-block border border-gray-300 rounded-md py-1 px-2 mx-1 text-base"><option value="">Select...</option>${options}</select>`;
+        };
+        container.innerHTML = `
+            In the global workplace, it's vital to understand that each ${createSelect(1)} has different norms.
+            For instance, German businesspeople often prefer ${createSelect(2)} communication because
+            they value ${createSelect(3)} and clarity. When they give ${createSelect(4)}, it is clear and
+            task-focused. In contrast, Japanese professionals often use ${createSelect(5)} communication.
+            Their goal is to maintain group ${createSelect(6)}. They have a strong sense of ${createSelect(7)},
+            which means showing ${createSelect(8)} to senior staff is crucial. Attitudes can also differ on
+            topics like ${createSelect(9)}. Recognizing these different ${createSelect(10)} is the key to effective teamwork.`;
+    }
+
+    function setupTableFill() {
+        const container = document.getElementById('table-fill-in');
+        const createTableSelect = (id, options) => {
+            const shuffledOptions = [...options].sort(() => Math.random() - 0.5);
+            const optionTags = shuffledOptions.map(w => `<option value="${w}">${w}</option>`).join('');
+            return `<select id="table-${id}" class="inline-block border border-gray-300 rounded-md py-1 px-2 mx-1 text-base"><option value="">Select...</option>${optionTags}</select>`;
+        };
+
+        const options = {
+            1: ["Direct", "Indirect", "Formal"],
+            2: ["Indirect", "Direct", "Informal"],
+            3: ["Efficiency", "Harmony", "Punctuality"],
+            4: ["harmony", "efficiency", "clarity"],
+            5: ["hierarchy", "collaboration", "respect"],
+            6: ["more details", "a review", "some changes"],
+            7: ["review section three", "check the data", "improve the tone"],
+            8: ["task", "relationship", "deadline"],
+            9: ["respectful", "direct", "efficient"],
+            10: ["culture", "project", "meeting"]
+        };
+
+        container.innerHTML = `
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="p-3 font-semibold text-sm text-gray-600 border-b">Cultural Aspect</th>
+                        <th class="p-3 font-semibold text-sm text-gray-600 border-b">Germany</th>
+                        <th class="p-3 font-semibold text-sm text-gray-600 border-b">Japan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b"><td class="p-3">Communication Style</td><td class="p-2">${createTableSelect(1, options[1])}</td><td class="p-2">${createTableSelect(2, options[2])}</td></tr>
+                    <tr class="border-b"><td class="p-3">Primary Value</td><td class="p-2">${createTableSelect(3, options[3])} & Clarity</td><td class="p-2">Group ${createTableSelect(4, options[4])}</td></tr>
+                    <tr class="border-b"><td class="p-3">Attitude to Hierarchy</td><td class="p-2">Not mentioned, likely less formal</td><td class="p-2">Strong sense of ${createTableSelect(5, options[5])}</td></tr>
+                    <tr class="border-b"><td class="p-3">Example Feedback</td><td class="p-2">"This report needs ${createTableSelect(6, options[6])}"</td><td class="p-2">"Perhaps we could ${createTableSelect(7, options[7])}"</td></tr>
+                    <tr class="border-b"><td class="p-3">Likely Goal of Feedback</td><td class="p-2">To improve the ${createTableSelect(8, options[8])}</td><td class="p-2">To be polite and ${createTableSelect(9, options[9])}</td></tr>
+                </tbody>
+            </table>
+            <p class="mt-4 text-center text-gray-800">What is the overall goal? To build an effective team ${createTableSelect(10, options[10])}</p>`;
+    }
+
+
+    // --- NAVIGATION ---
+    function navigate(direction) {
+        let newStep = currentStep + direction;
+        if (newStep > 0 && newStep <= totalSteps) {
+            goToStep(newStep);
+        }
+    }
+
+    function goToStep(stepNumber) {
+        currentStep = stepNumber;
+        updateDisplay();
+    }
+
+    function updateDisplay() {
+        // Update main content visibility
+        document.querySelectorAll('.step').forEach(step => {
+            step.classList.remove('active');
+            if (parseInt(step.dataset.step) === currentStep) {
+                step.classList.add('active');
+            }
+        });
+
+        // Update footer buttons
+        document.getElementById('prev-btn').disabled = currentStep === 1;
+        document.getElementById('next-btn').disabled = currentStep === totalSteps;
+
+        // Update sidebar active link
+        document.querySelectorAll('#sidebar-nav .sidebar-link').forEach(link => {
+            link.classList.remove('active');
+            if (parseInt(link.dataset.step) === currentStep) {
+                link.classList.add('active');
+            }
+        });
+
+        // Update main header progress
+        const progressHeader = document.getElementById('main-header-progress');
+        const currentStepTitle = stepsData[currentStep - 1].title;
+        progressHeader.innerHTML = `
+            <div class="flex items-center">
+                <div class="text-sm font-bold text-indigo-600 bg-indigo-100 py-1 px-3 rounded-md">${currentStepTitle.split('.')[0]}</div>
+                <div class="w-full bg-gray-200 rounded-full h-1.5 ml-4">
+                    <div class="bg-indigo-600 h-1.5 rounded-full" style="width: ${((currentStep-1)/(totalSteps-1)) * 100}%"></div>
+                </div>
+            </div>
+            <p class="text-sm text-gray-500 mt-2">You've completed ${currentStep - 1} steps in this section</p>
+        `;
+    }
+
+    // --- VOCABULARY MATCHING LOGIC ---
+    function addVocabEventListeners() {
+        const draggables = document.querySelectorAll('.draggable');
+        const dropZones = document.querySelectorAll('.drop-zone');
+
+        draggables.forEach(draggable => {
+            draggable.addEventListener('dragstart', () => {
+                draggable.classList.add('dragging');
+            });
+            draggable.addEventListener('dragend', () => {
+                draggable.classList.remove('dragging');
+            });
+        });
+
+        dropZones.forEach(zone => {
+            zone.addEventListener('dragover', e => {
+                e.preventDefault();
+                zone.classList.add('drag-over');
+            });
+            zone.addEventListener('dragleave', () => {
+                zone.classList.remove('drag-over');
+            });
+            zone.addEventListener('drop', e => {
+                e.preventDefault();
+                zone.classList.remove('drag-over');
+                const draggedElement = document.querySelector('.dragging');
+                if (draggedElement) {
+                    // If zone already has an element, move it back
+                    if (zone.children.length > 0) {
+                        document.getElementById('vocab-definitions-draggable').appendChild(zone.firstElementChild);
+                    }
+                    zone.appendChild(draggedElement);
+                }
+            });
+        });
+    }
+
+    function checkVocabAnswers() {
+        vocabAttempts++;
+        let correctCount = 0;
+        
+        vocabData.forEach(item => {
+            const dropZone = document.getElementById(`${item.id}-drop`);
+            dropZone.classList.remove('correct-answer', 'incorrect-answer');
+            if (dropZone.children.length > 0) {
+                const droppedId = dropZone.children[0].id;
+                if (droppedId === item.id) {
+                    dropZone.classList.add('correct-answer');
+                    correctCount++;
+                } else {
+                    dropZone.classList.add('incorrect-answer');
+                }
+            } else {
+                 dropZone.classList.add('incorrect-answer');
+            }
+        });
+
+        if (vocabAttempts >= 2) {
+            vocabData.forEach(item => {
+                const dropZone = document.getElementById(`${item.id}-drop`);
+                if (dropZone.classList.contains('incorrect-answer')) {
+                    if (dropZone.children.length > 0) {
+                        document.getElementById('vocab-definitions-draggable').appendChild(dropZone.children[0]);
+                    }
+                    const correctElement = document.getElementById(item.id);
+                    if (correctElement) {
+                        dropZone.appendChild(correctElement);
+                    }
+                    dropZone.classList.remove('incorrect-answer');
+                    dropZone.classList.add('correct-answer');
+                }
+            });
+            correctCount = vocabData.length;
+            document.getElementById('vocab-score').textContent = `Score: ${correctCount} / ${vocabData.length} (Answers shown)`;
+        } else {
+             document.getElementById('vocab-score').textContent = `Score: ${correctCount} / ${vocabData.length}`;
+        }
+    }
+    
+    function resetVocab() {
+        vocabAttempts = 0;
+        document.getElementById('vocab-score').textContent = '';
+        document.querySelectorAll('.drop-zone').forEach(zone => {
+            zone.classList.remove('correct-answer', 'incorrect-answer');
+        });
+        setupVocabMatching();
+    }
+
+    // --- COMPREHENSION CHECK LOGIC ---
+    function checkTrueFalse() {
+        trueFalseAttempts++;
+        const questions = document.querySelectorAll('.tf-question');
+        questions.forEach((q, index) => {
+            q.classList.remove('correct-answer', 'incorrect-answer');
+            const selected = q.querySelector('input:checked');
+            const isCorrect = selected && selected.value === q.dataset.answer;
+
+            if (isCorrect) {
+                 q.classList.add('correct-answer');
+            } else {
+                q.classList.add('incorrect-answer');
+                 if (trueFalseAttempts >= 2) {
+                    if(selected) selected.checked = false;
+                    const correctAnswerInput = q.querySelector(`input[value="${q.dataset.answer}"]`);
+                    if(correctAnswerInput) {
+                        correctAnswerInput.checked = true;
+                        q.classList.remove('incorrect-answer');
+                        q.classList.add('correct-answer');
+                    }
+                }
+            }
+        });
+
+        if (trueFalseAttempts >= 2) {
+            questions.forEach(q => {
+                const explanationEl = q.querySelector('.explanation');
+                if (explanationEl) {
+                    explanationEl.classList.remove('hidden');
+                }
+            });
+        }
+    }
+
+    function checkSummaryFill() {
+        summaryAttempts++;
+        for (let i = 1; i <= 10; i++) {
+            const select = document.getElementById(`summary-${i}`);
+            select.classList.remove('correct-answer', 'incorrect-answer');
+            const isCorrect = select.value.toLowerCase() === summaryAnswers[i];
+            
+            if (isCorrect) {
+                select.classList.add('correct-answer');
+            } else {
+                select.classList.add('incorrect-answer');
+                if (summaryAttempts >= 2) {
+                    select.value = summaryAnswers[i];
+                    select.classList.remove('incorrect-answer');
+                    select.classList.add('correct-answer');
+                }
+            }
+        }
+    }
+
+    function checkTableFill() {
+        tableAttempts++;
+         for (let i = 1; i <= 10; i++) {
+            const select = document.getElementById(`table-${i}`);
+            select.classList.remove('correct-answer', 'incorrect-answer');
+            const isCorrect = select.value.trim().toLowerCase() === tableAnswers[i].toLowerCase();
+
+            if (isCorrect) {
+                select.classList.add('correct-answer');
+            } else {
+                select.classList.add('incorrect-answer');
+                if (tableAttempts >= 2) {
+                    select.value = tableAnswers[i];
+                    select.classList.remove('incorrect-answer');
+                    select.classList.add('correct-answer');
+                }
+            }
+        }
+    }
+</script>
+</body>
+</html>
