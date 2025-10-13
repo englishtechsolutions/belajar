@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A2 Integrated - Welcome to Oz, Doc!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .activity-card {
+            transition: all 0.3s ease;
+        }
+        .feedback {
+            transition: opacity 0.3s ease-in-out;
+            opacity: 1;
+        }
+        .feedback-correct {
+            color: #10B981; /* emerald-500 */
+        }
+        .feedback-incorrect {
+            color: #EF4444; /* red-500 */
+        }
+        .border-correct {
+            border-color: #10B981 !important;
+        }
+        .border-incorrect {
+            border-color: #EF4444 !important;
+        }
+        .highlight-answer {
+            background-color: #FCD34D; /* amber-300 */
+            font-weight: 600;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        /* Friendlier UI styles */
+        section:nth-child(odd) {
+            background-color: #f9fafb; /* gray-50 */
+            padding: 2rem;
+            border-radius: 1rem;
+        }
+        .check-btn {
+            box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px -1px rgba(0,0,0,.1);
+            transition: all 0.2s ease;
+        }
+        .check-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -2px rgba(0,0,0,.1);
+        }
+        .check-btn:active {
+            transform: translateY(0);
+        }
+        select:focus, input[type="text"]:focus, input[type="radio"]:focus {
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+            --tw-ring-color: #f59e0b; /* amber-500 */
+            box-shadow: 0 0 0 2px var(--tw-ring-color);
+        }
+
+        /* Middle-Eye View Perspective Enhancements */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.03);
+            z-index: -1;
+            pointer-events: none;
+        }
+        header h1 {
+            text-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        
+        /* Navigation Styles */
+        .nav-link.active {
+            background-color: #f59e0b; /* amber-500 */
+            color: #111827; /* gray-900 */
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800">
+
+    <div class="relative flex min-h-screen">
+        <!-- Navigation Panel -->
+        <nav id="side-nav" class="hidden lg:block w-64 bg-gray-50 border-r border-gray-200 p-4 fixed top-0 left-0 h-full overflow-y-auto">
+            <h3 class="text-lg font-bold text-gray-800 mb-4">Worksheets</h3>
+            <ul id="nav-links" class="space-y-2">
+                <!-- Links will be dynamically inserted here -->
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="flex-grow lg:ml-64">
+             <main class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
+                <header class="text-center mb-12">
+                    <h1 class="text-4xl font-bold text-gray-800 border-b-4 border-amber-400 pb-4">A2 Integrated - Welcome to Oz, Doc!</h1>
+                    <p class="mt-4 text-lg text-gray-600">Complete the interactive exercises below to get ready for your new life in Australia.</p>
+                </header>
+
+                <!-- Worksheet 1 Section -->
+                <section id="worksheet1" class="mb-12">
+                    <h2 class="text-3xl font-bold text-gray-700 mb-6 pb-2">Worksheet 1: G'day, Mate! Your Guide to Aussie Slang</h2>
+                    <div class="activity-card bg-white p-6 rounded-xl shadow-md mb-8">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-700">1. Vocabulary Matching</h3>
+                        <p class="mb-4 text-gray-600">Choose the correct meaning for each Aussie slang word.</p>
+                        <div id="vocab-matching-1" class="space-y-4">
+                            <!-- Vocab items are now in HTML, JS will populate the select options -->
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term="G'day"><label class="font-medium text-gray-700">G'day</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term="Arvo"><label class="font-medium text-gray-700">Arvo</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term="Brekkie"><label class="font-medium text-gray-700">Brekkie</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term="Servo"><label class="font-medium text-gray-700">Servo</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term="Barbie"><label class="font-medium text-gray-700">Barbie</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term="Chook"><label class="font-medium text-gray-700">Chook</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term="Ta"><label class="font-medium text-gray-700">Ta</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term="Footy"><label class="font-medium text-gray-700">Footy</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term="Crook"><label class="font-medium text-gray-700">Crook</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term="Uni"><label class="font-medium text-gray-700">Uni</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                        </div>
+                        <div class="mt-6 space-x-4">
+                            <button data-check="vocab-matching-1" class="check-btn bg-amber-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-amber-600">Check Answers</button>
+                            <button data-reset="vocab-matching-1" class="hidden bg-gray-200 text-gray-700 font-bold py-2 px-6 rounded-lg hover:bg-gray-300">Try Again</button>
+                        </div>
+                    </div>
+                    <div class="activity-card bg-white p-6 rounded-xl shadow-md mb-8">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-700">2. Reading & Comprehension</h3>
+                        <div class="bg-gray-50 p-4 rounded-lg text-gray-700 prose mb-6">
+                             <p><strong>Tom:</strong> G'day, mate! How are you going?</p>
+                             <p><strong>Ben:</strong> Not bad, Tom. Just grabbing some milk before I head home.</p>
+                             <p><strong>Tom:</strong> Nice one. Hey, are you free this Saturday arvo? A few of us are having a barbie at my place.</p>
+                             <p><strong>Ben:</strong> Oh, that sounds great! What time?</p>
+                             <p><strong>Tom:</strong> Around 2 pm. We'll cook up some sausages and chook. Just bring something to drink.</p>
+                             <p><strong>Ben:</strong> Perfect. Do you need me to pick anything up on the way? I'll have to stop at the servo to get petrol anyway.</p>
+                             <p><strong>Tom:</strong> All good, mate. Just bring yourself. My new address is 12 Wombat Street.</p>
+                             <p><strong>Ben:</strong> Easy. See you on Saturday. Ta for the invite!</p>
+                        </div>
+                        <h4 class="font-semibold mb-3 text-gray-700">A. True or False?</h4>
+                        <div id="true-false-questions" class="space-y-3">
+                            <div><p class="mb-2">1. Ben and Tom meet in the morning.</p><div class="flex gap-4"><label class="font-normal"><input type="radio" name="tf-0" value="true" class="mr-2">True</label><label class="font-normal"><input type="radio" name="tf-0" value="false" class="mr-2">False</label></div><div data-feedback-for="tf-0" class="feedback text-sm mt-1 font-semibold"></div></div>
+                            <div><p class="mb-2">2. The barbecue is on Sunday afternoon.</p><div class="flex gap-4"><label class="font-normal"><input type="radio" name="tf-1" value="true" class="mr-2">True</label><label class="font-normal"><input type="radio" name="tf-1" value="false" class="mr-2">False</label></div><div data-feedback-for="tf-1" class="feedback text-sm mt-1 font-semibold"></div></div>
+                            <div><p class="mb-2">3. They will be eating chicken at the barbecue.</p><div class="flex gap-4"><label class="font-normal"><input type="radio" name="tf-2" value="true" class="mr-2">True</label><label class="font-normal"><input type="radio" name="tf-2" value="false" class="mr-2">False</label></div><div data-feedback-for="tf-2" class="feedback text-sm mt-1 font-semibold"></div></div>
+                            <div><p class="mb-2">4. Tom asked Ben to bring some food.</p><div class="flex gap-4"><label class="font-normal"><input type="radio" name="tf-3" value="true" class="mr-2">True</label><label class="font-normal"><input type="radio" name="tf-3" value="false" class="mr-2">False</label></div><div data-feedback-for="tf-3" class="feedback text-sm mt-1 font-semibold"></div></div>
+                        </div>
+                        <h4 class="font-semibold mt-6 mb-3 text-gray-700">B. Summary Fill-in-the-Blank</h4>
+                        <div id="fill-in-the-blank" class="space-y-3 text-gray-600">
+                            <p>Tom invited Ben to a <input type="text" id="blank-1" class="border-b-2 bg-transparent"> on Saturday <input type="text" id="blank-2" class="border-b-2 bg-transparent">. Ben said <input type="text" id="blank-4" class="border-b-2 bg-transparent"> to Tom for the invitation.</p>
+                            <div id="fill-in-feedback" class="feedback mt-2 text-sm font-semibold"></div>
+                        </div>
+                        <div class="mt-6 space-x-4">
+                            <button data-check="comprehension-1" class="check-btn bg-amber-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-amber-600">Check Comprehension</button>
+                            <button data-reset="comprehension-1" class="hidden bg-gray-200 text-gray-700 font-bold py-2 px-6 rounded-lg hover:bg-gray-300">Try Again</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Worksheet 2 Section -->
+                <section id="worksheet2" class="mb-12">
+                    <h2 class="text-3xl font-bold text-gray-700 mb-6 pb-2">Worksheet 2: A Doctor's Day in Oz</h2>
+                    <div class="activity-card bg-white p-6 rounded-xl shadow-md mb-8">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-700">1. Vocabulary Matching: Patient Language</h3>
+                        <div id="vocab-matching-2" class="space-y-4">
+                            <!-- Items hardcoded, options populated by JS -->
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term="I've come down with a bit of gastro."><label class="font-medium text-gray-700">I've come down with a bit of gastro.</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term="I feel really run-down."><label class="font-medium text-gray-700">I feel really run-down.</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term="My little one has a runny nose."><label class="font-medium text-gray-700">My little one has a runny nose.</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term="I need a script for my medication."><label class="font-medium text-gray-700">I need a script for my medication.</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term="I've got the runs."><label class="font-medium text-gray-700">I've got the runs.</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term="I need a referral to see a skin doctor."><label class="font-medium text-gray-700">I need a referral to see a skin doctor.</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term="I need to go to the chemist."><label class="font-medium text-gray-700">I need to go to the chemist.</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term="I feel a bit blocked up."><label class="font-medium text-gray-700">I feel a bit blocked up.</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term="I've broken out in hives."><label class="font-medium text-gray-700">I've broken out in hives.</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term="I feel like I'm going to be sick."><label class="font-medium text-gray-700">I feel like I'm going to be sick.</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                        </div>
+                        <div class="mt-6 space-x-4">
+                            <button data-check="vocab-matching-2" class="check-btn bg-amber-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-amber-600">Check Answers</button>
+                            <button data-reset="vocab-matching-2" class="hidden bg-gray-200 text-gray-700 font-bold py-2 px-6 rounded-lg hover:bg-gray-300">Try Again</button>
+                        </div>
+                    </div>
+                    <div class="activity-card bg-white p-6 rounded-xl shadow-md mb-8">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-700">2. Listening Activity: Patient Consultation</h3>
+                        <audio controls class="w-full mb-4"><source src="https://github.com/englishtechsolutions/media/raw/refs/heads/main/A2%20-%20Patient%20Consultation.wav" type="audio/wav"></audio>
+                        <div id="listening-activity" class="space-y-4">
+                            <div><label for="main-feeling" class="block font-medium">Main Feeling:</label><input type="text" id="main-feeling" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"><div data-feedback-for="main-feeling" class="feedback text-sm mt-1 font-semibold"></div></div>
+                            <div><label class="block font-medium">Specific Symptoms (list three):</label><input type="text" data-id="symptoms" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm mb-2" placeholder="1."><input type="text" data-id="symptoms" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm mb-2" placeholder="2."><input type="text" data-id="symptoms" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" placeholder="3."><div data-feedback-for="symptoms" class="feedback text-sm mt-1 font-semibold"></div></div>
+                            <div><label for="how-long" class="block font-medium">How long?</label><input type="text" id="how-long" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"><div data-feedback-for="how-long" class="feedback text-sm mt-1 font-semibold"></div></div>
+                            <div><label for="diagnosis" class="block font-medium">Doctor's initial diagnosis:</label><input type="text" id="diagnosis" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"><div data-feedback-for="diagnosis" class="feedback text-sm mt-1 font-semibold"></div></div>
+                        </div>
+                        <div class="mt-6 space-x-4">
+                            <button data-check="listening-1" class="check-btn bg-amber-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-amber-600">Check Listening</button>
+                            <button data-reset="listening-1" class="hidden bg-gray-200 text-gray-700 font-bold py-2 px-6 rounded-lg hover:bg-gray-300">Try Again</button>
+                        </div>
+                        <div id="transcript-container" class="hidden mt-6 bg-gray-50 p-4 rounded-lg"></div>
+                    </div>
+                </section>
+
+                <!-- Worksheet 3 Section -->
+                <section id="worksheet3" class="mb-12">
+                    <h2 class="text-3xl font-bold text-gray-700 mb-6 pb-2">Worksheet 3: At the Chemist & Understanding Medical Advice</h2>
+                    <div class="activity-card bg-white p-6 rounded-xl shadow-md mb-8">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-700">1. Vocabulary for Discussion</h3>
+                        <p class="mb-4 text-gray-600">Match the term with its correct meaning.</p>
+                        <div id="vocab-matching-3" class="space-y-4">
+                            <!-- Items hardcoded, options populated by JS -->
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term="Dosage"><label class="font-medium text-gray-700">Dosage</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term="Side effects"><label class="font-medium text-gray-700">Side effects</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term="Over-the-counter (OTC)"><label class="font-medium text-gray-700">Over-the-counter (OTC)</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term="Prescription (Script)"><label class="font-medium text-gray-700">Prescription (Script)</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term="Pharmacist"><label class="font-medium text-gray-700">Pharmacist</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term="Drowsiness"><label class="font-medium text-gray-700">Drowsiness</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term="Painkiller"><label class="font-medium text-gray-700">Painkiller</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term="Refill"><label class="font-medium text-gray-700">Refill</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term="Take 'as needed'"><label class="font-medium text-gray-700">Take 'as needed'</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term="Avoid operating machinery"><label class="font-medium text-gray-700">Avoid operating machinery</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                        </div>
+                        <div class="mt-6 space-x-4">
+                            <button data-check="vocab-matching-3" class="check-btn bg-amber-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-amber-600">Check Answers</button>
+                            <button data-reset="vocab-matching-3" class="hidden bg-gray-200 text-gray-700 font-bold py-2 px-6 rounded-lg hover:bg-gray-300">Try Again</button>
+                        </div>
+                    </div>
+                     <div class="activity-card bg-white p-6 rounded-xl shadow-md mb-8">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-700">2. Dialogue for Practice: Getting a Prescription</h3>
+                        <div class="bg-gray-50 p-4 rounded-lg text-gray-700 prose">
+                            <p><strong>Pharmacist:</strong> G'day, how can I help you?</p>
+                            <p><strong>Patient:</strong> Hi, I need to fill this script from my doctor, please.</p>
+                            <p><strong>Pharmacist:</strong> No worries. Let me have a look... Okay, I see it's for some strong painkillers. Have you taken these before?</p>
+                            <p><strong>Patient:</strong> No, this is my first time.</p>
+                            <p><strong>Pharmacist:</strong> Right. Well, the dosage is one tablet every six hours, but only take 'as needed' for pain. Don't take more than four in 24 hours.</p>
+                            <p><strong>Patient:</strong> Okay, only when I really need it. Got it.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Worksheet 4 Section -->
+                <section id="worksheet4" class="mb-12">
+                    <h2 class="text-3xl font-bold text-gray-700 mb-6 pb-2">Worksheet 4: Making Plans & Social Conversations</h2>
+                    <div class="activity-card bg-white p-6 rounded-xl shadow-md mb-8">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-700">1. Vocabulary for Discussion</h3>
+                        <p class="mb-4 text-gray-600">Match the phrase with its common meaning.</p>
+                        <div id="vocab-matching-4" class="space-y-4">
+                             <!-- Items hardcoded, options populated by JS -->
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term='"Are you free on...?"'><label class="font-medium text-gray-700">"Are you free on...?"</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term='"I\'d love to!"'><label class="font-medium text-gray-700">"I'd love to!"</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term='"I\'m afraid I can\'t make it."'><label class="font-medium text-gray-700">"I'm afraid I can't make it."</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term='"What\'s the dress code?"'><label class="font-medium text-gray-700">"What's the dress code?"</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term='"I\'ll have to take a rain check."'><label class="font-medium text-gray-700">"I'll have to take a rain check."</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term='"Catch up soon."'><label class="font-medium text-gray-700">"Catch up soon."</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term='"BYO" (Bring Your Own)'><label class="font-medium text-gray-700">"BYO" (Bring Your Own)</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term='"Sounds like a plan."'><label class="font-medium text-gray-700">"Sounds like a plan."</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term='"What are you up to this weekend?"'><label class="font-medium text-gray-700">"What are you up to this weekend?"</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4 p-3 bg-gray-50 rounded-lg" data-term='"Let me check my calendar."'><label class="font-medium text-gray-700">"Let me check my calendar."</label><div class="sm:col-span-2 flex items-center gap-2"><select class="block w-full rounded-md border-gray-300 shadow-sm"><option value="" selected disabled>Select...</option></select><span class="feedback text-lg w-24 text-left"></span></div></div>
+                        </div>
+                         <div class="mt-6 space-x-4">
+                            <button data-check="vocab-matching-4" class="check-btn bg-amber-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-amber-600">Check Answers</button>
+                            <button data-reset="vocab-matching-4" class="hidden bg-gray-200 text-gray-700 font-bold py-2 px-6 rounded-lg hover:bg-gray-300">Try Again</button>
+                        </div>
+                    </div>
+                    <div class="activity-card bg-white p-6 rounded-xl shadow-md mb-8">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-700">2. Mini-Dialogues for Practice</h3>
+                        <div class="bg-gray-50 p-4 rounded-lg text-gray-700 prose">
+                             <h4 class="font-bold">Dialogue 1: Accepting an Invitation</h4>
+                             <p><strong>Anna:</strong> Hey! What are you up to this weekend? A few of us are going for a hike on Sunday morning. Are you free?</p>
+                             <p><strong>Ben:</strong> Oh, that sounds amazing. I'd love to! What time are you thinking?</p>
+                             <h4 class="font-bold mt-4">Dialogue 2: Declining an Invitation</h4>
+                             <p><strong>Chris:</strong> G'day mate. We're having a games night at our place on Saturday. You in?</p>
+                             <p><strong>Dan:</strong> Ah, thanks for the invite, Chris. I'm afraid I can't make it.</p>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Discussion-only worksheets -->
+                <section id="worksheet5" class="mb-12">
+                     <h2 class="text-3xl font-bold text-gray-700 mb-6 pb-2">Worksheet 5: Professional Life & Workplace Culture</h2>
+                     <div class="activity-card bg-white p-6 rounded-xl shadow-md mb-8">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-700">1. Vocabulary for Discussion: Workplace Values</h3>
+                        <div class="prose max-w-none text-gray-700 space-y-4">
+                             <p><strong>Collaboration:</strong> How do doctors, nurses, and receptionists work together as a team? How is this different from your past experiences?</p>
+                             <p><strong>Hierarchy:</strong> Who is "the boss" in a clinic? How is respect shown between people in different roles (e.g., doctor to nurse, junior doctor to senior doctor)?</p>
+                             <p><strong>Work-Life Balance:</strong> What does a healthy balance between your work hours and your personal time look like to you? Is it common for people to work late in your culture?</p>
+                             <p><strong>Patient-Centred Care:</strong> How can we make sure the patient is the main focus of every decision we make?</p>
+                             <p><strong>Feedback:</strong> How do you feel about receiving constructive feedback from your colleagues, including nurses or the practice manager? How do you prefer to receive feedback?</p>
+                             <p><strong>Burnout:</strong> What are the signs of burnout or extreme stress in doctors? What can a good workplace do to help prevent it?</p>
+                        </div>
+                    </div>
+                     <div class="activity-card bg-white p-6 rounded-xl shadow-md mb-8">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-700">2. Workplace Scenarios for Discussion</h3>
+                        <div class="prose max-w-none text-gray-700 space-y-6">
+                             <div>
+                                 <h4 class="font-semibold">Scenario 1: A Difference of Opinion</h4>
+                                 <p>You have just prescribed a medication for a patient. A senior nurse comes to you privately and says, "Hi Doctor, I noticed you prescribed Medication X. In my experience, patients here often have better results with Medication Y for this condition. Would you consider it?"</p>
+                                 <p class="mt-2 text-sm italic"><strong>Discussion Questions:</strong> What is your first, immediate feeling? In Australian workplace culture, this is often seen as good collaboration. How would this be seen in your home culture? What would be a professional and respectful way to respond to the nurse?</p>
+                            </div>
+                             <div>
+                                 <h4 class="font-semibold">Scenario 2: The Social Invitation</h4>
+                                 <p>It's Friday afternoon. One of your new colleagues says to you, "A few of us are heading to the pub for a drink after work. You should come!" You are very tired after a long week and want to go home.</p>
+                                  <p class="mt-2 text-sm italic"><strong>Discussion Questions:</strong> What are the pros and cons of going? How can you decline politely without causing offense or seeming unfriendly? What could you say?</p>
+                            </div>
+                              <div>
+                                 <h4 class="font-semibold">Scenario 3: The Unhappy Patient</h4>
+                                 <p>You are walking through the waiting room and see a patient speaking angrily to the receptionist. The patient is complaining that their appointment is 20 minutes late. The receptionist looks stressed.</p>
+                                  <p class="mt-2 text-sm italic"><strong>Discussion Questions:</strong> What is your role in this situation as a doctor? Should you get involved or let the receptionist handle it? If you did speak to the patient, what could you say to calm the situation?</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id="worksheet6" class="mb-12">
+                     <h2 class="text-3xl font-bold text-gray-700 mb-6 pb-2">Worksheet 6: Living in Australia - Beyond the Clinic</h2>
+                      <div class="activity-card bg-white p-6 rounded-xl shadow-md mb-8">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-700">1. Topics for Debate & Discussion</h3>
+                        <div class="prose max-w-none text-gray-700 space-y-6">
+                             <div>
+                                 <h4 class="font-semibold">Topic 1: Finding a Home</h4>
+                                 <p>Living in a city apartment is convenient for work and social life but can be small and expensive. Living in a suburb is quieter, more spacious, and often cheaper, but you have to commute.</p>
+                                 <p class="mt-2 text-sm italic"><strong>For Discussion:</strong> What are three advantages of living in the city vs. the suburbs? Which would you choose for your first year in Australia, and why?</p>
+                            </div>
+                              <div>
+                                 <h4 class="font-semibold">Topic 2: Building a Community</h4>
+                                 <p>When you move to a new place, you have to make new friends. Some people make friends through work, while others join clubs or hobby groups (like sports, hiking, or book clubs).</p>
+                                 <p class="mt-2 text-sm italic"><strong>For Discussion:</strong> Do you think it's better to have friends who are also doctors, or friends from completely different professions? Why? What hobbies could help you meet new people?</p>
+                            </div>
+                             <div>
+                                 <h4 class="font-semibold">Topic 3: The Cost of Living</h4>
+                                 <p>Australia can be an expensive country. Groceries, rent, and public transport might be more expensive than in your home country.</p>
+                                 <p class="mt-2 text-sm italic"><strong>For Discussion:</strong> How can a newcomer create a budget? Let's compare the approximate cost of a common item, like a cup of coffee. How much is it in Purwokerto versus what you expect in a city like Sydney?</p>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="activity-card bg-white p-6 rounded-xl shadow-md mb-8">
+                        <h3 class="text-xl font-semibold mb-4 text-gray-700">2. Conversational Practice: Role-Play</h4>
+                        <div class="prose max-w-none text-gray-700">
+                             <p><strong>Scenario:</strong> You have met a new friend (your teacher) who has lived in Australia for a few years. You want to ask them for some practical advice about setting up your life.</p>
+                             <p><strong>Your Goal:</strong> Start a conversation and ask for advice on <strong>two</strong> of the topics below. Listen to their advice and ask follow-up questions.</p>
+                             <ul class="list-disc pl-5 mt-4 space-y-2">
+                                  <li><strong>Getting a Car:</strong> "I'm thinking of getting a car. Is it better to buy a new or used one here? Is parking difficult in the city?"</li>
+                                  <li><strong>Opening a Bank Account:</strong> "I need to open a bank account. Which bank do you recommend, and what documents do I need?"</li>
+                                   <li><strong>Public Transport:</strong> "I want to start using public transport. Can you explain how the card system works? Is it reliable?"</li>
+                             </ul>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // --- DATA ---
+        // Data is now leaner, mostly containing answers for checking.
+        const appData = {
+            'vocab-matching-1': { type: 'vocab', container: 'vocab-matching-1', answers: {"G'day": "Good day / Hello", "Arvo": "Afternoon", "Brekkie": "Breakfast", "Servo": "Service/Gas Station", "Barbie": "Barbecue", "Chook": "Chicken", "Ta": "Thank you", "Footy": "Football", "Crook": "Sick or unwell", "Uni": "University"} },
+            'comprehension-1': {
+                type: 'comprehension', container: 'worksheet1',
+                trueFalse: { questions: [ { a: false }, { a: false }, { a: true }, { a: false } ] },
+                fillIn: { answers: {'blank-1': 'barbie', 'blank-2': 'arvo', 'blank-4': 'ta'} }
+            },
+            'vocab-matching-2': { type: 'vocab', container: 'vocab-matching-2', answers: {"I've come down with a bit of gastro.": "Gastroenteritis (stomach flu)", "I feel really run-down.": "I feel tired and unwell.", "My little one has a runny nose.": "Rhinorrhea", "I need a script for my medication.": "I have a prescription.", "I've got the runs.": "Diarrhea", "I need a referral to see a skin doctor.": "I need to see a specialist.", "I need to go to the chemist.": "Pharmacy", "I feel a bit blocked up.": "Nasal congestion", "I've broken out in hives.": "Allergic reaction / Urticaria", "I feel like I'm going to be sick.": "Nausea"} },
+            'listening-1': {
+                type: 'listening', container: 'listening-activity',
+                questions: [
+                    { id: 'main-feeling', answer: 'Run-down' },
+                    { id: 'symptoms', type: 'multitext', answers: ['Sore throat', 'Cough', 'Runny nose'], count: 3 },
+                    { id: 'how-long', answer: 'About three days' },
+                    { id: 'diagnosis', answer: 'Common cold' },
+                ],
+                transcript: `<h4 class="font-semibold mb-3 text-gray-700">Transcript</h4><p>... I've been feeling pretty <span class="highlight-answer">run-down</span> ... a <span class="highlight-answer">sore throat</span> and a bit of a <span class="highlight-answer">cough</span>.</p><p>... It started <span class="highlight-answer">about three days</span> ago. Yesterday, I got a <span class="highlight-answer">runny nose</span>...</p><p>... It sounds like you've just got a <span class="highlight-answer">common cold</span>...</p>`
+            },
+            'vocab-matching-3': { type: 'vocab', container: 'vocab-matching-3', answers: {"Dosage": "The amount of medicine to take and how often.", "Side effects": "Unwanted problems that a medicine can cause.", "Over-the-counter (OTC)": "A medication that you can buy without a prescription.", "Prescription (Script)": "The document from a doctor for medicine.", "Pharmacist": "A health professional who dispenses medicine.", "Drowsiness": "The feeling of being sleepy or tired.", "Painkiller": "A medication to relieve pain.", "Refill": "An additional supply of a prescribed medicine.", "Take 'as needed'": "Use the medicine only when you have the symptom.", "Avoid operating machinery": "Do not operate cars or heavy machines."} },
+            'vocab-matching-4': { type: 'vocab', container: 'vocab-matching-4', answers: {"\"Are you free on...?\"": "A common way to ask if someone is available.", "\"I'd love to!\"": "A phrase to enthusiastically accept an invitation.", "\"I'm afraid I can't make it.\"": "A phrase used to politely decline an invitation.", "\"What's the dress code?\"": "\"What kind of clothes should I wear?\"", "\"I'll have to take a rain check.\"": "\"I have another commitment, maybe next time.\"", "\"Catch up soon.\"": "A casual way to say \"Let's meet and talk soon.\"", "\"BYO\" (Bring Your Own)": "You should bring your own drinks.", "\"Sounds like a plan.\"": "\"I agree, that is a good idea.\"", "\"What are you up to this weekend?\"": "A very common way to start a conversation about plans.", "\"Let me check my calendar.\"": "\"I need to see if I am available.\""} }
+        };
+
+        // --- DYNAMIC POPULATION & CREATION ---
+        function populateVocabOptions(containerId, data) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            const definitions = [...Object.values(data.answers)].sort(() => Math.random() - 0.5);
+            const optionsHTML = definitions.map(def => `<option value="${def}">${def}</option>`).join('');
+            
+            container.querySelectorAll('select').forEach(select => {
+                select.innerHTML += optionsHTML;
+            });
+        }
+        function createNavigation() {
+            const navLinksContainer = document.getElementById('nav-links');
+            if(!navLinksContainer) return;
+            const sections = document.querySelectorAll('main section');
+            sections.forEach(section => {
+                const id = section.id;
+                const title = section.querySelector('h2').textContent.split(':')[0].replace('Worksheet ', '');
+                const li = document.createElement('li');
+                li.innerHTML = `<a href="#${id}" data-nav-id="${id}" class="nav-link block p-2 rounded-md text-gray-600 hover:bg-gray-200">${title}. ${section.querySelector('h2').textContent.split(':')[1]}</a>`;
+                navLinksContainer.appendChild(li);
+            });
+        }
+        function initializeScrollObserver() {
+             const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    const navLink = document.querySelector(`[data-nav-id="${id}"]`);
+                    if (navLink && entry.isIntersecting) {
+                        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+                        navLink.classList.add('active');
+                    }
+                });
+            }, { rootMargin: "-50% 0px -50% 0px" });
+            document.querySelectorAll('main section').forEach(section => observer.observe(section));
+        }
+
+
+        // --- CHECKING & RESET LOGIC ---
+        function checkVocab(data) {
+            document.querySelectorAll(`#${data.container} [data-term]`).forEach(row => {
+                const term = row.dataset.term;
+                const select = row.querySelector('select');
+                const feedback = row.querySelector('.feedback');
+                const isCorrect = select.value === data.answers[term];
+                select.classList.remove('border-gray-300');
+                select.classList.add(isCorrect ? 'border-correct' : 'border-incorrect', 'border-2');
+                
+                if(isCorrect) {
+                    feedback.innerHTML = '✅';
+                    feedback.className = 'feedback text-lg w-24 text-left feedback-correct';
+                } else {
+                    feedback.innerHTML = `<span class="text-sm font-normal">${data.answers[term]}</span>`;
+                    feedback.className = 'feedback text-sm w-24 text-left feedback-incorrect';
+                }
+            });
+        }
+        function checkComprehension(data) {
+            data.trueFalse.questions.forEach((item, index) => {
+                const selected = document.querySelector(`input[name="tf-${index}"]:checked`);
+                const feedbackEl = document.querySelector(`[data-feedback-for="tf-${index}"]`);
+                if (selected) {
+                    const isCorrect = (selected.value === 'true') === item.a;
+                    feedbackEl.textContent = isCorrect ? 'Great!' : `Not quite. The correct answer is ${item.a ? 'True' : 'False'}.`;
+                    feedbackEl.className = `feedback text-sm mt-1 font-semibold ${isCorrect ? 'feedback-correct' : 'feedback-incorrect'}`;
+                } else {
+                    feedbackEl.textContent = 'Please select an answer.';
+                    feedbackEl.className = 'feedback text-sm mt-1 font-semibold feedback-incorrect';
+                }
+            });
+            let allBlanksCorrect = true;
+            Object.keys(data.fillIn.answers).forEach(id => {
+                const input = document.getElementById(id);
+                const isCorrect = input.value.trim().toLowerCase() === data.fillIn.answers[id];
+                input.classList.toggle('border-correct', isCorrect);
+                input.classList.toggle('border-incorrect', !isCorrect);
+                input.classList.add('border-2');
+                if (!isCorrect) {
+                    input.value = '';
+                    input.placeholder = data.fillIn.answers[id];
+                    allBlanksCorrect = false;
+                }
+            });
+             document.getElementById('fill-in-feedback').textContent = allBlanksCorrect ? 'All correct!' : 'Some answers are incorrect. Check the highlighted fields.';
+             document.getElementById('fill-in-feedback').className = `feedback mt-2 text-sm font-semibold ${allBlanksCorrect ? 'feedback-correct' : 'feedback-incorrect'}`;
+        }
+        function checkListening(data) {
+            data.questions.forEach(q => {
+                const feedbackEl = document.querySelector(`[data-feedback-for="${q.id}"]`);
+                if (q.type === 'multitext') {
+                    const inputs = document.querySelectorAll(`input[data-id="${q.id}"]`);
+                    const userAnswers = Array.from(inputs).map(i => i.value.trim().toLowerCase());
+                    const correctAnswers = q.answers.map(a => a.toLowerCase());
+                    const found = userAnswers.filter(a => correctAnswers.includes(a) && a !== '');
+                    const isCorrect = found.length >= q.count;
+                    feedbackEl.textContent = isCorrect ? 'Excellent!' : `You found ${found.length} of ${q.count}. Answers were: ${q.answers.join(', ')}.`;
+                    feedbackEl.className = `feedback text-sm mt-1 font-semibold ${isCorrect ? 'feedback-correct' : 'feedback-incorrect'}`;
+                } else {
+                    const input = document.getElementById(q.id);
+                    const isCorrect = input.value.trim().toLowerCase() === q.answer.toLowerCase();
+                    feedbackEl.textContent = isCorrect ? 'Correct!' : `The answer is: ${q.answer}`;
+                    feedbackEl.className = `feedback text-sm mt-1 font-semibold ${isCorrect ? 'feedback-correct' : 'feedback-incorrect'}`;
+                }
+            });
+            document.getElementById('transcript-container').innerHTML = data.transcript;
+            document.getElementById('transcript-container').classList.remove('hidden');
+        }
+
+        function resetActivity(activityId) {
+            const data = appData[activityId];
+            if (!data) return;
+            const container = document.getElementById(data.container) || document.querySelector(`#${activityId}`)?.closest('.activity-card') || document.getElementById(activityId);
+            if (!container) return;
+
+            container.querySelectorAll('input[type="text"]').forEach(input => {
+                input.value = '';
+                input.classList.remove('border-correct', 'border-incorrect', 'border-2');
+                if (input.id.startsWith('blank-')) {
+                    input.placeholder = '';
+                }
+            });
+            container.querySelectorAll('input[type="radio"]').forEach(radio => radio.checked = false);
+            container.querySelectorAll('select').forEach(select => {
+                select.selectedIndex = 0;
+                select.classList.remove('border-correct', 'border-incorrect', 'border-2');
+                select.classList.add('border-gray-300');
+            });
+            container.querySelectorAll('.feedback').forEach(fb => fb.innerHTML = '');
+            if (activityId === 'listening-1') {
+                 document.getElementById('transcript-container').classList.add('hidden');
+            }
+        }
+
+        // --- INITIALIZATION ---
+        function initializeApp() {
+            createNavigation();
+            initializeScrollObserver();
+            
+            // Populate all vocab activities
+            populateVocabOptions('vocab-matching-1', appData['vocab-matching-1']);
+            populateVocabOptions('vocab-matching-2', appData['vocab-matching-2']);
+            populateVocabOptions('vocab-matching-3', appData['vocab-matching-3']);
+            populateVocabOptions('vocab-matching-4', appData['vocab-matching-4']);
+
+            // Set up event listeners for all check buttons
+            document.querySelectorAll('[data-check]').forEach(button => {
+                button.addEventListener('click', () => {
+                    const activityId = button.dataset.check;
+                    const data = appData[activityId];
+                    if (!data) return;
+                    
+                    document.querySelector(`[data-reset="${activityId}"]`).classList.remove('hidden');
+
+                    switch(data.type) {
+                        case 'vocab': checkVocab(data); break;
+                        case 'comprehension': checkComprehension(data); break;
+                        case 'listening': checkListening(data); break;
+                    }
+                });
+            });
+            
+            // Set up event listeners for all reset buttons
+            document.querySelectorAll('[data-reset]').forEach(button => {
+                button.addEventListener('click', () => {
+                    const activityId = button.dataset.reset;
+                    resetActivity(activityId);
+                    button.classList.add('hidden');
+                });
+            });
+        }
+        
+        initializeApp();
+    });
+    </script>
+</body>
+</html>
+
