@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B1 Reading - The Future is Electric? Cars in Indonesia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .sidebar-link.active {
+            background-color: #eef2ff;
+            color: #4f46e5;
+            font-weight: 600;
+        }
+        .sidebar-link {
+            transition: all 0.2s ease-in-out;
+        }
+        .sidebar-link:hover {
+            background-color: #f4f4f5;
+        }
+        /* Custom styles for interactive elements */
+        select.correct {
+            border-color: #16a34a;
+            box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.2);
+            background-color: #f0fdf4;
+        }
+        select.incorrect {
+            border-color: #dc2626;
+            box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+            background-color: #fef2f2;
+        }
+        .mcq-option, .true-false-option {
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        .mcq-option.selected, .true-false-option.selected {
+            background-color: #c7d2fe;
+            border-color: #6366f1;
+        }
+        .mcq-option.correct, .true-false-option.correct {
+            background-color: #16a34a;
+            color: white;
+            border-color: #16a34a;
+        }
+        .mcq-option.incorrect, .true-false-option.incorrect {
+            background-color: #dc2626;
+            color: white;
+            border-color: #dc2626;
+        }
+        /* Drag and Drop Styles */
+        .word-bank-word {
+            cursor: grab;
+            user-select: none;
+        }
+        .word-bank-word.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+        .drop-target {
+            display: inline-block;
+            min-width: 100px;
+            height: 30px;
+            border-bottom: 2px dashed #9ca3af;
+            vertical-align: middle;
+            text-align: center;
+            font-weight: 500;
+            color: #4f46e5;
+        }
+        .drop-target.drag-over {
+            background-color: #eef2ff;
+            border-bottom: 2px dashed #4f46e5;
+        }
+        .drop-target.correct {
+            border-color: #16a34a;
+            background-color: #f0fdf4;
+            color: #15803d;
+        }
+        .drop-target.incorrect {
+            border-color: #dc2626;
+            background-color: #fef2f2;
+            color: #b91c1c;
+        }
+        .explanation {
+            background-color: #f3f4f6;
+            border-left: 4px solid #6b7280;
+            padding: 0.75rem;
+            margin-top: 0.75rem;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+            color: #374151;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="flex flex-col md:flex-row min-h-screen">
+        <!-- Sidebar -->
+        <aside class="w-full md:w-64 bg-white p-6 border-r border-gray-200">
+            <h2 class="text-lg font-bold mb-6 text-gray-900">Lesson Sections</h2>
+            <nav id="sidebar-nav">
+                <a href="#warm-up" class="sidebar-link active flex items-center p-3 rounded-lg text-gray-700">1. Warm-up</a>
+                <a href="#vocabulary" class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 mt-2">2. Vocabulary</a>
+                <a href="#reading" class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 mt-2">3. Reading</a>
+                <a href="#comprehension" class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 mt-2">4. Comprehension</a>
+                <a href="#discussion" class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 mt-2">5. Discussion</a>
+                <a href="#scenario" class="sidebar-link flex items-center p-3 rounded-lg text-gray-700 mt-2">6. Scenario Tasks</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-6 md:p-10">
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-200">
+                <h1 class="text-3xl font-bold text-center text-gray-900">The Future is Electric? Cars in Indonesia</h1>
+                <p class="mt-2 text-gray-600 text-center">An Interactive B1 Reading Lesson</p>
+
+                <!-- Sections -->
+                <div id="content-sections">
+                    <!-- Warm-up Section -->
+                    <section id="warm-up" class="content-section mt-12">
+                        <h2 class="text-2xl font-semibold text-gray-800 border-b pb-3 mb-6">Warm-up Discussion</h2>
+                        <p class="mb-6 text-gray-600">Let's talk before we read. Answer the questions below with your teacher.</p>
+                        <ul class="space-y-4 list-disc list-inside text-gray-700">
+                            <li>When you think of an "electric car," what is the first word that comes to mind?</li>
+                            <li>Have you seen many electric cars or charging stations in your city?</li>
+                            <li>What do you think are the biggest advantages and disadvantages of owning an electric car?</li>
+                            <li>In your opinion, what is the biggest challenge for Indonesia in the next 10 years: traffic, pollution, or energy sources? Why?</li>
+                        </ul>
+                    </section>
+
+                    <!-- Vocabulary Section -->
+                    <section id="vocabulary" class="content-section mt-12 hidden">
+                        <h2 class="text-2xl font-semibold text-gray-800 border-b pb-3 mb-6">Vocabulary Exercises</h2>
+                        
+                        <div id="vocab-matching">
+                             <h3 class="text-xl font-medium text-gray-800 mb-4">Vocabulary Matching</h3>
+                            <p class="mb-6 text-gray-600">Choose the correct word for each definition.</p>
+                            <div class="space-y-4">
+                                <div class="p-3 border rounded-lg" data-answer="subsidies">
+                                    <div class="flex flex-col md:flex-row items-center gap-2">
+                                        <p class="flex-1">Money given by a government to help an industry or keep the price of a service low.</p>
+                                        <select class="vocab-select w-full md:w-48 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                                            <option value="">Select a word...</option><option value="hesitate">Hesitate</option><option value="subsidies">Subsidies</option><option value="incentives">Incentives</option><option value="practical">Practical</option><option value="ecosystem">Ecosystem</option><option value="nickel">Nickel</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="p-3 border rounded-lg" data-answer="practical">
+                                     <div class="flex flex-col md:flex-row items-center gap-2">
+                                        <p class="flex-1">Practical and suitable for the situation.</p>
+                                        <select class="vocab-select w-full md:w-48 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                                            <option value="">Select a word...</option><option value="hesitate">Hesitate</option><option value="subsidies">Subsidies</option><option value="incentives">Incentives</option><option value="practical">Practical</option><option value="ecosystem">Ecosystem</option><option value="nickel">Nickel</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="p-3 border rounded-lg" data-answer="nickel">
+                                     <div class="flex flex-col md:flex-row items-center gap-2">
+                                        <p class="flex-1">A key metal used to make batteries for electric cars.</p>
+                                        <select class="vocab-select w-full md:w-48 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                                            <option value="">Select a word...</option><option value="hesitate">Hesitate</option><option value="subsidies">Subsidies</option><option value="incentives">Incentives</option><option value="practical">Practical</option><option value="ecosystem">Ecosystem</option><option value="nickel">Nickel</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="p-3 border rounded-lg" data-answer="hesitate">
+                                     <div class="flex flex-col md:flex-row items-center gap-2">
+                                        <p class="flex-1">To pause before doing something, often because you are uncertain.</p>
+                                        <select class="vocab-select w-full md:w-48 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                                            <option value="">Select a word...</option><option value="hesitate">Hesitate</option><option value="subsidies">Subsidies</option><option value="incentives">Incentives</option><option value="practical">Practical</option><option value="ecosystem">Ecosystem</option><option value="nickel">Nickel</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="p-3 border rounded-lg" data-answer="incentives">
+                                     <div class="flex flex-col md:flex-row items-center gap-2">
+                                        <p class="flex-1">Something that encourages a person to do something (like a tax cut or discount).</p>
+                                        <select class="vocab-select w-full md:w-48 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                                            <option value="">Select a word...</option><option value="hesitate">Hesitate</option><option value="subsidies">Subsidies</option><option value="incentives">Incentives</option><option value="practical">Practical</option><option value="ecosystem">Ecosystem</option><option value="nickel">Nickel</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="p-3 border rounded-lg" data-answer="ecosystem">
+                                     <div class="flex flex-col md:flex-row items-center gap-2">
+                                        <p class="flex-1">All the different parts of a system (e.g., factories, suppliers, government) working together.</p>
+                                        <select class="vocab-select w-full md:w-48 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                                            <option value="">Select a word...</option><option value="hesitate">Hesitate</option><option value="subsidies">Subsidies</option><option value="incentives">Incentives</option><option value="practical">Practical</option><option value="ecosystem">Ecosystem</option><option value="nickel">Nickel</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <button id="check-vocab-matching" class="mt-6 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Check Answers</button>
+                        </div>
+                        
+                        <div id="vocab-context" class="mt-10">
+                            <h3 class="text-xl font-medium text-gray-800 mb-4">Vocabulary in Context</h3>
+                            <p class="mb-6 text-gray-600">Drag and drop the words from the word bank to complete the sentences.</p>
+                            <div id="word-bank" class="flex flex-wrap gap-3 p-4 bg-gray-100 rounded-lg mb-6">
+                                <div class="word-bank-word bg-white p-2 border rounded-md shadow-sm" draggable="true">practical</div>
+                                <div class="word-bank-word bg-white p-2 border rounded-md shadow-sm" draggable="true">incentives</div>
+                                <div class="word-bank-word bg-white p-2 border rounded-md shadow-sm" draggable="true">ecosystem</div>
+                                <div class="word-bank-word bg-white p-2 border rounded-md shadow-sm" draggable="true">hesitate</div>
+                                <div class="word-bank-word bg-white p-2 border rounded-md shadow-sm" draggable="true">nickel</div>
+                                <div class="word-bank-word bg-white p-2 border rounded-md shadow-sm" draggable="true">subsidies</div>
+                            </div>
+                            <div class="space-y-4 text-lg">
+                                <p>1. A car needs to be <span class="drop-target" data-answer="practical"></span> for a family; a two-seat sports car isn't very useful for them.</p>
+                                <p>2. The government hopes that tax <span class="drop-target" data-answer="incentives"></span> will motivate more people to buy locally made products.</p>
+                                <p>3. To build a successful tech industry, you need a strong <span class="drop-target" data-answer="ecosystem"></span> that includes universities, investors, and skilled workers.</p>
+                                <p>4. I wanted to buy the new phone, but I decided to <span class="drop-target" data-answer="hesitate"></span> because it was so expensive.</p>
+                                <p>5. Indonesia is a major global supplier of <span class="drop-target" data-answer="nickel"></span>, which is essential for modern batteries.</p>
+                                <p>6. Without government <span class="drop-target" data-answer="subsidies"></span>, the price of train tickets would be much higher for the public.</p>
+                            </div>
+                            <button id="check-drag-drop" class="mt-6 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Check Answers</button>
+                        </div>
+                    </section>
+                    
+                    <!-- Reading Section -->
+                    <section id="reading" class="content-section mt-12 hidden">
+                        <h2 class="text-2xl font-semibold text-gray-800 border-b pb-3 mb-6">Reading Passage</h2>
+                        <div class="prose max-w-none text-gray-700 space-y-6">
+                           <div class="p-5 bg-blue-50 border-l-4 border-blue-400 rounded-r-lg">
+                               <h4 class="font-bold text-blue-800">Electric Cars in Indonesia: Sales Grow, But Still Small</h4>
+                               <p class="mt-2 text-blue-700">Sales of electric cars in Indonesia grew 171% in the first half of 2025 compared to last year. But the total share is still small—only 5% of all cars sold. In Norway, electric cars already make up 90% of new sales because of strong public education and promotion.</p>
+                           </div>
+                           
+                           <div class="p-5 bg-yellow-50 border-l-4 border-yellow-400 rounded-r-lg">
+                               <h4 class="font-bold text-yellow-800">Why People Still Hesitate</h4>
+                               <p class="mt-2 text-yellow-700">Many Indonesians are not ready to buy electric cars. They think the cars are expensive and not practical. Sales often depend on government subsidies and discounts. Chinese brands lead the market because they sell cars with modern features at lower prices.</p>
+                           </div>
+
+                           <div class="p-5 bg-red-50 border-l-4 border-red-400 rounded-r-lg">
+                               <h4 class="font-bold text-red-800">Charging Problems</h4>
+                               <p class="mt-2 text-red-700">By 2024, Indonesia had only 3,356 charging stations. In China, there are 1 million. Another problem: each brand uses different charging sockets, unlike petrol cars where all tanks are the same.</p>
+                           </div>
+                           
+                           <div class="p-5 bg-green-50 border-l-4 border-green-400 rounded-r-lg">
+                               <h4 class="font-bold text-green-800">Promotion Needs to Change</h4>
+                               <p class="mt-2 text-green-700">Car brands and the government should not only say electric cars are “green.” They should also show that they are:</p>
+                               <ul class="list-disc list-inside mt-2 text-green-700">
+                                   <li>Cheaper to run than petrol cars</li>
+                                   <li>Modern and stylish with smart apps and navigation</li>
+                                   <li>Part of a healthy, active lifestyle</li>
+                               </ul>
+                           </div>
+
+                           <div class="p-5 bg-indigo-50 border-l-4 border-indigo-400 rounded-r-lg">
+                               <h4 class="font-bold text-indigo-800">Government Support & The Big Question</h4>
+                               <p class="mt-2 text-indigo-700">The government gives Rp6.16 trillion in incentives in 2025, including tax cuts. Chinese brands like Wuling, BYD, and Neta are already building factories in Indonesia. Hyundai also produces electric cars locally. Indonesia has 40% of the world’s nickel, a key material for batteries. But so far, the country is still more of a market and supplier than a global car producer. The future depends on how fast the government and industry can work together to build a strong local ecosystem.</p>
+                           </div>
+                        </div>
+                    </section>
+                    
+                    <!-- Comprehension Section -->
+                    <section id="comprehension" class="content-section mt-12 hidden">
+                        <h2 class="text-2xl font-semibold text-gray-800 border-b pb-3 mb-6">Comprehension Check</h2>
+                        
+                        <div id="quick-questions">
+                            <h3 class="text-xl font-medium text-gray-800 mb-4">Quick Questions</h3>
+                             <p class="mb-6 text-gray-600">Choose the best answer for each question based on the text.</p>
+                            <div class="space-y-6">
+                                <div class="p-4 border rounded-lg" data-answer="c">
+                                    <p class="font-medium mb-3">1. What percentage of new cars sold in Norway are electric?</p>
+                                    <div class="space-y-2">
+                                        <div class="mcq-option border p-2 rounded-md" data-value="a">a) 5%</div>
+                                        <div class="mcq-option border p-2 rounded-md" data-value="b">b) 171%</div>
+                                        <div class="mcq-option border p-2 rounded-md" data-value="c">c) 90%</div>
+                                    </div>
+                                    <div class="explanation hidden"><strong>Explanation:</strong> The first paragraph states, "In Norway, electric cars already make up 90% of new sales..."</div>
+                                </div>
+                                <div class="p-4 border rounded-lg" data-answer="b">
+                                    <p class="font-medium mb-3">2. Why are Chinese EV brands leading the market in Indonesia?</p>
+                                    <div class="space-y-2">
+                                        <div class="mcq-option border p-2 rounded-md" data-value="a">a) They are considered more "green".</div>
+                                        <div class="mcq-option border p-2 rounded-md" data-value="b">b) They offer modern features at lower prices.</div>
+                                        <div class="mcq-option border p-2 rounded-md" data-value="c">c) They have more factories than other brands.</div>
+                                    </div>
+                                    <div class="explanation hidden"><strong>Explanation:</strong> The text explains in the 'Why People Still Hesitate' section that "Chinese brands lead the market because they sell cars with modern features at lower prices."</div>
+                                </div>
+                                <div class="p-4 border rounded-lg" data-answer="a">
+                                    <p class="font-medium mb-3">3. What is a major issue with EV charging in Indonesia?</p>
+                                    <div class="space-y-2">
+                                        <div class="mcq-option border p-2 rounded-md" data-value="a">a) Lack of stations and different plug types.</div>
+                                        <div class="mcq-option border p-2 rounded-md" data-value="b">b) Charging is more expensive than petrol.</div>
+                                        <div class="mcq-option border p-2 rounded-md" data-value="c">c) Charging stations are only for Chinese cars.</div>
+                                    </div>
+                                    <div class="explanation hidden"><strong>Explanation:</strong> The 'Charging Problems' section lists two issues: not enough stations ("only 3,356 charging stations") and "each brand uses different charging sockets".</div>
+                                </div>
+                            </div>
+                            <button class="check-btn mt-6 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">Check Answers</button>
+                        </div>
+
+                        <div id="true-false" class="mt-10">
+                             <h3 class="text-xl font-medium text-gray-800 mb-4">True or False?</h3>
+                             <p class="mb-6 text-gray-600">Read the sentences below. Are they true (T) or false (F) according to the article?</p>
+                             <div class="space-y-4">
+                                <div class="p-4 border rounded-lg" data-answer="F">
+                                    <p class="mb-2">1. Electric car sales in Indonesia are decreasing.</p>
+                                    <button class="true-false-option border px-3 py-1 rounded-md" data-value="T">T</button>
+                                    <button class="true-false-option border px-3 py-1 rounded-md" data-value="F">F</button>
+                                    <div class="explanation hidden"><strong>Explanation:</strong> False. The article's first sentence says sales "grew 171%".</div>
+                                </div>
+                                 <div class="p-4 border rounded-lg" data-answer="T">
+                                    <p class="mb-2">2. Most new cars sold in Norway are electric.</p>
+                                    <button class="true-false-option border px-3 py-1 rounded-md" data-value="T">T</button>
+                                    <button class="true-false-option border px-3 py-1 rounded-md" data-value="F">F</button>
+                                    <div class="explanation hidden"><strong>Explanation:</strong> True. The article states that in Norway, "electric cars already make up 90% of new sales".</div>
+                                </div>
+                                 <div class="p-4 border rounded-lg" data-answer="F">
+                                    <p class="mb-2">3. The main reason Indonesians don't buy electric cars is the lack of stylish models.</p>
+                                    <button class="true-false-option border px-3 py-1 rounded-md" data-value="T">T</button>
+                                    <button class="true-false-option border px-3 py-1 rounded-md" data-value="F">F</button>
+                                    <div class="explanation hidden"><strong>Explanation:</strong> False. The article says people hesitate because the cars are "expensive and not practical", not because of style.</div>
+                                </div>
+                                 <div class="p-4 border rounded-lg" data-answer="F">
+                                    <p class="mb-2">4. Indonesia has more charging stations than China.</p>
+                                    <button class="true-false-option border px-3 py-1 rounded-md" data-value="T">T</button>
+                                    <button class="true-false-option border px-3 py-1 rounded-md" data-value="F">F</button>
+                                    <div class="explanation hidden"><strong>Explanation:</strong> False. Indonesia has "only 3,356 charging stations", while "In China, there are 1 million".</div>
+                                </div>
+                                 <div class="p-4 border rounded-lg" data-answer="F">
+                                    <p class="mb-2">5. All electric cars use the same type of charging socket.</p>
+                                    <button class="true-false-option border px-3 py-1 rounded-md" data-value="T">T</button>
+                                    <button class="true-false-option border px-3 py-1 rounded-md" data-value="F">F</button>
+                                    <div class="explanation hidden"><strong>Explanation:</strong> False. The text mentions that "each brand uses different charging sockets".</div>
+                                </div>
+                                 <div class="p-4 border rounded-lg" data-answer="T">
+                                    <p class="mb-2">6. The Indonesian government is providing financial incentives to support electric car sales.</p>
+                                    <button class="true-false-option border px-3 py-1 rounded-md" data-value="T">T</button>
+                                    <button class="true-false-option border px-3 py-1 rounded-md" data-value="F">F</button>
+                                    <div class="explanation hidden"><strong>Explanation:</strong> True. The 'Government Support' section states, "The government gives Rp6.16 trillion in incentives... including tax cuts".</div>
+                                </div>
+                             </div>
+                             <button class="check-btn mt-6 px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">Check Answers</button>
+                        </div>
+
+                         <div id="pros-cons" class="mt-10">
+                             <h3 class="text-xl font-medium text-gray-800 mb-4">Analyzing the Arguments</h3>
+                             <p class="mb-6 text-gray-600">Based on the article, list the pros and cons of electric cars for a consumer in Indonesia. Add at least one idea of your own to each column.</p>
+                             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                 <div class="bg-green-50 p-6 rounded-lg border border-green-200">
+                                     <h4 class="text-lg font-semibold text-green-800 mb-4">Reasons to Buy an Electric Car (Pros)</h4>
+                                     <ul class="space-y-2 text-green-700 list-disc list-inside">
+                                        <li>Cheaper to run</li>
+                                        <li>Modern and stylish</li>
+                                        <li>Part of a healthy, active lifestyle</li>
+                                        <li>Government incentives (e.g., tax cuts)</li>
+                                        <li><input type="text" placeholder="Your own idea..." class="w-full bg-transparent border-b border-green-400 focus:outline-none focus:border-green-600"></li>
+                                     </ul>
+                                 </div>
+                                  <div class="bg-red-50 p-6 rounded-lg border border-red-200">
+                                     <h4 class="text-lg font-semibold text-red-800 mb-4">Reasons People Hesitate (Cons)</h4>
+                                     <ul class="space-y-2 text-red-700 list-disc list-inside">
+                                        <li>Expensive price</li>
+                                        <li>Not practical</li>
+                                        <li>Not enough charging stations</li>
+                                        <li>Different charging sockets for each brand</li>
+                                        <li><input type="text" placeholder="Your own idea..." class="w-full bg-transparent border-b border-red-400 focus:outline-none focus:border-red-600"></li>
+                                     </ul>
+                                 </div>
+                             </div>
+                         </div>
+                    </section>
+
+                    <!-- Discussion Section -->
+                    <section id="discussion" class="content-section mt-12 hidden">
+                        <h2 class="text-2xl font-semibold text-gray-800 border-b pb-3 mb-6">Discussion & Critical Thinking</h2>
+                        <p class="mb-6 text-gray-600">Discuss these questions in detail with your teacher.</p>
+                        <ul class="space-y-5 list-disc list-inside text-gray-700">
+                            <li>The article states sales often depend on subsidies and discounts. Do you think this is a good long-term strategy? What could happen if the government suddenly stops giving this financial help?</li>
+                            <li>Why is having different charging sockets a big problem for consumers? What do you think the solution could be?</li>
+                            <li>The text suggests promoting electric cars as "modern and stylish." Do you think this is a more effective marketing strategy than promoting them as "green" in Indonesia? Why?</li>
+                            <li>Indonesia is a major producer of nickel but not cars. What advice would you give the government to build a strong local "ecosystem" for car manufacturing?</li>
+                            <li>If you had to buy a new car tomorrow, would you choose a petrol car, a hybrid, or a fully electric car? Explain your decision based on your personal needs and the information in the article.</li>
+                            <li><strong>Prediction:</strong> The article is set in 2025. What do you predict the situation for electric cars in Indonesia will be in 2035? Will they be common or still rare? Justify your prediction.</li>
+                            <li><strong>Government's Role:</strong> Besides giving money (incentives), what are three other things the government could do to encourage people to switch to electric cars? (e.g., new laws, building projects, education campaigns).</li>
+                            <li><strong>City Life:</strong> How might a city like Jakarta change if 50% of the cars were electric? Think about noise, air quality, and the types of businesses (like petrol stations).</li>
+                        </ul>
+                    </section>
+
+                     <!-- Scenario Section -->
+                    <section id="scenario" class="content-section mt-12 hidden">
+                        <h2 class="text-2xl font-semibold text-gray-800 border-b pb-3 mb-6">Scenario-Based Tasks: Choose One!</h2>
+                        <p class="mb-6 text-gray-600">Choose one of the following scenarios to discuss with your teacher.</p>
+                        <div class="space-y-8">
+                            <div class="p-6 border rounded-xl bg-gray-50">
+                                <h3 class="font-bold text-lg text-gray-800">Scenario A: The Advertising Challenge!</h3>
+                                <ul class="mt-4 space-y-2 list-disc list-inside text-gray-700">
+                                    <li><strong>Your Role:</strong> You are a marketing director for a new electric car brand in Indonesia.</li>
+                                    <li><strong>Your Challenge:</strong> Create an advertising campaign to sell more electric cars. Your plan must directly address the problems of price and charging anxiety.</li>
+                                    <li><strong>Your Plan:</strong> Explain your target audience, main message, and campaign idea. How will you make people feel confident about buying an electric car despite the challenges?</li>
+                                </ul>
+                            </div>
+                             <div class="p-6 border rounded-xl bg-gray-50">
+                                <h3 class="font-bold text-lg text-gray-800">Scenario B: The Town Hall Debate!</h3>
+                                <ul class="mt-4 space-y-2 list-disc list-inside text-gray-700">
+                                    <li><strong>Your Role:</strong> You are a citizen speaking at a town hall meeting.</li>
+                                    <li><strong>The Debate Topic:</strong> "To fight pollution, the government should ban the sale of all new petrol cars in major cities starting in 2035."</li>
+                                    <li><strong>Your Task:</strong> Choose a side—either you support this ban or you oppose it. Prepare three strong arguments to convince the audience. Use facts from the article and your own ideas to support your position.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <footer class="text-center mt-8 text-sm text-gray-500">
+                Designed for Fajarudin Akbar | <a href="https://fajarudinakbar.online" target="_blank" class="text-indigo-600 hover:underline">fajarudinakbar.online</a>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sidebarLinks = document.querySelectorAll('.sidebar-link');
+            const contentSections = document.querySelectorAll('.content-section');
+
+            // --- Sidebar Navigation ---
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', e => {
+                    e.preventDefault();
+                    sidebarLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                    const targetId = link.getAttribute('href').substring(1);
+                    contentSections.forEach(section => {
+                        section.classList.toggle('hidden', section.id !== targetId);
+                    });
+                     if (window.innerWidth < 768) {
+                        document.querySelector('main').scrollTop = 0;
+                    }
+                });
+            });
+
+            // --- Vocabulary Matching (Dropdowns) ---
+            document.getElementById('check-vocab-matching').addEventListener('click', (e) => {
+                const exerciseContainer = e.target.closest('#vocab-matching');
+                // Remove previous feedback
+                exerciseContainer.querySelectorAll('.answer-feedback').forEach(fb => fb.remove());
+
+                exerciseContainer.querySelectorAll('.p-3[data-answer]').forEach(item => {
+                    const select = item.querySelector('select');
+                    const selectedValue = select.value;
+                    const correctAnswer = item.dataset.answer;
+                    select.classList.remove('correct', 'incorrect');
+
+                    if (selectedValue === correctAnswer) {
+                        select.classList.add('correct');
+                    } else {
+                        if (selectedValue) { // Mark as incorrect only if an option was selected
+                            select.classList.add('incorrect');
+                        }
+                        // Show the correct answer
+                        const feedbackSpan = document.createElement('span');
+                        feedbackSpan.className = 'answer-feedback ml-2 text-green-700 font-medium text-sm whitespace-nowrap';
+                        const formattedAnswer = correctAnswer.charAt(0).toUpperCase() + correctAnswer.slice(1);
+                        feedbackSpan.textContent = `✓ Answer: ${formattedAnswer}`;
+                        select.insertAdjacentElement('afterend', feedbackSpan);
+                    }
+                });
+            });
+
+            // --- Vocabulary in Context (Drag and Drop) ---
+            const draggables = document.querySelectorAll('.word-bank-word');
+            const dropTargets = document.querySelectorAll('.drop-target');
+
+            draggables.forEach(draggable => {
+                draggable.addEventListener('dragstart', () => { draggable.classList.add('dragging'); });
+                draggable.addEventListener('dragend', () => { draggable.classList.remove('dragging'); });
+            });
+
+            dropTargets.forEach(target => {
+                target.addEventListener('dragover', e => { e.preventDefault(); target.classList.add('drag-over'); });
+                target.addEventListener('dragleave', () => { target.classList.remove('drag-over'); });
+                target.addEventListener('drop', e => {
+                    e.preventDefault();
+                    target.classList.remove('drag-over');
+                    const dragging = document.querySelector('.dragging');
+                    if (dragging) {
+                        if (target.textContent) {
+                            const existingWordElem = Array.from(draggables).find(d => d.textContent === target.textContent);
+                            if(existingWordElem) existingWordElem.style.display = 'inline-block';
+                        }
+                        target.textContent = dragging.textContent;
+                        dragging.style.display = 'none';
+                    }
+                });
+            });
+
+            document.getElementById('check-drag-drop').addEventListener('click', () => {
+                // Remove previous feedback
+                document.querySelectorAll('.drag-drop-feedback').forEach(fb => fb.remove());
+
+                dropTargets.forEach(target => {
+                    const droppedWord = target.textContent.trim();
+                    const correctAnswer = target.dataset.answer;
+                    target.classList.remove('correct', 'incorrect');
+
+                    if (droppedWord === correctAnswer) {
+                        target.classList.add('correct');
+                    } else {
+                        if (droppedWord) { // Mark as incorrect only if there's a dropped word
+                            target.classList.add('incorrect');
+                        }
+                        // Show the correct answer
+                        const feedbackSpan = document.createElement('span');
+                        feedbackSpan.className = 'drag-drop-feedback ml-1 text-green-700 font-medium text-sm';
+                        feedbackSpan.textContent = `(✓ ${correctAnswer})`;
+                        target.insertAdjacentElement('afterend', feedbackSpan);
+                    }
+                });
+            });
+
+            // --- Logic for selection-based exercises (MCQ, True/False) ---
+            document.querySelectorAll('#quick-questions, #true-false').forEach(exerciseContainer => {
+                // Handle selections
+                exerciseContainer.addEventListener('click', e => {
+                    const option = e.target.closest('.mcq-option, .true-false-option');
+                    if (!option) return;
+                    
+                    const question = option.closest('.p-4[data-answer]');
+                    // Remove 'selected' from siblings
+                    question.querySelectorAll('.mcq-option, .true-false-option').forEach(opt => opt.classList.remove('selected'));
+                    // Add 'selected' to clicked option
+                    option.classList.add('selected');
+                });
+
+                // Handle check answer button
+                exerciseContainer.querySelector('.check-btn').addEventListener('click', () => {
+                    exerciseContainer.querySelectorAll('.p-4[data-answer]').forEach(question => {
+                        const correctAnswer = question.dataset.answer;
+                        const selectedOption = question.querySelector('.selected');
+                        const explanation = question.querySelector('.explanation');
+
+                        if (selectedOption) {
+                            const isCorrect = selectedOption.dataset.value === correctAnswer;
+                            selectedOption.classList.add(isCorrect ? 'correct' : 'incorrect');
+                             if (!isCorrect) {
+                                const correctOption = question.querySelector(`[data-value="${correctAnswer}"]`);
+                                if (correctOption) correctOption.classList.add('correct');
+                            }
+                        }
+                        
+                        if(explanation) explanation.classList.remove('hidden');
+                    });
+                });
+            });
+
+        });
+    </script>
+
+</body>
+</html>
+
