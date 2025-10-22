@@ -26,6 +26,9 @@
             transition: all 0.2s ease;
             padding: 2px;
             margin: 0 4px;
+            /* Width will be set dynamically by JavaScript based on maxlength */
+            /* Add a min-width as a fallback */
+            min-width: 4ch;
         }
         .fill-in:focus {
             border-bottom-color: #3B82F6; /* blue-500 */
@@ -54,25 +57,27 @@
         </header>
 
         <div id="score-tracker" class="sticky top-0 bg-white/80 backdrop-blur-sm z-10 p-4 rounded-lg shadow-md mb-8 flex flex-col sm:flex-row justify-center items-center gap-4">
-            <h2 class="text-xl font-bold text-slate-700">Your Score: <span id="score" class="text-blue-700">0</span> / <span id="total">71</span></h2>
+            <!-- REVISION: Total score is now dynamic. Removed hardcoded '71'. -->
+            <h2 class="text-xl font-bold text-slate-700">Your Score: <span id="score" class="text-blue-700">0</span> / <span id="total">0</span></h2>
         </div>
 
         <main class="space-y-8">
 
             <!-- A2 Level -->
+            <!-- REVISION: Removed all 'size' attributes from inputs. Width is now set by JS. -->
             <section class="task-card bg-white p-6 rounded-lg shadow-md">
                 <h2 class="text-2xl font-semibold mb-6 text-blue-600">A2 Level (Items 1–10)</h2>
                 <div id="a2" class="space-y-4 text-lg">
-                    <p>1. I rea<input id="q1_1" type="text" size="1" maxlength="1" class="fill-in"> a bo<input id="q1_2" type="text" size="2" maxlength="2" class="fill-in"> before bed.</p>
-                    <p>2. The sun is sh<input id="q2_1" type="text" size="5" maxlength="5" class="fill-in"> today.</p>
-                    <p>3. We st<input id="q3_1" type="text" size="3" maxlength="3" class="fill-in"> at school in the morn<input id="q3_2" type="text" size="3" maxlength="3" class="fill-in">.</p>
-                    <p>4. She is dri<input id="q4_1" type="text" size="4" maxlength="4" class="fill-in"> coffee in the café.</p>
-                    <p>5. My fri<input id="q5_1" type="text" size="3" maxlength="3" class="fill-in"> and I play foo<input id="q5_2" type="text" size="4" maxlength="4" class="fill-in">.</p>
-                    <p>6. It is imp<input id="q6_1" type="text" size="6" maxlength="6" class="fill-in"> to eat brea<input id="q6_2" type="text" size="4" maxlength="4" class="fill-in"> every day.</p>
-                    <p>7. He wa<input id="q7_1" type="text" size="4" maxlength="4" class="fill-in"> TV in the evening.</p>
-                    <p>8. The te<input id="q8_1" type="text" size="4" maxlength="4" class="fill-in"> gives us homework.</p>
-                    <p>9. We ha<input id="q9_1" type="text" size="2" maxlength="2" class="fill-in"> lunch at tw<input id="q9_2"type="text" size="4" maxlength="4" class="fill-in"> o’clock.</p>
-                    <p>10. They wor<input id="q10_1" type="text" size="1" maxlength="1" class="fill-in"> hard every day.</p>
+                    <p>1. I rea<input id="q1_1" type="text" maxlength="1" class="fill-in"> a bo<input id="q1_2" type="text" maxlength="2" class="fill-in"> before bed.</p>
+                    <p>2. The sun is sh<input id="q2_1" type="text" maxlength="5" class="fill-in"> today.</p>
+                    <p>3. We st<input id="q3_1" type="text" maxlength="3" class="fill-in"> at school in the morn<input id="q3_2" type="text" maxlength="3" class="fill-in">.</p>
+                    <p>4. She is dri<input id="q4_1" type="text" maxlength="5" class="fill-in"> coffee in the café.</p>
+                    <p>5. My fri<input id="q5_1" type="text" maxlength="3" class="fill-in"> and I play foo<input id="q5_2" type="text" maxlength="4" class="fill-in">.</p>
+                    <p>6. It is imp<input id="q6_1" type="text" maxlength="6" class="fill-in"> to eat brea<input id="q6_2" type="text" maxlength="5" class="fill-in"> every day.</p>
+                    <p>7. He wa<input id="q7_1" type="text" maxlength="5" class="fill-in"> TV in the evening.</p>
+                    <p>8. The te<input id="q8_1" type="text" maxlength="4" class="fill-in"> gives us homework.</p>
+                    <p>9. We ha<input id="q9_1" type="text" maxlength="2" class="fill-in"> lunch at tw<input id="q9_2"type="text" maxlength="4" class="fill-in"> o’clock.</p>
+                    <p>10. They wor<input id="q10_1" type="text" maxlength="1" class="fill-in"> hard every day.</p>
                 </div>
                 <div class="mt-8 text-center space-x-4">
                     <button data-section="a2" class="check-btn bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition">Check A2 Answers</button>
@@ -84,16 +89,16 @@
             <section class="task-card bg-white p-6 rounded-lg shadow-md">
                 <h2 class="text-2xl font-semibold mb-6 text-blue-600">A2 → B1 Level (Items 11–20)</h2>
                 <div id="b1_1" class="space-y-4 text-lg">
-                    <p>11. Scientists do exp<input id="q11_1" type="text" size="8" maxlength="8" class="fill-in"> to learn new things.</p>
-                    <p>12. The stu<input id="q12_1" type="text" size="5" maxlength="5" class="fill-in"> are taking a test today.</p>
-                    <p>13. She wro<input id="q13_1" type="text" size="2" maxlength="2" class="fill-in"> an e-ma<input id="q13_2" type="text" size="2" maxlength="2" class="fill-in"> to her teacher.</p>
-                    <p>14. Peo<input id="q14_1" type="text" size="3" maxlength="3" class="fill-in"> use en<input id="q14_2" type="text" size="4" maxlength="4" class="fill-in"> to pow<input id="q14_3" type="text" size="2" maxlength="2" class="fill-in"> their homes.</p>
-                    <p>15. I need to com<input id="q15_1" type="text" size="5" maxlength="5" class="fill-in"> my project this week.</p>
-                    <p>16. He wor<input id="q16_1" type="text" size="2" maxlength="2" class="fill-in"> as an engi<input id="q16_2" type="text" size="4" maxlength="4" class="fill-in"> in the city.</p>
-                    <p>17. The mu<input id="q17_1" type="text" size="2" maxlength="2" class="fill-in"> is very beautiful.</p>
-                    <p>18. The cl<input id="q18_1" type="text" size="3" maxlength="3" class="fill-in"> starts at nine o’clock.</p>
-                    <p>19. Stu<input id="q19_1" type="text" size="5" maxlength="5" class="fill-in"> must bring their tex<input id="q19_2" type="text" size="4" maxlength="4" class="fill-in"> to class.</p>
-                    <p>20. I don’t li<input id="q20_1" type="text" size="2" maxlength="2" class="fill-in"> rainy weather.</p>
+                    <p>11. Scientists do exp<input id="q11_1" type="text" maxlength="8" class="fill-in"> to learn new things.</p>
+                    <p>12. The stu<input id="q12_1" type="text" maxlength="5" class="fill-in"> are taking a test today.</p>
+                    <p>13. She wro<input id="q13_1" type="text" maxlength="2" class="fill-in"> an e-ma<input id="q13_2" type="text" maxlength="2" class="fill-in"> to her teacher.</p>
+                    <p>14. Peo<input id="q14_1" type="text" maxlength="3" class="fill-in"> use en<input id="q14_2" type="text" maxlength="4" class="fill-in"> to pow<input id="q14_3" type="text" maxlength="2" class="fill-in"> their homes.</p>
+                    <p>15. I need to com<input id="q15_1" type="text" maxlength="5" class="fill-in"> my project this week.</p>
+                    <p>16. He wor<input id="q16_1" type="text" maxlength="2" class="fill-in"> as an engi<input id="q16_2" type="text" maxlength="4" class="fill-in"> in the city.</p>
+                    <p>17. The mu<input id="q17_1" type="text" maxlength="2" class="fill-in"> is very beautiful.</p>
+                    <p>18. The cl<input id="q18_1" type="text" maxlength="3" class="fill-in"> starts at nine o’clock.</p>
+                    <p>19. Stu<input id="q19_1" type="text" maxlength="5" class="fill-in"> must bring their tex<input id="q19_2" type="text" maxlength="4" class="fill-in"> to class.</p>
+                    <p>20. I don’t li<input id="q20_1" type="text" maxlength="2" class="fill-in"> rainy weather.</p>
                 </div>
                 <div class="mt-8 text-center space-x-4">
                     <button data-section="b1_1" class="check-btn bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition">Check A2 → B1 Answers</button>
@@ -105,16 +110,16 @@
             <section class="task-card bg-white p-6 rounded-lg shadow-md">
                 <h2 class="text-2xl font-semibold mb-6 text-blue-600">B1 Level (Items 21–30)</h2>
                 <div id="b1_2" class="space-y-4 text-lg">
-                    <p>21. The exp<input id="q21_1" type="text" size="7" maxlength="7" class="fill-in"> showed new resu<input id="q21_2" type="text" size="3" maxlength="3" class="fill-in">.</p>
-                    <p>22. The uni<input id="q22_1" type="text" size="7" maxlength="7" class="fill-in"> has a large library.</p>
-                    <p>23. The teac<input id="q23_1" type="text" size="3" maxlength="3" class="fill-in"> encouraged us to ask qu<input id="q23_2" type="text" size="7" maxlength="7" class="fill-in">.</p>
-                    <p>24. Students col<input id="q24_1" type="text" size="5" maxlength="5" class="fill-in"> data during the exp<input id="q24_2" type="text" size="7" maxlength="7" class="fill-in">.</p>
-                    <p>25. Many animals live in the oce<input id="q25_1" type="text" size="2" maxlength="2" class="fill-in">.</p>
-                    <p>26. It is imp<input id="q26_1" type="text" size="6" maxlength="6" class="fill-in"> to save wat<input id="q26_2" type="text" size="2" maxlength="2" class="fill-in">.</p>
-                    <p>27. The gov<input id="q27_1" type="text" size="6" maxlength="6" class="fill-in"> wants to reduce poll<input id="q27_2" type="text" size="5" maxlength="5" class="fill-in">.</p>
-                    <p>28. Peo<input id="q28_1" type="text" size="3" maxlength="3" class="fill-in"> need exer<input id="q28_2" type="text" size="4" maxlength="4" class="fill-in"> to stay healthy.</p>
-                    <p>29. The com<input id="q29_1" type="text" size="6" maxlength="6" class="fill-in"> was very interesting.</p>
-                    <p>30. The sci<input id="q30_1" type="text" size="5" maxlength="5" class="fill-in"> wrote a rep<input id="q30_2" type="text" size="3" maxlength="3" class="fill-in"> about her findings.</p>
+                    <p>21. The exp<input id="q21_1" type="text" maxlength="7" class="fill-in"> showed new resu<input id="q21_2" type="text" maxlength="3" class="fill-in">.</p>
+                    <p>22. The uni<input id="q22_1" type="text" maxlength="7" class="fill-in"> has a large library.</p>
+                    <p>23. The teac<input id="q23_1" type="text" maxlength="3" class="fill-in"> encouraged us to ask qu<input id="q23_2" type="text" maxlength="7" class="fill-in">.</p>
+                    <p>24. Students col<input id="q24_1" type="text" maxlength="5" class="fill-in"> data during the exp<input id="q24_2" type="text" maxlength="7" class="fill-in">.</p>
+                    <p>25. Many animals live in the oce<input id="q25_1" type="text" maxlength="2" class="fill-in">.</p>
+                    <p>26. It is imp<input id="q26_1" type="text" maxlength="6" class="fill-in"> to save wat<input id="q26_2" type="text" maxlength="2" class="fill-in">.</p>
+                    <p>27. The gov<input id="q27_1" type="text" maxlength="6" class="fill-in"> wants to reduce poll<input id="q27_2" type="text" maxlength="5" class="fill-in">.</p>
+                    <p>28. Peo<input id="q28_1" type="text" maxlength="3" class="fill-in"> need exer<input id="q28_2" type="text" maxlength="4" class="fill-in"> to stay healthy.</p>
+                    <p>29. The com<input id="q29_1" type="text" maxlength="6" class="fill-in"> was very interesting.</p>
+                    <p>30. The sci<input id="q30_1" type="text" maxlength="5" class="fill-in"> wrote a rep<input id="q30_2" type="text" maxlength="3" class="fill-in"> about her findings.</p>
                 </div>
                 <div class="mt-8 text-center space-x-4">
                     <button data-section="b1_2" class="check-btn bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition">Check B1 Answers</button>
@@ -126,16 +131,16 @@
             <section class="task-card bg-white p-6 rounded-lg shadow-md">
                 <h2 class="text-2xl font-semibold mb-6 text-blue-600">B2 Level (Items 31–40)</h2>
                 <div id="b2" class="space-y-4 text-lg">
-                    <p>31. The rese<input id="q31_1" type="text" size="6" maxlength="6" class="fill-in"> found strong evid<input id="q31_2" type="text" size="4" maxlength="4" class="fill-in"> for the theory.</p>
-                    <p>32. Uni<input id="q32_1" type="text" size="8" maxlength="8" class="fill-in"> offer courses in many subj<input id="q32_2" type="text" size="5" maxlength="5" class="fill-in">.</p>
-                    <p>33. The exper<input id="q33_1" type="text" size="9" maxlength="9" class="fill-in"> results were ana<input id="q33_2" type="text" size="5" maxlength="5" class="fill-in"> carefully.</p>
-                    <p>34. Tec<input id="q34_1" type="text" size="8" maxlength="8" class="fill-in"> has changed the way we commu<input id="q34_2" type="text" size="8" maxlength="8" class="fill-in">.</p>
-                    <p>35. The stu<input id="q35_1" type="text" size="2" maxlength="2" class="fill-in"> compared two dif<input id="q35_2" type="text" size="7" maxlength="7" class="fill-in"> methods.</p>
-                    <p>36. Envi<input id="q36_1" type="text" size="10" maxlength="10" class="fill-in"> problems are becoming more ser<input id="q36_2" type="text" size="5" maxlength="5" class="fill-in">.</p>
-                    <p>37. The compa<input id="q37_1" type="text" size="2" maxlength="2" class="fill-in"> is plan<input id="q37_2" type="text" size="5" maxlength="5" class="fill-in"> to open a new branch.</p>
-                    <p>38. The art<input id="q38_1" type="text" size="4" maxlength="4" class="fill-in"> discu<input id="q38_2" type="text" size="5" maxlength="5" class="fill-in"> the causes of clim<input id="q38_3" type="text" size="3" maxlength="3" class="fill-in"> change.</p>
-                    <p>39. The rese<input id="q39_1" type="text" size="6" maxlength="6" class="fill-in"> used acc<input id="q39_2" type="text" size="6" maxlength="6" class="fill-in"> data to supp<input id="q39_3" type="text" size="3" maxlength="3" class="fill-in"> her argu<input id="q39_4" type="text" size="4" maxlength="4" class="fill-in">.</p>
-                    <p>40. The scie<input id="q40_1" type="text" size="6" maxlength="6" class="fill-in"> presented her find<input id="q40_2" type="text" size="4" maxlength="4" class="fill-in"> at a conf<input id="q40_3" type="text" size="7" maxlength="7" class="fill-in">.</p>
+                    <p>31. The rese<input id="q31_1" type="text" maxlength="6" class="fill-in"> found strong evid<input id="q31_2" type="text" maxlength="4" class="fill-in"> for the theory.</p>
+                    <p>32. Uni<input id="q32_1" type="text" maxlength="8" class="fill-in"> offer courses in many subj<input id="q32_2" type="text" maxlength="5" class="fill-in">.</p>
+                    <p>33. The exper<input id="q33_1" type="text" maxlength="9" class="fill-in"> results were ana<input id="q33_2" type="text" maxlength="5" class="fill-in"> carefully.</p>
+                    <p>34. Tec<input id="q34_1" type="text" maxlength="8" class="fill-in"> has changed the way we commu<input id="q34_2" type="text" maxlength="8" class="fill-in">.</p>
+                    <p>35. The stu<input id="q35_1" type="text" maxlength="2" class="fill-in"> compared two dif<input id="q35_2" type="text" maxlength="7" class="fill-in"> methods.</p>
+                    <p>36. Envi<input id="q36_1" type="text" maxlength="10" class="fill-in"> problems are becoming more ser<input id="q36_2" type="text" maxlength="5" class="fill-in">.</p>
+                    <p>37. The compa<input id="q37_1" type="text" maxlength="2" class="fill-in"> is plan<input id="q37_2" type="text" maxlength="5" class="fill-in"> to open a new branch.</p>
+                    <p>38. The art<input id="q38_1" type="text" maxlength="4" class="fill-in"> discu<input id="q38_2" type="text" maxlength="5" class="fill-in"> the causes of clim<input id="q38_3" type="text" maxlength="3" class="fill-in"> change.</p>
+                    <p>39. The rese<input id="q39_1" type="text" maxlength="6" class="fill-in"> used acc<input id="q39_2" type="text" maxlength="6" class="fill-in"> data to supp<input id="q39_3" type="text" maxlength="3" class="fill-in"> her argu<input id="q39_4" type="text" maxlength="4" class="fill-in">.</p>
+                    <p>40. The scie<input id="q40_1" type="text" maxlength="6" class="fill-in"> presented her find<input id="q40_2" type="text" maxlength="4" class="fill-in"> at a conf<input id="q40_3" type="text" maxlength="7" class="fill-in">.</p>
                 </div>
                 <div class="mt-8 text-center space-x-4">
                     <button data-section="b2" class="check-btn bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition">Check B2 Answers</button>
@@ -161,19 +166,11 @@
                 btn.dataset.originalText = btn.textContent;
             });
 
-            // Remove the global retry button logic
-            /*
-            const retryAllBtn = document.getElementById('retry-all');
-            retryAllBtn.addEventListener('click', () => {
-                location.reload();
-            });
-            */
-            // Remove the 'retry-all' button from the DOM
+            // Remove the 'retry-all' button from the DOM (logic kept from original)
             const retryAllBtn = document.getElementById('retry-all');
             if (retryAllBtn) {
                 retryAllBtn.remove();
             }
-
 
             const updateScore = (points) => {
                 score += points;
@@ -186,10 +183,10 @@
                     q1_1: 'd', q1_2: 'ok',
                     q2_1: 'ining',
                     q3_1: 'udy', q3_2: 'ing',
-                    q4_1: 'king',
+                    q4_1: 'nking',
                     q5_1: 'end', q5_2: 'ball',
-                    q6_1: 'ortant', q6_2: 'fast',
-                    q7_1: 'ches',
+                    q6_1: 'ortant', q6_2: 'kfast',
+                    q7_1: 'tches',
                     q8_1: 'cher',
                     q9_1: 've', q9_2: 'elve',
                     q10_1: 'k'
@@ -232,6 +229,26 @@
                 }
             };
 
+            // --- REVISION: Calculate Total Score Dynamically ---
+            let totalScore = 0;
+            Object.values(answerKeys).forEach(section => {
+                totalScore += Object.keys(section).length;
+            });
+            document.getElementById('total').textContent = totalScore;
+            // --- End Revision ---
+
+            // --- REVISION: Dynamically set input widths based on maxlength ---
+            document.querySelectorAll('.fill-in').forEach(input => {
+                const len = input.maxLength;
+                if (len > 0) {
+                    // Set width based on maxlength. Add 2ch for padding/breathing room.
+                    // Use Math.max() to ensure a minimum width of 5ch.
+                    input.style.width = `${Math.max(len + 2, 5)}ch`;
+                }
+            });
+            // --- End Revision ---
+
+
             // To track scores per section, preventing double-counting
             const sectionScores = { a2: 0, b1_1: 0, b1_2: 0, b2: 0 };
 
@@ -250,7 +267,6 @@
                 const isFinalAttempt = (attempts >= 2); // Check if this is the 2nd (or later) attempt
 
                 const answerKey = answerKeys[sectionKey];
-                let correctCountThisAttempt = 0;
                 let totalInputsInSection = 0;
                 let incorrectInputs = []; // To track which ones to show answers for
 
@@ -262,14 +278,6 @@
                     totalInputsInSection++;
                     const input = document.getElementById(key);
                     if (input) {
-                        // Don't re-check already disabled (i.e., correct from a previous attempt) inputs
-                        /* REMOVED: This logic is now changed. We re-check all inputs.
-                        if (input.disabled && input.classList.contains('input-correct')) {
-                            newSectionScore++; // Keep counting previously correct answers
-                            return;
-                        }
-                        */
-
                         const userAnswer = input.value.trim().toLowerCase();
                         const correctAnswer = answerKey[key];
                         
@@ -304,15 +312,16 @@
                 let feedbackEl = sectionElement.querySelector('.feedback-msg');
                 if (!feedbackEl) {
                     feedbackEl = document.createElement('p');
-                    feedbackEl.className = 'feedback-msg mt-4 text-sm font-medium';
-                    button.insertAdjacentElement('afterend', feedbackEl);
+                    feedbackEl.className = 'feedback-msg mt-4 text-center text-sm font-medium'; // Centered feedback
+                    // Insert after the button container
+                    button.closest('div').appendChild(feedbackEl);
                 }
 
                 if (!isFinalAttempt) { // This is Attempt 1
                     if (newSectionScore === totalInputsInSection) {
                         // Perfect score on first try
                         feedbackEl.textContent = `You got ${newSectionScore} out of ${totalInputsInSection} correct. Well done!`;
-                        feedbackEl.className = 'feedback-msg mt-4 text-sm font-medium text-green-600';
+                        feedbackEl.className = 'feedback-msg mt-4 text-center text-sm font-medium text-green-600';
                         button.textContent = 'Checked!';
                         button.disabled = true;
                         button.classList.add('bg-gray-400', 'cursor-not-allowed');
@@ -321,7 +330,7 @@
                     } else {
                         // Not perfect, allow second attempt
                         feedbackEl.textContent = `You got ${newSectionScore} out of ${totalInputsInSection}. Review your answers and try again!`;
-                        feedbackEl.className = 'feedback-msg mt-4 text-sm font-medium text-yellow-700';
+                        feedbackEl.className = 'feedback-msg mt-4 text-center text-sm font-medium text-yellow-700';
                         button.textContent = 'Check Again'; // Change button text
                     }
                 } else if (attempts >= 2) { // This is the Final Attempt (Attempt 2)
@@ -330,23 +339,12 @@
                     button.disabled = true;
                     button.classList.add('bg-gray-400', 'cursor-not-allowed');
 
-                    // Show correct answers for remaining incorrect inputs
-                    /* MOVED: This logic is now inside the forEach loop
-                    incorrectInputs.forEach(input => {
-                        const correctAnswer = answerKeys[sectionKey][input.id];
-                        input.value = correctAnswer;
-                        input.classList.remove('input-incorrect');
-                        input.classList.add('input-correct'); // Show it as correct now
-                        input.disabled = true;
-                    });
-                    */
-
                     if (newSectionScore === totalInputsInSection) {
                         feedbackEl.textContent = `You got ${newSectionScore} out of ${totalInputsInSection} correct on the second try!`;
-                        feedbackEl.className = 'feedback-msg mt-4 text-sm font-medium text-green-600';
+                        feedbackEl.className = 'feedback-msg mt-4 text-center text-sm font-medium text-green-600';
                     } else {
                         feedbackEl.textContent = `Final score for this section: ${newSectionScore} out of ${totalInputsInSection}. Correct answers are shown.`;
-                        feedbackEl.className = 'feedback-msg mt-4 text-sm font-medium text-red-600';
+                        feedbackEl.className = 'feedback-msg mt-4 text-center text-sm font-medium text-red-600';
                     }
                 }
                 
@@ -409,3 +407,4 @@
     </script>
 </body>
 </html>
+
