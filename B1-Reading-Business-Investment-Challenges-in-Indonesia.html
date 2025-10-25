@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>B1 Reading - Business & Investment Challenges in Indonesia</title>
+    <title>Interactive Learning: Business Challenges in Indonesia</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -78,17 +78,9 @@
         <nav class="w-1/4 max-w-xs bg-gray-50 p-6 shadow-md h-screen sticky top-0 border-r border-gray-200 flex flex-col">
             <h1 class="text-xl font-bold text-gray-800 mb-8">B1 Reading - Business & Investment Challenges in Indonesia</h1>
             
-            <h2 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Prepare</h2>
-            <ul id="navigation-menu-prepare" class="space-y-1">
-                <!-- Prepare sections injected here -->
+            <ul id="navigation-menu" class="space-y-1">
+                <!-- All sections injected here -->
             </ul>
-
-            <div class="mt-8">
-                <h2 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Evaluate</h2>
-                <ul id="navigation-menu-evaluate" class="space-y-1">
-                    <!-- Evaluate sections injected here -->
-                </ul>
-            </div>
 
             <footer class="mt-auto pt-8 text-xs text-gray-400">
                 Designed by <a href="https://fajarudinakbar.online" target="_blank" rel="noopener noreferrer" class="text-indigo-500 hover:text-indigo-600 underline">fajarudinakbar.online</a>
@@ -133,119 +125,108 @@
         const appData = {
             title: "B1 Reading/Speaking",
             lessonTitle: "Business & Investment Challenges in Indonesia", // This is now the H1
-            groups: [
+            sections: [
                 {
-                    name: "PREPARE",
-                    sections: [
-                        {
-                            id: "vocab",
-                            title: "Vocabulary Preview",
-                            type: "matching",
-                            instructions: "Match the words to their meanings. Select the correct meaning for each word from the dropdown list.",
-                            items: [
-                                { term: "mass organizations", definition: "Groups of people who work together for a cause or interest", id: "a" },
-                                { term: "investors", definition: "People or companies who give money to a business to earn profit", id: "b" },
-                                { term: "supply chain", definition: "The movement of goods from supplier to customer", id: "c" },
-                                { term: "disrupt", definition: "To stop something from continuing as normal", id: "d" },
-                                { term: "verification", definition: "The process of checking if something is correct or legal", id: "e" },
-                                { term: "contributions", definition: "Donations of money or resources", id: "f" },
-                                { term: "security", definition: "Actions to keep people and property safe", id: "g" },
-                                { term: "project", definition: "A plan or amount of money used for building or developing something", id: "h" },
-                            ]
-                        },
-                        {
-                            id: "article-display",
-                            title: "Reading Passage",
-                            type: "article-display",
-                            articleTitle: "How Mass Organizations Disrupt Business and Investment in Indonesia",
-                            articleText: articleFullText,
-                            instructions: "Read the following passage carefully."
-                        },
-                        {
-                            id: "reading-questions",
-                            title: "Comprehension Questions", // Shortened title
-                            type: "qa",
-                            instructions: "After reading the 'Reading Passage', answer the following questions:",
-                            questions: [
-                                { q: "Why are some investors worried about doing business in Indonesia?", a: "Because of mass organizations asking for money or disrupting business activities." },
-                                { q: "What types of actions have mass organizations taken against businesses?", a: "Organizing protests, blocking factories, stopping supply chains, asking for money." },
-                                { q: "How much money did organizations in Cilegon ask from PT Chandra Asri Alkali?", a: "Rp 5 trillion." },
-                                { q: "What action did Kadin Indonesia take to support investors?", a: "They formed a verification team." },
-                                { q: "Why was Suhada arrested?", a: "He threatened a factory after not receiving money." }
-                            ]
-                        },
-                        {
-                            id: "truefalse",
-                            title: "True or False",
-                            type: "true-false",
-                            instructions: "Read each sentence and select T (True) or F (False):",
-                            statements: [
-                                { text: "Mass organizations always help factories and workers.", answer: false },
-                                { text: "The project by PT Chandra Asri Alkali was worth Rp 15 trillion.", answer: true },
-                                { text: "BYD is a Japanese electric vehicle company.", answer: false },
-                                { text: "Suhada was arrested for threatening a company.", answer: true },
-                                { text: "Many people want stronger legal protections for businesses.", answer: true }
-                            ]
-                        },
-                        {
-                            id: "grammar",
-                            title: "Grammar Review", // Shortened title
-                            type: "fill-blanks",
-                            instructions: "Complete the sentences using the correct word from the box:",
-                            wordBank: ["investors", "project", "contributions", "disrupt", "security", "verification"],
-                            sentences: [
-                                { text: "Mass organizations sometimes ______ business activities by blocking operations.", answer: "disrupt", id: "g1" },
-                                { text: "Kadin Indonesia formed a ______ team to support new investors.", answer: "verification", id: "g2" },
-                                { text: "The Rp 15 trillion ______ faced demands for money from local groups.", answer: "project", id: "g3" },
-                                { text: "Businesses gave ______ before Eid to avoid trouble.", answer: "contributions", id: "g4" },
-                                { text: "The government was asked to improve ______ for foreign companies.", answer: "security", id: "g5" },
-                                { text: "These problems make ______ nervous about entering the country.", answer: "investors", id: "g6" }
-                            ]
-                        },
-                        {
-                            id: "reorder",
-                            title: "Sentence Reordering",
-                            type: "sentence-reorder",
-                            instructions: "Rearrange the words to make complete sentences. Drag and drop the words into the correct order.",
-                            jumbledSentences: [
-                                { words: ["faced", "disruptions", "the", "BYD", "in", "company", "Subang"], answer: "The BYD company faced disruptions in Subang.", id:"sr1" },
-                                { words: ["from", "money", "organizations", "Some", "asked", "mass", "businesses"], answer: "Some mass organizations asked businesses for money.", id:"sr2" },
-                                { words: ["became", "a", "after", "viral", "went", "The", "known", "widely", "video"], answer: "The video became widely known after it went viral.", id:"sr3" },
-                                { words: ["businesses", "for", "legal", "action", "are", "Many", "stronger", "asking"], answer: "Many businesses are asking for stronger legal action.", id:"sr4" },
-                                { words: ["was", "arrested", "Suhada", "later", "threats", "making", "after"], answer: "Suhada was later arrested after making threats.", id:"sr5" }
-                            ]
-                        }
+                    id: "vocab",
+                    title: "Vocabulary Preview",
+                    type: "matching",
+                    instructions: "Match the words to their meanings. Select the correct meaning for each word from the dropdown list.",
+                    items: [
+                        { term: "mass organizations", definition: "Groups of people who work together for a cause or interest", id: "a" },
+                        { term: "investors", definition: "People or companies who give money to a business to earn profit", id: "b" },
+                        { term: "supply chain", definition: "The movement of goods from supplier to customer", id: "c" },
+                        { term: "disrupt", definition: "To stop something from continuing as normal", id: "d" },
+                        { term: "verification", definition: "The process of checking if something is correct or legal", id: "e" },
+                        { term: "contributions", definition: "Donations of money or resources", id: "f" },
+                        { term: "security", definition: "Actions to keep people and property safe", id: "g" },
+                        { term: "project", definition: "A plan or amount of money used for building or developing something", id: "h" },
                     ]
                 },
                 {
-                    name: "EVALUATE",
-                    sections: [
-                        {
-                            id: "discussion",
-                            title: "Discussion Questions",
-                            type: "open-ended",
-                            instructions: "Answer in complete sentences in the space provided below each question.",
-                            questions: [
-                                "Why is a safe business environment important for a country’s economy?",
-                                "What should the government do to protect businesses from threats?",
-                                "Have you ever heard of similar situations happening in other places?"
-                            ]
-                        },
-                        {
-                            id: "reflection",
-                            title: "Reflection",
-                            type: "open-ended",
-                            instructions: "Write 3–5 sentences about how you feel about the situation described in the article. Do you think it affects Indonesia’s future as a business location?",
-                            questions: []
-                        }
+                    id: "article-display",
+                    title: "Reading Passage",
+                    type: "article-display",
+                    articleTitle: "How Mass Organizations Disrupt Business and Investment in Indonesia",
+                    articleText: articleFullText,
+                    instructions: "Read the following passage carefully."
+                },
+                {
+                    id: "reading-questions",
+                    title: "Comprehension Questions", // Shortened title
+                    type: "qa",
+                    instructions: "After reading the 'Reading Passage', answer the following questions:",
+                    questions: [
+                        { q: "Why are some investors worried about doing business in Indonesia?", a: "Because of mass organizations asking for money or disrupting business activities." },
+                        { q: "What types of actions have mass organizations taken against businesses?", a: "Organizing protests, blocking factories, stopping supply chains, asking for money." },
+                        { q: "How much money did organizations in Cilegon ask from PT Chandra Asri Alkali?", a: "Rp 5 trillion." },
+                        { q: "What action did Kadin Indonesia take to support investors?", a: "They formed a verification team." },
+                        { q: "Why was Suhada arrested?", a: "He threatened a factory after not receiving money." }
                     ]
+                },
+                {
+                    id: "truefalse",
+                    title: "True or False",
+                    type: "true-false",
+                    instructions: "Read each sentence and select T (True) or F (False):",
+                    statements: [
+                        { text: "Mass organizations always help factories and workers.", answer: false },
+                        { text: "The project by PT Chandra Asri Alkali was worth Rp 15 trillion.", answer: true },
+                        { text: "BYD is a Japanese electric vehicle company.", answer: false },
+                        { text: "Suhada was arrested for threatening a company.", answer: true },
+                        { text: "Many people want stronger legal protections for businesses.", answer: true }
+                    ]
+                },
+                {
+                    id: "grammar",
+                    title: "Grammar Review", // Shortened title
+                    type: "fill-blanks",
+                    instructions: "Complete the sentences using the correct word from the box:",
+                    wordBank: ["investors", "project", "contributions", "disrupt", "security", "verification"],
+                    sentences: [
+                        { text: "Mass organizations sometimes ______ business activities by blocking operations.", answer: "disrupt", id: "g1" },
+                        { text: "Kadin Indonesia formed a ______ team to support new investors.", answer: "verification", id: "g2" },
+                        { text: "The Rp 15 trillion ______ faced demands for money from local groups.", answer: "project", id: "g3" },
+                        { text: "Businesses gave ______ before Eid to avoid trouble.", answer: "contributions", id: "g4" },
+                        { text: "The government was asked to improve ______ for foreign companies.", answer: "security", id: "g5" },
+                        { text: "These problems make ______ nervous about entering the country.", answer: "investors", id: "g6" }
+                    ]
+                },
+                {
+                    id: "reorder",
+                    title: "Sentence Reordering",
+                    type: "sentence-reorder",
+                    instructions: "Rearrange the words to make complete sentences. Drag and drop the words into the correct order.",
+                    jumbledSentences: [
+                        { words: ["faced", "disruptions", "the", "BYD", "in", "company", "Subang"], answer: "The BYD company faced disruptions in Subang.", id:"sr1" },
+                        { words: ["from", "money", "organizations", "Some", "asked", "mass", "businesses"], answer: "Some mass organizations asked businesses for money.", id:"sr2" },
+                        { words: ["became", "a", "after", "viral", "went", "The", "known", "widely", "video"], answer: "The video became widely known after it went viral.", id:"sr3" },
+                        { words: ["businesses", "for", "legal", "action", "are", "Many", "stronger", "asking"], answer: "Many businesses are asking for stronger legal action.", id:"sr4" },
+                        { words: ["was", "arrested", "Suhada", "later", "threats", "making", "after"], answer: "Suhada was later arrested after making threats.", id:"sr5" }
+                    ]
+                },
+                {
+                    id: "discussion",
+                    title: "Discussion Questions",
+                    type: "open-ended",
+                    instructions: "Answer in complete sentences in the space provided below each question.",
+                    questions: [
+                        "Why is a safe business environment important for a country’s economy?",
+                        "What should the government do to protect businesses from threats?",
+                        "Have you ever heard of similar situations happening in other places?"
+                    ]
+                },
+                {
+                    id: "reflection",
+                    title: "Reflection",
+                    type: "open-ended",
+                    instructions: "Write 3–5 sentences about how you feel about the situation described in the article. Do you think it affects Indonesia’s future as a business location?",
+                    questions: []
                 }
             ]
         };
 
         // --- DOM Elements ---
-        const navMenuPrepare = document.getElementById('navigation-menu-prepare');
-        const navMenuEvaluate = document.getElementById('navigation-menu-evaluate');
+        const navMenu = document.getElementById('navigation-menu');
         const appContent = document.getElementById('app-content');
         const appContentWrapper = document.getElementById('app-content-wrapper'); // <-- FIX: Defined the missing variable
         
@@ -838,23 +819,19 @@
         function init() {
             // Flatten sections and populate nav menus
             let sectionIndex = 1;
-            appData.groups.forEach(group => {
-                const navMenu = (group.name === 'PREPARE') ? navMenuPrepare : navMenuEvaluate;
+            appData.sections.forEach(section => {
+                flatSections.push(section);
                 
-                group.sections.forEach(section => {
-                    flatSections.push(section);
-                    
-                    const li = document.createElement('li');
-                    const button = document.createElement('button');
-                    button.textContent = `${sectionIndex}. ${section.title}`;
-                    button.dataset.sectionId = section.id;
-                    button.className = 'nav-item w-full text-left px-3 py-2 rounded-md text-sm'; // Use new base class
-                    button.addEventListener('click', () => renderSection(section.id));
-                    li.appendChild(button);
-                    navMenu.appendChild(li);
-                    
-                    sectionIndex++;
-                });
+                const li = document.createElement('li');
+                const button = document.createElement('button');
+                button.textContent = `${sectionIndex}. ${section.title}`;
+                button.dataset.sectionId = section.id;
+                button.className = 'nav-item w-full text-left px-3 py-2 rounded-md text-sm'; // Use new base class
+                button.addEventListener('click', () => renderSection(section.id));
+                li.appendChild(button);
+                navMenu.appendChild(li);
+                
+                sectionIndex++;
             });
             
             totalSections = flatSections.length;
@@ -875,3 +852,4 @@
     </script>
 </body>
 </html>
+```eof
