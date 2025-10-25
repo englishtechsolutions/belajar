@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B1 Reading - Business & Investment Challenges in Indonesia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* New active nav item style */
+        .nav-item.active {
+            background-color: #eef2ff; /* indigo-100 */
+            color: #4f46e5; /* indigo-600 */
+            font-weight: 600; /* semibold */
+        }
+        /* Default nav item style */
+        .nav-item {
+            color: #4b5563; /* gray-600 */
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        .nav-item:hover {
+            background-color: #f3f4f6; /* gray-100 */
+        }
+
+        .word-tile {
+            cursor: grab;
+            user-select: none;
+        }
+        .drop-zone {
+            min-height: 50px;
+            border-style: dashed;
+        }
+        .feedback-correct {
+            color: #16a34a; /* green-600 */
+            font-weight: 500;
+        }
+        .feedback-incorrect {
+            color: #dc2626; /* red-600 */
+            font-weight: 500;
+        }
+        /* Custom scrollbar for reading text */
+        .reading-text-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        .reading-text-container::-webkit-scrollbar-track {
+            background: #f1f5f9; /* slate-100 */
+            border-radius: 10px;
+        }
+        .reading-text-container::-webkit-scrollbar-thumb {
+            background: #94a3b8; /* slate-400 */
+            border-radius: 10px;
+        }
+        .reading-text-container::-webkit-scrollbar-thumb:hover {
+            background: #64748b; /* slate-500 */
+        }
+        .article-content {
+            max-width: 42rem; /* equivalent to prose class in Tailwind Typography for readability */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Ensure disabled buttons are styled correctly */
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-slate-800">
+
+    <!-- Main container for two-column layout -->
+    <div class="flex min-h-screen">
+        
+        <!-- Left Navigation Sidebar -->
+        <nav class="w-1/4 max-w-xs bg-gray-50 p-6 shadow-md h-screen sticky top-0 border-r border-gray-200 flex flex-col">
+            <h1 class="text-xl font-bold text-gray-800 mb-8">B1 Reading - Business & Investment Challenges in Indonesia</h1>
+            
+            <h2 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Prepare</h2>
+            <ul id="navigation-menu-prepare" class="space-y-1">
+                <!-- Prepare sections injected here -->
+            </ul>
+
+            <div class="mt-8">
+                <h2 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Evaluate</h2>
+                <ul id="navigation-menu-evaluate" class="space-y-1">
+                    <!-- Evaluate sections injected here -->
+                </ul>
+            </div>
+
+            <footer class="mt-auto pt-8 text-xs text-gray-400">
+                Designed by <a href="https://fajarudinakbar.online" target="_blank" rel="noopener noreferrer" class="text-indigo-500 hover:text-indigo-600 underline">fajarudinakbar.online</a>
+            </footer>
+        </nav>
+
+        <!-- Right Main Content Area -->
+        <div class="w-3/4 flex-grow p-8 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <!-- Header and Progress Bar -->
+                <div id="progress-header" class="mb-8">
+                    <div class="flex justify-between items-center mb-2">
+                        <h2 id="progress-section-title" class="text-lg font-semibold text-gray-700"></h2>
+                        <span id="progress-step" class="text-sm text-gray-500"></span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-1.5">
+                        <div id="progress-bar" class="bg-indigo-600 h-1.5 rounded-full transition-all duration-300 ease-out" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Main Content Wrapper -->
+                <main class="bg-white p-6 sm:p-8 rounded-xl shadow-lg" id="app-content-wrapper">
+                    <div id="app-content">
+                        <!-- Current section content will be dynamically injected here -->
+                    </div>
+                </main>
+
+                <!-- Pagination Controls -->
+                <div id="pagination-controls" class="flex justify-between mt-10 pt-6 border-t border-gray-200">
+                    <button id="prev-button" class="px-6 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 transition-colors">Previous</button>
+                    <button id="next-button" class="px-6 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition-colors">Next</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- DATA ---
+        const articleFullText = `Several businesses in Indonesia have faced problems because of mass organizations (ormas) demanding money or involvement in projects. These actions have made investors uncertain about entering the country.\n\nThe General Chairperson of Himpunan Kawasan Industri (HKI), Sanny Iskandar, explained that these groups often create obstacles by organizing protests, blocking factory operations, or stopping supply chains. He believes that Indonesia has lost trillions of rupiah in potential investments because of this.\n\nOne example is the PT Chandra Asri Alkali case, where some business organizations in Cilegon, Banten, asked for Rp 5 trillion from a Rp 15 trillion project. This situation became widely known after a video went viral. To address the issue, Kadin Indonesia formed a verification team to make sure investors would not be disturbed.\n\nAnother case happened in Subang, West Java, where a Chinese electric vehicle company, BYD, faced disruptions from local organizations. A politician, Eddy Soeparno, urged the local government to provide better security for investors.\n\nMass organizations have alsoasked for money from businesses before Eid celebrations in Tangerang, Depok, and Bantargebang. Some companies felt pressured to give contributions, fearing negative consequences if they refused.\n\nOne well-known case involved Suhada, a leader of an organization in Bantargebang, who threatened a factory after not receiving enough money. His words were caught on video, and he was later arrested and charged under the Indonesian Criminal Code.\n\nThese problems have made investors and business owners worried. Many people are calling for stronger legal action to protect companies and ensure a safer investment environment in Indonesia.\n\nAdapted from https://en.tempo.co/read/2007369/a-series-of-cases-of-extortion-by-mass-organizations-to-companies`;
+
+        const appData = {
+            title: "B1 Reading/Speaking",
+            lessonTitle: "Business & Investment Challenges in Indonesia", // This is now the H1
+            groups: [
+                {
+                    name: "PREPARE",
+                    sections: [
+                        {
+                            id: "vocab",
+                            title: "Vocabulary Preview",
+                            type: "matching",
+                            instructions: "Match the words to their meanings. Select the correct meaning for each word from the dropdown list.",
+                            items: [
+                                { term: "mass organizations", definition: "Groups of people who work together for a cause or interest", id: "a" },
+                                { term: "investors", definition: "People or companies who give money to a business to earn profit", id: "b" },
+                                { term: "supply chain", definition: "The movement of goods from supplier to customer", id: "c" },
+                                { term: "disrupt", definition: "To stop something from continuing as normal", id: "d" },
+                                { term: "verification", definition: "The process of checking if something is correct or legal", id: "e" },
+                                { term: "contributions", definition: "Donations of money or resources", id: "f" },
+                                { term: "security", definition: "Actions to keep people and property safe", id: "g" },
+                                { term: "project", definition: "A plan or amount of money used for building or developing something", id: "h" },
+                            ]
+                        },
+                        {
+                            id: "article-display",
+                            title: "Reading Passage",
+                            type: "article-display",
+                            articleTitle: "How Mass Organizations Disrupt Business and Investment in Indonesia",
+                            articleText: articleFullText,
+                            instructions: "Read the following passage carefully."
+                        },
+                        {
+                            id: "reading-questions",
+                            title: "Comprehension Questions", // Shortened title
+                            type: "qa",
+                            instructions: "After reading the 'Reading Passage', answer the following questions:",
+                            questions: [
+                                { q: "Why are some investors worried about doing business in Indonesia?", a: "Because of mass organizations asking for money or disrupting business activities." },
+                                { q: "What types of actions have mass organizations taken against businesses?", a: "Organizing protests, blocking factories, stopping supply chains, asking for money." },
+                                { q: "How much money did organizations in Cilegon ask from PT Chandra Asri Alkali?", a: "Rp 5 trillion." },
+                                { q: "What action did Kadin Indonesia take to support investors?", a: "They formed a verification team." },
+                                { q: "Why was Suhada arrested?", a: "He threatened a factory after not receiving money." }
+                            ]
+                        },
+                        {
+                            id: "truefalse",
+                            title: "True or False",
+                            type: "true-false",
+                            instructions: "Read each sentence and select T (True) or F (False):",
+                            statements: [
+                                { text: "Mass organizations always help factories and workers.", answer: false },
+                                { text: "The project by PT Chandra Asri Alkali was worth Rp 15 trillion.", answer: true },
+                                { text: "BYD is a Japanese electric vehicle company.", answer: false },
+                                { text: "Suhada was arrested for threatening a company.", answer: true },
+                                { text: "Many people want stronger legal protections for businesses.", answer: true }
+                            ]
+                        },
+                        {
+                            id: "grammar",
+                            title: "Grammar Review", // Shortened title
+                            type: "fill-blanks",
+                            instructions: "Complete the sentences using the correct word from the box:",
+                            wordBank: ["investors", "project", "contributions", "disrupt", "security", "verification"],
+                            sentences: [
+                                { text: "Mass organizations sometimes ______ business activities by blocking operations.", answer: "disrupt", id: "g1" },
+                                { text: "Kadin Indonesia formed a ______ team to support new investors.", answer: "verification", id: "g2" },
+                                { text: "The Rp 15 trillion ______ faced demands for money from local groups.", answer: "project", id: "g3" },
+                                { text: "Businesses gave ______ before Eid to avoid trouble.", answer: "contributions", id: "g4" },
+                                { text: "The government was asked to improve ______ for foreign companies.", answer: "security", id: "g5" },
+                                { text: "These problems make ______ nervous about entering the country.", answer: "investors", id: "g6" }
+                            ]
+                        },
+                        {
+                            id: "reorder",
+                            title: "Sentence Reordering",
+                            type: "sentence-reorder",
+                            instructions: "Rearrange the words to make complete sentences. Drag and drop the words into the correct order.",
+                            jumbledSentences: [
+                                { words: ["faced", "disruptions", "the", "BYD", "in", "company", "Subang"], answer: "The BYD company faced disruptions in Subang.", id:"sr1" },
+                                { words: ["from", "money", "organizations", "Some", "asked", "mass", "businesses"], answer: "Some mass organizations asked businesses for money.", id:"sr2" },
+                                { words: ["became", "a", "after", "viral", "went", "The", "known", "widely", "video"], answer: "The video became widely known after it went viral.", id:"sr3" },
+                                { words: ["businesses", "for", "legal", "action", "are", "Many", "stronger", "asking"], answer: "Many businesses are asking for stronger legal action.", id:"sr4" },
+                                { words: ["was", "arrested", "Suhada", "later", "threats", "making", "after"], answer: "Suhada was later arrested after making threats.", id:"sr5" }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    name: "EVALUATE",
+                    sections: [
+                        {
+                            id: "discussion",
+                            title: "Discussion Questions",
+                            type: "open-ended",
+                            instructions: "Answer in complete sentences in the space provided below each question.",
+                            questions: [
+                                "Why is a safe business environment important for a country’s economy?",
+                                "What should the government do to protect businesses from threats?",
+                                "Have you ever heard of similar situations happening in other places?"
+                            ]
+                        },
+                        {
+                            id: "reflection",
+                            title: "Reflection",
+                            type: "open-ended",
+                            instructions: "Write 3–5 sentences about how you feel about the situation described in the article. Do you think it affects Indonesia’s future as a business location?",
+                            questions: []
+                        }
+                    ]
+                }
+            ]
+        };
+
+        // --- DOM Elements ---
+        const navMenuPrepare = document.getElementById('navigation-menu-prepare');
+        const navMenuEvaluate = document.getElementById('navigation-menu-evaluate');
+        const appContent = document.getElementById('app-content');
+        const appContentWrapper = document.getElementById('app-content-wrapper'); // <-- FIX: Defined the missing variable
+        
+        const progressSectionTitle = document.getElementById('progress-section-title');
+        const progressStep = document.getElementById('progress-step');
+        const progressBar = document.getElementById('progress-bar');
+        
+        const prevButton = document.getElementById('prev-button');
+        const nextButton = document.getElementById('next-button');
+
+        // --- App State ---
+        let currentSectionId = null;
+        let flatSections = [];
+        let totalSections = 0;
+
+        // --- Utility Functions ---
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+        
+        function createButton(text, classes, onClick) {
+            const button = document.createElement('button');
+            button.textContent = text;
+            button.className = `px-4 py-2 rounded-lg shadow hover:opacity-90 transition-opacity ${classes}`;
+            button.addEventListener('click', onClick);
+            return button;
+        }
+
+        // --- NEW: Navigation and Progress ---
+        function updateProgress(sectionId) {
+            const currentIndex = flatSections.findIndex(s => s.id === sectionId);
+            if (currentIndex === -1) return;
+
+            const currentSection = flatSections[currentIndex];
+            const currentStep = currentIndex + 1;
+
+            // Update header
+            progressSectionTitle.textContent = currentSection.title;
+            progressStep.textContent = `Step ${currentStep} of ${totalSections}`;
+            
+            // Update progress bar
+            progressBar.style.width = `${(currentStep / totalSections) * 100}%`;
+
+            // Update pagination buttons
+            prevButton.disabled = (currentIndex === 0);
+            nextButton.disabled = (currentIndex === totalSections - 1);
+
+            // Update active state in navigation
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.toggle('active', item.dataset.sectionId === sectionId);
+            });
+        }
+        
+        function navigatePrev() {
+            const currentIndex = flatSections.findIndex(s => s.id === currentSectionId);
+            if (currentIndex > 0) {
+                renderSection(flatSections[currentIndex - 1].id);
+            }
+        }
+        
+        function navigateNext() {
+            const currentIndex = flatSections.findIndex(s => s.id === currentSectionId);
+            if (currentIndex < totalSections - 1) {
+                renderSection(flatSections[currentIndex + 1].id);
+            }
+        }
+
+        // --- Rendering Functions ---
+        function renderSection(sectionId) {
+            currentSectionId = sectionId;
+            appContent.innerHTML = ''; 
+            const section = flatSections.find(s => s.id === sectionId);
+            if (!section) {
+                appContent.innerHTML = '<p class="text-red-500">Section not found.</p>';
+                return;
+            }
+
+            // Update progress bar and pagination
+            updateProgress(sectionId);
+
+            // Create section title
+            const sectionTitleEl = document.createElement('h2');
+            sectionTitleEl.className = 'text-2xl font-semibold text-slate-800 mb-2'; // Updated style
+            sectionTitleEl.textContent = section.title;
+            
+            // For the "Reading Passage" section, use its specific title
+            if (section.type === 'article-display') {
+                 sectionTitleEl.textContent = section.articleTitle;
+                 sectionTitleEl.className = 'text-2xl font-semibold text-slate-800 mb-6 text-center';
+            } else {
+                 sectionTitleEl.textContent = `Part ${flatSections.findIndex(s => s.id === sectionId) + 1}: ${section.title}`;
+                 sectionTitleEl.className = 'text-2xl font-bold text-slate-800 mb-6'; // Style like "Part 1: Warm-up Discussion"
+            }
+            
+            appContent.appendChild(sectionTitleEl);
+
+
+            if (section.instructions) {
+                const instructionsEl = document.createElement('p');
+                instructionsEl.className = 'text-slate-600 mb-6 text-base'; // Slightly larger instruction text
+                instructionsEl.textContent = section.instructions;
+                appContent.appendChild(instructionsEl);
+            }
+
+            switch (section.type) {
+                case 'matching':
+                    renderMatchingSection(section);
+                    break;
+                case 'article-display': 
+                    renderArticleDisplaySection(section);
+                    break;
+                case 'qa':
+                    renderQASection(section);
+                    break;
+                case 'true-false':
+                    renderTrueFalseSection(section);
+                    break;
+                case 'fill-blanks':
+                    renderFillBlanksSection(section);
+                    break;
+                case 'sentence-reorder':
+                    renderSentenceReorderSection(section);
+                    break;
+                case 'open-ended':
+                    renderOpenEndedSection(section);
+                    break;
+                default:
+                    appContent.innerHTML += '<p>This section type is not yet implemented.</p>';
+            }
+            
+            // Scroll to top of content area on navigation
+            appContentWrapper.scrollTop = 0;
+        }
+
+        function renderMatchingSection(section) {
+            const container = document.createElement('div');
+            container.className = 'space-y-4';
+            const definitions = shuffleArray(section.items.map(item => item.definition));
+
+            section.items.forEach((item, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'p-4 border border-slate-200 rounded-lg bg-slate-50 flex flex-col sm:flex-row sm:items-center sm:justify-between';
+                
+                const termEl = document.createElement('p');
+                termEl.className = 'font-semibold text-slate-700 mb-2 sm:mb-0 sm:w-2/5';
+                termEl.textContent = `${item.id}) ${item.term}`;
+                itemDiv.appendChild(termEl);
+
+                const selectEl = document.createElement('select');
+                selectEl.className = 'p-2 border border-slate-300 rounded-md w-full sm:w-3/5 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500';
+                selectEl.id = `vocab-select-${index}`;
+                
+                const defaultOption = document.createElement('option');
+                defaultOption.value = "";
+                defaultOption.textContent = "-- Select a meaning --";
+                selectEl.appendChild(defaultOption);
+
+                definitions.forEach(def => {
+                    const option = document.createElement('option');
+                    option.value = def;
+                    option.textContent = def;
+                    selectEl.appendChild(option);
+                });
+                itemDiv.appendChild(selectEl);
+
+                const feedbackEl = document.createElement('p');
+                feedbackEl.id = `vocab-feedback-${index}`;
+                feedbackEl.className = 'mt-1 text-sm h-5 w-full sm:w-auto sm:ml-4 sm:text-right';
+                itemDiv.appendChild(feedbackEl);
+                
+                container.appendChild(itemDiv);
+            });
+
+            const buttonContainer = document.createElement('div');
+            buttonContainer.className = 'mt-6 flex gap-x-3';
+            const checkButton = createButton('Check Answers', 'bg-indigo-600 text-white', () => {
+                section.items.forEach((item, index) => {
+                    const selectEl = document.getElementById(`vocab-select-${index}`);
+                    const feedbackEl = document.getElementById(`vocab-feedback-${index}`);
+                    if (selectEl.value === item.definition) {
+                        feedbackEl.textContent = 'Correct!';
+                        feedbackEl.className = 'mt-1 text-sm feedback-correct w-full sm:w-auto sm:ml-4 sm:text-right';
+                        selectEl.classList.add('border-green-500');
+                        selectEl.classList.remove('border-red-500');
+                    } else if (selectEl.value !== "") {
+                        feedbackEl.textContent = 'Incorrect.';
+                        feedbackEl.className = 'mt-1 text-sm feedback-incorrect w-full sm:w-auto sm:ml-4 sm:text-right';
+                        selectEl.classList.add('border-red-500');
+                        selectEl.classList.remove('border-green-500');
+                    } else {
+                         feedbackEl.textContent = '';
+                         selectEl.classList.remove('border-red-500', 'border-green-500');
+                    }
+                });
+            });
+            buttonContainer.appendChild(checkButton);
+
+            const showAnswersButton = createButton('Show All Answers', 'bg-slate-500 text-white', () => {
+                 section.items.forEach((item, index) => {
+                    const selectEl = document.getElementById(`vocab-select-${index}`);
+                    const feedbackEl = document.getElementById(`vocab-feedback-${index}`);
+                    selectEl.value = item.definition;
+                    feedbackEl.textContent = `Correct`; 
+                    feedbackEl.className = 'mt-1 text-sm text-slate-600 w-full sm:w-auto sm:ml-4 sm:text-right';
+                    selectEl.classList.remove('border-red-500', 'border-green-500');
+                    selectEl.classList.add('border-blue-500'); 
+                });
+            });
+            buttonContainer.appendChild(showAnswersButton);
+            container.appendChild(buttonContainer);
+            appContent.appendChild(container);
+        }
+
+        function renderArticleDisplaySection(section) {
+            // Title and instructions are already rendered by renderSection
+            const articleContainer = document.createElement('div');
+            articleContainer.className = 'article-content'; 
+
+            const articleTextEl = document.createElement('div');
+            articleTextEl.className = 'text-slate-700 leading-relaxed whitespace-pre-line text-base md:text-lg space-y-4 reading-text-container max-h-[70vh] overflow-y-auto p-4 bg-slate-50 rounded-lg border border-slate-200 shadow-sm';
+            
+            const paragraphs = section.articleText.split(/\n\s*\n/); 
+            paragraphs.forEach(paraText => {
+                if (paraText.trim() !== '') {
+                    const p = document.createElement('p');
+                    p.textContent = paraText.trim();
+                    articleTextEl.appendChild(p);
+                }
+            });
+            
+            articleContainer.appendChild(articleTextEl);
+            appContent.appendChild(articleContainer);
+        }
+
+
+        function renderQASection(section) {
+            const questionsContainer = document.createElement('div');
+            questionsContainer.className = 'space-y-5'; // Increased spacing
+            section.questions.forEach((qItem, index) => {
+                const qDiv = document.createElement('div');
+                qDiv.className = 'p-4 border border-slate-200 rounded-lg bg-slate-50';
+                
+                const qText = document.createElement('p');
+                qText.className = 'font-medium text-slate-700 mb-3'; // Bolder margin
+                qText.textContent = `${index + 1}. ${qItem.q}`;
+                qDiv.appendChild(qText);
+
+                const textarea = document.createElement('textarea');
+                textarea.id = `qa-input-${index}`;
+                textarea.rows = 3;
+                textarea.className = 'w-full p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500';
+                textarea.placeholder = 'Type your answer here...';
+                qDiv.appendChild(textarea);
+
+                const feedbackEl = document.createElement('p');
+                feedbackEl.id = `qa-feedback-${index}`;
+                feedbackEl.className = 'mt-2 text-sm h-5 text-slate-600';
+                qDiv.appendChild(feedbackEl);
+                
+                const showAnswerButton = createButton('Show Sample Answer', 'bg-slate-200 text-slate-700 text-sm mt-2 hover:bg-slate-300', () => {
+                    feedbackEl.textContent = `Sample Answer: ${qItem.a}`;
+                });
+                qDiv.appendChild(showAnswerButton);
+                questionsContainer.appendChild(qDiv);
+            });
+            appContent.appendChild(questionsContainer);
+        }
+
+        function renderTrueFalseSection(section) {
+            const container = document.createElement('div');
+            container.className = 'space-y-4';
+
+            section.statements.forEach((stmt, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'p-4 border border-slate-200 rounded-lg bg-slate-50';
+                
+                const stmtText = document.createElement('p');
+                stmtText.className = 'text-slate-700 mb-3';
+                stmtText.textContent = `${index + 1}. ${stmt.text}`;
+                itemDiv.appendChild(stmtText);
+
+                const buttonGroup = document.createElement('div');
+                buttonGroup.className = 'flex space-x-3 mb-2';
+                
+                const trueButton = createButton('True', 'bg-green-500 hover:bg-green-600 text-white w-20', () => handleTrueFalse(index, true, stmt.answer));
+                trueButton.id = `tf-true-${index}`;
+                const falseButton = createButton('False', 'bg-red-500 hover:bg-red-600 text-white w-20', () => handleTrueFalse(index, false, stmt.answer));
+                falseButton.id = `tf-false-${index}`;
+                
+                buttonGroup.appendChild(trueButton);
+                buttonGroup.appendChild(falseButton);
+                itemDiv.appendChild(buttonGroup);
+
+                const feedbackEl = document.createElement('p');
+                feedbackEl.id = `tf-feedback-${index}`;
+                feedbackEl.className = 'text-sm h-5';
+                itemDiv.appendChild(feedbackEl);
+                container.appendChild(itemDiv);
+            });
+            
+            const showAllButton = createButton('Show All Answers', 'bg-slate-500 text-white mt-6', () => {
+                section.statements.forEach((stmt, index) => {
+                    const feedbackEl = document.getElementById(`tf-feedback-${index}`);
+                    feedbackEl.textContent = `Correct Answer: ${stmt.answer ? 'True' : 'False'}`;
+                    feedbackEl.className = 'text-sm text-slate-600';
+                    document.getElementById(`tf-true-${index}`).classList.remove('ring-2', 'ring-offset-2', 'ring-green-500', 'ring-red-500');
+                    document.getElementById(`tf-false-${index}`).classList.remove('ring-2', 'ring-offset-2', 'ring-green-500', 'ring-red-500');
+                    if (stmt.answer) {
+                        document.getElementById(`tf-true-${index}`).classList.add('ring-2', 'ring-offset-2', 'ring-blue-500');
+                    } else {
+                        document.getElementById(`tf-false-${index}`).classList.add('ring-2', 'ring-offset-2', 'ring-blue-500');
+                    }
+                });
+            });
+            container.appendChild(showAllButton);
+            appContent.appendChild(container);
+        }
+        
+        function handleTrueFalse(index, selectedAnswer, correctAnswer) {
+            const feedbackEl = document.getElementById(`tf-feedback-${index}`);
+            const trueButton = document.getElementById(`tf-true-${index}`);
+            const falseButton = document.getElementById(`tf-false-${index}`);
+
+            trueButton.classList.remove('ring-2', 'ring-offset-2', 'ring-green-500', 'ring-red-500', 'ring-blue-500');
+            falseButton.classList.remove('ring-2', 'ring-offset-2', 'ring-green-500', 'ring-red-500', 'ring-blue-500');
+
+            const chosenButton = selectedAnswer ? trueButton : falseButton;
+            
+            if (selectedAnswer === correctAnswer) {
+                feedbackEl.textContent = 'Correct!';
+                feedbackEl.className = 'text-sm feedback-correct';
+                chosenButton.classList.add('ring-2', 'ring-offset-2', 'ring-green-500');
+            } else {
+                feedbackEl.textContent = 'Incorrect.';
+                feedbackEl.className = 'text-sm feedback-incorrect';
+                chosenButton.classList.add('ring-2', 'ring-offset-2', 'ring-red-500');
+            }
+        }
+
+        function renderFillBlanksSection(section) {
+            const container = document.createElement('div');
+            container.className = 'space-y-4';
+
+            const wordBankEl = document.createElement('div');
+            wordBankEl.className = 'p-3 bg-indigo-50 border border-indigo-200 rounded-lg mb-6';
+            wordBankEl.innerHTML = `<p class="font-semibold text-indigo-700">Word Bank:</p><p class="text-indigo-600">${section.wordBank.join(', ')}</p>`;
+            container.appendChild(wordBankEl);
+
+            section.sentences.forEach((sentence, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'p-4 border border-slate-200 rounded-lg bg-slate-50';
+                
+                const sentenceParts = sentence.text.split('______');
+                const sentenceTextEl = document.createElement('p');
+                sentenceTextEl.className = 'text-slate-700 mb-2 flex flex-wrap items-center'; 
+                sentenceTextEl.appendChild(document.createTextNode(`${index + 1}. ${sentenceParts[0]}`));
+                
+                const selectEl = document.createElement('select');
+                selectEl.id = `grammar-select-${index}`;
+                selectEl.className = 'mx-1 p-1 border border-slate-300 rounded-md focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 min-w-[100px]';
+                
+                const defaultOption = document.createElement('option');
+                defaultOption.value = "";
+                defaultOption.textContent = "select";
+                selectEl.appendChild(defaultOption);
+                
+                shuffleArray(section.wordBank).forEach(word => {
+                    const option = document.createElement('option');
+                    option.value = word;
+                    option.textContent = word;
+                    selectEl.appendChild(option);
+                });
+                sentenceTextEl.appendChild(selectEl);
+                sentenceTextEl.appendChild(document.createTextNode(sentenceParts[1] || ''));
+                itemDiv.appendChild(sentenceTextEl);
+
+                const feedbackEl = document.createElement('p');
+                feedbackEl.id = `grammar-feedback-${index}`;
+                feedbackEl.className = 'text-sm h-5';
+                itemDiv.appendChild(feedbackEl);
+                container.appendChild(itemDiv);
+            });
+            
+            const buttonContainer = document.createElement('div');
+            buttonContainer.className = 'mt-6 flex gap-x-3';
+            const checkButton = createButton('Check Answers', 'bg-indigo-600 text-white', () => {
+                section.sentences.forEach((sentence, index) => {
+                    const selectEl = document.getElementById(`grammar-select-${index}`);
+                    const feedbackEl = document.getElementById(`grammar-feedback-${index}`);
+                    if (selectEl.value === sentence.answer) {
+                        feedbackEl.textContent = 'Correct!';
+                        feedbackEl.className = 'text-sm feedback-correct';
+                        selectEl.classList.add('border-green-500');
+                        selectEl.classList.remove('border-red-500');
+                    } else if (selectEl.value !== "") {
+                        feedbackEl.textContent = 'Incorrect.';
+                        feedbackEl.className = 'text-sm feedback-incorrect';
+                        selectEl.classList.add('border-red-500');
+                        selectEl.classList.remove('border-green-500');
+                    } else {
+                        feedbackEl.textContent = '';
+                        selectEl.classList.remove('border-red-500', 'border-green-500');
+                    }
+                });
+            });
+            buttonContainer.appendChild(checkButton);
+
+            const showAnswersButton = createButton('Show All Answers', 'bg-slate-500 text-white', () => {
+                section.sentences.forEach((sentence, index) => {
+                    const selectEl = document.getElementById(`grammar-select-${index}`);
+                    const feedbackEl = document.getElementById(`grammar-feedback-${index}`);
+                    selectEl.value = sentence.answer;
+                    feedbackEl.textContent = `Correct: ${sentence.answer}`;
+                    feedbackEl.className = 'text-sm text-slate-600';
+                    selectEl.classList.remove('border-red-500', 'border-green-500');
+                    selectEl.classList.add('border-blue-500');
+                });
+            });
+            buttonContainer.appendChild(showAnswersButton);
+            container.appendChild(buttonContainer);
+            appContent.appendChild(container);
+        }
+        
+        let draggedItem = null;
+
+        function renderSentenceReorderSection(section) {
+            const container = document.createElement('div');
+            container.className = 'space-y-6';
+
+            section.jumbledSentences.forEach((item, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'p-4 border border-slate-200 rounded-lg bg-slate-50';
+                itemDiv.innerHTML = `<p class="text-slate-700 mb-3 font-medium">Sentence ${index + 1}:</p>`;
+
+                const wordTilesContainer = document.createElement('div');
+                wordTilesContainer.className = 'flex flex-wrap gap-2 mb-3 p-3 border border-slate-200 rounded-md bg-slate-100 min-h-[48px]';
+                wordTilesContainer.id = `sr-tiles-${index}`;
+                
+                shuffleArray(item.words).forEach(word => {
+                    const tile = document.createElement('span');
+                    tile.textContent = word;
+                    tile.className = 'word-tile bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-md shadow-sm border border-indigo-200 text-sm';
+                    tile.draggable = true;
+                    tile.addEventListener('dragstart', (e) => {
+                        draggedItem = e.target;
+                        e.dataTransfer.setData('text/plain', e.target.textContent); 
+                        e.target.classList.add('opacity-50');
+                    });
+                    tile.addEventListener('dragend', (e) => {
+                        e.target.classList.remove('opacity-50');
+                        draggedItem = null;
+                    });
+                    wordTilesContainer.appendChild(tile);
+                });
+                itemDiv.appendChild(wordTilesContainer);
+
+                const dropZone = document.createElement('div');
+                dropZone.id = `sr-dropzone-${index}`;
+                dropZone.className = 'drop-zone flex flex-wrap gap-2 p-3 border-2 border-slate-300 rounded-md bg-white min-h-[48px]';
+                dropZone.addEventListener('dragover', (e) => {
+                    e.preventDefault(); 
+                    const targetDropZone = e.target.closest('.drop-zone');
+                    if (targetDropZone) {
+                        targetDropZone.classList.add('border-indigo-400', 'bg-indigo-50');
+                    }
+                });
+                dropZone.addEventListener('dragleave', (e) => {
+                     const targetDropZone = e.target.closest('.drop-zone');
+                     if (targetDropZone) {
+                        targetDropZone.classList.remove('border-indigo-400', 'bg-indigo-50');
+                     }
+                });
+                dropZone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    const targetDropZone = e.target.closest('.drop-zone');
+                    if (draggedItem && targetDropZone) {
+                        if (e.target.classList.contains('word-tile') && e.target.parentElement === targetDropZone) {
+                             targetDropZone.insertBefore(draggedItem, e.target);
+                        } else {
+                            targetDropZone.appendChild(draggedItem);
+                        }
+                        draggedItem.classList.remove('opacity-50');
+                    }
+                    if (targetDropZone) {
+                        targetDropZone.classList.remove('border-indigo-400', 'bg-indigo-50');
+                    }
+                });
+                itemDiv.appendChild(dropZone);
+
+                const feedbackEl = document.createElement('p');
+                feedbackEl.id = `sr-feedback-${index}`;
+                feedbackEl.className = 'text-sm mt-2 h-5';
+                itemDiv.appendChild(feedbackEl);
+                container.appendChild(itemDiv);
+            });
+            
+            const buttonContainer = document.createElement('div');
+            buttonContainer.className = 'mt-6 flex gap-x-3';
+            const checkButton = createButton('Check All Sentences', 'bg-indigo-600 text-white', () => {
+                section.jumbledSentences.forEach((item, index) => {
+                    const dropZone = document.getElementById(`sr-dropzone-${index}`);
+                    const feedbackEl = document.getElementById(`sr-feedback-${index}`);
+                    const orderedWords = Array.from(dropZone.children).map(child => child.textContent).join(' ');
+                    
+                    if (orderedWords === item.answer) {
+                        feedbackEl.textContent = 'Correct!';
+                        feedbackEl.className = 'text-sm feedback-correct';
+                        dropZone.classList.add('border-green-500');
+                        dropZone.classList.remove('border-red-500', 'border-blue-500');
+                    } else if (dropZone.children.length > 0) {
+                        feedbackEl.textContent = 'Incorrect. Try again.';
+                        feedbackEl.className = 'text-sm feedback-incorrect';
+                        dropZone.classList.add('border-red-500');
+                        dropZone.classList.remove('border-green-500', 'border-blue-500');
+                    } else {
+                         feedbackEl.textContent = '';
+                         dropZone.classList.remove('border-red-500', 'border-green-500', 'border-blue-500');
+                    }
+                });
+            });
+            buttonContainer.appendChild(checkButton);
+
+            const showAnswersButton = createButton('Show All Correct Sentences', 'bg-slate-500 text-white', () => {
+                section.jumbledSentences.forEach((item, index) => {
+                    const dropZone = document.getElementById(`sr-dropzone-${index}`);
+                    const feedbackEl = document.getElementById(`sr-feedback-${index}`);
+                    const wordTilesContainer = document.getElementById(`sr-tiles-${index}`);
+                    
+                    dropZone.innerHTML = '';
+                    wordTilesContainer.innerHTML = ''; 
+
+                    item.answer.split(' ').forEach(word => {
+                        const tile = document.createElement('span');
+                        tile.textContent = word;
+                        tile.className = 'word-tile bg-blue-100 text-blue-700 px-3 py-1.5 rounded-md shadow-sm border border-blue-200 text-sm';
+                        tile.draggable = false; 
+                        dropZone.appendChild(tile);
+                    });
+                    
+                    feedbackEl.textContent = `Correct sentence shown.`;
+                    feedbackEl.className = 'text-sm text-slate-600';
+                    dropZone.classList.remove('border-red-500', 'border-green-500');
+                    dropZone.classList.add('border-blue-500');
+                });
+            });
+            buttonContainer.appendChild(showAnswersButton);
+            container.appendChild(buttonContainer);
+            appContent.appendChild(container);
+        }
+
+        function renderOpenEndedSection(section) {
+            const container = document.createElement('div');
+            container.className = 'space-y-6';
+
+            if (section.questions && section.questions.length > 0) {
+                section.questions.forEach((questionText, index) => {
+                    const qDiv = document.createElement('div');
+                    qDiv.className = 'p-4 border border-slate-200 rounded-lg bg-slate-50';
+                    
+                    const qPara = document.createElement('p');
+                    qPara.className = 'font-medium text-slate-700 mb-3';
+                    qPara.textContent = `${index + 1}. ${questionText}`;
+                    qDiv.appendChild(qPara);
+
+                    const textarea = document.createElement('textarea');
+                    textarea.id = `${section.id}-textarea-${index}`;
+                    textarea.rows = 5;
+                    textarea.className = 'w-full p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500';
+                    textarea.placeholder = 'Type your thoughts here...';
+                    qDiv.appendChild(textarea);
+                    container.appendChild(qDiv);
+                });
+            } else { 
+                const textarea = document.createElement('textarea');
+                textarea.id = `${section.id}-textarea-main`;
+                textarea.rows = 8;
+                textarea.className = 'w-full p-3 border border-slate-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500';
+                textarea.placeholder = 'Write your reflection here...';
+                container.appendChild(textarea);
+            }
+            appContent.appendChild(container);
+        }
+
+        // --- Initialization ---
+        function init() {
+            // Flatten sections and populate nav menus
+            let sectionIndex = 1;
+            appData.groups.forEach(group => {
+                const navMenu = (group.name === 'PREPARE') ? navMenuPrepare : navMenuEvaluate;
+                
+                group.sections.forEach(section => {
+                    flatSections.push(section);
+                    
+                    const li = document.createElement('li');
+                    const button = document.createElement('button');
+                    button.textContent = `${sectionIndex}. ${section.title}`;
+                    button.dataset.sectionId = section.id;
+                    button.className = 'nav-item w-full text-left px-3 py-2 rounded-md text-sm'; // Use new base class
+                    button.addEventListener('click', () => renderSection(section.id));
+                    li.appendChild(button);
+                    navMenu.appendChild(li);
+                    
+                    sectionIndex++;
+                });
+            });
+            
+            totalSections = flatSections.length;
+
+            // Add pagination listeners
+            prevButton.addEventListener('click', navigatePrev);
+            nextButton.addEventListener('click', navigateNext);
+
+            // Load the first section by default
+            if (flatSections.length > 0) {
+                renderSection(flatSections[0].id);
+            } else {
+                appContent.innerHTML = '<p>No sections available.</p>';
+            }
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
