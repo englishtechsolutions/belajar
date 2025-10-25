@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B1 Reading - AI Chatbots and Mental Health</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Feedback styles from original app */
+        .feedback-correct {
+            color: #16a34a; /* green-600 */
+            font-weight: bold;
+        }
+        .feedback-incorrect {
+            color: #dc2626; /* red-600 */
+            font-weight: bold;
+        }
+        /* Custom scrollbar for passage */
+        .passage-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        .passage-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .passage-container::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        .passage-container::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        input[type="text"], textarea {
+            border-width: 1px;
+        }
+
+        /* New news article drop cap style */
+        .news-article-body > p:first-of-type::first-letter {
+            color: #334155; /* slate-700 */
+            float: left;
+            font-size: 4.5rem; /* 72px */
+            line-height: 0.8;
+            font-weight: 700;
+            margin-right: 0.1em;
+            padding-top: 0.1em;
+            font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif; /* Force serif */
+        }
+
+        /* New layout styles */
+        #app-nav-list a.active {
+            background-color: #e0e7ff; /* indigo-100 */
+            color: #4f46e5; /* indigo-700 */
+            font-weight: 600;
+        }
+        #app-content-wrapper {
+            /* Ensures content area scrolls independently */
+            height: calc(100vh - 128px); /* Full height minus header/footer */
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 antialiased">
+
+    <!-- App Wrapper -->
+    <div class="flex h-screen w-full">
+
+        <!-- === LEFT NAVIGATION SIDEBAR === -->
+        <nav class="w-1/4 max-w-xs bg-white p-6 shadow-lg h-screen sticky top-0 border-r border-slate-200 flex flex-col overflow-y-auto">
+            <!-- 1. Lesson Title -->
+            <h1 id="lesson-title" class="text-xl font-bold text-blue-600 mb-8">
+                AI & Mental Health
+            </h1>
+            
+            <!-- 2. Navigation Menu (Populated by JS) -->
+            <ul id="app-nav-list" class="space-y-2">
+                <!-- Nav items go here -->
+            </ul>
+
+            <!-- 3. Footer (Pushed to the bottom) -->
+            <footer class="mt-auto pt-8 text-xs text-slate-400">
+                Designed by <a id="designer-link" href="#" class="text-blue-500 hover:text-blue-600 underline">Designer</a>
+            </footer>
+        </nav>
+
+        <!-- === RIGHT MAIN CONTENT AREA === -->
+        <main class="w-3/4 flex-1 flex flex-col h-screen">
+            
+            <!-- 1. Header & Progress Bar -->
+            <header id="app-header" class="bg-white border-b border-slate-200 p-6 shadow-sm z-10">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 id="step-title" class="text-xl font-semibold text-slate-700">Loading...</h2>
+                    <span id="step-counter" class="text-sm font-medium text-slate-500">Step 0 of 0</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2.5">
+                    <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+            </header>
+            
+            <!-- 2. Main Content (Scrollable) -->
+            <div id="app-content-wrapper" class="flex-1 overflow-y-auto bg-slate-50 p-6 md:p-10">
+                <!-- Dynamic content for the current section goes here -->
+                <div id="app-content">
+                    <p class="text-slate-500">Loading lesson content...</p>
+                </div>
+            </div>
+
+            <!-- 3. Footer Navigation -->
+            <footer id="app-footer" class="bg-white border-t border-slate-200 p-4 flex justify-between items-center z-10">
+                <button id="prev-btn" class="bg-slate-300 hover:bg-slate-400 text-slate-800 font-bold py-2 px-6 rounded-md transition duration-150 disabled:opacity-50 disabled:cursor-not-allowed">
+                    Previous
+                </button>
+                <button id="next-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-md transition duration-150 disabled:opacity-50 disabled:cursor-not-allowed">
+                    Next
+                </button>
+            </footer>
+        </main>
+
+    </div> <!-- End App Wrapper -->
+
+
+    <script>
+        // --- 1. CUSTOMIZE YOUR LESSON HERE ---
+
+        const lessonTitle = "B1 Reading - AI Chatbots and Mental Health"; // Shows in sidebar
+        
+        const designerCredit = {
+            name: "fajarudinakbar.online", // Shows in sidebar footer
+            url: "https://fajarudinakbar.online" // Link for your name
+        };
+
+        // --- All lesson data and logic from the original app ---
+        const vocabData = [
+            { id: 'vocab1', word: 'chatbot', definition: 'a computer program that can have conversations with people', correctDefId: 'c' },
+            { id: 'vocab2', word: 'mental health', definition: 'how well a person’s mind is working and how they feel emotionally', correctDefId: 'd' },
+            { id: 'vocab3', word: 'therapist', definition: 'a person who helps people with their mental problems', correctDefId: 'a' },
+            { id: 'vocab4', word: 'shy', definition: 'feeling nervous or uncomfortable about talking to or being with other people', correctDefId: 'e' },
+            { id: 'vocab5', word: 'comfort', definition: 'to make someone feel better and less sad or worried', correctDefId: 'b' },
+            { id: 'vocab6', word: 'replace', definition: 'to take the place of something or someone', correctDefId: 'f' }
+        ];
+
+        const definitions = [
+            { id: 'a', text: 'a person who helps people with their mental problems' },
+            { id: 'b', text: 'to make someone feel better and less sad or worried' },
+            { id: 'c', text: 'a computer program that can have conversations with people' },
+            { id: 'd', text: 'how well a person’s mind is working and how they feel emotionally' },
+            { id: 'e', text: 'feeling nervous or uncomfortable about talking to or being with other people' },
+            { id: 'f', text: 'to take the place of something or someone' }
+        ];
+
+        const mainIdeaData = {
+            question: "Choose the best main idea for the text.",
+            options: [
+                { id: 'main-a', text: "AI chatbots are not good for mental health.", correct: false },
+                { id: 'main-b', text: "Young people in Taiwan and China are using AI chatbots for mental health help, but experts warn about their limitations.", correct: true },
+                { id: 'main-c', text: "Real therapists are always better than AI chatbots.", correct: false },
+                { id: 'main-d', text: "AI chatbots are very expensive to use.", correct: false }
+            ],
+            answer: 'main-b'
+        };
+        
+        const detailsQuestionsData = [
+            { id: 'detail1', question: "What are two reasons why AI chatbots are popular for mental health help in Taiwan and China?", answerKeywords: ["free", "fast", "easy to use"], modelAnswer: "They are free, fast, and easy to use." },
+            { id: 'detail2', question: "Why do many young people feel shy or afraid to talk to real therapists?", answerKeywords: ["social pressure", "high prices"], modelAnswer: "Because of social pressure or high prices." },
+            { id: 'detail3', question: "Who is Ann Li? What did she use a chatbot for?", answerKeywords: ["taiwan", "sad", "no one to talk to"], modelAnswer: "She is a woman from Taiwan who used a chatbot when she felt sad and had no one to talk to." },
+            { id: 'detail4', question: "What did Holly Wang say about the advice she got from an AI chatbot?", answerKeywords: ["better advice", "paid counselors"], modelAnswer: "She said the AI gave her better advice than some paid counselors." },
+            { id: 'detail5', question: "What did a university in Hong Kong do to help students?", answerKeywords: ["own chatbot", "exams", "busy times", "stressed"], modelAnswer: "A university in Hong Kong made its own chatbot to help students during exams and busy times." },
+            { id: 'detail6', question: "According to experts, what is the main difference between AI and a real human therapist?", answerKeywords: ["cannot truly understand feelings", "serious mental health problems"], modelAnswer: "AI cannot truly understand feelings or help with serious mental health problems." },
+            { id: 'detail7', question: "What do doctors say AI should be used for in mental health?", answerKeywords: ["tool to help", "not replace", "professional therapy"], modelAnswer: "Doctors say AI should only be a tool to help, not replace, professional therapy." }
+        ];
+
+        const trueFalseData = [
+            { id: 'tf1', statement: "Only young people in Taiwan use AI chatbots for mental health.", correctAnswer: false, correction: "Young people in Taiwan and China use AI chatbots for mental health." },
+            { id: 'tf2', statement: "AI chatbots are expensive, so not many young people use them.", correctAnswer: false, correction: "AI chatbots are free, so many young people use them." },
+            { id: 'tf3', statement: "Ann Li used a chatbot when she felt happy.", correctAnswer: false, correction: "Ann Li used a chatbot when she felt sad." },
+            { id: 'tf4', statement: "Some users believe that AI chatbots listen well and are kind.", correctAnswer: true, correction: "" },
+            { id: 'tf5', statement: "Experts believe AI can fully understand human feelings.", correctAnswer: false, correction: "Experts warn that AI cannot truly understand feelings." },
+            { id: 'tf6', statement: "Doctors say AI should completely replace professional therapy.", correctAnswer: false, correction: "Doctors say AI should help, but not replace professional therapy." }
+        ];
+
+        const prosConsData = {
+            pros: [
+                { text: "Free, fast, and easy to use", prefilled: true },
+                { text: "Young people feel less shy/afraid", prefilled: true },
+                { text: "Gives comfort and makes people feel better", prefilled: false, keywords: ["comfort", "feel better"] },
+                { text: "Listens well and answers kindly", prefilled: false, keywords: ["listens well", "kindly"] }
+            ],
+            cons: [
+                { text: "Cannot truly understand feelings", prefilled: false, keywords: ["cannot truly understand feelings", "understand feelings"] },
+                { text: "Cannot help with serious mental health problems", prefilled: false, keywords: ["serious mental health problems"] },
+                { text: "Is not the same as a real human therapist", prefilled: false, keywords: ["not same", "real human therapist"] },
+                { text: "Should only be a tool, not a replacement for therapy", prefilled: false, keywords: ["tool", "not replacement", "not replace"] }
+            ]
+        };
+
+        // --- All rendering functions from the original app ---
+        function renderVocabulary() {
+            const vocabContainer = document.getElementById('vocabulary-matching');
+            if (!vocabContainer) return;
+            vocabContainer.innerHTML = ''; // Clear previous items
+            const shuffledDefinitions = [...definitions].sort(() => Math.random() - 0.5);
+
+            vocabData.forEach(item => {
+                const div = document.createElement('div');
+                div.classList.add('flex', 'flex-col', 'sm:flex-row', 'sm:items-center', 'sm:space-x-4', 'p-2', 'border', 'border-slate-200', 'rounded-md');
+                div.innerHTML = `
+                    <p class="font-semibold text-slate-700 w-full sm:w-1/3 mb-2 sm:mb-0">${item.word}:</p>
+                    <select id="select-${item.id}" class="w-full sm:w-2/3 p-2 border border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">-- Select a definition --</option>
+                        ${shuffledDefinitions.map(def => `<option value="${def.id}">${def.text}</option>`).join('')}
+                    </select>
+                    <span id="feedback-${item.id}" class="ml-2 text-sm w-full sm:w-auto mt-1 sm:mt-0"></span>
+                `;
+                vocabContainer.appendChild(div);
+            });
+        }
+
+        function renderMainIdeaQuiz() {
+            const mainIdeaContainer = document.getElementById('main-idea-quiz');
+            if (!mainIdeaContainer) return;
+            mainIdeaContainer.innerHTML = ''; // Clear previous
+            mainIdeaData.options.forEach(option => {
+                const div = document.createElement('div');
+                div.classList.add('flex', 'items-center', 'p-2', 'hover:bg-slate-100', 'rounded-md');
+                div.innerHTML = `
+                    <input type="radio" id="${option.id}" name="main-idea" value="${option.id}" class="h-4 w-4 text-blue-600 border-slate-300 focus:ring-blue-500">
+                    <label for="${option.id}" class="ml-2 block text-sm text-slate-700">${option.text}</label>
+                `;
+                mainIdeaContainer.appendChild(div);
+            });
+        }
+
+        function renderDetailsQuestions() {
+            const detailsContainer = document.getElementById('details-questions');
+            if (!detailsContainer) return;
+            detailsContainer.innerHTML = ''; // Clear previous
+            detailsQuestionsData.forEach((q, index) => {
+                const div = document.createElement('div');
+                div.classList.add('mb-3', 'p-2', 'border', 'border-slate-200', 'rounded-md');
+                div.innerHTML = `
+                    <label for="${q.id}" class="block text-slate-700 font-medium mb-1">${index + 1}. ${q.question}</label>
+                    <input type="text" id="${q.id}" class="w-full p-2 border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                    <span id="feedback-${q.id}" class="text-sm block mt-1"></span>
+                `;
+                detailsContainer.appendChild(div);
+            });
+        }
+
+        function renderTrueFalseQuestions() {
+            const trueFalseContainer = document.getElementById('true-false-questions');
+            if (!trueFalseContainer) return;
+            trueFalseContainer.innerHTML = ''; // Clear previous
+            trueFalseData.forEach((q, index) => {
+                const div = document.createElement('div');
+                div.classList.add('p-3', 'border', 'border-slate-200', 'rounded-md', 'bg-white');
+                div.innerHTML = `
+                    <p class="text-slate-700 mb-2">${index + 1}. ${q.statement}</p>
+                    <div class="flex space-x-4 mb-2">
+                        <div class="flex items-center">
+                            <input type="radio" id="${q.id}-true" name="${q.id}" value="true" class="h-4 w-4 text-blue-600 border-slate-300 focus:ring-blue-500">
+                            <label for="${q.id}-true" class="ml-2 text-sm text-slate-600">True</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="radio" id="${q.id}-false" name="${q.id}" value="false" class="h-4 w-4 text-blue-600 border-slate-300 focus:ring-blue-500">
+                            <label for="${q.id}-false" class="ml-2 text-sm text-slate-600">False</label>
+                        </div>
+                    </div>
+                    <input type="text" id="correction-${q.id}" placeholder="Correct the sentence here..." class="w-full p-2 border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500 mt-1 hidden text-sm">
+                    <span id="feedback-${q.id}" class="text-sm block mt-1"></span>
+                `;
+                trueFalseContainer.appendChild(div);
+
+                // Add event listeners for showing correction box
+                div.querySelector(`#${q.id}-true`).addEventListener('change', () => {
+                    document.getElementById(`correction-${q.id}`).classList.add('hidden');
+                });
+                div.querySelector(`#${q.id}-false`).addEventListener('change', () => {
+                    document.getElementById(`correction-${q.id}`).classList.remove('hidden');
+                });
+            });
+        }
+
+        function renderProsCons() {
+            const prosListContainer = document.getElementById('pros-list');
+            const consListContainer = document.getElementById('cons-list');
+            if (!prosListContainer || !consListContainer) return;
+            prosListContainer.innerHTML = '';
+            consListContainer.innerHTML = '';
+
+            prosConsData.pros.forEach((pro, index) => {
+                const li = document.createElement('li');
+                li.classList.add('flex', 'items-center');
+                if (pro.prefilled) {
+                    li.innerHTML = `<span class="text-slate-700">${index + 1}. ${pro.text}</span>`;
+                } else {
+                    li.innerHTML = `<span class="mr-2 text-slate-700">${index + 1}.</span> <input type="text" id="pro-${index}" placeholder="Enter a pro..." class="flex-grow p-1.5 border-slate-300 rounded-md text-sm focus:ring-blue-500 focus:border-blue-500"> <span id="feedback-pro-${index}" class="ml-2 text-xs"></span>`;
+                }
+                prosListContainer.appendChild(li);
+            });
+
+            prosConsData.cons.forEach((con, index) => {
+                const li = document.createElement('li');
+                li.classList.add('flex', 'items-center');
+                 if (con.prefilled) {
+                    li.innerHTML = `<span class="text-slate-700">${index + 1}. ${con.text}</span>`;
+                } else {
+                    li.innerHTML = `<span class="mr-2 text-slate-700">${index + 1}.</span> <input type="text" id="con-${index}" placeholder="Enter a con..." class="flex-grow p-1.5 border-slate-300 rounded-md text-sm focus:ring-blue-500 focus:border-blue-500"> <span id="feedback-con-${index}" class="ml-2 text-xs"></span>`;
+                }
+                consListContainer.appendChild(li);
+            });
+        }
+
+        // --- All event handler logic from the original app ---
+        function attachVocabCheck() {
+            const checkVocabButton = document.getElementById('check-vocab');
+            const vocabFeedback = document.getElementById('vocab-feedback');
+            if (!checkVocabButton) return;
+
+            checkVocabButton.addEventListener('click', () => {
+                let correctCount = 0;
+                vocabData.forEach(item => {
+                    const select = document.getElementById(`select-${item.id}`);
+                    const feedbackSpan = document.getElementById(`feedback-${item.id}`);
+                    if (select.value === item.correctDefId) {
+                        feedbackSpan.textContent = 'Correct!';
+                        feedbackSpan.className = 'feedback-correct ml-2 text-sm';
+                        correctCount++;
+                    } else if (select.value === "") {
+                        feedbackSpan.textContent = 'Please select a definition.';
+                        feedbackSpan.className = 'text-amber-600 font-medium ml-2 text-sm';
+                    } 
+                    else {
+                        const correctDef = definitions.find(d => d.id === item.correctDefId);
+                        feedbackSpan.textContent = `Incorrect. Correct: "${correctDef.text}"`;
+                        feedbackSpan.className = 'feedback-incorrect ml-2 text-sm';
+                    }
+                });
+                vocabFeedback.textContent = `You got ${correctCount} out of ${vocabData.length} correct.`;
+                 if(correctCount === vocabData.length) {
+                    vocabFeedback.className = 'feedback-correct mt-2 text-sm';
+                } else {
+                    vocabFeedback.className = 'feedback-incorrect mt-2 text-sm';
+                }
+            });
+        }
+
+        function attachMainIdeaCheck() {
+            const checkMainIdeaButton = document.getElementById('check-main-idea');
+            const mainIdeaFeedback = document.getElementById('main-idea-feedback');
+            if (!checkMainIdeaButton) return;
+
+            checkMainIdeaButton.addEventListener('click', () => {
+                const selectedOption = document.querySelector('input[name="main-idea"]:checked');
+                if (selectedOption) {
+                    if (selectedOption.value === mainIdeaData.answer) {
+                        mainIdeaFeedback.textContent = 'Correct! This is the main idea.';
+                        mainIdeaFeedback.className = 'feedback-correct mt-2 text-sm';
+                    } else {
+                        const correctOption = mainIdeaData.options.find(opt => opt.correct);
+                        mainIdeaFeedback.textContent = `Not quite. The correct answer is: "${correctOption.text}"`;
+                        mainIdeaFeedback.className = 'feedback-incorrect mt-2 text-sm';
+                    }
+                } else {
+                    mainIdeaFeedback.textContent = 'Please select an option.';
+                    mainIdeaFeedback.className = 'text-amber-600 font-medium mt-2 text-sm';
+                }
+            });
+        }
+
+        function attachDetailsCheck() {
+            const checkDetailsButton = document.getElementById('check-details');
+            const detailsFeedbackSummary = document.getElementById('details-feedback-summary');
+            if (!checkDetailsButton) return;
+
+            checkDetailsButton.addEventListener('click', () => {
+                let correctCount = 0;
+                detailsQuestionsData.forEach(q => {
+                    const input = document.getElementById(q.id);
+                    const feedbackSpan = document.getElementById(`feedback-${q.id}`);
+                    const userAnswer = input.value.toLowerCase().trim();
+                    
+                    if (userAnswer === "") {
+                        feedbackSpan.textContent = "Please provide an answer.";
+                        feedbackSpan.className = 'text-amber-600 font-medium text-sm block mt-1';
+                        return;
+                    }
+
+                    const allKeywordsFound = q.answerKeywords.every(keyword => userAnswer.includes(keyword.toLowerCase()));
+                    
+                    if (allKeywordsFound) {
+                        feedbackSpan.textContent = 'Good job! Your answer includes key information.';
+                        feedbackSpan.className = 'feedback-correct text-sm block mt-1';
+                        correctCount++;
+                    } else {
+                        const missingKeywords = q.answerKeywords.filter(keyword => !userAnswer.includes(keyword.toLowerCase()));
+                        if (missingKeywords.length > 0 && missingKeywords.length < q.answerKeywords.length) {
+                             feedbackSpan.textContent = `Your answer is on the right track! A more complete answer is: "${q.modelAnswer}"`;
+                        } else {
+                            feedbackSpan.textContent = `Not quite. A good answer is: "${q.modelAnswer}"`;
+                        }
+                        feedbackSpan.className = 'feedback-incorrect text-sm block mt-1';
+                    }
+                });
+                detailsFeedbackSummary.textContent = `You've addressed ${correctCount} out of ${detailsQuestionsData.length} questions with key information. Review the text for others.`;
+                 if(correctCount === detailsQuestionsData.length) {
+                    detailsFeedbackSummary.className = 'feedback-correct mt-2 text-sm font-medium';
+                } else {
+                    detailsFeedbackSummary.className = 'feedback-incorrect mt-2 text-sm font-medium';
+                }
+            });
+        }
+
+        function attachTrueFalseCheck() {
+            const checkTrueFalseButton = document.getElementById('check-true-false');
+            const trueFalseFeedbackSummary = document.getElementById('true-false-feedback-summary');
+            if (!checkTrueFalseButton) return;
+
+            checkTrueFalseButton.addEventListener('click', () => {
+                let correctCount = 0;
+                trueFalseData.forEach(q => {
+                    const selectedOption = document.querySelector(`input[name="${q.id}"]:checked`);
+                    const feedbackSpan = document.getElementById(`feedback-${q.id}`);
+                    const correctionInput = document.getElementById(`correction-${q.id}`);
+                    
+                    if (!selectedOption) {
+                        feedbackSpan.textContent = "Please select True or False.";
+                        feedbackSpan.className = 'text-amber-600 font-medium text-sm block mt-1';
+                        return;
+                    }
+
+                    const userAnswer = selectedOption.value === 'true';
+                    if (userAnswer === q.correctAnswer) {
+                        feedbackSpan.textContent = 'Correct!';
+                        feedbackSpan.className = 'feedback-correct text-sm block mt-1';
+                        correctCount++;
+                        if(q.correctAnswer === false) {
+                            correctionInput.classList.remove('hidden');
+                            correctionInput.value = q.correction;
+                            correctionInput.disabled = true;
+                        }
+                    } else {
+                        feedbackSpan.textContent = `Incorrect. The correct answer is ${q.correctAnswer ? 'True' : 'False'}.`;
+                        feedbackSpan.className = 'feedback-incorrect text-sm block mt-1';
+                        if (q.correctAnswer === false) {
+                            correctionInput.classList.remove('hidden');
+                            correctionInput.value = '';
+                            correctionInput.placeholder = `Correction: ${q.correction}`;
+                            correctionInput.disabled = false;
+                        } else {
+                             correctionInput.classList.add('hidden');
+                        }
+                    }
+                });
+                trueFalseFeedbackSummary.textContent = `You got ${correctCount} out of ${trueFalseData.length} True/False questions correct.`;
+                if(correctCount === trueFalseData.length) {
+                    trueFalseFeedbackSummary.className = 'feedback-correct mt-2 text-sm font-medium';
+                } else {
+                    trueFalseFeedbackSummary.className = 'feedback-incorrect mt-2 text-sm font-medium';
+                }
+            });
+        }
+
+        function attachProsConsCheck() {
+            const checkProsConsButton = document.getElementById('check-pros-cons');
+            const prosConsFeedbackSummary = document.getElementById('pros-cons-feedback-summary');
+            if (!checkProsConsButton) return;
+
+            checkProsConsButton.addEventListener('click', () => {
+                let prosCorrect = 0;
+                let consCorrect = 0;
+                const totalProsToFill = prosConsData.pros.filter(p => !p.prefilled).length;
+                const totalConsToFill = prosConsData.cons.filter(c => !c.prefilled).length;
+
+                prosConsData.pros.forEach((pro, index) => {
+                    if (!pro.prefilled) {
+                        const input = document.getElementById(`pro-${index}`);
+                        const feedback = document.getElementById(`feedback-pro-${index}`);
+                        const userAnswer = input.value.toLowerCase().trim();
+                        if (userAnswer === "") {
+                            feedback.textContent = "Empty";
+                            feedback.className = 'text-amber-500 ml-2 text-xs';
+                            return;
+                        }
+                        if (pro.keywords.some(kw => userAnswer.includes(kw))) {
+                            feedback.textContent = "Good point!";
+                            feedback.className = 'feedback-correct ml-2 text-xs';
+                            prosCorrect++;
+                        } else {
+                            feedback.textContent = `Not quite. Look for: "${pro.text}"`;
+                            feedback.className = 'feedback-incorrect ml-2 text-xs';
+                        }
+                    }
+                });
+
+                prosConsData.cons.forEach((con, index) => {
+                     if (!con.prefilled) {
+                        const input = document.getElementById(`con-${index}`);
+                        const feedback = document.getElementById(`feedback-con-${index}`);
+                        const userAnswer = input.value.toLowerCase().trim();
+                         if (userAnswer === "") {
+                            feedback.textContent = "Empty";
+                            feedback.className = 'text-amber-500 ml-2 text-xs';
+                            return;
+                        }
+                        if (con.keywords.some(kw => userAnswer.includes(kw))) {
+                            feedback.textContent = "Good point!";
+                            feedback.className = 'feedback-correct ml-2 text-xs';
+                            consCorrect++;
+                        } else {
+                            feedback.textContent = `Not quite. Look for: "${con.text}"`;
+                            feedback.className = 'feedback-incorrect ml-2 text-xs';
+                        }
+                    }
+                });
+                
+                prosConsFeedbackSummary.textContent = `Pros: ${prosCorrect}/${totalProsToFill} points identified. Cons: ${consCorrect}/${totalConsToFill} points identified. Review the passage for more ideas.`;
+                 if(prosCorrect === totalProsToFill && consCorrect === totalConsToFill) {
+                    prosConsFeedbackSummary.className = 'feedback-correct mt-2 text-sm font-medium';
+                } else {
+                    prosConsFeedbackSummary.className = 'feedback-incorrect mt-2 text-sm font-medium';
+                }
+            });
+        }
+
+
+        /**
+         * This object holds all the content for your lesson.
+         * Each section has a unique 'id', a 'title' for the navigation,
+         * and 'content' which is the HTML to be displayed.
+         */
+        const appData = {
+            sections: [
+                {
+                    id: "discussion",
+                    title: "Part 1: Discussion",
+                    content: `
+                        <div class="mb-8 p-4 bg-slate-50 rounded-lg shadow">
+                            <h3 class="text-xl font-semibold text-slate-700 mb-3">Activity 1: Discussion (5 minutes)</h3>
+                            <p class="text-slate-600 mb-3">Think about these questions. You can write your ideas below.</p>
+                            <div class="space-y-4">
+                                <div>
+                                    <label for="q1-discussion" class="block text-slate-700 font-medium mb-1">1. What do you do when you feel sad or stressed?</label>
+                                    <textarea id="q1-discussion" rows="2" class="w-full p-2 border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500"></textarea>
+                                </div>
+                                <div>
+                                    <label for="q2-discussion" class="block text-slate-700 font-medium mb-1">2. Have you ever heard of AI chatbots like ChatGPT? What do they do?</label>
+                                    <textarea id="q2-discussion" rows="2" class="w-full p-2 border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500"></textarea>
+                                </div>
+                                <div>
+                                    <label for="q3-discussion" class="block text-slate-700 font-medium mb-1">3. Do you think talking to a computer can help with feelings? Why or why not?</label>
+                                    <textarea id="q3-discussion" rows="2" class="w-full p-2 border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    id: "vocabulary",
+                    title: "Part 1: Vocabulary",
+                    content: `
+                        <div class="mb-8 p-4 bg-slate-50 rounded-lg shadow">
+                            <h3 class="text-xl font-semibold text-slate-700 mb-3">Activity 2: Vocabulary Preview (5 minutes)</h3>
+                            <p class="text-slate-600 mb-3">Match the words with their definitions. Select the correct definition for each word.</p>
+                            <div id="vocabulary-matching" class="space-y-3">
+                                <!-- Vocabulary items will be injected here by JS -->
+                            </div>
+                            <button id="check-vocab" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md transition duration-150 ease-in-out">Check Vocabulary</button>
+                            <div id="vocab-feedback" class="mt-2 text-sm"></div>
+                        </div>
+                    `
+                },
+                {
+                    id: "passage",
+                    title: "Part 2: Reading Passage",
+                    content: `
+                        <div class="mb-8 p-4 bg-slate-50 rounded-lg shadow">
+                            <h3 class="text-xl font-semibold text-slate-700 mb-3">Reading Passage</h3>
+                            <div class="bg-white rounded-lg shadow-inner border border-slate-200 passage-container max-h-[70vh] overflow-y-auto">
+                                <article id="passage-text" class="prose prose-lg prose-serif max-w-none p-6 md:p-8 news-article-body">
+                                    
+                                    <!-- 1. Headline (prose keeps this sans-serif) -->
+                                    <h4 class="!text-3xl !font-bold !mb-2 text-slate-800">Young People in Taiwan and China Use AI Chatbots for Mental Health Help</h4>
+                                    
+                                    <!-- 2. Byline/Metadata -->
+                                    <p class="!text-sm text-slate-500 !italic !mt-0 !mb-6 !font-sans">
+                                        Adapted from The Guardian, NDTV, and SCMP
+                                    </p>
+                                    
+                                    <!-- 3. Article Body (prose-serif makes this serif, news-article-body adds drop cap) -->
+                                    <p>In Taiwan and China, many young people are now using AI chatbots to talk about their mental health problems. These chatbots, like ChatGPT and Baidu’s Ernie Bot, are popular because they are free, fast, and easy to use. Many young people feel shy or afraid to talk to real therapists because of social pressure or high prices. So, they use AI chatbots to share their feelings and problems.</p>
+                                    <p>For example, a woman from Taiwan named Ann Li said she used a chatbot when she felt sad and had no one to talk to. A man from China named Yang also said he talked to an AI when he was feeling alone. The chatbot gave him comfort and made him feel better.</p>
+                                    <p>Some people say that AI chatbots are more helpful than real therapists. For example, a woman in China named Holly Wang said the AI gave her better advice than some paid counselors. Many users say the chatbot listens well and answers in a kind way.</p>
+                                    <p>In Hong Kong, a university even made its own chatbot to help students during exams and busy times. The chatbot speaks in different languages and gives students advice when they feel stressed.</p>
+                                    <p>However, experts warn that AI is not the same as a real human therapist. AI cannot truly understand feelings or help with serious mental health problems. Doctors say AI should only be a tool to help — not replace — professional therapy.</p>
+                                    <p>In the future, more people may use AI for mental health support. But it is important to use it carefully and to still talk to real people when needed.</p>
+                                </article>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    id: "main-idea",
+                    title: "Part 2: Main Idea",
+                    content: `
+                        <div class="mb-8 p-4 bg-slate-50 rounded-lg shadow">
+                            <h3 class="text-xl font-semibold text-slate-700 mb-3">Activity 3: Read for Main Idea (5 minutes)</h3>
+                            <p class="text-slate-600 mb-3">Read the passage and choose the best main idea for the text.</p>
+                            <div id="main-idea-quiz" class="space-y-2">
+                                <!-- Main idea options will be injected here by JS -->
+                            </div>
+                            <button id="check-main-idea" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md transition duration-150 ease-in-out">Check Main Idea</button>
+                            <div id="main-idea-feedback" class="mt-2 text-sm"></div>
+                        </div>
+                    `
+                },
+                {
+                    id: "details",
+                    title: "Part 2: Details",
+                    content: `
+                        <div class="p-4 bg-slate-50 rounded-lg shadow">
+                            <h3 class="text-xl font-semibold text-slate-700 mb-3">Activity 4: Read for Details (15 minutes)</h3>
+                            <p class="text-slate-600 mb-3">Read the passage again. Answer the following questions using information from the text.</p>
+                            <div id="details-questions" class="space-y-4">
+                                <!-- Details questions will be injected here by JS -->
+                            </div>
+                            <button id="check-details" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md transition duration-150 ease-in-out">Check Details</button>
+                            <div id="details-feedback-summary" class="mt-2 text-sm font-medium"></div>
+                        </div>
+                    `
+                },
+                {
+                    id: "true-false",
+                    title: "Part 3: True or False",
+                    content: `
+                        <div class="mb-8 p-4 bg-slate-50 rounded-lg shadow">
+                            <h3 class="text-xl font-semibold text-slate-700 mb-3">Activity 5: True or False (10 minutes)</h3>
+                            <p class="text-slate-600 mb-3">Read the sentences below. Mark T (True) or F (False). If false, correct the sentence.</p>
+                            <div id="true-false-questions" class="space-y-4">
+                                <!-- True/False questions will be injected here by JS -->
+                            </div>
+                            <button id="check-true-false" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md transition duration-150 ease-in-out">Check True/False</button>
+                            <div id="true-false-feedback-summary" class="mt-2 text-sm font-medium"></div>
+                        </div>
+                    `
+                },
+                {
+                    id: "pros-cons",
+                    title: "Part 3: Pros & Cons",
+                    content: `
+                        <div class="mb-8 p-4 bg-slate-50 rounded-lg shadow">
+                            <h3 class="text-xl font-semibold text-slate-700 mb-3">Activity 6: Pros and Cons of AI Chatbots (10 minutes)</h3>
+                            <p class="text-slate-600 mb-3">Complete the table below with advantages (pros) and disadvantages (cons) of using AI chatbots for mental health, according to the passage.</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <h4 class="font-semibold text-lg text-green-600 mb-2">Pros (Advantages)</h4>
+                                    <ul id="pros-list" class="space-y-2">
+                                        <!-- Pros list will be injected here by JS -->
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-lg text-red-600 mb-2">Cons (Disadvantages)</h4>
+                                    <ul id="cons-list" class="space-y-2">
+                                        <!-- Cons list will be injected here by JS -->
+                                    </ul>
+                                </div>
+                            </div>
+                            <button id="check-pros-cons" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md transition duration-150 ease-in-out">Check Pros & Cons</button>
+                            <div id="pros-cons-feedback-summary" class="mt-2 text-sm font-medium"></div>
+                        </div>
+                    `
+                },
+                {
+                    id: "opinion",
+                    title: "Part 3: Discussion",
+                    content: `
+                        <div class="p-4 bg-slate-50 rounded-lg shadow">
+                            <h3 class="text-xl font-semibold text-slate-700 mb-3">Activity 7: Personal Opinion & Discussion (10 minutes)</h3>
+                            <p class="text-slate-600 mb-3">Answer the following questions. Be prepared to share your ideas.</p>
+                            <div class="space-y-4">
+                                <div>
+                                    <label for="q1-opinion" class="block text-slate-700 font-medium mb-1">1. Do you think AI chatbots are a good idea for mental health support? Why or why not?</label>
+                                    <textarea id="q1-opinion" rows="3" class="w-full p-2 border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500"></textarea>
+                                </div>
+                                <div>
+                                    <label for="q2-opinion" class="block text-slate-700 font-medium mb-1">2. Would you ever use an AI chatbot to talk about your feelings? Why or why not?</label>
+                                    <textarea id="q2-opinion" rows="3" class="w-full p-2 border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500"></textarea>
+                                </div>
+                                <div>
+                                    <label for="q3-opinion" class="block text-slate-700 font-medium mb-1">3. What are the biggest dangers of using AI for mental health?</label>
+                                    <textarea id="q3-opinion" rows="3" class="w-full p-2 border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500"></textarea>
+                                </div>
+                                <div>
+                                    <label for="q4-opinion" class="block text-slate-700 font-medium mb-1">4. Do you think AI will become more important in mental health in the future?</label>
+                                    <textarea id="q4-opinion" rows="3" class="w-full p-2 border-slate-300 rounded-md focus:ring-blue-500 focus:border-blue-500"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                }
+            ]
+        };
+
+        // --- 2. APPLICATION LOGIC (No need to edit below) ---
+        
+        // App state
+        let currentSectionId = null;
+        const totalSections = appData.sections.length;
+
+        // DOM Elements
+        const appNavList = document.getElementById('app-nav-list');
+        const appContent = document.getElementById('app-content');
+        const appContentWrapper = document.getElementById('app-content-wrapper');
+        const stepTitle = document.getElementById('step-title');
+        const stepCounter = document.getElementById('step-counter');
+        const progressBar = document.getElementById('progress-bar');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+
+        /**
+         * Runs all the JavaScript logic for a specific section (renders content, attaches listeners)
+         * This is the key function to make the interactive elements work after loading new HTML.
+         */
+        function initializeSectionLogic(sectionId) {
+            switch (sectionId) {
+                case "vocabulary":
+                    renderVocabulary();
+                    attachVocabCheck();
+                    break;
+                case "main-idea":
+                    renderMainIdeaQuiz();
+                    attachMainIdeaCheck();
+                    break;
+                case "details":
+                    renderDetailsQuestions();
+                    attachDetailsCheck();
+                    break;
+                case "true-false":
+                    renderTrueFalseQuestions();
+                    attachTrueFalseCheck();
+                    break;
+                case "pros-cons":
+                    renderProsCons();
+                    attachProsConsCheck();
+                    break;
+                // Other sections (objectives, discussion, passage, opinion)
+                // are static HTML and don't need post-render JS.
+            }
+        }
+
+        /**
+         * Finds a section by its ID and renders it to the page.
+         */
+        function renderSection(id) {
+            const section = appData.sections.find(s => s.id === id);
+            if (!section) {
+                console.error("Section not found:", id);
+                return;
+            }
+
+            const sectionIndex = appData.sections.findIndex(s => s.id === id);
+            const sectionNumber = sectionIndex + 1;
+            currentSectionId = id;
+
+            // 1. Update Header
+            const partTitle = `Part ${Math.ceil(sectionNumber / 3)}: ${section.title}`;
+            stepTitle.textContent = section.title;
+            stepCounter.textContent = `Step ${sectionNumber} of ${totalSections}`;
+            
+            // 2. Update Progress Bar
+            const progressPercent = (sectionNumber / totalSections) * 100;
+            progressBar.style.width = `${progressPercent}%`;
+
+            // 3. Update Main Content
+            // We set the title based on the section's part, then inject its unique content
+            const fullTitle = section.title.includes("Part") ? section.title : `Part ${sectionNumber}: ${section.title}`;
+            appContent.innerHTML = `
+                <h3 class="text-3xl font-bold mb-6 text-slate-800">${fullTitle}</h3>
+                ${section.content}
+            `;
+
+            // 4. Run JS for this new content
+            initializeSectionLogic(id);
+            
+            // 5. Update Navigation Buttons
+            prevBtn.disabled = (sectionIndex === 0);
+            nextBtn.disabled = (sectionIndex === totalSections - 1);
+
+            // 6. Update Sidebar Active State
+            document.querySelectorAll('#app-nav-list a').forEach(a => {
+                if (a.dataset.sectionId === id) {
+                    a.classList.add('active');
+                } else {
+                    a.classList.remove('active');
+                }
+            });
+            
+            // 7. Scroll content to top
+            appContentWrapper.scrollTop = 0;
+        }
+
+        /**
+         * Builds the sidebar navigation and sets up the app.
+         */
+        function initializeApp() {
+            // 1. Set Lesson Title & Designer Credit
+            document.getElementById('lesson-title').textContent = lessonTitle;
+            const designerLink = document.getElementById('designer-link');
+            designerLink.textContent = designerCredit.name;
+            designerLink.href = designerCredit.url;
+
+            // 2. Populate Sidebar Navigation
+            appNavList.innerHTML = ''; // Clear
+            appData.sections.forEach(section => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = "#";
+                a.textContent = section.title;
+                a.dataset.sectionId = section.id;
+                a.className = "block px-4 py-2 rounded-md text-sm font-medium text-slate-600 hover:bg-slate-100";
+                a.onclick = (e) => {
+                    e.preventDefault();
+                    renderSection(section.id);
+                };
+                li.appendChild(a);
+                appNavList.appendChild(li);
+            });
+
+            // 3. Add Next/Prev Button Listeners
+            prevBtn.addEventListener('click', () => {
+                const currentIndex = appData.sections.findIndex(s => s.id === currentSectionId);
+                if (currentIndex > 0) {
+                    renderSection(appData.sections[currentIndex - 1].id);
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                const currentIndex = appData.sections.findIndex(s => s.id === currentSectionId);
+                if (currentIndex < totalSections - 1) {
+                    renderSection(appData.sections[currentIndex + 1].id);
+                }
+            });
+            
+            // 4. Render the first section
+            if (totalSections > 0) {
+                renderSection(appData.sections[0].id);
+            } else {
+                // No sections, show a welcome/empty state
+                appContent.innerHTML = `<h3 class="text-2xl font-bold mb-4">Welcome!</h3><p class="text-slate-600">There are no sections in this lesson yet. Add sections to the \`appData.sections\` array in the script to get started.</p>`;
+                stepTitle.textContent = "Lesson Setup";
+                stepCounter.textContent = "Step 0 of 0";
+                progressBar.style.width = "0%";
+                prevBtn.disabled = true;
+                nextBtn.disabled = true;
+            }
+        }
+
+        // Run the app
+        document.addEventListener('DOMContentLoaded', initializeApp);
+
+    </script>
+</body>
+</html>
