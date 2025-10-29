@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B1 Reading - The Working Holiday Visa</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Use Inter as the default font */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        /* Sidebar active link */
+        .nav-link-active {
+            background-color: #e0f2fe; /* light-blue-100 */
+            color: #0284c7; /* sky-700 */
+            font-weight: 600;
+        }
+        /* Custom styles for feedback */
+        .feedback-correct {
+            color: #16a34a; /* green-600 */
+            font-weight: 500;
+        }
+        .feedback-incorrect {
+            color: #dc2626; /* red-600 */
+            font-weight: 500;
+        }
+        /* Ensure inputs/selects are rounded */
+        select, input[type="text"] {
+            border-radius: 0.375rem; /* rounded-md */
+            border: 1px solid #d1d5db; /* gray-300 */
+            padding: 0.5rem 0.75rem;
+        }
+        /* Sidebar transition */
+        #sidebar {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* --- New Drag and Drop Styles --- */
+        #answer-bank {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 1rem;
+            background-color: #f3f4f6; /* gray-100 */
+            border-radius: 0.375rem; /* rounded-md */
+            margin-bottom: 1.5rem; /* mb-6 */
+            min-height: 50px; /* Ensure it's a drop target */
+        }
+        .draggable-item {
+            padding: 0.5rem 1rem;
+            background-color: #ffffff; /* white */
+            border: 1px solid #d1d5db; /* gray-300 */
+            border-radius: 0.375rem; /* rounded-md */
+            cursor: move;
+            transition: background-color 0.2s;
+            font-weight: 500;
+            user-select: none; /* Prevent text selection */
+        }
+        .draggable-item:hover {
+            background-color: #f9fafb; /* gray-50 */
+        }
+        .drop-zone {
+            min-height: 42px; /* Approx height of a draggable item */
+            width: 150px; /* Give it some standard width */
+            border: 2px dashed #9ca3af; /* gray-400 */
+            border-radius: 0.375rem; /* rounded-md */
+            padding: 4px;
+            display: inline-block; /* To fit inline with text */
+            vertical-align: middle;
+            background-color: #f9fafb; /* gray-50 */
+            transition: all 0.2s;
+        }
+        /* Style for when dragging over a drop zone */
+        .drag-over {
+            border-color: #2563eb; /* blue-600 */
+            background-color: #dbeafe; /* blue-100 */
+        }
+        /* Style for the item being dragged */
+        .dragging {
+            opacity: 0.5;
+            border: 2px dashed #0284c7; /* sky-700 */
+        }
+        /* Ensure drop zone can hold the item */
+        .drop-zone .draggable-item {
+            cursor: default;
+            margin: 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        /* Feedback on the drop-zone itself */
+        .drop-zone-correct {
+            border-color: #16a34a; /* green-600 */
+            background-color: #f0fdf4; /* green-50 */
+        }
+        .drop-zone-incorrect {
+            border-color: #dc2626; /* red-600 */
+            background-color: #fef2f2; /* red-50 */
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="flex min-h-screen">
+        <!-- 
+          Sidebar 
+          - Hidden on mobile (transform -translate-x-full)
+          - Shown on medium screens and up (md:transform-none)
+          - Can be toggled on mobile
+        -->
+        <nav id="sidebar" class="w-72 bg-white shadow-lg fixed inset-y-0 left-0 transform -translate-x-full md:translate-x-0 z-30">
+            <div class="p-6">
+                <h2 class="text-xl font-bold text-sky-800">B1 Reading - WHV</h2>
+                <p class="text-sm text-gray-600">Working in Australia</p>
+            </div>
+            
+            <!-- Navigation Links -->
+            <ul class="flex flex-col space-y-1 p-4" id="nav-links">
+                <li><a href="#part1" class="nav-link block rounded-md p-3 hover:bg-gray-100">Part 1: Warm-up</a></li>
+                <li><a href="#part2" class="nav-link block rounded-md p-3 hover:bg-gray-100">Part 2: Vocabulary</a></li>
+                <li><a href="#part3" class="nav-link block rounded-md p-3 hover:bg-gray-100">Part 3: Reading Text</a></li>
+                <li><a href="#part4" class="nav-link block rounded-md p-3 hover:bg-gray-100">Part 4: Comprehension</a></li>
+                <li><a href="#part5" class="nav-link block rounded-md p-3 hover:bg-gray-100">Part 5: First Impressions</a></li>
+                <li><a href="#part6" class="nav-link block rounded-md p-3 hover:bg-gray-100">Part 6: Summary Gap-Fill</a></li>
+                <li><a href="#part7" class="nav-link block rounded-md p-3 hover:bg-gray-100">Part 7: Pros, Cons, &amp; Req.</a></li>
+                <li><a href="#part8" class="nav-link block rounded-md p-3 hover:bg-gray-100">Part 8: Perspectives</a></li>
+                <li><a href="#part9" class="nav-link block rounded-md p-3 hover:bg-gray-100">Part 9: Scenario Task</a></li>
+                <li><a href="#part10" class="nav-link block rounded-md p-3 hover:bg-gray-100">Part 10: Reflection</a></li>
+                <li><hr class="my-2"></li>
+                <li><a href="#answer-key" id="toggle-answers" class="nav-link block rounded-md p-3 text-blue-600 hover:bg-blue-50">Toggle Answer Key</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content Area -->
+        <div class="flex-1 md:pl-72">
+            <!-- Mobile Header -->
+            <header class="md:hidden sticky top-0 bg-white shadow-md p-4 flex justify-between items-center z-20">
+                <button id="menu-toggle" class="text-gray-700 p-2 rounded-md hover:bg-gray-100">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+                <h1 class="text-lg font-semibold text-sky-800">B1 Lesson: WHV</h1>
+                <div class="w-6"></div> <!-- Spacer -->
+            </header>
+
+            <!-- Lesson Content -->
+            <main class="p-6 md:p-10 space-y-8">
+
+                <!-- Lesson Header -->
+                <header class="bg-white p-6 rounded-lg shadow">
+                    <h1 class="text-3xl font-bold text-gray-900">B1 Reading - The Working Holiday Visa</h1>
+                    <p class="mt-2 text-lg text-gray-600">Topic: Working and Travelling in Australia</p>
+                    <div class="flex flex-wrap gap-4 mt-4 text-sm">
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-medium">Level: B1 (Intermediate)</span>
+                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full font-medium">Time: 60 Minutes</span>
+                    </div>
+                </header>
+
+                <!-- Part 1: Warm-up -->
+                <section id="part1" class="bg-white p-6 rounded-lg shadow">
+                    <h2 class="text-2xl font-bold mb-4 text-sky-700">Part 1: Warm-up Discussion (Speaking)</h2>
+                    <p class="mb-4 text-gray-700">Discuss these questions with your teacher:</p>
+                    <ul class="list-disc pl-6 space-y-3 text-gray-800">
+                        <li>The hashtag #KaburAjaDulu means "just escape first." What kind of problems in their home country might make young people want to "escape"?</li>
+                        <li>What are the usual benefits people expect from working abroad?</li>
+                        <li>Have you ever thought about working or studying in another country? Why or why not?</li>
+                        <li>What comes to mind when you think of Australia?</li>
+                        <li>Do you follow any influencers on social media who live abroad? What kind of life do they show?</li>
+                    </ul>
+                </section>
+
+                <!-- Part 2: Vocabulary Matching -->
+                <section id="part2" class="bg-white p-6 rounded-lg shadow">
+                    <h2 class="text-2xl font-bold mb-4 text-sky-700">Part 2: Vocabulary Matching (Pre-Reading)</h2>
+                    <p class="mb-4 text-gray-700">Match the vocabulary words (1-8) with their correct definitions (a-h). Select the correct definition from the dropdown.</p>
+                    
+                    <div id="vocab-quiz" class="space-y-4">
+                        <!-- Item 1 -->
+                        <div class="flex flex-col md:flex-row md:items-center gap-2">
+                            <label class="font-semibold w-full md:w-1/4">1. competitive</label>
+                            <select data-answer="f" class="vocab-select w-full md:w-1/2">
+                                <option value="">Select definition...</option>
+                                <option value="a">a. Money paid to an employee for their work.</option>
+                                <option value="b">b. Far away from cities and towns; isolated.</option>
+                                <option value="c">c. A promise that something will happen.</option>
+                                <option value="d">d. Help or legal defense.</option>
+                                <option value="e">e. Dishonest plans to make money.</option>
+                                <option value="f">f. Difficult to win or get because many people are trying.</option>
+                                <option value="g">g. People who are legal members of a country.</option>
+                                <option value="h">h. A general direction or change in how people are behaving.</option>
+                            </select>
+                            <span class="feedback-span ml-2"></span>
+                        </div>
+                        <!-- Item 2 -->
+                        <div class="flex flex-col md:flex-row md:items-center gap-2">
+                            <label class="font-semibold w-full md:w-1/4">2. guarantee</label>
+                            <select data-answer="c" class="vocab-select w-full md:w-1/2">
+                                <option value="">Select definition...</option>
+                                <option value="a">a. Money paid to an employee for their work.</option>
+                                <option value="b">b. Far away from cities and towns; isolated.</option>
+                                <option value="c">c. A promise that something will happen.</option>
+                                <option value="d">d. Help or legal defense.</option>
+                                <option value="e">e. Dishonest plans to make money.</option>
+                                <option value="f">f. Difficult to win or get because many people are trying.</option>
+                                <option value="g">g. People who are legal members of a country.</option>
+                                <option value="h">h. A general direction or change in how people are behaving.</option>
+                            </select>
+                            <span class="feedback-span ml-2"></span>
+                        </div>
+                        <!-- Item 3 -->
+                        <div class="flex flex-col md:flex-row md:items-center gap-2">
+                            <label class="font-semibold w-full md:w-1/4">3. remote</label>
+                            <select data-answer="b" class="vocab-select w-full md:w-1/2">
+                                <option value="">Select definition...</option>
+                                <option value="a">a. Money paid to an employee for their work.</option>
+                                <option value="b">b. Far away from cities and towns; isolated.</option>
+                                <option value="c">c. A promise that something will happen.</option>
+                                <option value="d">d. Help or legal defense.</option>
+                                <option value="e">e. Dishonest plans to make money.</option>
+                                <option value="f">f. Difficult to win or get because many people are trying.</option>
+                                <option value="g">g. People who are legal members of a country.</option>
+                                <option value="h">h. A general direction or change in how people are behaving.</option>
+                            </select>
+                            <span class="feedback-span ml-2"></span>
+                        </div>
+                        <!-- Item 4 -->
+                        <div class="flex flex-col md:flex-row md:items-center gap-2">
+                            <label class="font-semibold w-full md:w-1/4">4. scams</label>
+                            <select data-answer="e" class="vocab-select w-full md:w-1/2">
+                                <option value="">Select definition...</option>
+                                <option value="a">a. Money paid to an employee for their work.</option>
+                                <option value="b">b. Far away from cities and towns; isolated.</option>
+                                <option value="c">c. A promise that something will happen.</option>
+                                <option value="d">d. Help or legal defense.</option>
+                                <option value="e">e. Dishonest plans to make money.</option>
+                                <option value="f">f. Difficult to win or get because many people are trying.</option>
+                                <option value="g">g. People who are legal members of a country.</option>
+                                <option value="h">h. A general direction or change in how people are behaving.</option>
+                            </select>
+                            <span class="feedback-span ml-2"></span>
+                        </div>
+                        <!-- Item 5 -->
+                        <div class="flex flex-col md:flex-row md:items-center gap-2">
+                            <label class="font-semibold w-full md:w-1/4">5. wages</label>
+                            <select data-answer="a" class="vocab-select w-full md:w-1/2">
+                                <option value="">Select definition...</option>
+                                <option value="a">a. Money paid to an employee for their work.</option>
+                                <option value="b">b. Far away from cities and towns; isolated.</option>
+                                <option value="c">c. A promise that something will happen.</option>
+                                <option value="d">d. Help or legal defense.</option>
+                                <option value="e">e. Dishonest plans to make money.</option>
+                                <option value="f">f. Difficult to win or get because many people are trying.</option>
+                                <option value="g">g. People who are legal members of a country.</option>
+                                <option value="h">h. A general direction or change in how people are behaving.</option>
+                            </select>
+                            <span class="feedback-span ml-2"></span>
+                        </div>
+                        <!-- Item 6 -->
+                        <div class="flex flex-col md:flex-row md:items-center gap-2">
+                            <label class="font-semibold w-full md:w-1/4">6. protection</label>
+                            <select data-answer="d" class="vocab-select w-full md:w-1/2">
+                                <option value="">Select definition...</option>
+                                <option value="a">a. Money paid to an employee for their work.</option>
+                                <option value="b">b. Far away from cities and towns; isolated.</option>
+                                <option value="c">c. A promise that something will happen.</option>
+                                <option value="d">d. Help or legal defense.</option>
+                                <option value="e">e. Dishonest plans to make money.</option>
+                                <option value="f">f. Difficult to win or get because many people are trying.</option>
+                                <option value="g">g. People who are legal members of a country.</option>
+                                <option value="h">h. A general direction or change in how people are behaving.</option>
+                            </select>
+                            <span class="feedback-span ml-2"></span>
+                        </div>
+                        <!-- Item 7 -->
+                        <div class="flex flex-col md:flex-row md:items-center gap-2">
+                            <label class="font-semibold w-full md:w-1/4">7. trend</label>
+                            <select data-answer="h" class="vocab-select w-full md:w-1/2">
+                                <option value="">Select definition...</option>
+                                <option value="a">a. Money paid to an employee for their work.</option>
+                                <option value="b">b. Far away from cities and towns; isolated.</option>
+                                <option value="c">c. A promise that something will happen.</option>
+                                <option value="d">d. Help or legal defense.</option>
+                                <option value="e">e. Dishonest plans to make money.</option>
+                                <option value="f">f. Difficult to win or get because many people are trying.</option>
+                                <option value="g">g. People who are legal members of a country.</option>
+                                <option value="h">h. A general direction or change in how people are behaving.</option>
+                            </select>
+                            <span class="feedback-span ml-2"></span>
+                        </div>
+                        <!-- Item 8 -->
+                        <div class="flex flex-col md:flex-row md:items-center gap-2">
+                            <label class="font-semibold w-full md:w-1/4">8. citizens</label>
+                            <select data-answer="g" class="vocab-select w-full md:w-1/2">
+                                <option value="">Select definition...</option>
+                                <option value="a">a. Money paid to an employee for their work.</option>
+                                <option value="b">b. Far away from cities and towns; isolated.</option>
+                                <option value="c">c. A promise that something will happen.</option>
+                                <option value="d">d. Help or legal defense.</option>
+                                <option value="e">e. Dishonest plans to make money.</option>
+                                <option value="f">f. Difficult to win or get because many people are trying.</option>
+                                <option value="g">g. People who are legal members of a country.</option>
+                                <option value="h">h. A general direction or change in how people are behaving.</option>
+                            </select>
+                            <span class="feedback-span ml-2"></span>
+                        </div>
+                    </div>
+                    
+                    <button id="check-vocab" class="mt-6 bg-blue-600 text-white px-4 py-2 rounded-md font-medium hover:bg-blue-700 transition">Check Answers</button>
+                    <p id="vocab-score" class="mt-4 font-semibold"></p>
+                </section>
+
+                <!-- Part 3: Reading Text -->
+                <section id="part3" class="bg-white p-6 rounded-lg shadow">
+                    <h2 class="text-2xl font-bold mb-4 text-sky-700">Part 3: Reading Text</h2>
+                    <p class="mb-4 text-gray-700">Read the following article. Don't worry about unknown words for now. Try to understand the main topic and the author's general message.</p>
+                    
+                    <article class="prose max-w-none text-gray-800 leading-relaxed space-y-4">
+                        <h3 class="text-xl font-bold text-gray-900">Australia: A Popular Place for Young Indonesians to Work and Travel</h3>
+                        <p>In early 2025, the hashtag #KaburAjaDulu became popular among young Indonesians. It means “just escape first.” Many young people use this idea to go to Australia with a Working Holiday Visa (WHV). They hope to earn money, enjoy beautiful views, and live a better life.</p>
+                        
+                        <h4 class="text-lg font-semibold">Why Australia?</h4>
+                        <p>Australia is a favorite because:</p>
+                        <ul class="list-disc pl-6">
+                            <li>Jobs are simple, like gardening or serving food.</li>
+                            <li>The pay is high—up to Rp300,000 per hour.</li>
+                            <li>The country is beautiful and close to Indonesia.</li>
+                            <li>Influencers show only the good parts of life in Australia.</li>
+                        </ul>
+                        <p>Australia also needs workers, especially in farms and small towns. Local people don’t want to work in these areas, so the government welcomes foreign workers. The WHV program started in 1975 as a way for young people to learn about other cultures. Now, it helps Australia’s economy too.</p>
+                        <p>Indonesians aged 18–30 can apply for WHV. They can work and travel for 1–2 years. In 2024, WHV workers helped Australia’s farming industry earn AU$3 billion (Rp32.3 trillion). If fewer people join, the country could lose AU$200 million (Rp2.1 trillion) each year.</p>
+                        
+                        <h4 class="text-lg font-semibold">What Do Indonesians Need?</h4>
+                        <p>To apply for WHV, Indonesians must:</p>
+                        <ul class="list-disc pl-6">
+                            <li>Be 18–30 years old.</li>
+                            <li>Take an English test (IELTS, TOEFL, or PTE).</li>
+                            <li>Get a support letter (SDU-WHV) from the Indonesian government.</li>
+                            <li>Have at least AU$5,000 (Rp54 million) in savings for 3 months.</li>
+                        </ul>
+                        <p>The support letter is very important. Without it, the visa application will not be accepted. But the number of letters is limited—only 5,000 for the 2025/2026 program. This makes the process competitive, like buying concert tickets.</p>
+                        
+                        <h4 class="text-lg font-semibold">The Risks</h4>
+                        <p>Many people think WHV guarantees a job, but that’s not true. There is no official job placement. Most people find work through friends or social media. Without enough information, they may end up in hard jobs with low pay in remote areas.</p>
+                        <p>Some workers face serious problems:</p>
+                        <ul class="list-disc pl-6">
+                            <li>Scams and unpaid wages.</li>
+                            <li>Dangerous jobs and accidents.</li>
+                            <li>No legal protection or support.</li>
+                        </ul>
+                        <p>In October 2024, two Indonesians died in a traffic accident in Western Australia. This showed the need for better safety rules and support for WHV workers.</p>
+                        
+                        <h4 class="text-lg font-semibold">What Should the Government Do?</h4>
+                        <p>The Indonesian government should help by:</p>
+                        <ul class="list-disc pl-6">
+                            <li>Giving clear information about WHV.</li>
+                            <li>Teaching workers about their rights.</li>
+                            <li>Preparing them for cultural differences.</li>
+                            <li>Protecting them from scams and unsafe jobs.</li>
+                        </ul>
+                        <p>The #KaburAjaDulu trend shows how young people use the internet to share ideas and build global identities. The government should join these online spaces to give correct information and protect its citizens.</p>
+                    </article>
+                </section>
+
+                <!-- Part 4: Comprehension Check -->
+                <section id="part4" class="bg-white p-6 rounded-lg shadow">
+                    <h2 class="text-2xl font-bold mb-4 text-sky-700">Part 4: Comprehension Check (True or False?)</h2>
+                    <p class="mb-4 text-gray-700">Read the article again. Are these statements true (T) or false (F)?</p>
+                    
+                    <div id="tf-quiz" class="space-y-4">
+                        <!-- Question 1 -->
+                        <div class="p-4 rounded-md border border-gray-200" data-answer="F" data-explanation="The hashtag means 'just escape first,' which implies leaving Indonesia, not staying.">
+                            <p class="mb-2">1. The #KaburAjaDulu trend encourages people to stay in Indonesia.</p>
+                            <label class="mr-4"><input type="radio" name="tf1" value="T"> T</label>
+                            <label><input type="radio" name="tf1" value="F"> F</label>
+                            <span class="feedback-span ml-4"></span>
+                        </div>
+                        <!-- Question 2 -->
+                        <div class="p-4 rounded-md border border-gray-200" data-answer="F" data-explanation="The article states Australia needs workers 'especially in farms and small towns,' not big cities.">
+                            <p class="mb-2">2. Australia needs WHV workers mostly for jobs in big cities like Sydney.</p>
+                            <label class="mr-4"><input type="radio" name="tf2" value="T"> T</label>
+                            <label><input type="radio" name="tf2" value="F"> F</label>
+                            <span class="feedback-span ml-4"></span>
+                        </div>
+                        <!-- Question 3 -->
+                        <div class="p-4 rounded-md border border-gray-200" data-answer="T" data-explanation="The article says, 'The WHV program started in 1975 as a way for young people to learn about other cultures.'">
+                            <p class="mb-2">3. The WHV program started in 1975.</p>
+                            <label class="mr-4"><input type="radio" name="tf3" value="T"> T</label>
+                            <label><input type="radio" name="tf3" value="F"> F</label>
+                            <span class="feedback-span ml-4"></span>
+                        </div>
+                        <!-- Question 4 -->
+                        <div class="p-4 rounded-md border border-gray-200" data-answer="F" data-explanation="The article says the process is 'competitive, like buying concert tickets' because the letters are limited.">
+                            <p class="mb-2">4. Getting the support letter (SDU-WHV) is easy for all applicants.</p>
+                            <label class="mr-4"><input type="radio" name="tf4" value="T"> T</label>
+                            <label><input type="radio" name="tf4" value="F"> F</label>
+                            <span class="feedback-span ml-4"></span>
+                        </div>
+                        <!-- Question 5 -->
+                        <div class="p-4 rounded-md border border-gray-200" data-answer="F" data-explanation="The article clearly states, 'There is no official job placement.'">
+                            <p class="mb-2">5. Having a WHV means the government will find a job for you.</p>
+                            <label class="mr-4"><input type="radio" name="tf5" value="T"> T</label>
+                            <label><input type="radio" name="tf5" value="F"> F</label>
+                            <span class="feedback-span ml-4"></span>
+                        </div>
+                        <!-- Question 6 -->
+                        <div class="p-4 rounded-md border border-gray-200" data-answer="F" data-explanation="The article highlights many 'Risks,' including scams, unpaid wages, and dangerous jobs.">
+                            <p class="mb-2">6. The article suggests that the WHV program has no problems.</p>
+                            <label class="mr-4"><input type="radio" name="tf6" value="T"> T</label>
+                            <label><input type="radio" name="tf6" value="F"> F</label>
+                            <span class="feedback-span ml-4"></span>
+                        </div>
+                        <!-- Question 7 -->
+                        <div class="p-4 rounded-md border border-gray-200" data-answer="F" data-explanation="The article says, 'Local people don’t want to work in these areas,' which is why foreign workers are needed.">
+                            <p class="mb-2">7. Australian locals are eager to do the farm jobs that WHV workers do.</p>
+                            <label class="mr-4"><input type="radio" name="tf7" value="T"> T</label>
+                            <label><input type="radio" name="tf7" value="F"> F</label>
+                            <span class="feedback-span ml-4"></span>
+                        </div>
+                        <!-- Question 8 -->
+                        <div class="p-4 rounded-md border border-gray-200" data-answer="T" data-explanation="The article states that in 2024, WHV workers 'helped Australia’s farming industry earn AU$3 billion.'">
+                            <p class="mb-2">8. WHV workers are very important to Australia's farming economy.</p>
+                            <label class="mr-4"><input type="radio" name="tf8" value="T"> T</label>
+                            <label><input type="radio" name="tf8" value="F"> F</label>
+                            <span class="feedback-span ml-4"></span>
+                        </div>
+                    </div>
+                    
+                    <button id="check-tf" class="mt-6 bg-blue-600 text-white px-4 py-2 rounded-md font-medium hover:bg-blue-700 transition">Check Answers</button>
+                    <p id="tf-score" class="mt-4 font-semibold"></p>
+                </section>
+
+                <!-- Part 5: First Impressions -->
+                <section id="part5" class="bg-white p-6 rounded-lg shadow">
+                    <h2 class="text-2xl font-bold mb-4 text-sky-700">Part 5: First Impressions (Discussion)</h2>
+                    <p class="mb-4 text-gray-700">Talk with your teacher about your reaction to the article.</p>
+                    <ul class="list-disc pl-6 space-y-3 text-gray-800">
+                        <li>What is the most surprising thing you learned from the article?</li>
+                        <li>The article mentions influencers only show the "good parts." Why do you think they do this?</li>
+                        <li>Does the WHV program sound like a good opportunity to you? Why or why not?</li>
+                        <li>How do you feel about the people who go without knowing the risks? (e.g., sympathetic, worried, etc.)</li>
+                    </ul>
+                </section>
+
+                <!-- Part 6: Summary Gap-Fill -->
+                <section id="part6" class="bg-white p-6 rounded-lg shadow">
+                    <h2 class="text-2xl font-bold mb-4 text-sky-700">Part 6: Summary Gap-Fill (Reading)</h2>
+                    <p class="mb-4 text-gray-700">Complete the summary using the words from the box. Choose the best word for each gap.</p>
+                    <div class="p-4 bg-gray-100 rounded-md mb-4">
+                        <p class="font-medium text-gray-800">Word Box:</p>
+                        <p class="text-gray-700">savings, competitive, risks, support, high, influencers, requirements, remote</p>
+                    </div>
+                    
+                    <div id="summary-quiz" class="text-lg leading-relaxed text-gray-800 space-y-2">
+                        <p>Many young Indonesians are attracted to Australia’s WHV program because of the (1) 
+                            <select data-answer="high" class="gap-fill-select" data-explanation="The article mentions 'The pay is high—up to Rp300,000 per hour.'">
+                                <option value="">...</option><option value="savings">savings</option><option value="competitive">competitive</option><option value="risks">risks</option><option value="support">support</option><option value="high">high</option><option value="influencers">influencers</option><option value="requirements">requirements</option><option value="remote">remote</option>
+                            </select><span class="feedback-span ml-1"></span>
+                            pay and the lifestyle shown by (2) 
+                            <select data-answer="influencers" class="gap-fill-select" data-explanation="The article says, 'Influencers show only the good parts of life in Australia.'">
+                                <option value="">...</option><option value="savings">savings</option><option value="competitive">competitive</option><option value="risks">risks</option><option value="support">support</option><option value="high">high</option><option value="influencers">influencers</option><option value="requirements">requirements</option><option value="remote">remote</option>
+                            </select><span class="feedback-span ml-1"></span>. 
+                            However, the application process is very (3) 
+                            <select data-answer="competitive" class="gap-fill-select" data-explanation="The article states the limited number of letters 'makes the process competitive.'">
+                                <option value="">...</option><option value="savings">savings</option><option value="competitive">competitive</option><option value="risks">risks</option><option value="support">support</option><option value="high">high</option><option value="influencers">influencers</option><option value="requirements">requirements</option><option value="remote">remote</option>
+                            </select><span class="feedback-span ml-1"></span>
+                            because there is a limited number of support letters. Applicants must also meet several (4) 
+                            <select data-answer="requirements" class="gap-fill-select" data-explanation="The list of what's needed (age, test, savings) are the 'requirements.'">
+                                <option value="">...</option><option value="savings">savings</option><option value="competitive">competitive</option><option value="risks">risks</option><option value="support">support</option><option value="high">high</option><option value="influencers">influencers</option><option value="requirements">requirements</option><option value="remote">remote</option>
+                            </select><span class="feedback-span ml-1"></span>, 
+                            such as passing an English test and having at least AU$5,000 in (5) 
+                            <select data-answer="savings" class="gap-fill-select" data-explanation="The article lists 'Have at least AU$5,000 (Rp54 million) in savings...'">
+                                <option value="">...</option><option value="savings">savings</option><option value="competitive">competitive</option><option value="risks">risks</option><option value="support">support</option><option value="high">high</option><option value="influencers">influencers</option><option value="requirements">requirements</option><option value="remote">remote</option>
+                            </select><span class="feedback-span ml-1"></span>. 
+                            The program is not perfect; there are many (6) 
+                            <select data-answer="risks" class="gap-fill-select" data-explanation="The section 'The Risks' lists problems like scams and dangerous jobs.">
+                                <option value="">...</option><option value="savings">savings</option><option value="competitive">competitive</option><option value="risks">risks</option><option value="support">support</option><option value="high">high</option><option value="influencers">influencers</option><option value="requirements">requirements</option><option value="remote">remote</option>
+                            </select><span class="feedback-span ml-1"></span>, 
+                            including scams, dangerous jobs in (7) 
+                            <select data-answer="remote" class="gap-fill-select" data-explanation="The article mentions 'hard jobs with low pay in remote areas.'">
+                                <option value="">...</option><option value="savings">savings</option><option value="competitive">competitive</option><option value="risks">risks</option><option value="support">support</option><option value="high">high</option><option value="influencers">influencers</option><option value="requirements">requirements</option><option value="remote">remote</option>
+                            </select><span class="feedback-span ml-1"></span>
+                            areas, and a lack of legal (8) 
+                            <select data-answer="support" class="gap-fill-select" data-explanation="The article mentions 'No legal protection or support' as a serious problem.">
+                                <option value="">...</option><option value="savings">savings</option><option value_3="competitive">competitive</option><option value="risks">risks</option><option value="support">support</option><option value="high">high</option><option value="influencers">influencers</option><option value="requirements">requirements</option><option value="remote">remote</option>
+                            </select><span class="feedback-span ml-1"></span>.
+                        </p>
+                    </div>
+                    
+                    <button id="check-summary" class="mt-6 bg-blue-600 text-white px-4 py-2 rounded-md font-medium hover:bg-blue-700 transition">Check Answers</button>
+                    <p id="summary-score" class="mt-4 font-semibold"></p>
+                </section>
+
+                <!-- Part 7: Pros, Cons, & Requirements -->
+                <section id="part7" class="bg-white p-6 rounded-lg shadow">
+                    <h2 class="text-2xl font-bold mb-4 text-sky-700">Part 7: Pros, Cons, & Requirements (Reading for Detail)</h2>
+                    <p class="mb-4 text-gray-700">Read the article again and fill in the missing information. Drag the answers from the word bank into the correct slots.</p>
+                    
+                    <!-- New Answer Bank -->
+                    <div id="answer-bank">
+                        <div class="draggable-item" draggable="true" id="drag-remote" data-answer="remote">remote</div>
+                        <div class="draggable-item" draggable="true" id="drag-5000" data-answer="5,000">5,000</div>
+                        <div class="draggable-item" draggable="true" id="drag-simple" data-answer="Simple">Simple</div>
+                        <div class="draggable-item" draggable="true" id="drag-unpaid" data-answer="unpaid wages">unpaid wages</div>
+                        <div class="draggable-item" draggable="true" id="drag-job" data-answer="job">job</div>
+                        <div class="draggable-item" draggable="true" id="drag-english" data-answer="English">English</div>
+                    </div>
+
+                    <div id="details-quiz" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Pros -->
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold mb-3 text-green-800">Pros of WHV</h3>
+                            <ul class="list-disc pl-6 space-y-2 text-gray-800">
+                                <li>High pay (up to Rp300,000/hour)</li>
+                                <li>(1) <div class="drop-zone" data-correct-answer="Simple" data-explanation="The article says, 'Jobs are simple, like gardening or serving food.'"></div> jobs (like gardening) <span class="feedback-span ml-1"></span></li>
+                                <li>Beautiful country</li>
+                                <li>Cultural exchange</li>
+                            </ul>
+                        </div>
+                        <!-- Requirements -->
+                        <div class="bg-yellow-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold mb-3 text-yellow-800">Requirements for WHV</h3>
+                            <ul class="list-disc pl-6 space-y-2 text-gray-800">
+                                <li>Be 18–30 years old</li>
+                                <li>(2) <div class="drop-zone" data-correct-answer="English" data-explanation="The article lists 'Take an English test (IELTS, TOEFL, or PTE).'"></div> test (IELTS, etc.) <span class="feedback-span ml-1"></span></li>
+                                <li>Support Letter (SDU-WHV)</li>
+                                <li>(3) AU$ <div class="drop-zone" data-correct-answer="5,000" data-explanation="The article says applicants must 'Have at least AU$5,000... in savings...'"></div> in savings <span class="feedback-span ml-1"></span></li>
+                            </ul>
+                        </div>
+                        <!-- Risks -->
+                        <div class="bg-red-50 p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold mb-3 text-red-800">Risks of WHV</h3>
+                            <ul class="list-disc pl-6 space-y-2 text-gray-800">
+                                <li>No (4) <div class="drop-zone" data-correct-answer="job" data-explanation="The article states 'Many people think WHV guarantees a job, but that’s not true.'"></div> guarantee <span class="feedback-span ml-1"></span></li>
+                                <li>Scams and (5) <div class="drop-zone" data-correct-answer="unpaid wages" data-explanation="The article lists 'Scams and unpaid wages' as serious problems."></div> <span class="feedback-span ml-1"></span></li>
+                                <li>Dangerous jobs and accidents</li>
+                                <li>Hard jobs in (6) <div class="drop-zone" data-correct-answer="remote" data-explanation="The article mentions ending up 'in remote areas' as a risk."></div> areas <span class="feedback-span ml-1"></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <button id="check-details" class="mt-6 bg-blue-600 text-white px-4 py-2 rounded-md font-medium hover:bg-blue-700 transition">Check Answers</button>
+                    <p id="details-score" class="mt-4 font-semibold"></p>
+                </section>
+
+                <!-- Part 8: Analyzing Perspectives -->
+                <section id="part8" class="bg-white p-6 rounded-lg shadow">
+                    <h2 class="text-2xl font-bold mb-4 text-sky-700">Part 8: Analyzing Perspectives (Discussion)</h2>
+                    <p class="mb-4 text-gray-700">Discuss these "why" questions with your teacher.</p>
+                    <ul class="list-decimal pl-6 space-y-3 text-gray-800">
+                        <li><b>For WHV Applicants:</b> Why do you think so many young people are willing to take these risks?</li>
+                        <li><b>For Australia:</b> Why doesn't the Australian government give jobs directly to WHV holders?</li>
+                        <li><b>For the Indonesian Government:</b> The article lists four things the government should do. In your opinion, which one is the most important? Why?</li>
+                        <li><b>For Influencers:</b> Do you think social media influencers have a responsibility to show the "bad parts" of living abroad, not just the good parts?</li>
+                        <li><b>For "Online Spaces":</b> The article says the government should join online spaces. Do you think this is a good idea? How could they do it effectively?</li>
+                    </ul>
+                </section>
+
+                <!-- Part 9: Scenario Task -->
+                <section id="part9" class="bg-white p-6 rounded-lg shadow">
+                    <h2 class="text-2xl font-bold mb-4 text-sky-700">Part 9: Scenario Task (Speaking)</h2>
+                    <p class="mb-4 text-gray-700">Choose one or two scenarios to discuss and role-play with your teacher.</p>
+                    <div class="space-y-6">
+                        <div class="p-4 bg-gray-50 rounded-lg border">
+                            <h3 class="text-lg font-semibold text-gray-900">Scenario 1: The Optimist</h3>
+                            <p class="mt-2 text-gray-700">Your 22-year-old cousin is very excited about the #KaburAjaDulu trend. He has saved AU$5,000 and wants to apply for the WHV immediately. He says, "I'll be rich in one year! It's going to be so easy, just like on Instagram." He asks for your opinion. Based on the article, what advice would you give him?</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-lg border">
+                            <h3 class="text-lg font-semibold text-gray-900">Scenario 2: The Pessimist</h3>
+                            <p class="mt-2 text-gray-700">Your friend applied for the WHV, but their application was rejected. They didn't get the competitive support letter. They are very depressed and say, "My dream is over. I'll be stuck here forever." What advice or comfort can you offer them? (Think about other options or future plans).</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-lg border">
+                            <h3 class="text-lg font-semibold text-gray-900">Scenario 3: The Emergency</h3>
+                            <p class="mt-2 text-gray-700">Your friend is already in Australia. They send you a message: "Help! My boss hasn't paid me for two weeks, and I work on a remote farm. I'm scared and don't know what to do. I don't have much money left." What practical steps would you advise them to take?</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Part 10: Wrap-up & Reflection -->
+                <section id="part10" class="bg-white p-6 rounded-lg shadow">
+                    <h2 class="text-2xl font-bold mb-4 text-sky-700">Part 10: Wrap-up & Reflection (Speaking)</h2>
+                    <p class="mb-4 text-gray-700">Discuss these final questions with your teacher.</p>
+                    <ul class="list-disc pl-6 space-y-3 text-gray-800">
+                        <li>After reading and discussing this article, has your opinion about working abroad changed?</li>
+                        <li>What is the most important lesson someone should learn before deciding to work in another country?</li>
+                        <li>This article focuses on Indonesians. Do you think young people from other countries (e.g., Japan, Germany, Brazil) face the same problems with the WHV?</li>
+                        <li>What new English word or phrase did you learn today that you want to remember?</li>
+                    </ul>
+                </section>
+
+                <!-- Answer Key (Hidden by default) -->
+                <section id="answer-key" class="hidden bg-blue-50 p-6 rounded-lg shadow-inner border border-blue-200">
+                    <h2 class="text-2xl font-bold mb-4 text-blue-800">Teacher's Guide / Answer Key</h2>
+                    
+                    <!-- Part 2 Answers -->
+                    <div class="mb-4">
+                        <h3 class="text-lg font-semibold text-blue-700">Part 2: Vocabulary Matching</h3>
+                        <ol class="list-decimal list-inside text-gray-800">
+                            <li>f. Difficult to win or get...</li>
+                            <li>c. A promise that something...</li>
+                            <li>b. Far away from cities...</li>
+                            <li>e. Dishonest plans...</li>
+                            <li>a. Money paid to an employee...</li>
+                            <li>d. Help or legal defense.</li>
+                            <li>h. A general direction or change...</li>
+                            <li>g. People who are legal members...</li>
+                        </ol>
+                    </div>
+                    
+                    <!-- Part 4 Answers -->
+                    <div class="mb-4">
+                        <h3 class="text-lg font-semibold text-blue-700">Part 4: Comprehension Check (True or False?)</h3>
+                        <ol class="list-decimal list-inside text-gray-800">
+                            <li><b>F</b> (It means "just escape first," implying leaving).</li>
+                            <li><b>F</b> (It needs workers for farms and small towns).</li>
+                            <li><b>T</b></li>
+                            <li><b>F</b> (It is very competitive).</li>
+                            <li><b>F</b> (There is no official job placement).</li>
+                            <li><b>F</b> (It highlights many serious problems and risks).</li>
+                            <li><b>F</b> (Local people don't want to work in these areas).</li>
+                            <li><b>T</b> (They helped earn AU$3 billion in 2024).</li>
+                        </ol>
+                    </div>
+
+                    <!-- Part 6 Answers -->
+                    <div class="mb-4">
+                        <h3 class="text-lg font-semibold text-blue-700">Part 6: Summary Gap-Fill</h3>
+                        <ol class="list-decimal list-inside text-gray-800">
+                            <li>high</li>
+                            <li>influencers</li>
+                            <li>competitive</li>
+                            <li>requirements</li>
+                            <li>savings</li>
+                            <li>risks</li>
+                            <li>remote</li>
+                            <li>support</li>
+                        </ol>
+                    </div>
+
+                    <!-- Part 7 Answers -->
+                    <div class="mb-4">
+                        <h3 class="text-lg font-semibold text-blue-700">Part 7: Pros, Cons, & Requirements</h3>
+                        <ol class="list-decimal list-inside text-gray-800">
+                            <li>Simple</li>
+                            <li>English</li>
+                            <li>$5,000</li>
+                            <li>job</li>
+                            <li>unpaid wages</li>
+                            <li>remote</li>
+                        </ol>
+                    </div>
+                </section>
+
+            </main>
+
+            <!-- Footer -->
+            <footer class="text-center p-6 text-gray-500 text-sm">
+                <a href="https://fajarudinakbar.online" target="_blank" rel="noopener noreferrer" class="hover:text-blue-600 hover:underline">
+                    Designed by fajarudinakbar.online
+                </a>
+            </footer>
+            
+        </div>
+    </div>
+    
+    <!-- JavaScript Module -->
+    <script type="module">
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Mobile Menu Toggle ---
+            const menuToggle = document.getElementById('menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.querySelector('.flex-1.md\\:pl-72'); // Select main content area
+
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('-translate-x-full');
+            });
+
+            // Close sidebar when clicking a nav link on mobile
+            sidebar.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (window.innerWidth < 768) { // md breakpoint
+                        sidebar.classList.add('-translate-x-full');
+                    }
+                });
+            });
+
+            // --- Answer Key Toggle ---
+            const toggleButton = document.getElementById('toggle-answers');
+            const answerKey = document.getElementById('answer-key');
+
+            toggleButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                const isHidden = answerKey.classList.toggle('hidden');
+                toggleButton.textContent = isHidden ? 'Show Answer Key' : 'Hide Answer Key';
+                if (!isHidden) {
+                    answerKey.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+
+            // --- Sidebar Active Link Highlighting on Scroll ---
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('#nav-links a.nav-link');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        navLinks.forEach(link => {
+                            link.classList.remove('nav-link-active');
+                            if (link.getAttribute('href') === `#${id}`) {
+                                link.classList.add('nav-link-active');
+                            }
+                        });
+                    }
+                });
+            }, { rootMargin: '-30% 0px -60% 0px' }); // Adjust margins to highlight when section is roughly in middle
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // --- New Drag and Drop Logic ---
+            const draggables = document.querySelectorAll('.draggable-item');
+            const dropZones = document.querySelectorAll('.drop-zone, #answer-bank');
+            let draggedItem = null;
+
+            draggables.forEach(draggable => {
+                draggable.addEventListener('dragstart', (e) => {
+                    draggedItem = e.target;
+                    setTimeout(() => {
+                        e.target.classList.add('dragging');
+                    }, 0);
+                    // Use the item's ID for data transfer
+                    e.dataTransfer.setData('text/plain', e.target.id);
+                });
+
+                draggable.addEventListener('dragend', () => {
+                    draggedItem.classList.remove('dragging');
+                    draggedItem = null;
+                });
+            });
+
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', (e) => {
+                    e.preventDefault(); // Necessary to allow dropping
+                    zone.classList.add('drag-over');
+                });
+
+                zone.addEventListener('dragleave', () => {
+                    zone.classList.remove('drag-over');
+                });
+
+                zone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    zone.classList.remove('drag-over');
+
+                    const id = e.dataTransfer.getData('text/plain');
+                    const draggableElement = document.getElementById(id);
+
+                    if (!draggableElement) return;
+
+                    // If dropping in a drop-zone (not the bank)
+                    if (zone.classList.contains('drop-zone')) {
+                        // If the zone already has an item, move it back to the bank
+                        if (zone.firstElementChild) {
+                            document.getElementById('answer-bank').appendChild(zone.firstElementChild);
+                        }
+                        zone.appendChild(draggableElement);
+                    } 
+                    // If dropping in the answer bank
+                    else if (zone.id === 'answer-bank') {
+                        // Just append it (it might be coming from another drop-zone)
+                        zone.appendChild(draggableElement);
+                    }
+
+                    // Clear any feedback styles when an item is moved
+                    zone.classList.remove('drop-zone-correct', 'drop-zone-incorrect');
+                });
+            });
+
+
+            // --- Helper Function for Feedback ---
+            function showFeedback(span, isCorrect, correctText = '', explanation = '') {
+                span.className = isCorrect ? 'feedback-span feedback-correct' : 'feedback-span feedback-incorrect';
+                let feedbackHTML = '';
+                if (isCorrect) {
+                    feedbackHTML = '✓ Correct';
+                } else {
+                    feedbackHTML = '✗ Incorrect';
+                    if (correctText) {
+                        feedbackHTML += ` (Answer: ${correctText})`;
+                    }
+                }
+                if (explanation) {
+                    // This CSS class provides a bit of top margin and lighter text for the explanation
+                    feedbackHTML += ` <span classclass="block text-sm text-gray-600 font-normal mt-1">${explanation}</span>`;
+                }
+                span.innerHTML = feedbackHTML;
+            }
+            
+            // --- Part 2: Vocabulary Check ---
+            document.getElementById('check-vocab').addEventListener('click', () => {
+                const selects = document.querySelectorAll('#vocab-quiz .vocab-select');
+                let correctCount = 0;
+                selects.forEach(select => {
+                    const correctAnswerValue = select.dataset.answer;
+                    const isCorrect = select.value === correctAnswerValue;
+                    const feedbackSpan = select.nextElementSibling;
+                    const explanation = select.options[select.selectedIndex].text; // Get the text of the correct def
+                    
+                    // Find the correct option text
+                    let correctDef = '';
+                    for(let opt of select.options) {
+                        if(opt.value === correctAnswerValue) {
+                            correctDef = opt.text;
+                            break;
+                        }
+                    }
+
+                    showFeedback(feedbackSpan, isCorrect, `(Definition ${correctAnswerValue})`, isCorrect ? '' : correctDef);
+                    if (isCorrect) correctCount++;
+                });
+                document.getElementById('vocab-score').textContent = `Your Score: ${correctCount} / ${selects.length}`;
+            });
+
+            // --- Part 4: True/False Check ---
+            document.getElementById('check-tf').addEventListener('click', () => {
+                const questions = document.querySelectorAll('#tf-quiz > div');
+                let correctCount = 0;
+                questions.forEach(q => {
+                    const correctAnswer = q.dataset.answer;
+                    const selected = q.querySelector('input[type="radio"]:checked');
+                    const feedbackSpan = q.querySelector('.feedback-span');
+                    const explanation = q.dataset.explanation || '';
+                    
+                    let isCorrect = false;
+                    if (selected) {
+                         isCorrect = selected.value === correctAnswer;
+                         if (isCorrect) correctCount++;
+                    }
+                    
+                    showFeedback(feedbackSpan, isCorrect, correctAnswer, explanation); // This will show "✗ Incorrect (Answer: T/F)"
+                });
+                document.getElementById('tf-score').textContent = `Your Score: ${correctCount} / ${questions.length}`;
+            });
+
+            // --- Part 6: Summary Gap-Fill Check ---
+            document.getElementById('check-summary').addEventListener('click', () => {
+                const selects = document.querySelectorAll('#summary-quiz .gap-fill-select');
+                let correctCount = 0;
+                selects.forEach(select => {
+                    const correctAnswer = select.dataset.answer;
+                    const isCorrect = select.value.toLowerCase() === correctAnswer.toLowerCase();
+                    const feedbackSpan = select.nextElementSibling;
+                    const explanation = select.dataset.explanation || '';
+
+                    // Use the showFeedback function instead of just coloring borders
+                    showFeedback(feedbackSpan, isCorrect, correctAnswer, explanation);
+                    
+                    // Keep border color for select inputs as it's also good feedback
+                    select.classList.remove('border-red-500', 'border-green-500');
+                    select.classList.add(isCorrect ? 'border-green-500' : 'border-red-500', 'border-2');
+
+                    if (isCorrect) correctCount++;
+                });
+                document.getElementById('summary-score').textContent = `Your Score: ${correctCount} / ${selects.length}`;
+            });
+
+            // --- Part 7: Details Gap-Fill Check ---
+            document.getElementById('check-details').addEventListener('click', () => {
+                const dropZones = document.querySelectorAll('#details-quiz .drop-zone');
+                let correctCount = 0;
+                
+                dropZones.forEach(zone => {
+                    const correctAnswer = zone.dataset.correctAnswer;
+                    const droppedItem = zone.querySelector('.draggable-item');
+                    const explanation = zone.dataset.explanation || '';
+                    // Find the new feedback span. It's the next sibling of the drop-zone's parent <li>
+                    const feedbackSpan = zone.parentElement.querySelector('.feedback-span');
+
+                    // Clear previous feedback
+                    zone.classList.remove('drop-zone-correct', 'drop-zone-incorrect');
+                    if(feedbackSpan) feedbackSpan.textContent = '';
+
+                    let isCorrect = false;
+                    if (droppedItem) {
+                        const itemAnswer = droppedItem.dataset.answer;
+                        isCorrect = itemAnswer.toLowerCase().trim() === correctAnswer.toLowerCase().trim();
+                    }
+
+                    if (isCorrect) {
+                        correctCount++;
+                        zone.classList.add('drop-zone-correct');
+                        if(feedbackSpan) showFeedback(feedbackSpan, true, '', explanation);
+                    } else {
+                        zone.classList.add('drop-zone-incorrect');
+                        if(feedbackSpan) showFeedback(feedbackSpan, false, correctAnswer, explanation);
+                    }
+                });
+                
+                document.getElementById('details-score').textContent = `Your Score: ${correctCount} / ${dropZones.length}`;
+            });
+        });
+    </script>
+
+</body>
+</html>
