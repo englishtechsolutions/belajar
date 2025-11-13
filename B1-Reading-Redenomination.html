@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B1 Reading - Redenomination in Indonesia</title>
+    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Inter font --><link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Load Icons (for mobile menu) --><script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom styles for drag-and-drop */
+        .drag-item {
+            cursor: grab;
+            user-select: none;
+        }
+        .drag-item:active {
+            cursor: grabbing;
+        }
+        .drop-target {
+            transition: background-color 0.2s ease;
+        }
+        .drop-target-hover {
+            background-color: #fefcbf; /* yellow-100 */
+        }
+        .correct-match {
+            background-color: #dcfce7 !important; /* green-100 */
+            border: 1px solid #22c55e; /* green-500 */
+        }
+        .incorrect-match {
+            background-color: #fee2e2 !important; /* red-100 */
+            border: 1px solid #ef4444; /* red-500 */
+        }
+        /* Hide scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 antialiased">
+
+    <div id="app" class="flex h-screen overflow-hidden">
+        
+        <!-- Sidebar Navigation --><aside id="sidebar" class="fixed z-20 inset-y-0 left-0 w-64 bg-white border-r border-gray-200 shadow-lg transform transition-transform duration-300 ease-in-out -translate-x-full md:translate-x-0">
+            <div class="p-6">
+                <h2 class="text-xl font-bold text-purple-700">B1 Reading</h2>
+                <p class="text-sm text-gray-600">Redenomination in Indonesia</p>
+            </div>
+            <nav class="flex-1 px-4 space-y-2">
+                <a href="#" data-target="page-1" class="nav-link flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-purple-50 hover:text-purple-600">
+                    <span class="font-medium">1. Warm-up Discussion</span>
+                </a>
+                <a href="#" data-target="page-2" class="nav-link flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-purple-50 hover:text-purple-600">
+                    <span class="font-medium">2. Vocabulary Match</span>
+                </a>
+                <a href="#" data-target="page-3" class="nav-link flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-purple-50 hover:text-purple-600">
+                    <span class="font-medium">3. Reading Text</span>
+                </a>
+                <a href="#" data-target="page-4" class="nav-link flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-purple-50 hover:text-purple-600">
+                    <span class="font-medium">4. True/False Quiz</span>
+                </a>
+                <a href="#" data-target="page-5" class="nav-link flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-purple-50 hover:text-purple-600">
+                    <span class="font-medium">5. Summary Quiz</span>
+                </a>
+                <a href="#" data-target="page-6" class="nav-link flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-purple-50 hover:text-purple-600">
+                    <span class="font-medium">6. Case Studies Quiz</span>
+                </a>
+                <a href="#" data-target="page-7" class="nav-link flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-purple-50 hover:text-purple-600">
+                    <span class="font-medium">7. Deeper Discussion</span>
+                </a>
+                <a href="#" data-target="page-8" class="nav-link flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-purple-50 hover:text-purple-600">
+                    <span class="font-medium">8. Scenario-Based Tasks</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area --><main id="main-content" class="flex-1 flex flex-col overflow-y-auto md:ml-64 transition-all duration-300 ease-in-out">
+            <!-- Header (for mobile) --><header class="sticky top-0 z-10 md:hidden bg-white shadow-md">
+                <div class="flex justify-between items-center p-4">
+                    <h1 class="text-lg font-bold text-purple-700">B1 Reading</h1>
+                    <button id="menu-toggle" class="p-2 rounded-md text-gray-600 hover:text-purple-600 hover:bg-purple-50">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Page 1: Warm-up --><section id="page-1" class="page-content p-6 md:p-10">
+                <h1 class="text-3xl font-bold text-gray-900 mb-6">1. Warm-up Discussion</h1>
+                <div class="bg-white p-6 rounded-lg shadow-sm space-y-4">
+                    <p class="text-gray-700">Discuss these questions before you read. You can use the notepad below to jot down your ideas.</p>
+                    <ul class="list-disc list-outside pl-6 space-y-3 text-gray-800">
+                        <li>Look at Indonesian Rupiah notes (e.g., Rp50,000, Rp100,000). Do they have a lot of zeros? How does this compare to other currencies, like the US Dollar ($1, $20)?</li>
+                        <li>Do you prefer using cash or digital payments (like QRIS, GoPay, OVO)? Why?</li>
+                        <li>When you see a price for Rp200,000, do you think of it as "two hundred thousand" or just "two hundred"?</li>
+                        <li>The article title mentions "dirty money." What activities do you associate with this term?</li>
+                        <li>What do you think "redenomination" means? Just take a guess.</li>
+                    </ul>
+                    <div class="pt-4">
+                        <label for="warmup-notes" class="block text-sm font-medium text-gray-700 mb-2">My Notes</label>
+                        <textarea id="warmup-notes" rows="6" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none" placeholder="Type your thoughts here..."></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Page 2: Vocabulary --><section id="page-2" class="page-content p-6 md:p-10 hidden">
+                <h1 class="text-3xl font-bold text-gray-900 mb-6">2. Vocabulary Matching</h1>
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <p class="text-gray-700 mb-6">Match the definitions on the left with the correct vocabulary word from the dropdown menu.</p>
+                    
+                    <div id="vocab-quiz" class="space-y-4">
+                        
+                        <!-- Question 1 -->
+                        <div class="flex flex-col md:flex-row md:items-center gap-2 vocab-question p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                            <p class="md:w-2/3 text-gray-800">a. The process of making illegally-obtained money ("dirty money") seem legal.</p>
+                            <div class="md:w-1/3">
+                                <select class="vocab-input p-2 border border-gray-300 rounded-md w-full focus:ring-purple-500 focus:border-purple-500" data-answer="3">
+                                    <option value="">Select word...</option>
+                                    <option value="1">Redenomination</option>
+                                    <option value="2">Corruption</option>
+                                    <option value="3">Money laundering</option>
+                                    <option value="4">Assets</option>
+                                    <option value="5">Audit</option>
+                                    <option value="6">Transparency</option>
+                                    <option value="7">Reform</option>
+                                    <option value="8">Transition</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Question 2 -->
+                        <div class="flex flex-col md:flex-row md:items-center gap-2 vocab-question p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                            <p class="md:w-2/3 text-gray-800">b. Dishonest or illegal behavior, especially by people in power.</p>
+                            <div class="md:w-1/3">
+                                <select class="vocab-input p-2 border border-gray-300 rounded-md w-full focus:ring-purple-500 focus:border-purple-500" data-answer="2">
+                                    <option value="">Select word...</option>
+                                    <option value="1">Redenomination</option>
+                                    <option value="2">Corruption</option>
+                                    <option value="3">Money laundering</option>
+                                    <option value="4">Assets</option>
+                                    <option value="5">Audit</option>
+                                    <option value="6">Transparency</option>
+                                    <option value="7">Reform</option>
+                                    <option value="8">Transition</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Question 3 -->
+                        <div class="flex flex-col md:flex-row md:items-center gap-2 vocab-question p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                            <p class="md:w-2/3 text-gray-800">c. The quality of being open, honest, and not hiding information.</p>
+                            <div class="md:w-1/3">
+                                <select class="vocab-input p-2 border border-gray-300 rounded-md w-full focus:ring-purple-500 focus:border-purple-500" data-answer="6">
+                                    <option value="">Select word...</option>
+                                    <option value="1">Redenomination</option>
+                                    <option value="2">Corruption</option>
+                                    <option value="3">Money laundering</option>
+                                    <option value="4">Assets</option>
+                                    <option value="5">Audit</option>
+                                    <option value="6">Transparency</option>
+                                    <option value="7">Reform</option>
+                                    <option value="8">Transition</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Question 4 -->
+                        <div class="flex flex-col md:flex-row md:items-center gap-2 vocab-question p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                            <p class="md:w-2/3 text-gray-800">d. Things of value that are owned by a person or company (e.g., property, gold).</p>
+                            <div class="md:w-1/3">
+                                <select class="vocab-input p-2 border border-gray-300 rounded-md w-full focus:ring-purple-500 focus:border-purple-500" data-answer="4">
+                                    <option value="">Select word...</option>
+                                    <option value="1">Redenomination</option>
+                                    <option value="2">Corruption</option>
+                                    <option value="3">Money laundering</option>
+                                    <option value="4">Assets</option>
+                                    <option value="5">Audit</option>
+                                    <option value="6">Transparency</option>
+                                    <option value="7">Reform</option>
+                                    <option value="8">Transition</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Question 5 -->
+                        <div class="flex flex-col md:flex-row md:items-center gap-2 vocab-question p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                            <p class="md:w-2/3 text-gray-800">e. The act of changing the face value of a currency by removing zeros (e.g., 1,000 becomes 1).</p>
+                            <div class="md:w-1/3">
+                                <select class="vocab-input p-2 border border-gray-300 rounded-md w-full focus:ring-purple-500 focus:border-purple-500" data-answer="1">
+                                    <option value="">Select word...</option>
+                                    <option value="1">Redenomination</option>
+                                    <option value="2">Corruption</option>
+                                    <option value="3">Money laundering</option>
+                                    <option value="4">Assets</option>
+                                    <option value="5">Audit</option>
+                                    <option value="6">Transparency</option>
+                                    <option value="7">Reform</option>
+                                    <option value="8">Transition</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Question 6 -->
+                        <div class="flex flex-col md:flex-row md:items-center gap-2 vocab-question p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                            <p class="md:w-2/3 text-gray-800">f. An official examination of financial accounts to check their accuracy.</p>
+                            <div class="md:w-1/3">
+                                <select class="vocab-input p-2 border border-gray-300 rounded-md w-full focus:ring-purple-500 focus:border-purple-500" data-answer="5">
+                                    <option value="">Select word...</option>
+                                    <option value="1">Redenomination</option>
+                                    <option value="2">Corruption</option>
+                                    <option value="3">Money laundering</option>
+                                    <option value="4">Assets</option>
+                                    <option value="5">Audit</option>
+                                    <option value="6">Transparency</option>
+                                    <option value="7">Reform</option>
+                                    <option value="8">Transition</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Question 7 -->
+                        <div class="flex flex-col md:flex-row md:items-center gap-2 vocab-question p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                            <p class="md:w-2/3 text-gray-800">g. A period of change from one state or condition to another.</p>
+                            <div class="md:w-1/3">
+                                <select class="vocab-input p-2 border border-gray-300 rounded-md w-full focus:ring-purple-500 focus:border-purple-500" data-answer="8">
+                                    <option value="">Select word...</option>
+                                    <option value="1">Redenomination</option>
+                                    <option value="2">Corruption</option>
+                                    <option value="3">Money laundering</option>
+                                    <option value="4">Assets</option>
+                                    <option value="5">Audit</option>
+                                    <option value="6">Transparency</option>
+                                    <option value="7">Reform</option>
+                                    <option value="8">Transition</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Question 8 -->
+                        <div class="flex flex-col md:flex-row md:items-center gap-2 vocab-question p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                            <p class="md:w-2/3 text-gray-800">h. A significant change or improvement to a system or law.</p>
+                            <div class="md:w-1/3">
+                                <select class="vocab-input p-2 border border-gray-300 rounded-md w-full focus:ring-purple-500 focus:border-purple-500" data-answer="7">
+                                    <option value="">Select word...</option>
+                                    <option value="1">Redenomination</option>
+                                    <option value="2">Corruption</option>
+                                    <option value="3">Money laundering</option>
+                                    <option value="4">Assets</option>
+                                    <option value="5">Audit</option>
+                                    <option value="6">Transparency</option>
+                                    <option value="7">Reform</option>
+                                    <option value="8">Transition</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="mt-6">
+                        <button id="check-vocab-answers" class="px-5 py-2 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">Check Answers</button>
+                        <div id="vocab-score" class="mt-4 font-bold text-lg"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Page 3: Reading --><section id="page-3" class="page-content p-6 md:p-10 hidden">
+                <h1 class="text-3xl font-bold text-gray-900 mb-6">3. Reading Text</h1>
+                <div class="bg-white p-6 md:p-8 rounded-lg shadow-sm">
+                    <h2 class="text-4xl font-bold text-gray-900 tracking-tight border-b-2 border-gray-900 pb-2">Redenomination in Indonesia: A Chance to Clean Up Dirty Money</h2>
+                    <p class="text-sm text-gray-600 italic my-4">Published: November 13, 2025</p>
+                    
+                    <article class="prose prose-lg prose-serif max-w-none text-gray-800 md:columns-2 md:gap-x-12" style="font-size: 1.125rem; line-height: 1.75;">
+                        <p class="first-letter:text-7xl first-letter:font-bold first-letter:text-gray-900 first-letter:mr-3 first-letter:float-left">The idea of redenomination is back in the news. Bank Indonesia, the country’s central bank, supports this plan again after the draft law on changing the value of the rupiah was added to the national legislative program for 2025–2029.</p>
+                        <p>Redenomination means reducing the number of zeros in the currency without changing its real value. For example, Rp1,000 could become Rp1. The goal is to make transactions easier and improve trust in the national monetary system.</p>
+                        <p>But redenomination is not just about simplifying money. It can also help clean up illegal financial activities like corruption and money laundering. If done well, it can push people with large amounts of cash to report their assets honestly.</p>
+                        <p>In Indonesia, cash still dominates 90% of all money used in daily economic activities. Many corruption cases also involve cash. For example, in one case, the Attorney General’s Office showed Rp2 trillion in cash from illegal palm oil exports. Criminals often use cash to avoid being tracked by digital systems like those used by the Corruption Eradication Commission (KPK) and the Financial Transaction Reports and Analysis Center (PPATK).</p>
+                        <p>Redenomination can force people with large cash holdings to return to the formal financial system. This opens the door for better audits and transparency. It can also cause panic among those hiding illegal money, leading them to quickly move or exchange their assets — a behavior known as “panic laundering.”</p>
+                        <p>Other countries have tried redenomination with mixed results. Turkey removed six zeros from its currency in 2005. At first, people were worried, but the government acted fast by improving bank audits and creating a national digital payment system. Two years later, Turkey’s corruption perception score improved.</p>
+                        <p>On the other hand, Zimbabwe failed in 2008 when it removed 25 zeros without proper financial reforms. People lost their savings, and trust in the government collapsed.</p>
+                        <p>To avoid failure, Indonesia must prepare well. There are three common signs of suspicious financial behavior:</p>
+                        <ul class="list-disc pl-8">
+                            <li>Large cash deposits into inactive bank accounts.</li>
+                            <li>Breaking big transactions into many small ones.</li>
+                            <li>Quickly buying physical assets like gold, property, or luxury cars.</li>
+                        </ul>
+                        <p>Indonesia already has digital financial systems like SPAN (State Treasury System), SIPD (Regional Government Information System), and e-tax. But the problem is not technology — it’s poor coordination between institutions. Data sharing is still slow and not real-time.</p>
+                        <p>Redenomination can help improve national budget data and financial integrity. The government must prepare risk maps, strengthen anti-money laundering systems, and ensure open public reporting during the transition.</p>
+                        <p>Clear communication is key. People must understand that redenomination does not reduce the value of their money. It only changes how it looks. Countries like Turkey and Ghana faced panic because of poor information, not the policy itself.</p>
+                        <p>With strong planning and teamwork, redenomination can be a powerful tool to fight corruption and build a cleaner financial future for Indonesia.</p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- Page 4: True/False --><section id="page-4" class="page-content p-6 md:p-10 hidden">
+                <h1 class="text-3xl font-bold text-gray-900 mb-6">4. Comprehension Check: True or False?</h1>
+                <div class="bg-white p-6 rounded-lg shadow-sm space-y-5" id="tf-quiz">
+                    <p class="text-gray-700">Read the statements below. Are they True or False, according to the article?</p>
+                    
+                    <!-- Question 1 --><div class="tf-question" data-answer="false" data-citation="Redenomination means reducing the number of zeros in the currency without changing its real value.">
+                        <p class="font-medium text-gray-800">1. Redenomination will make people's money less valuable.</p>
+                        <div class="flex space-x-3 mt-2">
+                            <button class="tf-btn px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300" data-value="true">True</button>
+                            <button class="tf-btn px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300" data-value="false">False</button>
+                        </div>
+                        <div class="tf-feedback hidden mt-2 text-sm"></div>
+                    </div>
+                    
+                    <!-- Question 2 --><div class="tf-question" data-answer="false" data-citation="In Indonesia, cash still dominates 90% of all money used in daily economic activities.">
+                        <p class="font-medium text-gray-800">2. In Indonesia, most daily transactions are digital.</p>
+                        <div class="flex space-x-3 mt-2">
+                            <button class="tf-btn px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300" data-value="true">True</button>
+                            <button class="tf-btn px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300" data-value="false">False</button>
+                        </div>
+                        <div class="tf-feedback hidden mt-2 text-sm"></div>
+                    </div>
+
+                    <!-- Question 3 --><div class="tf-question" data-answer="false" data-citation="The goal is to make transactions easier... But redenomination is not just about simplifying money. It can also help...">
+                        <p class="font-medium text-gray-800">3. The main goal of redenomination is to catch criminals.</p>
+                        <div class="flex space-x-3 mt-2">
+                            <button class="tf-btn px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300" data-value="true">True</button>
+                            <button class="tf-btn px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300" data-value="false">False</button>
+                        </div>
+                        <div class="tf-feedback hidden mt-2 text-sm"></div>
+                    </div>
+
+                    <!-- Question 4 --><div class="tf-question" data-answer="true" data-citation="Two years later, Turkey’s corruption perception score improved.">
+                        <p class="font-medium text-gray-800">4. Turkey's redenomination in 2005 is seen as a success.</p>
+                        <div class="flex space-x-3 mt-2">
+                            <button class="tf-btn px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300" data-value="true">True</button>
+                            <button class="tf-btn px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300" data-value="false">False</button>
+                        </div>
+                        <div class="tf-feedback hidden mt-2 text-sm"></div>
+                    </div>
+
+                    <!-- Question 5 --><div class="tf-question" data-answer="false" data-citation="Zimbabwe failed in 2008 when it removed 25 zeros without proper financial reforms.">
+                        <p class="font-medium text-gray-800">5. Zimbabwe's plan failed because the government removed too many zeros.</p>
+                        <div class="flex space-x-3 mt-2">
+                            <button class="tf-btn px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300" data-value="true">True</button>
+                            <button class="tf-btn px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300" data-value="false">False</button>
+                        </div>
+                        <div class="tf-feedback hidden mt-2 text-sm"></div>
+                    </div>
+
+                    <!-- Question 6 --><div class="tf-question" data-answer="false" data-citation="But the problem is not technology — it’s poor coordination between institutions.">
+                        <p class="font-medium text-gray-800">6. Indonesia's main problem is a lack of digital financial technology.</p>
+                        <div class="flex space-x-3 mt-2">
+                            <button class="tf-btn px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300" data-value="true">True</button>
+                            <button class="tf-btn px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300" data-value="false">False</button>
+                        </div>
+                        <div class="tf-feedback hidden mt-2 text-sm"></div>
+                    </div>
+
+                    <!-- Question 7 --><div class="tf-question" data-answer="true" data-citation="...leading them to quickly move or exchange their assets — a behavior known as “panic laundering.”">
+                        <p class="font-medium text-gray-800">7. "Panic laundering" is when criminals get scared and try to move their illegal money quickly.</p>
+                        <div class="flex space-x-3 mt-2">
+                            <button class="tf-btn px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300" data-value="true">True</button>
+                            <button class="tf-btn px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300" data-value="false">False</button>
+                        </div>
+                        <div class="tf-feedback hidden mt-2 text-sm"></div>
+                    </div>
+
+                    <!-- Question 8 --><div class="tf-question" data-answer="true" data-citation="Clear communication is key. People must understand that redenomination does not reduce the value of their money.">
+                        <p class="font-medium text-gray-800">8. The article suggests that clear communication with the public is extremely important.</p>
+                        <div class="flex space-x-3 mt-2">
+                            <button class="tf-btn px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300" data-value="true">True</button>
+                            <button class="tf-btn px-4 py-2 rounded-md bg-gray-200 hover:bg-gray-300" data-value="false">False</button>
+                        </div>
+                        <div class="tf-feedback hidden mt-2 text-sm"></div>
+                    </div>
+                    
+                    <div class="pt-4">
+                        <button id="check-tf-answers" class="px-5 py-2 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">Check Answers</button>
+                        <div id="tf-score" class="mt-4 font-bold text-lg"></div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Page 5: Summary --><section id="page-5" class="page-content p-6 md:p-10 hidden">
+                <h1 class="text-3xl font-bold text-gray-900 mb-6">5. Comprehension Check: Summary</h1>
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <p class="text-gray-700 mb-4">Fill in the blanks with a word from the box to complete the summary.</p>
+                    <div class="flex flex-wrap gap-2 bg-purple-50 p-4 rounded-lg border border-purple-200 mb-6">
+                        <span class="px-3 py-1 bg-white rounded-full text-sm font-medium text-gray-700 shadow-sm">cash</span>
+                        <span class="px-3 py-1 bg-white rounded-full text-sm font-medium text-gray-700 shadow-sm">coordination</span>
+                        <span class="px-3 py-1 bg-white rounded-full text-sm font-medium text-gray-700 shadow-sm">formal</span>
+                        <span class="px-3 py-1 bg-white rounded-full text-sm font-medium text-gray-700 shadow-sm">simplify</span>
+                        <span class="px-3 py-1 bg-white rounded-full text-sm font-medium text-gray-700 shadow-sm">corruption</span>
+                        <span class="px-3 py-1 bg-white rounded-full text-sm font-medium text-gray-700 shadow-sm">failed</span>
+                        <span class="px-3 py-1 bg-white rounded-full text-sm font-medium text-gray-700 shadow-sm">panic</span>
+                        <span class="px-3 py-1 bg-white rounded-full text-sm font-medium text-gray-700 shadow-sm">redenomination</span>
+                    </div>
+
+                    <div id="summary-quiz" class="space-y-4 text-lg leading-relaxed text-gray-800">
+                        <p>
+                            Bank Indonesia is supporting a plan for (1) 
+                            <select class="summary-input p-1 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500" data-answer="redenomination"><option value="">Select...</option><option value="redenomination">redenomination</option><option value="corruption">corruption</option><option value="cash">cash</option><option value="panic">panic</option></select>, 
+                            which means cutting zeros from the rupiah. One goal is to (2) 
+                            <select class="summary-input p-1 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500" data-answer="simplify"><option value="">Select...</option><option value="simplify">simplify</option><option value="failed">failed</option><option value="formal">formal</option><option value="coordination">coordination</option></select> 
+                            transactions, but a more important goal is to fight financial crimes like (3) 
+                            <select class="summary-input p-1 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500" data-answer="corruption"><option value="">Select...</option><option value="corruption">corruption</option><option value="redenomination">redenomination</option><option value_="cash">cash</option><option value="panic">panic</option></select> 
+                            and money laundering.
+                        </p>
+                        <p>
+                            Because so much (4) 
+                            <select class="summary-input p-1 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500" data-answer="cash"><option value="">Select...</option><option value="cash">cash</option><option value="formal">formal</option><option value="simplify">simplify</option><option value="failed">failed</option></select> 
+                            is used in Indonesia, criminals can easily hide their illegal money. Redenomination would force them to put this money into the (5) 
+                            <select class="summary-input p-1 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500" data-answer="formal"><option value="">Select...</option><option value="formal">formal</option><option value="coordination">coordination</option><option value="corruption">corruption</option><option value="panic">panic</option></select> 
+                            financial system, where it can be tracked.
+                        </p>
+                        <p>
+                            However, success depends on good planning. While Turkey succeeded, Zimbabwe (6) 
+                            <select class="summary-input p-1 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500" data-answer="failed"><option value="">Select...</option><option value="failed">failed</option><option value="redenomination">redenomination</option><option value="simplify">simplify</option><option value="cash">cash</option></select> 
+                            because it did not have proper reforms. For Indonesia to succeed, it needs better (7) 
+                            <select class="summary-input p-1 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500" data-answer="coordination"><option value="">Select...</option><option value="coordination">coordination</option><option value="panic">panic</option><option value="formal">formal</option><option value="corruption">corruption</option></select> 
+                            between government institutions and clear communication to prevent public (8) 
+                            <select class="summary-input p-1 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500" data-answer="panic"><option value="">Select...</option><option value="panic">panic</option><option value="cash">cash</option><option value="failed">failed</option><option value="simplify">simplify</option></select>.
+                        </p>
+                    </div>
+                    
+                    <div class="mt-6">
+                        <button id="check-summary-answers" class="px-5 py-2 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">Check Answers</button>
+                        <div id="summary-score" class="mt-4 font-bold text-lg"></div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Page 6: Case Studies --><section id="page-6" class="page-content p-6 md:p-10 hidden">
+                <h1 class="text-3xl font-bold text-gray-900 mb-6">6. Comprehension Check: Case Studies</h1>
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <p class="text-gray-700 mb-6">Fill in the table below using information from the article about Turkey and Zimbabwe.</p>
+                    
+                    <div id="case-study-quiz" class="space-y-6">
+                        <!-- Turkey --><div class="border border-purple-200 bg-purple-50 rounded-lg p-4">
+                            <h3 class="text-xl font-semibold text-purple-700 mb-3">Turkey</h3>
+                            <div class="space-y-3">
+                                <p><strong>Year:</strong> (1) <input type="text" class="case-input p-1 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500" data-answer="2005"></p>
+                                <p><strong>Action:</strong> Removed 6 zeros; improved (2) <input type="text" class="case-input p-1 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500" data-answer="bank audits"> & digital payments.</p>
+                                <p><strong>Result:</strong> Success: (3) <input type="text" class="case-input p-1 border border-gray-300 rounded-md w-full md:w-1/2 focus:ring-purple-500 focus:border-purple-500" data-answer="corruption"> perception score improved.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Zimbabwe --><div class="border border-red-200 bg-red-50 rounded-lg p-4">
+                            <h3 class="text-xl font-semibold text-red-700 mb-3">Zimbabwe</h3>
+                            <div class="space-y-3">
+                                <p><strong>Year:</strong> 2008</p>
+                                <p><strong>Action:</strong> Removed (4) <input type="text" class="case-input p-1 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500" data-answer="25"> zeros without proper financial (5) <input type="text" class="case-input p-1 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500" data-answer="reforms">.</p>
+                                <p><strong>Result:</strong> Failure: People lost their savings; (6) <input type="text" class="case-input p-1 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500" data-answer="trust"> in government collapsed.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        <button id="check-case-answers" class="px-5 py-2 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">Check Answers</button>
+                        <div id="case-score" class="mt-4 font-bold text-lg"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Page 7: Deeper Discussion --><section id="page-7" class="page-content p-6 md:p-10 hidden">
+                <h1 class="text-3xl font-bold text-gray-900 mb-6">7. Deeper Discussion: What Do You Think?</h1>
+                <div class="bg-white p-6 rounded-lg shadow-sm space-y-6">
+                    <p class="text-gray-700">Now that you understand the article, let's discuss your opinions. Use the notepads to write down your ideas for each topic.</p>
+                    
+                    <!-- Pros vs. Cons --><div>
+                        <h3 class="text-lg font-semibold text-gray-800">Pros vs. Cons</h3>
+                        <ul class="list-disc list-outside pl-6 space-y-2 text-gray-800 mt-2">
+                            <li>What do you think is the single biggest benefit of redenomination for Indonesia?</li>
+                            <li>What do you think is the single biggest risk?</li>
+                        </ul>
+                        <textarea rows="3" class="w-full mt-3 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none" placeholder="My thoughts on pros and cons..."></textarea>
+                    </div>
+
+                    <!-- Coordination vs. Technology --><div>
+                        <h3 class="text-lg font-semibold text-gray-800">Coordination vs. Technology</h3>
+                        <ul class="list-disc list-outside pl-6 space-y-2 text-gray-800 mt-2">
+                            <li>The article says the problem isn't technology, but "poor coordination between institutions." What institutions do you think it's talking about? (e.g., banks, tax office, police, KPK?)</li>
+                            <li>Can you think of a real-life example (not from the article) of "poor coordination"?</li>
+                        </ul>
+                        <textarea rows="3" class="w-full mt-3 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none" placeholder="My thoughts on coordination..."></textarea>
+                    </div>
+
+                    <!-- Public Reaction --><div>
+                        <h3 class="text-lg font-semibold text-gray-800">Public Reaction</h3>
+                        <ul class="list-disc list-outside pl-6 space-y-2 text-gray-800 mt-2">
+                            <li>The article says "clear communication is key" to prevent panic. If you were in charge of this communication, what is the first message you would send to the public?</li>
+                            <li>What is the best way to send this message in Indonesia? (e.g., TV, TikTok, WhatsApp groups, newspapers?)</li>
+                        </ul>
+                        <textarea rows="3" class="w-full mt-3 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none" placeholder="My thoughts on public reaction..."></textarea>
+                    </div>
+
+                    <!-- Criminal Behavior --><div>
+                        <h3 class="text-lg font-semibold text-gray-800">Criminal Behavior</h3>
+                        <ul class="list-disc list-outside pl-6 space-y-2 text-gray-800 mt-2">
+                            <li>The text mentions "panic laundering" (like buying gold or property). Do you think this will be a big problem?</li>
+                            <li>How can the government stop this from happening during the transition?</li>
+                        </ul>
+                        <textarea rows="3" class="w-full mt-3 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none" placeholder="My thoughts on criminal behavior..."></textarea>
+                    </div>
+
+                    <!-- Final Opinion --><div>
+                        <h3 class="text-lg font-semibold text-gray-800">Your Final Opinion</h3>
+                        <ul class="list-disc list-outside pl-6 space-y-2 text-gray-800 mt-2">
+                            <li>Based on everything, do you think redenomination is a good idea for Indonesia right now? Why or why not?</li>
+                        </ul>
+                        <textarea rows="3" class="w-full mt-3 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none" placeholder="My final opinion..."></textarea>
+                    </div>
+
+                </div>
+            </section>
+            
+            <!-- Page 8: Scenarios --><section id="page-8" class="page-content p-6 md:p-10 hidden">
+                <h1 class="text-3xl font-bold text-gray-900 mb-6">8. Scenario-Based Tasks</h1>
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <p class="text-gray-700 mb-6">Let's practice using these ideas. Choose one of the scenarios below to discuss or role-play.</p>
+                    
+                    <div id="scenario-tabs" class="space-y-4">
+                        <!-- Scenario A --><div class="border border-gray-200 rounded-lg">
+                            <button class="scenario-tab-toggle w-full p-4 text-left font-semibold text-lg text-gray-800 bg-sky-50 hover:bg-sky-100 rounded-t-lg flex justify-between items-center">
+                                Scenario A: The Worried Grandparent
+                                <span class="text-purple-600 text-sm">Click to expand</span>
+                            </button>
+                            <div class="scenario-tab-content p-6 border-t border-gray-200 hidden">
+                                <p class="mb-2"><strong>Your Role:</strong> You</p>
+                                <p class="mb-2"><strong>Partner's Role:</strong> Your elderly grandparent, who does not use digital banking and keeps a lot of cash saved at home.</p>
+                                <p class="mb-4"><strong>The Situation:</strong> Your grandparent heard a rumor that the government is "deleting zeros" and is in a total panic. They think their life savings will become worthless.</p>
+                                <h4 class="font-semibold text-gray-800 mb-2">Your Task:</h4>
+                                <ul class="list-disc list-outside pl-6 space-y-2 text-gray-700">
+                                    <li>Calm your grandparent down.</li>
+                                    <li>Explain simply what redenomination is (and what it isn't).</li>
+                                    <li>Reassure them that the value of their money is not changing. Use a simple example (e.g., "A bowl of bakso that costs Rp20,000 will now cost Rp20. Your Rp100,000 note will become a Rp100 note. It's the same thing.")</li>
+                                    <li>Explain why this is a good thing (e.g., "it's simpler," "it helps fight corruption").</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Scenario B --><div class="border border-gray-200 rounded-lg">
+                            <button class="scenario-tab-toggle w-full p-4 text-left font-semibold text-lg text-gray-800 bg-sky-50 hover:bg-sky-100 flex justify-between items-center">
+                                Scenario B: The Concerned Business Owner
+                                <span class="text-purple-600 text-sm">Click to expand</span>
+                            </button>
+                            <div class="scenario-tab-content p-6 border-t border-gray-200 hidden">
+                                <p class="mb-2"><strong>Your Role:</strong> A bank manager.</p>
+                                <p class="mb-2"><strong>Partner's Role:</strong> A small business owner (e.g., a cafe or warung owner) who has come to the bank for advice.</p>
+                                <p class="mb-2"><strong>The Situation:</strong> The business owner is not worried about losing money, but is annoyed and confused about the practical side.</p>
+                                <p class="mb-4 p-3 bg-purple-50 border-l-4 border-purple-500 italic"><strong>Partner's Lines:</strong> "This is going to be a disaster for my shop! Do I have to change all the prices on my menu? My customers will be confused! What about my old cash register? This is just too much work."</p>
+
+                                <h4 class="font-semibold text-gray-800 mb-2">Your Task:</h4>
+                                <ul class="list-disc list-outside pl-6 space-y-2 text-gray-700">
+                                    <li>Show empathy ("I understand your concern...").</li>
+                                    <li>Explain the long-term benefits for them (simpler accounting, easier transactions).</li>
+                                    <li>Explain how the transition will work (e.g., "There will be a long transition period where both old and new money can be used...").</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Scenario C --><div class="border border-gray-200 rounded-lg">
+                            <button class="scenario-tab-toggle w-full p-4 text-left font-semibold text-lg text-gray-800 bg-sky-50 hover:bg-sky-100 rounded-b-lg flex justify-between items-center">
+                                Scenario C: The Town Hall Debate
+                                <span class="text-purple-600 text-sm">Click to expand</span>
+                            </button>
+                            <div class="scenario-tab-content p-6 border-t border-gray-200 hidden">
+                                <p class="mb-2"><strong>Your Role:</strong> A citizen at a community meeting (rapat RT/RW).</p>
+                                <p class="mb-2"><strong>Partner's Role:</strong> An official from Bank Indonesia who is there to answer questions.</p>
+                                <p class="mb-4"><strong>The Situation:</strong> You are at a public meeting about the redenomination plan. The official has just finished a presentation. It is now time for questions.</p>
+                                <h4 class="font-semibold text-gray-800 mb-2">Your Task:</h4>
+                                <p class="mb-2 text-gray-700">You have a strong opinion. First, choose your character:</p>
+                                <ul class="list-disc list-outside pl-6 space-y-2 text-gray-700 mb-4">
+                                    <li><strong>Character 1: The Tech-Savvy Student.</strong> You support the plan. You think it's modern and will be great for the digital economy.</li>
+                                    <li><strong>Character 2: The Skeptic.</strong> You are worried. You read about Zimbabwe. You don't trust the government to coordinate properly.</li>
+                                </ul>
+                                <p class="text-gray-700">Based on your chosen character, ask the official (your partner) 2-3 difficult questions or make a strong statement about your opinion. Try to use vocabulary from the article (e.g., "transparency," "reform," "audit," "coordination").</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer Added Here -->
+            <footer class="text-center p-6 text-sm text-gray-500 border-t border-gray-200 mt-auto">
+                Designed by <a href="https://fajarudinakbar.online" target="_blank" rel="noopener noreferrer" class="text-purple-600 hover:underline font-medium">fajarudinakbar.online</a>
+            </footer>
+            <!-- End of Footer -->
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- Mobile Menu ---
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('main-content');
+            const menuToggle = document.getElementById('menu-toggle');
+            
+            // Call lucide to render the initial icon(s)
+            lucide.createIcons();
+            
+            let menuOpen = false;
+            
+            menuToggle.addEventListener('click', () => {
+                menuOpen = !menuOpen;
+                if (menuOpen) {
+                    sidebar.classList.remove('-translate-x-full');
+                    menuToggle.innerHTML = '<i data-lucide="x" class="w-6 h-6"></i>';
+                } else {
+                    sidebar.classList.add('-translate-x-full');
+                    menuToggle.innerHTML = '<i data-lucide="menu" class="w-6 h-6"></i>';
+                }
+                // Call createIcons again to render the newly added icon
+                lucide.createIcons();
+            });
+
+            // --- Page Navigation ---
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pages = document.querySelectorAll('.page-content');
+
+            function setActiveLink(targetId) {
+                navLinks.forEach(link => {
+                    if (link.getAttribute('data-target') === targetId) {
+                        link.classList.add('bg-purple-100', 'text-purple-700');
+                    } else {
+                        link.classList.remove('bg-purple-100', 'text-purple-700');
+                    }
+                });
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('data-target');
+                    
+                    pages.forEach(page => {
+                        if (page.id === targetId) {
+                            page.classList.remove('hidden');
+                        } else {
+                            page.classList.add('hidden');
+                        }
+                    });
+
+                    setActiveLink(targetId);
+                    
+                    // Close mobile menu on navigation
+                    if (menuOpen) {
+                        menuToggle.click();
+                    }
+                    
+                    // Scroll to top of main content
+                    mainContent.scrollTop = 0;
+                });
+            });
+            // Set initial active link
+            setActiveLink('page-1');
+
+            // --- Vocabulary Quiz (Dropdown) ---
+            const vocabInputs = document.querySelectorAll('.vocab-input');
+            const checkVocabAnswers = document.getElementById('check-vocab-answers');
+            const vocabScore = document.getElementById('vocab-score');
+
+            checkVocabAnswers.addEventListener('click', () => {
+                let score = 0;
+                vocabInputs.forEach(input => {
+                    const correctAnswer = input.dataset.answer;
+                    const selectedAnswer = input.value;
+                    
+                    input.classList.remove('border-green-500', 'border-red-500', 'ring-green-500', 'ring-red-500', 'bg-green-50', 'bg-red-50');
+                    input.disabled = true;
+
+                    if (selectedAnswer === correctAnswer) {
+                        score++;
+                        input.classList.add('border-green-500', 'ring-green-500', 'bg-green-50');
+                    } else {
+                        input.classList.add('border-red-500', 'ring-red-500', 'bg-red-50');
+                        // Show correct answer
+                        const correctOption = input.querySelector(`option[value="${correctAnswer}"]`);
+                        const correctText = correctOption ? correctOption.textContent : "Error";
+                        const hint = document.createElement('span');
+                        hint.textContent = ` (Ans: ${correctText})`;
+                        hint.classList.add('text-green-600', 'text-sm', 'ml-2', 'font-medium');
+                        if (!input.nextElementSibling) { // Prevent adding multiple hints
+                            input.parentNode.appendChild(hint);
+                        }
+                    }
+                });
+                vocabScore.textContent = `Your score: ${score} / ${vocabInputs.length}`;
+            });
+            
+            
+            // --- True/False Quiz ---
+            const tfQuiz = document.getElementById('tf-quiz');
+            const tfQuestions = tfQuiz.querySelectorAll('.tf-question');
+            const checkTfAnswers = document.getElementById('check-tf-answers');
+            const tfScore = document.getElementById('tf-score');
+            
+            tfQuestions.forEach(question => {
+                const buttons = question.querySelectorAll('.tf-btn');
+                buttons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        // Remove active state from sibling
+                        buttons.forEach(btn => btn.classList.remove('bg-purple-600', 'text-white'));
+                        // Add active state to clicked button
+                        button.classList.add('bg-purple-600', 'text-white');
+                        // Store selection
+                        question.dataset.selected = button.dataset.value;
+                    });
+                });
+            });
+
+            checkTfAnswers.addEventListener('click', () => {
+                let score = 0;
+                tfQuestions.forEach(question => {
+                    const correctAnswer = question.dataset.answer;
+                    const selectedAnswer = question.dataset.selected;
+                    const citation = question.dataset.citation; // Get the citation
+                    const feedbackEl = question.querySelector('.tf-feedback');
+                    const buttons = question.querySelectorAll('.tf-btn');
+
+                    feedbackEl.classList.remove('hidden', 'text-green-600', 'text-red-600');
+                    
+                    // Build the citation block
+                    const citationHTML = `<blockquote class="mt-2 p-2 bg-gray-100 border-l-4 border-gray-300 italic text-gray-600">"${citation}"</blockquote>`;
+                    
+                    if (selectedAnswer === correctAnswer) {
+                        score++;
+                        feedbackEl.innerHTML = `<span class="font-bold">Correct!</span>` + citationHTML; // Use innerHTML
+                        feedbackEl.classList.add('text-green-600');
+                    } else {
+                        feedbackEl.innerHTML = `<span class="font-bold">Incorrect. The correct answer is ${correctAnswer === 'true' ? 'True' : 'False'}.</span>` + citationHTML; // Use innerHTML
+                        feedbackEl.classList.add('text-red-600');
+                    }
+
+                    // Highlight correct/incorrect buttons
+                    buttons.forEach(button => {
+                        button.disabled = true;
+                        const btnValue = button.dataset.value;
+                        if (btnValue === correctAnswer) {
+                            button.classList.add('bg-green-500', 'text-white');
+                            button.classList.remove('bg-purple-600', 'bg-gray-200');
+                        } else if (btnValue === selectedAnswer && btnValue !== correctAnswer) {
+                            button.classList.add('bg-red-500', 'text-white');
+                            button.classList.remove('bg-purple-600', 'bg-gray-200');
+                        } else {
+                            button.classList.remove('bg-purple-600');
+                        }
+                    });
+                });
+                tfScore.textContent = `Your score: ${score} / ${tfQuestions.length}`;
+            });
+
+            // --- Summary Quiz ---
+            const summaryInputs = document.querySelectorAll('.summary-input');
+            const checkSummaryAnswers = document.getElementById('check-summary-answers');
+            const summaryScore = document.getElementById('summary-score');
+
+            checkSummaryAnswers.addEventListener('click', () => {
+                let score = 0;
+                summaryInputs.forEach(input => {
+                    const correctAnswer = input.dataset.answer;
+                    const selectedAnswer = input.value;
+                    
+                    input.classList.remove('border-green-500', 'border-red-500', 'ring-green-500', 'ring-red-500');
+                    input.disabled = true;
+
+                    if (selectedAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+                        score++;
+                        input.classList.add('border-green-500', 'ring-green-500', 'bg-green-50');
+                    } else {
+                        input.classList.add('border-red-500', 'ring-red-500', 'bg-red-50');
+                        // Show correct answer
+                        const hint = document.createElement('span');
+                        hint.textContent = ` (Ans: ${correctAnswer})`;
+                        hint.classList.add('text-green-600', 'text-sm', 'ml-2', 'font-medium');
+                        // Check if a hint is already there
+                        const nextEl = input.nextElementSibling;
+                        if (!nextEl || !nextEl.classList.contains('text-green-600')) {
+                            input.insertAdjacentElement('afterend', hint);
+                        }
+                    }
+                });
+                summaryScore.textContent = `Your score: ${score} / ${summaryInputs.length}`;
+            });
+
+            // --- Case Studies Quiz ---
+            const caseInputs = document.querySelectorAll('.case-input');
+            const checkCaseAnswers = document.getElementById('check-case-answers');
+            const caseScore = document.getElementById('case-score');
+            
+            checkCaseAnswers.addEventListener('click', () => {
+                let score = 0;
+                caseInputs.forEach(input => {
+                    const correctAnswer = input.dataset.answer;
+                    const selectedAnswer = input.value.trim();
+                    
+                    input.classList.remove('border-green-500', 'border-red-500', 'ring-green-500', 'ring-red-500');
+                    input.disabled = true;
+
+                    if (selectedAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+                        score++;
+                        input.classList.add('border-green-500', 'ring-green-500', 'bg-green-50');
+                    } else {
+                        input.classList.add('border-red-500', 'ring-red-500', 'bg-red-50');
+                        // Show correct answer
+                        const hint = document.createElement('span');
+                        hint.textContent = ` (Ans: ${correctAnswer})`;
+                        hint.classList.add('text-green-600', 'text-sm', 'ml-2');
+                        if (!input.nextElementSibling) { // Prevent adding multiple hints
+                            input.parentNode.appendChild(hint);
+                        }
+                    }
+                });
+                caseScore.textContent = `Your score: ${score} / ${caseInputs.length}`;
+            });
+
+            // --- Scenario Accordion ---
+            const scenarioToggles = document.querySelectorAll('.scenario-tab-toggle');
+            scenarioToggles.forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    const content = toggle.nextElementSibling;
+                    const isHidden = content.classList.contains('hidden');
+                    const iconSpan = toggle.querySelector('span');
+                    
+                    // Optional: Close all others
+                    // scenarioToggles.forEach(t => {
+                    //     t.nextElementSibling.classList.add('hidden');
+                    //     t.querySelector('span').textContent = 'Click to expand';
+                    // });
+
+                    if (isHidden) {
+                        content.classList.remove('hidden');
+                        iconSpan.textContent = 'Click to collapse';
+                    } else {
+                        content.classList.add('hidden');
+                        iconSpan.textContent = 'Click to expand';
+                    }
+                });
+            });
+
+        });
+    </script>
+
+</body>
+</html>
