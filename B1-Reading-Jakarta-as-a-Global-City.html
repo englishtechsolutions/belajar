@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B1 Reading - Jakarta as a Global City (Sidebar)</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Inter font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Load Icons (for mobile menu) -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Styles for drag-and-drop */
+        .draggable {
+            transition: all 0.2s ease;
+            cursor: move;
+        }
+        .draggable.dragging {
+            opacity: 0.5;
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .drop-target {
+            transition: all 0.2s ease;
+        }
+        .drag-over {
+            background-color: #fef9c3; /* yellow-100 */
+            border-style: solid;
+            border-color: #fde047; /* yellow-400 */
+        }
+        .drop-correct {
+            background-color: #dcfce7 !important; /* green-100 */
+            border-color: #4ade80 !important; /* green-400 */
+            border-style: solid;
+        }
+        .drop-incorrect {
+            background-color: #fee2e2 !important; /* red-100 */
+            border-color: #f87171 !important; /* red-400 */
+            border-style: solid;
+        }
+
+        /* Styles for new Task 6 Drag-and-Drop */
+        .drop-target-task6 {
+             display: inline-block;
+            min-width: 120px;
+            height: 38px;
+            background-color: #f3f4f6; /* gray-100 */
+            border: 2px dashed #9ca3af; /* gray-400 */
+            border-radius: 6px;
+            vertical-align: middle;
+            margin: 0 4px;
+            padding: 4px;
+        }
+        .draggable-task6 {
+            cursor: move;
+            background-color: #f0f9ff; /* sky-50 */
+            border: 1px solid #7dd3fc; /* sky-300 */
+            padding: 4px 8px;
+            border-radius: 6px;
+            display: inline-block;
+            margin: 2px;
+        }
+        .draggable-task6.dragging {
+            opacity: 0.5;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        /* Styles for new Task 10 Drag-and-Drop */
+        .drop-target-task10 {
+            background-color: #f9fafb; /* gray-50 */
+            border: 2px dashed #d1d5db; /* gray-300 */
+            border-radius: 8px;
+            min-height: 200px;
+            padding: 8px;
+        }
+        .draggable-task10 {
+            cursor: move;
+            background-color: #f0f9ff; /* sky-50 */
+            border: 1px solid #7dd3fc; /* sky-300 */
+            padding: 6px 12px;
+            border-radius: 6px;
+            margin: 4px;
+            display: inline-block;
+        }
+        .draggable-task10.correct {
+            background-color: #dcfce7; /* green-100 */
+            border-color: #4ade80; /* green-400 */
+        }
+        .draggable-task10.incorrect {
+            background-color: #fee2e2; /* red-100 */
+            border-color: #f87171; /* red-400 */
+        }
+        
+        /* Styles for Task 2 Dropdown Feedback */
+        .correct-match {
+            background-color: #dcfce7 !important; /* green-100 */
+            border: 1px solid #22c55e; /* green-500 */
+        }
+        .incorrect-match {
+            background-color: #fee2e2 !important; /* red-100 */
+            border: 1px solid #ef4444; /* red-500 */
+        }
+
+        /* Styles for feedback on inputs (from Jakarta lesson) */
+        .input-correct {
+            border-color: #22c55e; /* green-600 */
+            background-color: #f0fdf4; /* green-50 */
+        }
+        .input-incorrect {
+            border-color: #dc2626; /* red-600 */
+            background-color: #fef2f2; /* red-50 */
+        }
+        .label-correct {
+            color: #166534; /* green-800 */
+            font-weight: 600;
+        }
+        .label-incorrect {
+            color: #991b1b; /* red-800 */
+            font-weight: 600;
+        }
+
+        /* Hide scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 antialiased">
+
+    <div id="app" class="flex h-screen overflow-hidden">
+        
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="fixed z-20 inset-y-0 left-0 w-64 bg-white border-r border-gray-200 shadow-lg transform transition-transform duration-300 ease-in-out -translate-x-full md:translate-x-0">
+            <div class="p-6">
+                <h2 class="text-xl font-bold text-purple-700">B1 Reading</h2>
+                <p class="text-sm text-gray-600">Jakarta as a Global City</p>
+            </div>
+            <nav class="flex-1 px-4 space-y-2 overflow-y-auto" style="height: calc(100vh - 100px);">
+                <a href="#" data-target="page-1" class="nav-link flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-purple-50 hover:text-purple-600">
+                    <span class="font-medium">1. Warm-Up Discussion</span>
+                </a>
+                <a href="#" data-target="page-2" class="nav-link flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-purple-50 hover:text-purple-600">
+                    <span class="font-medium">2. Vocabulary Preparation</span>
+                </a>
+                <a href="#" data-target="page-3" class="nav-link flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-purple-50 hover:text-purple-600">
+                    <span class="font-medium">3. Reading Passage</span>
+                </a>
+                <a href="#" data-target="page-4" class="nav-link flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-purple-50 hover:text-purple-600">
+                    <span class="font-medium">4. General Comprehension</span>
+                </a>
+                <a href="#" data-target="page-5" class="nav-link flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-purple-50 hover:text-purple-600">
+                    <span class="font-medium">5. Detail Understanding</span>
+                </a>
+                <a href="#" data-target="page-6" class="nav-link flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-purple-50 hover:text-purple-600">
+                    <span class="font-medium">6. Vocabulary in Context</span>
+                </a>
+                <a href="#" data-target="page-7" class="nav-link flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-purple-50 hover:text-purple-600">
+                    <span class="font-medium">7. Speaking: Problems</span>
+                </a>
+                <a href="#" data-target="page-8" class="nav-link flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-purple-50 hover:text-purple-600">
+                    <span class="font-medium">8. Scenario Problem Solving</span>
+                </a>
+                <a href="#" data-target="page-9" class="nav-link flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-purple-50 hover:text-purple-600">
+                    <span class="font-medium">9. City Improvement Blueprint</span>
+                </a>
+                <a href="#" data-target="page-10" class="nav-link flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-purple-50 hover:text-purple-600">
+                    <span class="font-medium">10. Benefits & Risks Analysis</span>
+                </a>
+                <a href="#" data-target="page-11" class="nav-link flex items-center px-4 py-2 text-gray-700 rounded-lg hover:bg-purple-50 hover:text-purple-600">
+                    <span class="font-medium">11. Critical Discussion</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main id="main-content" class="flex-1 flex flex-col overflow-y-auto md:ml-64 transition-all duration-300 ease-in-out">
+            <!-- Header (for mobile) -->
+            <header class="sticky top-0 z-10 md:hidden bg-white shadow-md">
+                <div class="flex justify-between items-center p-4">
+                    <h1 class="text-lg font-bold text-purple-700">Jakarta as a Global City</h1>
+                    <button id="menu-toggle" class="p-2 rounded-md text-gray-600 hover:text-purple-600 hover:bg-purple-50">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Page 1: Warm-up (Boxes Removed) -->
+            <section id="page-1" class="page-content p-6 md:p-10">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Task 1: Warm-Up Discussion</h2>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <p class="text-gray-700 mb-6">Discuss these questions with your partner or group.</p>
+                        <ul class="list-disc list-outside pl-6 space-y-4 text-lg text-gray-800">
+                            <li>What words come to your mind when you think of a big city?</li>
+                            <li>What makes a city attractive for visitors or workers?</li>
+                            <li>How would you describe Jakarta to someone who has never visited Indonesia?</li>
+                            <li>What does "development" mean in your opinion?</li>
+                            <li>Which Indonesian cities feel "modern" or "global" to you?</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Page 2: Vocabulary Preparation (Dropdowns) -->
+            <section id="page-2" class="page-content p-6 md:p-10 hidden">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Task 2: Vocabulary Preparation</h2>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <p class="text-gray-700 mb-6">Match the definitions on the left with the correct vocabulary word from the dropdown menu.</p>
+                        
+                        <div id="vocab-dropdown-quiz" class="space-y-4">
+                            <!-- Helper function will generate options -->
+                            <script>
+                                const vocabWords = {
+                                    "A": "Headquarters", "B": "Inequality", "C": "Migrant", "D": "Investment", "E": "Privatization",
+                                    "F": "Facilities", "G": "Modernization", "H": "Flooding", "I": "Contrast", "J": "Environment"
+                                };
+                                function getVocabOptions() {
+                                    let options = '<option value="">Select word...</option>';
+                                    for (const key in vocabWords) {
+                                        options += `<option value="${key}">${key}. ${vocabWords[key]}</option>`;
+                                    }
+                                    return options;
+                                }
+                            </script>
+                            
+                            <!-- Question 1 -->
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 vocab-question p-3 bg-gray-50 rounded-lg border border-gray-200">
+                                <p class="md:w-2/3 text-gray-800">Money put into a project to get future benefits</p>
+                                <div class="md:w-1/3">
+                                    <select class="vocab-input p-2 border border-gray-300 rounded-md w-full focus:ring-purple-500 focus:border-purple-500" data-answer="D">
+                                        <script>document.write(getVocabOptions())</script>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Question 2 -->
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 vocab-question p-3 bg-gray-50 rounded-lg border border-gray-200">
+                                <p class="md:w-2/3 text-gray-800">Differences between rich and poor</p>
+                                <div class="md:w-1/3">
+                                    <select class="vocab-input p-2 border border-gray-300 rounded-md w-full focus:ring-purple-500 focus:border-purple-500" data-answer="B">
+                                        <script>document.write(getVocabOptions())</script>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Question 3 -->
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 vocab-question p-3 bg-gray-50 rounded-lg border border-gray-200">
+                                <p class="md:w-2/3 text-gray-800">The natural world around us</p>
+                                <div class="md:w-1/3">
+                                    <select class="vocab-input p-2 border border-gray-300 rounded-md w-full focus:ring-purple-500 focus:border-purple-500" data-answer="J">
+                                        <script>document.write(getVocabOptions())</script>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Question 4 -->
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 vocab-question p-3 bg-gray-50 rounded-lg border border-gray-200">
+                                <p class="md:w-2/3 text-gray-800">Making something newer or more advanced</p>
+                                <div class="md:w-1/3">
+                                    <select class="vocab-input p-2 border border-gray-300 rounded-md w-full focus:ring-purple-500 focus:border-purple-500" data-answer="G">
+                                        <script>document.write(getVocabOptions())</script>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Question 5 -->
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 vocab-question p-3 bg-gray-50 rounded-lg border border-gray-200">
+                                <p class="md:w-2/3 text-gray-800">When water covers land that is usually dry</p>
+                                <div class="md:w-1/3">
+                                    <select class="vocab-input p-2 border border-gray-300 rounded-md w-full focus:ring-purple-500 focus:border-purple-500" data-answer="H">
+                                        <script>document.write(getVocabOptions())</script>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Question 6 -->
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 vocab-question p-3 bg-gray-50 rounded-lg border border-gray-200">
+                                <p class="md:w-2/3 text-gray-800">A person who moves to another place for work</p>
+                                <div class="md:w-1/3">
+                                    <select class="vocab-input p-2 border border-gray-300 rounded-md w-full focus:ring-purple-500 focus:border-purple-500" data-answer="C">
+                                        <script>document.write(getVocabOptions())</script>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Question 7 -->
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 vocab-question p-3 bg-gray-50 rounded-lg border border-gray-200">
+                                <p class="md:w-2/3 text-gray-800">The main office of a company</p>
+                                <div class="md:w-1/3">
+                                    <select class="vocab-input p-2 border border-gray-300 rounded-md w-full focus:ring-purple-500 focus:border-purple-500" data-answer="A">
+                                        <script>document.write(getVocabOptions())</script>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Question 8 -->
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 vocab-question p-3 bg-gray-50 rounded-lg border border-gray-200">
+                                <p class="md:w-2/3 text-gray-800">Useful services or equipment in a place</p>
+                                <div class="md:w-1/3">
+                                    <select class="vocab-input p-2 border border-gray-300 rounded-md w-full focus:ring-purple-500 focus:border-purple-500" data-answer="F">
+                                        <script>document.write(getVocabOptions())</script>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Question 9 -->
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 vocab-question p-3 bg-gray-50 rounded-lg border border-gray-200">
+                                <p class="md:w-2/3 text-gray-800">When something is controlled by private companies</p>
+                                <div class="md:w-1/3">
+                                    <select class="vocab-input p-2 border border-gray-300 rounded-md w-full focus:ring-purple-500 focus:border-purple-500" data-answer="E">
+                                        <script>document.write(getVocabOptions())</script>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- Question 10 -->
+                            <div class="flex flex-col md:flex-row md:items-center gap-2 vocab-question p-3 bg-gray-50 rounded-lg border border-gray-200">
+                                <p class="md:w-2/3 text-gray-800">A clear difference between two things</p>
+                                <div class="md:w-1/3">
+                                    <select class="vocab-input p-2 border border-gray-300 rounded-md w-full focus:ring-purple-500 focus:border-purple-500" data-answer="I">
+                                        <script>document.write(getVocabOptions())</script>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="vocab-dropdown-score" class="mt-6 font-bold text-lg"></div>
+                        <button id="check-vocab-dropdown-btn" class="mt-4 px-5 py-2 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">Check Answers</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Page 3: Reading Passage (News Style) -->
+            <section id="page-3" class="page-content p-6 md:p-10 hidden">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Task 3: Reading Passage</h2>
+                    <div class="bg-white p-6 md:p-8 rounded-lg shadow-sm">
+                        <h1 class="text-4xl font-bold text-gray-900 tracking-tight border-b-2 border-gray-900 pb-2">Jakarta's Global City Ambition</h1>
+                        <p class="text-sm text-gray-600 italic my-4">B1 Level Analysis | Published: November 15, 2025</p>
+
+                        <article class="prose prose-lg max-w-none text-gray-800 md:columns-2 md:gap-x-12" style="font-size: 1.1rem; line-height: 1.75;">
+                            <p class="first-letter:text-7xl first-letter:font-bold first-letter:text-gray-900 first-letter:mr-3 first-letter:float-left">Jakarta, the capital of Indonesia, is a very large and busy city. Millions of people live and work there. The government now has a big plan: they want Jakarta to become a global city. This means Jakarta will not only be important for Indonesia, but also for the world. The target is for Jakarta to be in the top 20 global cities.</p>
+                            <p>But what does “global city” mean? A global city is a place where many international activities happen. These activities include business, trade, tourism, culture, education, and health. A global city is also a place where big companies and organizations have their headquarters. For example, Tokyo, London, and New York are often called global cities. They are centers of finance, trade, and culture.</p>
+                            <p>Global cities often look modern and successful. They have tall buildings, busy airports, and international schools. They attract people from many countries. However, there are also problems. Many global cities depend on cheap labor. Some workers, often migrants, do not get fair pay. Global cities also show big differences between rich and poor people. For example, in New York and Hong Kong, the gap between rich and poor is very wide. London became a global financial center, but this also made inequality worse.</p>
+                            <p>Jakarta already shows signs of inequality. In the city center, tall modern buildings stand next to crowded neighborhoods. Some areas have luxury shopping malls, while nearby areas have small houses with poor facilities. This contrast is very clear.</p>
+                            <p>The government has many plans to change Jakarta. One plan is to build a giant sea wall to stop flooding. Jakarta is sinking because too much groundwater is taken from the earth. The sea wall may help, but it can also harm the environment. Another plan is to invite more private companies to invest. The government hopes this will bring more money and jobs. However, privatization has failed before. For example, when water supply was privatized, many people still did not get clean water.</p>
+                            <p>Becoming a global city may bring benefits. Jakarta could attract more tourists, more international companies, and more investment. This could create jobs and improve the economy. But there are also risks. Poor people may be pushed aside while the rich get richer. Migrant workers may face unfair treatment. The environment may suffer from big projects.</p>
+                            <p>The government says it will try to make development fair. They promise that inequality will not be ignored. But history shows that global cities often make life harder for the poor. In many places, the rich enjoy modern facilities while the poor struggle with basic needs.</p>
+                            <p>Jakarta’s future as a global city is still uncertain. It may bring opportunities, but it may also bring challenges. For the people of Jakarta, the important question is: Who will benefit from this change? Will it be only the rich, or will all citizens enjoy the progress?</p>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Page 4: General Comprehension -->
+            <section id="page-4" class="page-content p-6 md:p-10 hidden">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Task 4: General Comprehension</h2>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <p class="text-gray-700 mb-6">Type your answers based on the reading. We will show you the suggested answers after.</p>
+                        <div class="space-y-6">
+                            <div>
+                                <label for="comp-1" class="block text-lg font-semibold text-gray-700 mb-2">1. What is the government’s goal for Jakarta?</label>
+                                <input type="text" id="comp-1" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500">
+                                <div id="answer-comp-1" class="hidden mt-2 p-3 bg-gray-100 rounded-lg text-gray-700"></div>
+                            </div>
+                            <div>
+                                <label for="comp-2" class="block text-lg font-semibold text-gray-700 mb-2">2. What makes a city a global city?</label>
+                                <input type="text" id="comp-2" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500">
+                                <div id="answer-comp-2" class="hidden mt-2 p-3 bg-gray-100 rounded-lg text-gray-700"></div>
+                            </div>
+                            <div>
+                                <label for="comp-3" class="block text-lg font-semibold text-gray-700 mb-2">3. What are two examples of global cities mentioned in the passage?</label>
+                                <input type="text" id="comp-3" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500">
+                                <div id="answer-comp-3" class="hidden mt-2 p-3 bg-gray-100 rounded-lg text-gray-700"></div>
+                            </div>
+                            <div>
+                                <label for="comp-4" class="block text-lg font-semibold text-gray-700 mb-2">4. What problems do many global cities face?</label>
+                                <input type="text" id="comp-4" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500">
+                                <div id="answer-comp-4" class="hidden mt-2 p-3 bg-gray-100 rounded-lg text-gray-700"></div>
+                            </div>
+                            <div>
+                                <label for="comp-5" class="block text-lg font-semibold text-gray-700 mb-2">5. What signs of inequality are visible in Jakarta?</label>
+                                <input type="text" id="comp-5" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500">
+                                <div id="answer-comp-5" class="hidden mt-2 p-3 bg-gray-100 rounded-lg text-gray-700"></div>
+                            </div>
+                        </div>
+                        <button id="show-comp-answers" class="mt-8 px-5 py-2 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">Show Suggested Answers</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Page 5: Detail Understanding (Multiple Choice with Explanations) -->
+            <section id="page-5" class="page-content p-6 md:p-10 hidden">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Task 5: Detail Understanding</h2>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <div class="space-y-8" id="mcq-form">
+                            <!-- Question 1 -->
+                            <fieldset id="mcq-1">
+                                <legend class="text-lg font-semibold text-gray-700 mb-3">1. The sea wall project aims to…</legend>
+                                <div class="space-y-2">
+                                    <label class="block p-3 rounded-lg border border-gray-300 hover:bg-gray-50"><input type="radio" name="mcq-1" value="a" class="mr-2">a. Reduce air pollution</label>
+                                    <label class="block p-3 rounded-lg border border-gray-300 hover:bg-gray-50"><input type="radio" name="mcq-1" value="b" class="mr-2">b. Stop flooding</label>
+                                    <label class="block p-3 rounded-lg border border-gray-300 hover:bg-gray-50"><input type="radio" name="mcq-1" value="c" class="mr-2">c. Bring more tourists</label>
+                                </div>
+                                <div id="mcq-feedback-1" class="mt-2 text-sm text-gray-700"></div>
+                            </fieldset>
+                            <!-- Question 2 -->
+                            <fieldset id="mcq-2">
+                                <legend class="text-lg font-semibold text-gray-700 mb-3">2. Migrant workers are sometimes…</legend>
+                                <div class="space-y-2">
+                                    <label class="block p-3 rounded-lg border border-gray-300 hover:bg-gray-50"><input type="radio" name="mcq-2" value="a" class="mr-2">a. Paid unfairly</label>
+                                    <label class="block p-3 rounded-lg border border-gray-300 hover:bg-gray-50"><input type="radio" name="mcq-2" value="b" class="mr-2">b. Given luxury apartments</label>
+                                    <label class="block p-3 rounded-lg border border-gray-300 hover:bg-gray-50"><input type="radio" name="mcq-2" value="c" class="mr-2">c. Sent to other countries</label>
+                                </div>
+                                <div id="mcq-feedback-2" class="mt-2 text-sm text-gray-700"></div>
+                            </fieldset>
+                            <!-- Question 3 -->
+                            <fieldset id="mcq-3">
+                                <legend class="text-lg font-semibold text-gray-700 mb-3">3. When water privatization happened…</legend>
+                                <div class="space-y-2">
+                                    <label class="block p-3 rounded-lg border border-gray-300 hover:bg-gray-50"><input type="radio" name="mcq-3" value="a" class="mr-2">a. Everyone received clean water</label>
+                                    <label class="block p-3 rounded-lg border border-gray-300 hover:bg-gray-50"><input type="radio" name="mcq-3" value="b" class="mr-2">b. Water quality improved</label>
+                                    <label class="block p-3 rounded-lg border border-gray-300 hover:bg-gray-50"><input type="radio" name="mcq-3" value="c" class="mr-2">c. Many people still lacked clean water</label>
+                                </div>
+                                <div id="mcq-feedback-3" class="mt-2 text-sm text-gray-700"></div>
+                            </fieldset>
+                            <!-- Question 4 -->
+                            <fieldset id="mcq-4">
+                                <legend class="text-lg font-semibold text-gray-700 mb-3">4. Becoming a global city could…</legend>
+                                <div class="space-y-2">
+                                    <label class="block p-3 rounded-lg border border-gray-300 hover:bg-gray-50"><input type="radio" name="mcq-4" value="a" class="mr-2">a. Make Jakarta empty</label>
+                                    <label class="block p-3 rounded-lg border border-gray-300 hover:bg-gray-50"><input type="radio" name="mcq-4" value="b" class="mr-2">b. Attract businesses and tourists</label>
+                                    <label class="block p-3 rounded-lg border border-gray-300 hover:bg-gray-50"><input type="radio" name="mcq-4" value="c" class="mr-2">c. Reduce jobs</label>
+                                </div>
+                                <div id="mcq-feedback-4" class="mt-2 text-sm text-gray-700"></div>
+                            </fieldset>
+                            <!-- Question 5 -->
+                            <fieldset id="mcq-5">
+                                <legend class="text-lg font-semibold text-gray-700 mb-3">5. The final paragraph suggests that…</legend>
+                                <div class="space-y-2">
+                                    <label class="block p-3 rounded-lg border border-gray-300 hover:bg-gray-50"><input type="radio" name="mcq-5" value="a" class="mr-2">a. Global cities always help poor people</label>
+                                    <label class="block p-3 rounded-lg border border-gray-300 hover:bg-gray-50"><input type="radio" name="mcq-5" value="b" class="mr-2">b. The future is uncertain</label>
+                                    <label class="block p-3 rounded-lg border border-gray-300 hover:bg-gray-50"><input type="radio" name="mcq-5" value="c" class="mr-2">c. Inequality never happens</label>
+                                </div>
+                                <div id="mcq-feedback-5" class="mt-2 text-sm text-gray-700"></div>
+                            </fieldset>
+                        </div>
+                        <div id="mcq-feedback" class="mt-8 text-xl font-bold text-center"></div>
+                        <button id="check-mcq-answers" class="mt-6 px-5 py-2 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">Check Answers</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Page 6: Vocabulary in Context (Drag-and-Drop with Explanations) -->
+            <section id="page-6" class="page-content p-6 md:p-10 hidden">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Task 6: Vocabulary in Context</h2>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <p class="text-gray-700 mb-6">Drag the words from the word bank into the correct sentences.</p>
+                        
+                        <!-- Word Bank -->
+                        <div id="task6-word-bank" class="flex flex-wrap gap-3 p-4 bg-gray-100 rounded-lg border border-gray-300 mb-8">
+                            <div class="draggable-task6" draggable="true" data-word="contrast">contrast</div>
+                            <div class="draggable-task6" draggable="true" data-word="investment">investment</div>
+                            <div class="draggable-task6" draggable="true" data-word="migrants">migrants</div>
+                            <div class="draggable-task6" draggable="true" data-word="flooding">flooding</div>
+                            <div class="draggable-task6" draggable="true" data-word="privatization">privatization</div>
+                        </div>
+
+                        <!-- Sentences with Drop Targets -->
+                        <div class="space-y-6 text-lg" id="task6-sentences">
+                            <div class="task6-question">
+                                <p>1. Tall buildings next to small houses show a strong <span class="drop-target-task6 drop-target" data-match="contrast"></span>.</p>
+                                <div id="task6-feedback-1" class="text-sm mt-1 ml-4 text-green-700"></div>
+                            </div>
+                            <div class="task6-question">
+                                <p>2. The government wants more <span class="drop-target-task6 drop-target" data-match="investment"></span> to support development.</p>
+                                <div id="task6-feedback-2" class="text-sm mt-1 ml-4 text-green-700"></div>
+                            </div>
+                            <div class="task6-question">
+                                <p>3. Many workers are <span class="drop-target-task6 drop-target" data-match="migrants"></span> who move to Jakarta for jobs.</p>
+                                <div id="task6-feedback-3" class="text-sm mt-1 ml-4 text-green-700"></div>
+                            </div>
+                            <div class="task6-question">
+                                <p>4. Floods happen because of serious <span class="drop-target-task6 drop-target" data-match="flooding"></span>.</p>
+                                <div id="task6-feedback-4" class="text-sm mt-1 ml-4 text-green-700"></div>
+                            </div>
+                            <div class="task6-question">
+                                <p>5. Some services fail when <span class="drop-target-task6 drop-target" data-match="privatization"></span> does not improve quality.</p>
+                                <div id="task6-feedback-5" class="text-sm mt-1 ml-4 text-green-700"></div>
+                            </div>
+                        </div>
+                        
+                        <div id="task6-drag-feedback" class="mt-8 text-xl font-bold text-center"></div>
+                        <button id="check-task6-drag-btn" class="mt-6 px-5 py-2 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">Check Answers</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Page 7: Speaking – Understanding the Problems (Context Added) -->
+            <section id="page-7" class="page-content p-6 md:p-10 hidden">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Task 7: Speaking – Understanding the Problems</h2>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <p class="text-gray-700 mb-8">This is a speaking task. The reading passage highlighted several problems common in global cities, such as inequality, environmental stress, and the challenges of privatization. Now, let's think critically about these issues in the context of Jakarta. Discuss these questions with your partner or group.</p>
+                        <ul class="list-disc list-outside pl-6 space-y-4 text-lg text-gray-800">
+                            <li>What problems does the passage highlight for global cities?</li>
+                            <li>Which problem is most serious for Jakarta?</li>
+                            <li>Which problems can be solved quickly, and which take longer?</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Page 8: Scenario-Based Problem Solving (Context Added) -->
+            <section id="page-8" class="page-content p-6 md:p-10 hidden">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Task 8: Scenario-Based Problem Solving</h2>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <p class="text-gray-700 mb-4">Imagine you are a city planner advising the government. You have a limited budget and must choose the most impactful projects. From the list below, choose the two ideas you would support to make Jakarta a better city, considering the problems of inequality mentioned in the text.</p>
+                        <p class="text-lg font-semibold text-gray-700 mb-3">Your Choices:</p>
+                        <div class="space-y-2 mb-6">
+                            <label class="block p-3 rounded-lg border border-gray-300 hover:bg-gray-50">
+                                <input type="checkbox" name="scenario" class="mr-2"> Build more luxury malls
+                            </label>
+                            <label class="block p-3 rounded-lg border border-gray-300 hover:bg-gray-50">
+                                <input type="checkbox" name="scenario" class="mr-2"> Improve public transportation
+                            </label>
+                            <label class="block p-3 rounded-lg border border-gray-300 hover:bg-gray-50">
+                                <input type="checkbox" name="scenario" class="mr-2"> Create more green public spaces
+                            </label>
+                        </div>
+                        <div>
+                            <label for="scenario-explain" class="block text-lg font-semibold text-gray-700 mb-2">Explain your choices:</label>
+                            <textarea id="scenario-explain" rows="5" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Page 9: City Improvement Blueprint -->
+            <section id="page-9" class="page-content p-6 md:p-10 hidden">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Task 9: City Improvement Blueprint</h2>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <p class="text-gray-700 mb-6">In the previous task, you made a high-level choice. Now, let's create a more detailed plan. The reading text mentions that to be a 'fair' global city, progress must be enjoyed by all citizens, not just the rich. Your task is to develop a "blueprint" for one specific area that achieves this goal.</p>
+                        <p class="text-lg font-semibold text-gray-700 mb-3">Choose one area to improve:</p>
+                        <div class="space-y-2 mb-6">
+                            <label class="block p-3 rounded-lg border border-gray-300 hover:bg-gray-50">
+                                <input type="radio" name="blueprint" class="mr-2"> Housing
+                            </label>
+                            <label class="block p-3 rounded-lg border border-gray-300 hover:bg-gray-50">
+                                <input type="radio" name="blueprint" class="mr-2"> Transportation
+                            </label>
+                            <label class="block p-3 rounded-lg border border-gray-300 hover:bg-gray-50">
+                                <input type="radio" name="blueprint" class="mr-2"> Public facilities
+                            </label>
+                            <label class="block p-3 rounded-lg border border-gray-300 hover:bg-gray-50">
+                                <input type="radio" name="blueprint" class="mr-2"> Environmental protection
+                            </label>
+                        </div>
+                        <div class="space-y-6">
+                            <div>
+                                <label for="blueprint-improve" class="block text-lg font-semibold text-gray-700 mb-2">1. What you want to improve:</label>
+                                <textarea id="blueprint-improve" rows="3" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500"></textarea>
+                            </div>
+                            <div>
+                                <label for="blueprint-important" class="block text-lg font-semibold text-gray-700 mb-2">2. Why it is important:</label>
+                                <textarea id="blueprint-important" rows="3" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500"></textarea>
+                            </div>
+                            <div>
+                                <label for="blueprint-help" class="block text-lg font-semibold text-gray-700 mb-2">3. How it helps both rich and poor citizens:</label>
+                                <textarea id="blueprint-help" rows="3" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500"></textarea>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Page 10: Benefits and Risks Analysis (Drag-and-Drop) -->
+            <section id="page-10" class="page-content p-6 md:p-10 hidden">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Task 10: Benefits and Risks Analysis</h2>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <p class="text-gray-700 mb-6">Drag the items from the Item Bank into the correct category.</p>
+
+                        <!-- Item Bank -->
+                        <div id="task10-item-bank" class="flex flex-wrap gap-3 p-4 bg-gray-100 rounded-lg border border-gray-300 mb-8">
+                            <div class="draggable-task10" draggable="true" data-type="benefit">Attract more tourists</div>
+                            <div class="draggable-task10" draggable="true" data-type="risk">Poor people pushed aside</div>
+                            <div class="draggable-task10" draggable="true" data-type="benefit">More international companies</div>
+                            <div class="draggable-task10" draggable="true" data-type="risk">Unfair migrant treatment</div>
+                            <div class="draggable-task10" draggable="true" data-type="benefit">More investment</div>
+                            <div class="draggable-task10" draggable="true" data-type="risk">Environment may suffer</div>
+                            <div class="draggable-task10" draggable="true" data-type="benefit">Create jobs</div>
+                            <div class="draggable-task10" draggable="true" data-type="risk">Inequality gets worse</div>
+                            <div class="draggable-task10" draggable="true" data-type="benefit">Improve the economy</div>
+                        </div>
+
+                        <!-- Drop Zones -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h3 class="block text-lg font-semibold text-green-700 mb-2">Benefits</h3>
+                                <div id="benefits-drop-zone" class="drop-target-task10" data-match="benefit"></div>
+                            </div>
+                            <div>
+                                <h3 class="block text-lg font-semibold text-red-700 mb-2">Risks</h3>
+                                <div id="risks-drop-zone" class="drop-target-task10" data-match="risk"></div>
+                            </div>
+                        </div>
+
+                        <div id="task10-feedback" class="mt-8 text-xl font-bold text-center"></div>
+                        <button id="check-task10-btn" class="mt-6 px-5 py-2 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">Check Answers</button>
+
+                        <div class="mt-6">
+                            <label for="analysis-explain" class="block text-lg font-semibold text-gray-700 mb-2">Which list is stronger and why?</label>
+                            <textarea id="analysis-explain" rows="4" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Page 11: Critical Discussion (Boxes Removed) -->
+            <section id="page-11" class="page-content p-6 md:p-10 hidden">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Task 11: Critical Discussion – Who Benefits?</h2>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <p class="text-gray-700 mb-8">This is the final task. Reflect on these critical questions with your group.</p>
+                        <ul class="list-disc list-outside pl-6 space-y-4 text-lg text-gray-800">
+                            <li>Who should benefit most from Jakarta’s development?</li>
+                            <li>How can the government prevent a wider rich–poor gap?</li>
+                            <li>What lessons can Jakarta learn from other global cities?</li>
+                            <li>What would a "fair" global city look like?</li>
+                            <li>How should "success" be measured?</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer Added Here -->
+            <footer class="text-center p-6 text-sm text-gray-500 border-t border-gray-200 mt-auto">
+                Designed by <a href="https://fajarudinakbar.online" target="_blank" rel="noopener noreferrer" class="text-purple-600 hover:underline font-medium">fajarudinakbar.online</a>
+            </footer>
+            <!-- End of Footer -->
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- Mobile Menu (from Redenomination) ---
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('main-content');
+            const menuToggle = document.getElementById('menu-toggle');
+            
+            // Call lucide to render the initial icon(s)
+            lucide.createIcons();
+            
+            let menuOpen = false;
+            
+            menuToggle.addEventListener('click', () => {
+                menuOpen = !menuOpen;
+                if (menuOpen) {
+                    sidebar.classList.remove('-translate-x-full');
+                    menuToggle.innerHTML = '<i data-lucide="x" class="w-6 h-6"></i>';
+                } else {
+                    sidebar.classList.add('-translate-x-full');
+                    menuToggle.innerHTML = '<i data-lucide="menu" class="w-6 h-6"></i>';
+                }
+                // Call createIcons again to render the newly added icon
+                lucide.createIcons();
+            });
+
+            // --- Page Navigation (from Redenomination) ---
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pages = document.querySelectorAll('.page-content');
+
+            function setActiveLink(targetId) {
+                navLinks.forEach(link => {
+                    if (link.getAttribute('data-target') === targetId) {
+                        link.classList.add('bg-purple-100', 'text-purple-700');
+                    } else {
+                        link.classList.remove('bg-purple-100', 'text-purple-700');
+                    }
+                });
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('data-target');
+                    
+                    pages.forEach(page => {
+                        if (page.id === targetId) {
+                            page.classList.remove('hidden');
+                        } else {
+                            page.classList.add('hidden');
+                        }
+                    });
+
+                    setActiveLink(targetId);
+                    
+                    // Close mobile menu on navigation
+                    if (menuOpen) {
+                        menuToggle.click();
+                    }
+                    
+                    // Scroll to top of main content
+                    mainContent.scrollTop = 0;
+                });
+            });
+            // Set initial active link
+            setActiveLink('page-1');
+
+            // --- Attempt Counters ---
+            let attempt_mcq = 0;
+            let attempt_task6 = 0;
+
+            // --- Answer Keys (from Jakarta) ---
+            const comprehensionAnswers = {
+                1: "The government wants Jakarta to become a top 20 global city.",
+                2: "A city with international business, trade, tourism, culture, education, and major headquarters.",
+                3: "Tokyo, London, New York.",
+                4: "Cheap labor, unfair pay, inequality (big differences between rich and poor).",
+                5: "Modern buildings next to crowded areas, luxury malls near poor facilities."
+            };
+            const mcqAnswers = { 1: 'b', 2: 'a', 3: 'c', 4: 'b', 5: 'b' };
+            const mcqExplanations = {
+                1: "<b>Explanation:</b> The text states one plan is to 'build a giant sea wall to <b>stop flooding</b>'.",
+                2: "<b>Explanation:</b> The text says, 'Some workers, often <b>migrants, do not get fair pay</b>'.",
+                3: "<b>Explanation:</b> The text says, 'when water supply was privatized, <b>many people still did not get clean water</b>'.",
+                4: "<b>Explanation:</b> The text says, 'Jakarta could <b>attract more tourists, more international companies</b>, and more investment'.",
+                5: "<b>Explanation:</b> The final paragraph says the future 'may bring opportunities, but it may also bring challenges', which means <b>it is uncertain</b>."
+            };
+            const task6Explanations = {
+                contrast: "<b>Explanation:</b> 'Contrast' means a clear difference, like between tall buildings and small houses.",
+                investment: "<b>Explanation:</b> 'Investment' is money put into projects to get future benefits.",
+                migrants: "<b>Explanation:</b> 'Migrants' are people who move to another place for work.",
+                flooding: "<b>Explanation:</b> The sea wall is being built to stop 'flooding'.",
+                privatization: "<b>Explanation:</b> 'Privatization' is when private companies control a service, like the water supply."
+            };
+
+
+            // --- Task 2: Vocabulary (Dropdown) Logic (NEW) ---
+            const vocabInputs = document.querySelectorAll('.vocab-input');
+            const checkVocabDropdownBtn = document.getElementById('check-vocab-dropdown-btn');
+            const vocabDropdownScore = document.getElementById('vocab-dropdown-score');
+
+            checkVocabDropdownBtn.addEventListener('click', () => {
+                let score = 0;
+                vocabInputs.forEach(input => {
+                    const correctAnswer = input.dataset.answer;
+                    const selectedAnswer = input.value;
+                    
+                    input.classList.remove('correct-match', 'incorrect-match');
+                    input.disabled = true;
+
+                    if (selectedAnswer === correctAnswer) {
+                        score++;
+                        input.classList.add('correct-match');
+                    } else {
+                        input.classList.add('incorrect-match');
+                        // Show correct answer
+                        const correctText = vocabWords[correctAnswer];
+                        const hint = document.createElement('span');
+                        hint.textContent = ` (Ans: ${correctText})`;
+                        hint.classList.add('text-green-600', 'text-sm', 'ml-2', 'font-medium');
+                        if (!input.nextElementSibling) { // Prevent adding multiple hints
+                            input.parentNode.appendChild(hint);
+                        }
+                    }
+                });
+                vocabDropdownScore.textContent = `Your score: ${score} / ${vocabInputs.length}`;
+                vocabDropdownScore.className = score === vocabInputs.length ? 'mt-6 font-bold text-lg text-green-600' : 'mt-6 font-bold text-lg text-red-600';
+            });
+
+
+            // --- Task 4: General Comprehension Logic (from Jakarta) ---
+            const showCompAnswersBtn = document.getElementById('show-comp-answers');
+            showCompAnswersBtn.addEventListener('click', () => {
+                for (let i = 1; i <= 5; i++) {
+                    const answerDiv = document.getElementById(`answer-comp-${i}`);
+                    answerDiv.textContent = `Suggested Answer: ${comprehensionAnswers[i]}`;
+                    answerDiv.classList.remove('hidden');
+                }
+                showCompAnswersBtn.textContent = "Answers Shown";
+                showCompAnswersBtn.disabled = true;
+            });
+
+            // --- Task 5: Detail Understanding (MCQ) Logic (with Attempts) ---
+            const checkMcqBtn = document.getElementById('check-mcq-answers');
+            const mcqFeedback = document.getElementById('mcq-feedback');
+            checkMcqBtn.addEventListener('click', () => {
+                attempt_mcq++;
+                let correctCount = 0;
+
+                for (let i = 1; i <= 5; i++) {
+                    const radios = document.querySelectorAll(`input[name="mcq-${i}"]`);
+                    const selected = document.querySelector(`input[name="mcq-${i}"]:checked`);
+                    const feedbackDiv = document.getElementById(`mcq-feedback-${i}`);
+                    feedbackDiv.innerHTML = ''; // Clear previous feedback
+                    
+                    radios.forEach(radio => {
+                        const label = radio.closest('label');
+                        label.classList.remove('label-correct', 'label-incorrect');
+                        label.style.borderWidth = '1px';
+                        label.style.borderColor = '#d1d5db'; // gray-300
+                    });
+
+                    if (selected) {
+                        const label = selected.closest('label');
+                        if (selected.value === mcqAnswers[i]) {
+                            correctCount++;
+                            label.classList.add('label-correct');
+                            label.style.borderWidth = '2px';
+                            label.style.borderColor = '#16a34a'; // green-600
+                        } else {
+                            label.classList.add('label-incorrect');
+                            label.style.borderWidth = '2px';
+                            label.style.borderColor = '#dc2626'; // red-600
+                            
+                            // After 2 attempts, show explanation
+                            if (attempt_mcq >= 2) {
+                                feedbackDiv.innerHTML = mcqExplanations[i];
+                                feedbackDiv.classList.add('p-2', 'bg-yellow-50', 'border-l-4', 'border-yellow-400');
+                            }
+                        }
+                    }
+                }
+                
+                mcqFeedback.textContent = `You got ${correctCount} out of 5 correct! (Attempt ${attempt_mcq})`;
+                mcqFeedback.className = correctCount >= 3 ? 'mt-8 text-xl font-bold text-center text-green-600' : 'mt-8 text-xl font-bold text-center text-red-600';
+
+                if (attempt_mcq >= 2) {
+                    checkMcqBtn.disabled = true;
+                    checkMcqBtn.textContent = "Answers Finalized";
+                }
+            });
+
+            // --- Task 6: Vocabulary in Context (Drag & Drop) Logic (with Attempts) ---
+            const draggablesTask6 = document.querySelectorAll('.draggable-task6');
+            const dropTargetsTask6 = document.querySelectorAll('.drop-target-task6');
+            const checkTask6DragBtn = document.getElementById('check-task6-drag-btn');
+            const task6DragFeedback = document.getElementById('task6-drag-feedback');
+            const task6WordBank = document.getElementById('task6-word-bank');
+            let draggedItemTask6 = null;
+
+            draggablesTask6.forEach(draggable => {
+                draggable.addEventListener('dragstart', (e) => {
+                    draggedItemTask6 = e.target;
+                    setTimeout(() => e.target.classList.add('dragging'), 0);
+                });
+                draggable.addEventListener('dragend', () => {
+                    draggedItemTask6.classList.remove('dragging');
+                    draggedItemTask6 = null;
+                });
+            });
+
+            dropTargetsTask6.forEach(target => {
+                target.addEventListener('dragover', (e) => { e.preventDefault(); if (!target.hasChildNodes()) { target.classList.add('drag-over'); } });
+                target.addEventListener('dragenter', (e) => { e.preventDefault(); if (!target.hasChildNodes()) { target.classList.add('drag-over'); } });
+                target.addEventListener('dragleave', () => { target.classList.remove('drag-over'); });
+                target.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    target.classList.remove('drag-over');
+                    if (draggedItemTask6 && !target.hasChildNodes()) {
+                        target.appendChild(draggedItemTask6);
+                    }
+                });
+            });
+
+            task6WordBank.addEventListener('dragover', (e) => e.preventDefault());
+            task6WordBank.addEventListener('drop', (e) => {
+                e.preventDefault();
+                if (draggedItemTask6) {
+                    task6WordBank.appendChild(draggedItemTask6);
+                }
+            });
+
+            checkTask6DragBtn.addEventListener('click', () => {
+                attempt_task6++;
+                let correctCount = 0;
+                
+                document.querySelectorAll('.task6-question').forEach((q, index) => {
+                    const target = q.querySelector('.drop-target-task6');
+                    const feedbackDiv = q.querySelector(`#task6-feedback-${index + 1}`);
+                    const droppedEl = target.querySelector('.draggable-task6');
+                    
+                    target.classList.remove('drop-correct', 'drop-incorrect');
+                    feedbackDiv.innerHTML = '';
+
+                    if (droppedEl) {
+                        if (droppedEl.dataset.word === target.dataset.match) {
+                            correctCount++;
+                            target.classList.add('drop-correct');
+                        } else {
+                            target.classList.add('drop-incorrect');
+                            if (attempt_task6 >= 2) {
+                                const correctWord = target.dataset.match;
+                                feedbackDiv.innerHTML = task6Explanations[correctWord];
+                            }
+                        }
+                    } else if (attempt_task6 >= 2) { // Also show explanation if empty after 2 attempts
+                        const correctWord = target.dataset.match;
+                        feedbackDiv.innerHTML = `<b>Missing Word:</b> ${task6Explanations[correctWord]}`;
+                    }
+                });
+                
+                task6DragFeedback.textContent = `You got ${correctCount} out of 5 correct! (Attempt ${attempt_task6})`;
+                task6DragFeedback.className = correctCount >= 3 ? 'mt-8 text-xl font-bold text-center text-green-600' : 'mt-8 text-xl font-bold text-center text-red-600';
+
+                if (attempt_task6 >= 2) {
+                    checkTask6DragBtn.disabled = true;
+                    checkTask6DragBtn.textContent = "Answers Finalized";
+                }
+            });
+
+            // --- Task 10: Benefits/Risks (Drag & Drop) Logic (NEW) ---
+            const draggablesTask10 = document.querySelectorAll('.draggable-task10');
+            const dropTargetsTask10 = document.querySelectorAll('.drop-target-task10');
+            const task10ItemBank = document.getElementById('task10-item-bank');
+            const checkTask10Btn = document.getElementById('check-task10-btn');
+            const task10Feedback = document.getElementById('task10-feedback');
+            let draggedItemTask10 = null;
+
+            draggablesTask10.forEach(draggable => {
+                draggable.addEventListener('dragstart', (e) => {
+                    draggedItemTask10 = e.target;
+                    setTimeout(() => e.target.classList.add('dragging'), 0);
+                });
+                draggable.addEventListener('dragend', () => {
+                    draggedItemTask10.classList.remove('dragging');
+                    draggedItemTask10 = null;
+                });
+            });
+
+            [...dropTargetsTask10, task10ItemBank].forEach(container => {
+                container.addEventListener('dragover', (e) => { e.preventDefault(); container.classList.add('drag-over'); });
+                container.addEventListener('dragenter', (e) => { e.preventDefault(); container.classList.add('drag-over'); });
+                container.addEventListener('dragleave', () => { container.classList.remove('drag-over'); });
+                container.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    container.classList.remove('drag-over');
+                    if (draggedItemTask10) {
+                        container.appendChild(draggedItemTask10);
+                    }
+                });
+            });
+
+            checkTask10Btn.addEventListener('click', () => {
+                let correctCount = 0;
+                let totalDropped = 0;
+
+                dropTargetsTask10.forEach(target => {
+                    const droppedItems = target.querySelectorAll('.draggable-task10');
+                    droppedItems.forEach(item => {
+                        totalDropped++;
+                        item.classList.remove('correct', 'incorrect');
+                        if (item.dataset.type === target.dataset.match) {
+                            correctCount++;
+                            item.classList.add('correct');
+                        } else {
+                            item.classList.add('incorrect');
+                        }
+                    });
+                });
+                
+                const totalItems = draggablesTask10.length;
+                if (totalDropped < totalItems) {
+                    task10Feedback.textContent = `Please drag all ${totalItems} items into the two boxes.`;
+                    task10Feedback.className = 'mt-8 text-xl font-bold text-center text-yellow-600';
+                } else {
+                    task10Feedback.textContent = `You classified ${correctCount} out of ${totalItems} items correctly!`;
+                    task10Feedback.className = correctCount === totalItems ? 'mt-8 text-xl font-bold text-center text-green-600' : 'mt-8 text-xl font-bold text-center text-red-600';
+                    checkTask10Btn.disabled = true;
+                }
+            });
+
+        });
+    </script>
+
+</body>
+</html>
