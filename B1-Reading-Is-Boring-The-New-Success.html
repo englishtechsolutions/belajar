@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B1 Reading - Is "Boring" the New "Success"?</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        html { scroll-behavior: smooth; }
+        
+        /* Sidebar active link */
+        .nav-link-active {
+            background-color: #e0f2fe; /* light-blue-100 */
+            color: #0284c7; /* sky-700 */
+            font-weight: 600;
+            border-right: 4px solid #0284c7;
+        }
+        
+        /* Feedback Styles */
+        .feedback-correct { color: #16a34a; font-weight: 500; }
+        .feedback-incorrect { color: #dc2626; font-weight: 500; }
+        
+        /* Inputs */
+        select, input[type="text"], textarea {
+            border-radius: 0.375rem;
+            border: 1px solid #d1d5db;
+            padding: 0.5rem 0.75rem;
+            transition: border-color 0.2s;
+        }
+        select:focus, input:focus, textarea:focus {
+            outline: none;
+            border-color: #0284c7;
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
+        }
+        
+        /* Sidebar Transition */
+        #sidebar { transition: transform 0.3s ease-in-out; }
+
+        /* Wizard Styles */
+        /* Hide all sections except answer key by default */
+        main > section:not(#answer-key) { display: none; }
+        
+        /* Force show active section with !important to override the specific :not selector above */
+        main > section.active-section { 
+            display: block !important; 
+            animation: fadeIn 0.4s ease-out; 
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Navigation Buttons */
+        .nav-btn-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e5e7eb;
+        }
+        .nav-btn {
+            padding: 0.5rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .nav-btn-prev { background-color: #f3f4f6; color: #4b5563; }
+        .nav-btn-prev:hover { background-color: #e5e7eb; }
+        .nav-btn-next { background-color: #0284c7; color: white; }
+        .nav-btn-next:hover { background-color: #0369a1; }
+
+        /* Drag and Drop */
+        #answer-bank {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 1rem;
+            background-color: #f3f4f6;
+            border-radius: 0.375rem;
+            margin-bottom: 1.5rem;
+            min-height: 60px;
+            border: 1px dashed #d1d5db;
+        }
+        .draggable-item {
+            padding: 0.5rem 1rem;
+            background-color: #ffffff;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            cursor: grab;
+            font-weight: 500;
+            user-select: none;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .draggable-item:active { cursor: grabbing; }
+        .drop-zone {
+            min-height: 42px;
+            width: 140px;
+            border: 2px dashed #9ca3af;
+            border-radius: 0.375rem;
+            padding: 4px;
+            display: inline-block;
+            vertical-align: middle;
+            background-color: #f9fafb;
+            transition: all 0.2s;
+        }
+        .drag-over { border-color: #2563eb; background-color: #dbeafe; }
+        .drop-zone-correct { border-color: #16a34a; background-color: #f0fdf4; }
+        .drop-zone-incorrect { border-color: #dc2626; background-color: #fef2f2; }
+
+        /* Toast Notification */
+        #toast {
+            visibility: hidden;
+            min-width: 200px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 4px;
+            padding: 10px;
+            position: fixed;
+            z-index: 50;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        #toast.show { visibility: visible; opacity: 1; }
+    </style>
+</head>
+<body class="bg-gray-100 text-slate-800">
+
+    <div class="flex min-h-screen">
+        
+        <!-- Sidebar -->
+        <nav id="sidebar" class="w-72 bg-white shadow-lg fixed inset-y-0 left-0 transform -translate-x-full md:translate-x-0 z-30 flex flex-col">
+            <div class="p-6 border-b bg-slate-50">
+                <h2 class="text-xl font-bold text-sky-800">B1 Reading</h2>
+            </div>
+            <ul class="flex flex-col space-y-1 p-4 overflow-y-auto flex-1" id="nav-links">
+                <!-- Navigation Items -->
+                <li><a href="#" data-target="part1" class="nav-link block rounded-md p-3 hover:bg-gray-100 transition-colors">Part 1: Warm-up</a></li>
+                <li><a href="#" data-target="part2" class="nav-link block rounded-md p-3 hover:bg-gray-100 transition-colors">Part 2: Prediction</a></li>
+                <li><a href="#" data-target="part3" class="nav-link block rounded-md p-3 hover:bg-gray-100 transition-colors">Part 3: Reading Passage</a></li>
+                <li><a href="#" data-target="part4" class="nav-link block rounded-md p-3 hover:bg-gray-100 transition-colors">Part 4: Reaction</a></li>
+                <li><a href="#" data-target="part5" class="nav-link block rounded-md p-3 hover:bg-gray-100 transition-colors">Part 5: Deep Dive</a></li>
+                <li><a href="#" data-target="part6" class="nav-link block rounded-md p-3 hover:bg-gray-100 transition-colors">Part 6: Stereotypes</a></li>
+                <li><a href="#" data-target="part7" class="nav-link block rounded-md p-3 hover:bg-gray-100 transition-colors">Part 7: Gen Gap</a></li>
+                <li><a href="#" data-target="part8" class="nav-link block rounded-md p-3 hover:bg-gray-100 transition-colors">Part 8: Stability</a></li>
+                <li><a href="#" data-target="part9" class="nav-link block rounded-md p-3 hover:bg-gray-100 transition-colors">Part 9: Role Play</a></li>
+                <li><a href="#" data-target="part10" class="nav-link block rounded-md p-3 hover:bg-gray-100 transition-colors">Part 10: Reflection</a></li>
+                <li><hr class="my-2"></li>
+                <li><a href="#answer-key" id="toggle-answers" class="nav-link block rounded-md p-3 text-blue-600 hover:bg-blue-50 font-medium">Toggle Answer Key</a></li>
+                <li><button id="reset-progress" class="w-full text-left nav-link block rounded-md p-3 text-red-500 hover:bg-red-50 font-medium text-sm mt-2">Reset All Progress</button></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="flex-1 md:pl-72 flex flex-col h-screen overflow-hidden">
+            <!-- Mobile Header -->
+            <header class="md:hidden bg-white shadow-md p-4 flex justify-between items-center z-20 flex-shrink-0">
+                <button id="menu-toggle" class="text-gray-700 p-2 rounded-md hover:bg-gray-100">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+                <h1 class="text-lg font-semibold text-sky-800">Gen Z Careers</h1>
+                <div class="w-6"></div>
+            </header>
+            
+            <!-- Progress Bar -->
+            <div class="bg-gray-200 h-1.5 w-full flex-shrink-0">
+                <div id="progress-bar" class="bg-sky-600 h-1.5 transition-all duration-500 ease-out" style="width: 10%;"></div>
+            </div>
+
+            <!-- Scrollable Area -->
+            <main class="p-6 md:p-12 space-y-8 overflow-y-auto flex-1 scroll-smooth bg-gray-50" id="main-scroll">
+
+                <!-- Header -->
+                <header class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-6">
+                    <h1 class="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">Is "Boring" the New "Success"?</h1>
+                    <div class="flex flex-wrap items-center gap-3 mt-3 text-sm">
+                        <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-medium">Step <span id="step-counter">1</span> of 10</span>
+                    </div>
+                </header>
+
+                <!-- Part 1 -->
+                <section id="part1" class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 active-section">
+                    <h2 class="text-2xl font-bold mb-6 text-sky-800 flex items-center gap-2">
+                        <span class="bg-sky-100 text-sky-700 w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
+                        Warm-up Discussion
+                    </h2>
+                    <p class="mb-6 text-gray-700 text-lg">Look at the list of jobs below.</p>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+                        <div class="p-4 bg-white rounded-lg border hover:border-sky-300 hover:shadow-md transition-all text-center font-medium text-gray-700 cursor-default">Truck Driver</div>
+                        <div class="p-4 bg-white rounded-lg border hover:border-sky-300 hover:shadow-md transition-all text-center font-medium text-gray-700 cursor-default">Accountant</div>
+                        <div class="p-4 bg-white rounded-lg border hover:border-sky-300 hover:shadow-md transition-all text-center font-medium text-gray-700 cursor-default">Influencer</div>
+                        <div class="p-4 bg-white rounded-lg border hover:border-sky-300 hover:shadow-md transition-all text-center font-medium text-gray-700 cursor-default">Librarian</div>
+                        <div class="p-4 bg-white rounded-lg border hover:border-sky-300 hover:shadow-md transition-all text-center font-medium text-gray-700 cursor-default">Police Officer</div>
+                        <div class="p-4 bg-white rounded-lg border hover:border-sky-300 hover:shadow-md transition-all text-center font-medium text-gray-700 cursor-default">Factory Worker</div>
+                    </div>
+
+                    <div class="bg-slate-50 p-5 rounded-lg border border-slate-200">
+                        <h3 class="font-semibold text-slate-800 mb-3">Discussion Points:</h3>
+                        <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                            <li>Decide which job you think is the <b>most boring</b> and which is the <b>most exciting</b>.</li>
+                            <li>Explain your choice to your teacher (e.g., <i>"It involves too much sitting," "It is dangerous"</i>).</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Part 2 -->
+                <section id="part2" class="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+                    <h2 class="text-2xl font-bold mb-6 text-sky-800 flex items-center gap-2">
+                        <span class="bg-sky-100 text-sky-700 w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span>
+                        Pre-Reading & Vocabulary
+                    </h2>
+                    
+                    <div class="mb-8">
+                        <p class="mb-4 text-gray-700">You are going to read an article titled "Gen Z and Accounting Careers." Before reading, discuss and take notes:</p>
+                        <ul class="list-decimal pl-6 space-y-2 text-gray-700 mb-4">
+                            <li>Do you think young people (Gen Z) usually like office jobs?</li>
+                            <li>The text says accounting is becoming popular. Guess three reasons why.</li>
+                            <li>Do you think a job dealing with numbers can help the community?</li>
+                        </ul>
+                        <textarea id="input-prediction" class="w-full h-32 p-4 border rounded-lg shadow-inner text-gray-700" placeholder="Type your student's predictions here... (Auto-saved)"></textarea>
+                    </div>
+
+                    <hr class="my-8 border-gray-100">
+
+                    <h3 class="text-lg font-bold mb-4 text-gray-800">Vocabulary Check</h3>
+                    <div id="vocab-quiz" class="space-y-4 bg-slate-50 p-6 rounded-lg border border-slate-200">
+                        <!-- Items 1-5 -->
+                        <div class="flex flex-col md:flex-row md:items-center gap-2">
+                            <label class="font-semibold w-full md:w-1/4 text-gray-700">1. profession</label>
+                            <select data-answer="c" class="vocab-select w-full md:w-2/3 bg-white"><option value="">Choose definition...</option><option value="a">Money paid back from taxes.</option><option value="b">Stop working at a certain age.</option><option value="c">A job needing special training.</option><option value="d">Being safe and steady.</option><option value="e">Regular money for work.</option><option value="f">An empty space/missing part.</option></select>
+                            <span class="feedback-span ml-2"></span>
+                        </div>
+                        <div class="flex flex-col md:flex-row md:items-center gap-2">
+                            <label class="font-semibold w-full md:w-1/4 text-gray-700">2. retire</label>
+                            <select data-answer="b" class="vocab-select w-full md:w-2/3 bg-white"><option value="">Choose definition...</option><option value="a">Money paid back from taxes.</option><option value="b">Stop working at a certain age.</option><option value="c">A job needing special training.</option><option value="d">Being safe and steady.</option><option value="e">Regular money for work.</option><option value="f">An empty space/missing part.</option></select>
+                            <span class="feedback-span ml-2"></span>
+                        </div>
+                        <div class="flex flex-col md:flex-row md:items-center gap-2">
+                            <label class="font-semibold w-full md:w-1/4 text-gray-700">3. gap</label>
+                            <select data-answer="f" class="vocab-select w-full md:w-2/3 bg-white"><option value="">Choose definition...</option><option value="a">Money paid back from taxes.</option><option value="b">Stop working at a certain age.</option><option value="c">A job needing special training.</option><option value="d">Being safe and steady.</option><option value="e">Regular money for work.</option><option value="f">An empty space/missing part.</option></select>
+                            <span class="feedback-span ml-2"></span>
+                        </div>
+                        <div class="flex flex-col md:flex-row md:items-center gap-2">
+                            <label class="font-semibold w-full md:w-1/4 text-gray-700">4. refund</label>
+                            <select data-answer="a" class="vocab-select w-full md:w-2/3 bg-white"><option value="">Choose definition...</option><option value="a">Money paid back from taxes.</option><option value="b">Stop working at a certain age.</option><option value="c">A job needing special training.</option><option value="d">Being safe and steady.</option><option value="e">Regular money for work.</option><option value="f">An empty space/missing part.</option></select>
+                            <span class="feedback-span ml-2"></span>
+                        </div>
+                        <div class="flex flex-col md:flex-row md:items-center gap-2">
+                            <label class="font-semibold w-full md:w-1/4 text-gray-700">5. salary</label>
+                            <select data-answer="e" class="vocab-select w-full md:w-2/3 bg-white"><option value="">Choose definition...</option><option value="a">Money paid back from taxes.</option><option value="b">Stop working at a certain age.</option><option value="c">A job needing special training.</option><option value="d">Being safe and steady.</option><option value="e">Regular money for work.</option><option value="f">An empty space/missing part.</option></select>
+                            <span class="feedback-span ml-2"></span>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex gap-3">
+                        <button id="check-vocab" class="bg-sky-600 text-white px-6 py-2 rounded-md font-medium hover:bg-sky-700 transition shadow-sm">Check Answers</button>
+                        <button onclick="resetQuiz('vocab-quiz')" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md font-medium hover:bg-gray-300 transition">Reset</button>
+                        <span id="vocab-score" class="self-center font-semibold ml-auto"></span>
+                    </div>
+                </section>
+
+                <!-- Part 3 -->
+                <section id="part3" class="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+                    <h2 class="text-2xl font-bold mb-6 text-sky-800 flex items-center gap-2">
+                        <span class="bg-sky-100 text-sky-700 w-8 h-8 rounded-full flex items-center justify-center text-sm">3</span>
+                        Reading Passage
+                    </h2>
+                    <p class="mb-4 text-gray-600 italic">Instructions: Read the text. While reading, try to find one surprising fact.</p>
+                    
+                    <article class="prose max-w-none text-gray-800 leading-relaxed space-y-5 border-l-4 border-sky-500 pl-8 py-4 bg-slate-50 rounded-r-xl">
+                        <h3 class="text-xl font-bold text-sky-900">Gen Z and Accounting Careers</h3>
+                        <p>Many young people today, called Gen Z (born between 1997 and 2012), are starting to choose jobs in accounting. In the past, accounting was often seen as boring. A 2022 study even said it was the second-most “boring” job, after data analysis. People imagined accountants sitting in quiet offices, using calculators all day. For many millennials, accounting did not look exciting.</p>
+                        <p>But now, things are changing. Millions of baby boomers, who are older workers, are retiring from accounting. In the last five years, about 340,000 accountants have already left the profession. This creates a big gap in the workforce. Companies and organizations need new accountants, and Gen Z is beginning to fill this space.</p>
+                        <p>Some students are learning accounting before they finish college. One example is the IRS Volunteer Income Tax Assistance (VITA) program. This program helps low-income people file their taxes. It started more than 50 years ago at California State University, Northridge. In 2024, hundreds of students at the university helped more than 9,000 Americans. These taxpayers received nearly $11 million in tax refunds and $3.6 million in tax credits. Through this program, students gain real-world experience and see how accounting can make a difference in people’s lives.</p>
+                        <p>Teachers say that once students try accounting, their ideas about the job change. Rafael Efrat, the director of the VITA program, explained that accounting may look boring at first, but when young people practice it, they see how useful and important it is. Helping families with taxes shows that accounting is not only about numbers—it is also about supporting communities.</p>
+                        <p>Besides helping others, accounting is attractive because of the salary. According to Glassdoor, accountants earn about $93,000 per year on average. With more experience, they can earn up to $122,000. Certified Public Accountants (CPAs) make even more, with salaries close to $200,000 a year. For many Gen Z students, this is a strong reason to choose the profession.</p>
+                        <p>Accounting also offers stability. In a world where many jobs change quickly, accounting remains necessary. Every company, big or small, needs accountants to manage money, prepare reports, and follow tax rules. This makes accounting a career with long-term opportunities.</p>
+                        <p>So, while accounting may look boring at first, many Gen Z students now see it as a smart career. It offers good pay, real-world impact, and a chance to help people. For young people who want both financial success and meaningful work, accounting is becoming an attractive choice.</p>
+                    </article>
+                </section>
+
+                <!-- Part 4 -->
+                <section id="part4" class="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+                    <h2 class="text-2xl font-bold mb-6 text-sky-800 flex items-center gap-2">
+                        <span class="bg-sky-100 text-sky-700 w-8 h-8 rounded-full flex items-center justify-center text-sm">4</span>
+                        Reaction & Comprehension
+                    </h2>
+                    
+                    <div class="mb-8 bg-amber-50 p-5 rounded-lg border border-amber-100">
+                        <h3 class="font-bold text-amber-900 mb-2">Discussion Check:</h3>
+                        <ul class="list-disc pl-5 space-y-2 text-amber-800">
+                            <li><b>The Surprise:</b> What surprised you in the text?</li>
+                            <li><b>The Shift:</b> Why are there suddenly so many job openings?</li>
+                            <li><b>The Money:</b> Is the salary higher/lower than expected?</li>
+                        </ul>
+                    </div>
+
+                    <h3 class="text-lg font-bold mb-4 text-gray-800">True or False?</h3>
+                    <div id="tf-quiz" class="space-y-3">
+                        <div class="p-4 rounded-lg border hover:bg-gray-50 transition" data-answer="F" data-explanation="It was the 'second-most' boring job.">
+                            <p class="font-medium mb-2">1. A 2022 study said accounting was the #1 most boring job.</p>
+                            <div class="flex gap-4"><label class="cursor-pointer flex items-center gap-2"><input type="radio" name="tf1" value="T"> True</label><label class="cursor-pointer flex items-center gap-2"><input type="radio" name="tf1" value="F"> False</label></div>
+                            <span class="feedback-span mt-2 block text-sm"></span>
+                        </div>
+                        <div class="p-4 rounded-lg border hover:bg-gray-50 transition" data-answer="T" data-explanation="340,000 accountants have left recently.">
+                            <p class="font-medium mb-2">2. There are many job openings because older accountants are retiring.</p>
+                            <div class="flex gap-4"><label class="cursor-pointer flex items-center gap-2"><input type="radio" name="tf2" value="T"> True</label><label class="cursor-pointer flex items-center gap-2"><input type="radio" name="tf2" value="F"> False</label></div>
+                            <span class="feedback-span mt-2 block text-sm"></span>
+                        </div>
+                        <div class="p-4 rounded-lg border hover:bg-gray-50 transition" data-answer="F" data-explanation="VITA helps low-income people.">
+                            <p class="font-medium mb-2">3. The VITA program mostly helps rich companies save money.</p>
+                            <div class="flex gap-4"><label class="cursor-pointer flex items-center gap-2"><input type="radio" name="tf3" value="T"> True</label><label class="cursor-pointer flex items-center gap-2"><input type="radio" name="tf3" value="F"> False</label></div>
+                            <span class="feedback-span mt-2 block text-sm"></span>
+                        </div>
+                        <div class="p-4 rounded-lg border hover:bg-gray-50 transition" data-answer="T" data-explanation="The text says salaries close to $200,000 a year.">
+                            <p class="font-medium mb-2">4. Experienced CPAs can earn nearly $200,000 per year.</p>
+                            <div class="flex gap-4"><label class="cursor-pointer flex items-center gap-2"><input type="radio" name="tf4" value="T"> True</label><label class="cursor-pointer flex items-center gap-2"><input type="radio" name="tf4" value="F"> False</label></div>
+                            <span class="feedback-span mt-2 block text-sm"></span>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex gap-3">
+                        <button id="check-tf" class="bg-sky-600 text-white px-6 py-2 rounded-md font-medium hover:bg-sky-700 transition shadow-sm">Check Answers</button>
+                        <button onclick="resetQuiz('tf-quiz')" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md font-medium hover:bg-gray-300 transition">Reset</button>
+                        <span id="tf-score" class="self-center font-semibold ml-auto"></span>
+                    </div>
+                </section>
+
+                <!-- Part 5 -->
+                <section id="part5" class="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+                    <h2 class="text-2xl font-bold mb-6 text-sky-800 flex items-center gap-2">
+                        <span class="bg-sky-100 text-sky-700 w-8 h-8 rounded-full flex items-center justify-center text-sm">5</span>
+                        Deep Dive: Money vs. Meaning
+                    </h2>
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div class="border-2 border-green-100 bg-green-50 p-6 rounded-xl">
+                            <h3 class="font-bold text-green-800 text-lg mb-2">Job A: High Salary</h3>
+                            <p class="text-green-900 mb-2 text-3xl font-bold">$100,000+</p>
+                            <p class="text-green-800 text-sm">Work alone. No real community impact.</p>
+                        </div>
+                        <div class="border-2 border-blue-100 bg-blue-50 p-6 rounded-xl">
+                            <h3 class="font-bold text-blue-800 text-lg mb-2">Job B: Average Salary</h3>
+                            <p class="text-blue-900 mb-2 text-3xl font-bold">$50,000</p>
+                            <p class="text-blue-800 text-sm">Help poor families daily. Feel proud.</p>
+                        </div>
+                    </div>
+                    <p class="font-medium text-gray-800 mb-4">Discuss:</p>
+                    <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                        <li>Which one would you choose right now?</li>
+                        <li>Do you think your answer will change when you are 40 years old?</li>
+                    </ul>
+                </section>
+
+                <!-- Part 6 -->
+                <section id="part6" class="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+                    <h2 class="text-2xl font-bold mb-6 text-sky-800 flex items-center gap-2">
+                        <span class="bg-sky-100 text-sky-700 w-8 h-8 rounded-full flex items-center justify-center text-sm">6</span>
+                        Stereotypes & Summary
+                    </h2>
+                    
+                    <div class="bg-gray-50 p-5 rounded-lg border mb-8">
+                        <h3 class="font-bold text-gray-800 mb-3">Debate: Is "boring" better?</h3>
+                        <div class="flex flex-col gap-3">
+                            <div class="bg-white p-3 rounded border-l-4 border-green-500 shadow-sm">
+                                <span class="font-bold text-green-700 block">Student A:</span>
+                                "Boring jobs are good because they are less stressful and stable."
+                            </div>
+                            <div class="bg-white p-3 rounded border-l-4 border-red-500 shadow-sm">
+                                <span class="font-bold text-red-700 block">Student B:</span>
+                                "Boring jobs are bad because you lose motivation and creativity."
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="text-lg font-bold mb-4 text-gray-800">Summary Gap Fill</h3>
+                    <div class="p-3 bg-slate-100 rounded-md mb-4 text-sm font-medium text-slate-700">
+                        Word Box: gap, boring, impact, Gen Z, retire, refunds, stability, $93,000
+                    </div>
+                    
+                    <div id="summary-quiz" class="text-lg leading-loose text-gray-800">
+                        In the past, many thought accounting was (1) 
+                        <select data-answer="boring" class="gap-fill-select bg-slate-50 border-b-2 border-slate-300 rounded-none px-1 py-0 w-32"><option value=""></option><option value="boring">boring</option><option value="gap">gap</option><option value="Gen Z">Gen Z</option><option value="retire">retire</option></select><span class="feedback-span mx-1"></span>. 
+                        Now that older workers (2) 
+                        <select data-answer="retire" class="gap-fill-select bg-slate-50 border-b-2 border-slate-300 rounded-none px-1 py-0 w-32"><option value=""></option><option value="boring">boring</option><option value="retire">retire</option><option value="gap">gap</option></select><span class="feedback-span mx-1"></span>, 
+                        there is a workforce (3) 
+                        <select data-answer="gap" class="gap-fill-select bg-slate-50 border-b-2 border-slate-300 rounded-none px-1 py-0 w-32"><option value=""></option><option value="gap">gap</option><option value="Gen Z">Gen Z</option><option value="impact">impact</option></select><span class="feedback-span mx-1"></span>. 
+                        A group called (4) 
+                        <select data-answer="Gen Z" class="gap-fill-select bg-slate-50 border-b-2 border-slate-300 rounded-none px-1 py-0 w-32"><option value=""></option><option value="Gen Z">Gen Z</option><option value="refunds">refunds</option><option value="stability">stability</option></select><span class="feedback-span mx-1"></span> is filling roles. 
+                        Students help families get tax (5) 
+                        <select data-answer="refunds" class="gap-fill-select bg-slate-50 border-b-2 border-slate-300 rounded-none px-1 py-0 w-32"><option value=""></option><option value="refunds">refunds</option><option value="impact">impact</option><option value="$93,000">$93,000</option></select><span class="feedback-span mx-1"></span>, 
+                        showing social (6) 
+                        <select data-answer="impact" class="gap-fill-select bg-slate-50 border-b-2 border-slate-300 rounded-none px-1 py-0 w-32"><option value=""></option><option value="impact">impact</option><option value="stability">stability</option><option value="boring">boring</option></select><span class="feedback-span mx-1"></span>. 
+                        The average salary is (7) 
+                        <select data-answer="$93,000" class="gap-fill-select bg-slate-50 border-b-2 border-slate-300 rounded-none px-1 py-0 w-32"><option value=""></option><option value="$93,000">$93,000</option><option value="retire">retire</option><option value="stability">stability</option></select><span class="feedback-span mx-1"></span> 
+                        and it offers career (8) 
+                        <select data-answer="stability" class="gap-fill-select bg-slate-50 border-b-2 border-slate-300 rounded-none px-1 py-0 w-32"><option value=""></option><option value="stability">stability</option><option value="gap">gap</option><option value="Gen Z">Gen Z</option></select><span class="feedback-span mx-1"></span>.
+                    </div>
+                    
+                    <div class="mt-6 flex gap-3">
+                        <button id="check-summary" class="bg-sky-600 text-white px-6 py-2 rounded-md font-medium hover:bg-sky-700 transition shadow-sm">Check Answers</button>
+                        <button onclick="resetQuiz('summary-quiz')" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md font-medium hover:bg-gray-300 transition">Reset</button>
+                        <span id="summary-score" class="self-center font-semibold ml-auto"></span>
+                    </div>
+                </section>
+
+                <!-- Part 7 -->
+                <section id="part7" class="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+                    <h2 class="text-2xl font-bold mb-6 text-sky-800 flex items-center gap-2">
+                        <span class="bg-sky-100 text-sky-700 w-8 h-8 rounded-full flex items-center justify-center text-sm">7</span>
+                        Key Features (Drag & Drop)
+                    </h2>
+                    
+                    <div id="answer-bank" class="mb-6">
+                        <div class="draggable-item" draggable="true" id="drag-93k" data-answer="$93,000">$93,000</div>
+                        <div class="draggable-item" draggable="true" id="drag-boring" data-answer="Boring">Boring</div>
+                        <div class="draggable-item" draggable="true" id="drag-helping" data-answer="Helping">Helping</div>
+                        <div class="draggable-item" draggable="true" id="drag-quiet" data-answer="Quiet">Quiet</div>
+                        <div class="draggable-item" draggable="true" id="drag-stable" data-answer="Stable">Stable</div>
+                        <div class="draggable-item" draggable="true" id="drag-vita" data-answer="VITA">VITA</div>
+                    </div>
+
+                    <div id="details-quiz" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-green-50 p-4 rounded-lg border border-green-100">
+                            <h3 class="text-lg font-bold mb-3 text-green-800">Why Choose It?</h3>
+                            <ul class="list-disc pl-5 space-y-4 text-gray-800">
+                                <li>Earn <div class="drop-zone bg-white" data-correct-answer="$93,000"></div> avg. <span class="feedback-span"></span></li>
+                                <li>The job is (1) <div class="drop-zone bg-white" data-correct-answer="Stable"></div> <span class="feedback-span"></span></li>
+                            </ul>
+                        </div>
+                        <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-100">
+                            <h3 class="text-lg font-bold mb-3 text-yellow-800">Meaningful Work</h3>
+                            <ul class="list-disc pl-5 space-y-4 text-gray-800">
+                                <li>Join the (2) <div class="drop-zone bg-white" data-correct-answer="VITA"></div> program <span class="feedback-span"></span></li>
+                                <li>Focus on (3) <div class="drop-zone bg-white" data-correct-answer="Helping"></div> <span class="feedback-span"></span></li>
+                            </ul>
+                        </div>
+                        <div class="bg-gray-100 p-4 rounded-lg border border-gray-200">
+                            <h3 class="text-lg font-bold mb-3 text-gray-700">Old Stereotypes</h3>
+                            <ul class="list-disc pl-5 space-y-4 text-gray-800">
+                                <li>It is (4) <div class="drop-zone bg-white" data-correct-answer="Boring"></div> <span class="feedback-span"></span></li>
+                                <li>Sitting in (5) <div class="drop-zone bg-white" data-correct-answer="Quiet"></div> offices <span class="feedback-span"></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 flex gap-3">
+                        <button id="check-details" class="bg-sky-600 text-white px-6 py-2 rounded-md font-medium hover:bg-sky-700 transition shadow-sm">Check Answers</button>
+                        <button onclick="window.location.reload()" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md font-medium hover:bg-gray-300 transition" title="Reloads page to reset drag items">Reset</button>
+                        <span id="details-score" class="self-center font-semibold ml-auto"></span>
+                    </div>
+                </section>
+
+                <!-- Part 8 -->
+                <section id="part8" class="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+                    <h2 class="text-2xl font-bold mb-6 text-sky-800 flex items-center gap-2">
+                        <span class="bg-sky-100 text-sky-700 w-8 h-8 rounded-full flex items-center justify-center text-sm">8</span>
+                        Critical Thinking: AI & Stability
+                    </h2>
+                    <p class="mb-4 text-gray-700">"In a world where many jobs change quickly, accounting remains necessary."</p>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <p class="font-semibold text-gray-800 mb-2">1. With AI and robots, many jobs are disappearing. Do you agree that companies will always need humans to manage money?</p>
+                            <textarea id="input-ai-opinion" class="w-full h-24 p-3 border rounded-lg shadow-inner text-gray-700" placeholder="Write your opinion here... (Auto-saved)"></textarea>
+                        </div>
+                        
+                        <div class="bg-slate-50 p-5 rounded-lg border border-slate-200">
+                            <p class="font-bold text-gray-800 mb-2">2. Rank these jobs from 1 (Safe from AI) to 5 (Replaced by AI):</p>
+                            <ul class="list-none space-y-2 mb-4">
+                                <li class="p-2 bg-white border rounded shadow-sm">Accountant</li>
+                                <li class="p-2 bg-white border rounded shadow-sm">Teacher</li>
+                                <li class="p-2 bg-white border rounded shadow-sm">Artist</li>
+                                <li class="p-2 bg-white border rounded shadow-sm">Driver</li>
+                                <li class="p-2 bg-white border rounded shadow-sm">Chef</li>
+                            </ul>
+                            <textarea id="input-ranking" class="w-full h-20 p-3 border rounded shadow-inner text-gray-700" placeholder="Type your ranking order here (e.g., 1. Teacher, 2. Chef...)... (Auto-saved)"></textarea>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Part 9 -->
+                <section id="part9" class="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+                    <h2 class="text-2xl font-bold mb-6 text-sky-800 flex items-center gap-2">
+                        <span class="bg-sky-100 text-sky-700 w-8 h-8 rounded-full flex items-center justify-center text-sm">9</span>
+                        Role Play: The Skeptical Parent
+                    </h2>
+                    
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-blue-50 p-6 rounded-xl border border-blue-200">
+                            <h3 class="font-bold text-blue-900 text-lg mb-2">Person A (The Student)</h3>
+                            <p class="text-blue-800">You want to study accounting. You are excited about the salary ($93k) and the stability. You also want to join the VITA program to help people.</p>
+                        </div>
+                        <div class="bg-orange-50 p-6 rounded-xl border border-orange-200">
+                            <h3 class="font-bold text-orange-900 text-lg mb-2">Person B (The Parent)</h3>
+                            <p class="text-orange-800">You are worried. You think accounting is too boring and your child will be unhappy. You want them to be something "exciting" like a doctor or architect.</p>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-gray-800 text-white rounded-lg text-center font-medium">
+                        Goal: Person A must convince Person B that accounting is a smart and happy choice.
+                    </div>
+                </section>
+
+                <!-- Part 10 -->
+                <section id="part10" class="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+                    <h2 class="text-2xl font-bold mb-6 text-sky-800 flex items-center gap-2">
+                        <span class="bg-sky-100 text-sky-700 w-8 h-8 rounded-full flex items-center justify-center text-sm">10</span>
+                        Final Reflection
+                    </h2>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block font-bold text-gray-700 mb-2">Has your opinion of accounting changed? (Yes/No/Maybe)</label>
+                            <input type="text" id="input-reflection-1" class="w-full p-3 border rounded-lg shadow-inner">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-gray-700 mb-2">If you could volunteer to teach a skill (like VITA), what would it be?</label>
+                            <input type="text" id="input-reflection-2" class="w-full p-3 border rounded-lg shadow-inner" placeholder="e.g., teaching English, fixing computers...">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-gray-700 mb-2">Finish the sentence: "For me, the perfect career must have..."</label>
+                            <textarea id="input-reflection-3" class="w-full h-24 p-3 border rounded-lg shadow-inner"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 text-center">
+                        <button onclick="alert('Lesson Completed! Ensure you have discussed all points with your teacher.')" class="bg-green-600 text-white px-8 py-3 rounded-lg font-bold text-lg hover:bg-green-700 transition shadow-lg transform hover:-translate-y-1">Finish Lesson</button>
+                    </div>
+                </section>
+
+                <!-- Answer Key -->
+                <section id="answer-key" class="hidden bg-slate-800 text-slate-100 p-8 rounded-xl shadow-inner border border-slate-700">
+                    <h2 class="text-2xl font-bold mb-4 text-white">Teacher's Guide / Answer Key</h2>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="font-bold text-sky-400 mb-2">Part 2: Vocabulary</h3>
+                            <ol class="list-decimal pl-5 space-y-1 text-sm text-gray-300">
+                                <li>c (Profession)</li>
+                                <li>b (Retire)</li>
+                                <li>f (Gap)</li>
+                                <li>a (Refund)</li>
+                                <li>e (Salary)</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-sky-400 mb-2">Part 4: True/False</h3>
+                            <ol class="list-decimal pl-5 space-y-1 text-sm text-gray-300">
+                                <li>F (Second-most)</li>
+                                <li>T</li>
+                                <li>F (Low-income)</li>
+                                <li>T</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-sky-400 mb-2">Part 6: Summary</h3>
+                            <ol class="list-decimal pl-5 space-y-1 text-sm text-gray-300">
+                                <li>boring</li>
+                                <li>retire</li>
+                                <li>gap</li>
+                                <li>Gen Z</li>
+                                <li>refunds</li>
+                                <li>impact</li>
+                                <li>$93,000</li>
+                                <li>stability</li>
+                            </ol>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-sky-400 mb-2">Part 7: Key Features</h3>
+                            <ol class="list-decimal pl-5 space-y-1 text-sm text-gray-300">
+                                <li>$93,000 / Stable</li>
+                                <li>VITA / Helping</li>
+                                <li>Boring / Quiet</li>
+                            </ol>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+
+            <!-- Toast Notification -->
+            <div id="toast">Progress Saved</div>
+            
+            <!-- Footer -->
+            <footer class="text-center p-6 text-gray-500 text-sm bg-white border-t">
+                <p>Designed by <a href="https://fajarudinakbar.online" target="_blank" class="text-sky-600 hover:underline">fajarudinakbar.online</a></p>
+            </footer>
+            
+        </div>
+    </div>
+    
+    <!-- JavaScript Module -->
+    <script type="module">
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Variables ---
+            const sections = [];
+            for(let i=1; i<=10; i++) sections.push(document.getElementById(`part${i}`));
+            const totalSteps = sections.length;
+            let currentStep = 1;
+            const navLinks = document.querySelectorAll('#nav-links a[data-target]');
+            const progressBar = document.getElementById('progress-bar');
+            const stepCounter = document.getElementById('step-counter');
+            const mainScroll = document.getElementById('main-scroll');
+            const toast = document.getElementById('toast');
+
+            // --- LocalStorage: Load Progress ---
+            function loadProgress() {
+                const savedStep = localStorage.getItem('b1_lesson_step');
+                if(savedStep) {
+                    currentStep = parseInt(savedStep);
+                    // Ensure valid range
+                    if(currentStep < 1) currentStep = 1;
+                    if(currentStep > totalSteps) currentStep = totalSteps;
+                }
+                
+                // Restore Inputs
+                const inputs = document.querySelectorAll('textarea, input[type="text"]');
+                inputs.forEach(input => {
+                    const savedValue = localStorage.getItem(input.id);
+                    if(savedValue) input.value = savedValue;
+                });
+            }
+
+            // --- LocalStorage: Save Progress ---
+            function saveStep(step) {
+                localStorage.setItem('b1_lesson_step', step);
+                showToast();
+            }
+
+            function saveInput(e) {
+                if(e.target.id) {
+                    localStorage.setItem(e.target.id, e.target.value);
+                }
+            }
+
+            // Add input listeners
+            document.querySelectorAll('textarea, input[type="text"]').forEach(input => {
+                input.addEventListener('input', saveInput);
+            });
+
+            function showToast() {
+                if (!toast) return; // Defensive check (Fixes TypeError)
+                toast.classList.add('show');
+                setTimeout(() => {
+                    if(toast) toast.classList.remove('show');
+                }, 2000);
+            }
+
+            // --- Navigation Logic ---
+            function showStep(step, shouldSave = true) {
+                if (step < 1 || step > totalSteps) return;
+                
+                // Save new step only if requested (skips on initial load)
+                if (shouldSave) saveStep(step);
+
+                // UI Update
+                sections.forEach(sec => sec.classList.remove('active-section'));
+                sections[step - 1].classList.add('active-section');
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('nav-link-active');
+                    if (link.getAttribute('data-target') === `part${step}`) {
+                        link.classList.add('nav-link-active');
+                    }
+                });
+
+                currentStep = step;
+                const progress = (currentStep / totalSteps) * 100;
+                progressBar.style.width = `${progress}%`;
+                stepCounter.textContent = currentStep;
+                mainScroll.scrollTop = 0;
+            }
+
+            // Add Buttons
+            sections.forEach((section, index) => {
+                const stepNum = index + 1;
+                const btnContainer = document.createElement('div');
+                btnContainer.className = 'nav-btn-container';
+
+                const prevBtn = document.createElement('button');
+                prevBtn.className = 'nav-btn nav-btn-prev';
+                prevBtn.innerHTML = '&larr; Previous';
+                if (stepNum === 1) prevBtn.style.visibility = 'hidden';
+                prevBtn.addEventListener('click', () => showStep(stepNum - 1));
+
+                const nextBtn = document.createElement('button');
+                nextBtn.className = 'nav-btn nav-btn-next';
+                nextBtn.innerHTML = stepNum === totalSteps ? 'Finish' : 'Next &rarr;';
+                nextBtn.addEventListener('click', () => {
+                    if(stepNum === totalSteps) {
+                        alert("You have reached the end of the lesson materials.");
+                    } else {
+                        showStep(stepNum + 1);
+                    }
+                });
+
+                btnContainer.appendChild(prevBtn);
+                btnContainer.appendChild(nextBtn);
+                section.appendChild(btnContainer);
+            });
+
+            // --- Event Listeners ---
+            
+            // Sidebar Clicks
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('data-target');
+                    const stepIndex = sections.findIndex(sec => sec.id === targetId);
+                    if (stepIndex !== -1) showStep(stepIndex + 1);
+                    if (window.innerWidth < 768) document.getElementById('sidebar').classList.add('-translate-x-full');
+                });
+            });
+
+            // Keyboard Nav
+            document.addEventListener('keydown', (e) => {
+                // Don't navigate if user is typing
+                if (e.target.matches('input, textarea')) return;
+                
+                if (e.key === 'ArrowRight') showStep(currentStep + 1);
+                if (e.key === 'ArrowLeft') showStep(currentStep - 1);
+            });
+
+            // Reset Progress
+            document.getElementById('reset-progress').addEventListener('click', (e) => {
+                e.preventDefault();
+                if(confirm("Are you sure you want to reset all progress and clear your answers?")) {
+                    localStorage.clear();
+                    window.location.reload();
+                }
+            });
+
+            // Initialize - Pass 'false' to prevent initial save toast
+            loadProgress();
+            showStep(currentStep, false);
+
+            // --- Helper: Reset Quiz UI (Added to global scope for inline onclick) ---
+            window.resetQuiz = function(quizId) {
+                const container = document.getElementById(quizId);
+                
+                // Reset Selects
+                container.querySelectorAll('select').forEach(sel => {
+                    sel.value = "";
+                    sel.style.borderColor = "#d1d5db";
+                    sel.style.backgroundColor = "white";
+                    sel.nextElementSibling.innerHTML = "";
+                });
+
+                // Reset Radio
+                container.querySelectorAll('input[type="radio"]').forEach(radio => radio.checked = false);
+                container.querySelectorAll('.feedback-span').forEach(span => span.innerHTML = "");
+
+                // Reset Score text
+                const scoreSpan = container.parentElement.querySelector('span[id$="-score"]');
+                if(scoreSpan) scoreSpan.textContent = "";
+            }
+
+            // --- Quiz Logic (Simplified & Consolidated) ---
+            function showFeedback(span, isCorrect, correctText = '', explanation = '') {
+                span.className = isCorrect ? 'feedback-span feedback-correct ml-2 text-sm' : 'feedback-span feedback-incorrect ml-2 text-sm';
+                let feedbackHTML = isCorrect ? '✓ Correct' : `✗ Incorrect${correctText ? ' (Answer: ' + correctText + ')' : ''}`;
+                if (explanation) feedbackHTML += ` <span class="block text-gray-500 font-normal mt-1">${explanation}</span>`;
+                span.innerHTML = feedbackHTML;
+            }
+
+            // Vocab
+            document.getElementById('check-vocab').addEventListener('click', () => {
+                const selects = document.querySelectorAll('#vocab-quiz .vocab-select');
+                let correctCount = 0;
+                selects.forEach(select => {
+                    const isCorrect = select.value === select.dataset.answer;
+                    const feedbackSpan = select.nextElementSibling;
+                    
+                    // Style the input directly
+                    select.style.borderColor = isCorrect ? "#16a34a" : "#dc2626";
+                    select.style.backgroundColor = isCorrect ? "#f0fdf4" : "#fef2f2";
+                    
+                    let correctDefText = "";
+                    if (!isCorrect) {
+                         const correctOption = Array.from(select.options).find(o => o.value === select.dataset.answer);
+                         if(correctOption) correctDefText = correctOption.text;
+                    }
+
+                    showFeedback(feedbackSpan, isCorrect, `(${select.dataset.answer})`, isCorrect ? "" : correctDefText);
+                    if (isCorrect) correctCount++;
+                });
+                document.getElementById('vocab-score').textContent = `Score: ${correctCount}/${selects.length}`;
+            });
+
+            // True/False
+            document.getElementById('check-tf').addEventListener('click', () => {
+                const questions = document.querySelectorAll('#tf-quiz > div');
+                let correctCount = 0;
+                questions.forEach(q => {
+                    const correctAnswer = q.dataset.answer;
+                    const selected = q.querySelector('input:checked');
+                    const feedbackSpan = q.querySelector('.feedback-span');
+                    
+                    let isCorrect = false;
+                    if (selected) isCorrect = selected.value === correctAnswer;
+                    
+                    showFeedback(feedbackSpan, isCorrect, correctAnswer, q.dataset.explanation);
+                    if (isCorrect) correctCount++;
+                });
+                document.getElementById('tf-score').textContent = `Score: ${correctCount}/${questions.length}`;
+            });
+
+            // Summary
+            document.getElementById('check-summary').addEventListener('click', () => {
+                const selects = document.querySelectorAll('#summary-quiz .gap-fill-select');
+                let correctCount = 0;
+                selects.forEach(select => {
+                    const isCorrect = select.value === select.dataset.answer;
+                    const feedbackSpan = select.nextElementSibling;
+                    select.style.borderColor = isCorrect ? "#16a34a" : "#dc2626";
+                    select.style.color = isCorrect ? "#16a34a" : "#dc2626";
+                    showFeedback(feedbackSpan, isCorrect, select.dataset.answer);
+                    if (isCorrect) correctCount++;
+                });
+                document.getElementById('summary-score').textContent = `Score: ${correctCount}/${selects.length}`;
+            });
+
+            // Drag & Drop Logic
+            const draggables = document.querySelectorAll('.draggable-item');
+            const dropZones = document.querySelectorAll('.drop-zone, #answer-bank');
+            
+            draggables.forEach(draggable => {
+                draggable.addEventListener('dragstart', (e) => {
+                    e.dataTransfer.setData('text/plain', e.target.id);
+                    setTimeout(() => e.target.classList.add('opacity-50'), 0);
+                });
+                draggable.addEventListener('dragend', (e) => e.target.classList.remove('opacity-50'));
+            });
+
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    zone.classList.add('drag-over');
+                });
+                zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+                zone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    zone.classList.remove('drag-over');
+                    const id = e.dataTransfer.getData('text/plain');
+                    const draggable = document.getElementById(id);
+                    if(!draggable) return;
+
+                    // If dropping in a slot that has an item, swap
+                    if(zone.classList.contains('drop-zone') && zone.children.length > 0) {
+                         document.getElementById('answer-bank').appendChild(zone.children[0]);
+                    }
+                    zone.appendChild(draggable);
+                    
+                    // Reset styling
+                    zone.classList.remove('drop-zone-correct', 'drop-zone-incorrect');
+                });
+            });
+
+            document.getElementById('check-details').addEventListener('click', () => {
+                const zones = document.querySelectorAll('#details-quiz .drop-zone');
+                let correctCount = 0;
+                zones.forEach(zone => {
+                    const item = zone.querySelector('.draggable-item');
+                    const feedback = zone.nextElementSibling;
+                    let isCorrect = false;
+                    if(item) isCorrect = item.dataset.answer === zone.dataset.correctAnswer;
+                    
+                    if(isCorrect) {
+                        zone.classList.add('drop-zone-correct');
+                        correctCount++;
+                        feedback.innerHTML = '✓';
+                        feedback.className = 'feedback-span text-green-600 font-bold ml-2';
+                    } else {
+                        zone.classList.add('drop-zone-incorrect');
+                        feedback.innerHTML = `✗ (${zone.dataset.correctAnswer})`;
+                        feedback.className = 'feedback-span text-red-600 font-bold ml-2';
+                    }
+                });
+                document.getElementById('details-score').textContent = `Score: ${correctCount}/${zones.length}`;
+            });
+
+            // Mobile Menu
+            document.getElementById('menu-toggle').addEventListener('click', () => {
+                document.getElementById('sidebar').classList.toggle('-translate-x-full');
+            });
+            document.getElementById('toggle-answers').addEventListener('click', (e) => {
+                e.preventDefault();
+                document.getElementById('answer-key').classList.toggle('hidden');
+            });
+
+        });
+    </script>
+</body>
+</html>
