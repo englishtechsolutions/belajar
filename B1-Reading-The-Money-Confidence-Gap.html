@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B1 Reading - The Money Confidence Gap</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        html { scroll-behavior: smooth; }
+        
+        /* Sidebar active link */
+        .nav-link-active {
+            background-color: #e0f2fe; /* sky-100 */
+            color: #0369a1; /* sky-700 */
+            font-weight: 600;
+            border-right: 4px solid #0284c7;
+        }
+        
+        /* Feedback Styles */
+        .feedback-correct { color: #16a34a; font-weight: 600; font-size: 0.875rem; margin-left: 0.5rem; }
+        .feedback-incorrect { color: #dc2626; font-weight: 600; font-size: 0.875rem; margin-left: 0.5rem; }
+        .correct-answer-display { color: #15803d; font-size: 0.75rem; font-weight: 600; margin-left: 0.5rem; display: block; margin-top: 0.25rem; }
+        .model-answer { background-color: #f0f9ff; border: 1px solid #bae6fd; color: #0369a1; padding: 0.75rem; border-radius: 0.375rem; margin-top: 0.5rem; font-size: 0.875rem; display: none; }
+        .explanation-text { color: #4b5563; font-size: 0.875rem; margin-top: 0.25rem; display: block; font-weight: normal; }
+        
+        /* Inputs */
+        select, input[type="text"], textarea {
+            border-radius: 0.375rem;
+            border: 1px solid #d1d5db;
+            padding: 0.5rem 0.75rem;
+            transition: all 0.2s;
+        }
+        select:focus, input:focus, textarea:focus {
+            outline: none;
+            border-color: #0284c7;
+            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
+        }
+        
+        /* Sidebar Transition */
+        #sidebar { transition: transform 0.3s ease-in-out; }
+
+        /* Wizard Styles */
+        main > section:not(#answer-key) { display: none; }
+        main > section.active-section { 
+            display: block !important; 
+            animation: fadeIn 0.4s ease-out; 
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Navigation Buttons */
+        .nav-btn-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e5e7eb;
+        }
+        .nav-btn {
+            padding: 0.5rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .nav-btn-prev { background-color: #f3f4f6; color: #4b5563; }
+        .nav-btn-prev:hover { background-color: #e5e7eb; }
+        .nav-btn-next { background-color: #0284c7; color: white; }
+        .nav-btn-next:hover { background-color: #0369a1; }
+
+        /* Custom Radio/Check styles for Scorecard */
+        .scorecard-btn {
+            border: 1px solid #d1d5db;
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+        }
+        .scorecard-btn.selected-tick { background-color: #dcfce7; border-color: #22c55e; color: #15803d; }
+        .scorecard-btn.selected-cross { background-color: #fee2e2; border-color: #ef4444; color: #b91c1c; }
+    </style>
+</head>
+<body class="bg-gray-100 text-slate-800">
+
+    <div class="flex min-h-screen">
+        
+        <!-- Sidebar -->
+        <nav id="sidebar" class="w-72 bg-white shadow-lg fixed inset-y-0 left-0 transform -translate-x-full md:translate-x-0 z-30 flex flex-col">
+            <div class="p-6 border-b bg-slate-50">
+                <h2 class="text-xl font-bold text-sky-800 flex items-center gap-2">
+                    <i data-lucide= class="w-6 h-6"></i> B1 Reading
+                </h2>
+            </div>
+            <ul class="flex flex-col space-y-1 p-4 overflow-y-auto flex-1" id="nav-links">
+                <li><a href="#" data-target="part1" class="nav-link block rounded-md p-3 hover:bg-gray-100 transition-colors">Part 1: Warm-up</a></li>
+                <li><a href="#" data-target="part2" class="nav-link block rounded-md p-3 hover:bg-gray-100 transition-colors">Part 2: Vocabulary</a></li>
+                <li><a href="#" data-target="part3" class="nav-link block rounded-md p-3 hover:bg-gray-100 transition-colors">Part 3: Reading Text</a></li>
+                <li><a href="#" data-target="part4" class="nav-link block rounded-md p-3 hover:bg-gray-100 transition-colors">Part 4: True/False</a></li>
+                <li><a href="#" data-target="part5" class="nav-link block rounded-md p-3 hover:bg-gray-100 transition-colors">Part 5: Quiz</a></li>
+                <li><a href="#" data-target="part6" class="nav-link block rounded-md p-3 hover:bg-gray-100 transition-colors">Part 6: Summary</a></li>
+                <li><a href="#" data-target="part7" class="nav-link block rounded-md p-3 hover:bg-gray-100 transition-colors">Part 7: Stats Table</a></li>
+                <li><a href="#" data-target="part8" class="nav-link block rounded-md p-3 hover:bg-gray-100 transition-colors">Part 8: Identifying Mindset</a></li>
+                <li><a href="#" data-target="part9" class="nav-link block rounded-md p-3 hover:bg-gray-100 transition-colors">Part 9: Financial Check</a></li>
+                <li><a href="#" data-target="part10" class="nav-link block rounded-md p-3 hover:bg-gray-100 transition-colors">Part 10: Task</a></li>
+                <li><hr class="my-2"></li>
+                <li><button id="reset-progress" class="w-full text-left nav-link block rounded-md p-3 text-red-500 hover:bg-red-50 font-medium text-sm mt-2">Reset All Progress</button></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="flex-1 md:pl-72 flex flex-col h-screen overflow-hidden">
+            
+            <!-- Mobile Header -->
+            <header class="md:hidden bg-white shadow-md p-4 flex justify-between items-center z-20 flex-shrink-0">
+                <button id="menu-toggle" class="text-gray-700 p-2 rounded-md hover:bg-gray-100">
+                    <i data-lucide="menu"></i>
+                </button>
+                <h1 class="text-lg font-semibold text-sky-800">Money Confidence</h1>
+                <div class="w-6"></div>
+            </header>
+            
+            <!-- Progress Bar -->
+            <div class="bg-gray-200 h-1.5 w-full flex-shrink-0">
+                <div id="progress-bar" class="bg-sky-600 h-1.5 transition-all duration-500 ease-out" style="width: 10%;"></div>
+            </div>
+
+            <!-- Scrollable Area -->
+            <main class="p-6 md:p-12 space-y-8 overflow-y-auto flex-1 scroll-smooth bg-gray-50" id="main-scroll">
+
+                <!-- Header -->
+                <header class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-6">
+                    <h1 class="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">The Money Confidence Gap</h1>
+                    <div class="flex flex-wrap items-center gap-3 mt-3 text-sm">
+                        <span class="bg-sky-100 text-sky-800 px-3 py-1 rounded-full font-medium">Step <span id="step-counter">1</span> of 10</span>
+                        <span class="text-gray-500 flex items-center gap-1"><i data-lucide="book-open" class="w-4 h-4"></i> Intermediate (B1)</span>
+                    </div>
+                </header>
+
+                <!-- Part 1: Warm-up -->
+                <section id="part1" class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 active-section">
+                    <h2 class="text-2xl font-bold mb-6 text-sky-800 flex items-center gap-2">
+                        <span class="bg-sky-100 text-sky-700 w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
+                        Warm-up Discussion
+                    </h2>
+                    <p class="text-gray-600 mb-6">Discuss the following questions with a partner or write your thoughts below.</p>
+                    <div class="space-y-6">
+                        <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                            <label class="font-semibold text-slate-700 block mb-2">1. Is talking about money common in your culture, or is it a taboo (private) subject?</label>
+                            <textarea id="warmup-1" class="w-full h-24" placeholder="Type your answer here..."></textarea>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                            <label class="font-semibold text-slate-700 block mb-2">2. Do you think schools should teach children how to manage money? Why/Why not?</label>
+                            <textarea id="warmup-2" class="w-full h-24" placeholder="Type your answer here..."></textarea>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                            <label class="font-semibold text-slate-700 block mb-2">3. How do you feel when you check your bank balance? (e.g., Happy, nervous, bored).</label>
+                            <textarea id="warmup-3" class="w-full h-24" placeholder="Type your answer here..."></textarea>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                            <label class="font-semibold text-slate-700 block mb-2">4. What does "financial confidence" mean to you?</label>
+                            <textarea id="warmup-4" class="w-full h-24" placeholder="Type your answer here..."></textarea>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Part 2: Vocab -->
+                <section id="part2" class="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+                    <h2 class="text-2xl font-bold mb-6 text-sky-800 flex items-center gap-2">
+                        <span class="bg-sky-100 text-sky-700 w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span>
+                        Vocabulary Matching
+                    </h2>
+                    <p class="text-gray-600 mb-6">Match the words (1–10) with their correct definitions.</p>
+                    <div id="vocab-quiz" class="space-y-4"></div>
+                    <div class="mt-6 flex gap-3">
+                        <button id="check-vocab" class="bg-sky-600 text-white px-6 py-2 rounded-md font-medium hover:bg-sky-700 transition shadow-sm">Check Answers</button>
+                        <button onclick="resetQuiz('vocab-quiz')" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md font-medium hover:bg-gray-300 transition">Reset</button>
+                        <span id="vocab-score" class="self-center font-semibold ml-auto"></span>
+                    </div>
+                </section>
+
+                <!-- Part 3: Reading Text -->
+                <section id="part3" class="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+                    <h2 class="text-2xl font-bold mb-6 text-sky-800 flex items-center gap-2">
+                        <span class="bg-sky-100 text-sky-700 w-8 h-8 rounded-full flex items-center justify-center text-sm">3</span>
+                        Reading Text
+                    </h2>
+                    <div class="bg-sky-50 border-l-4 border-sky-500 p-4 rounded-r-lg text-sky-800 text-sm mb-6">
+                        <strong>Instructions:</strong> Read the article carefully. You will answer questions in the next step.
+                    </div>
+                    <article class="prose max-w-none text-gray-700 leading-relaxed border-l-4 border-gray-200 pl-6 md:pl-8 py-2 space-y-4">
+                        <h3 class="text-xl font-bold text-gray-900">The Money Confidence Gap</h3>
+                        <p>Many people earn the same salary, but their feelings about money are very different. Some feel safe, save money, and plan for the future. Others worry about bills and fear they will never retire. This difference is called the money confidence gap. It is not about how much you earn, but about how confident you feel with money.</p>
+                        
+                        <h4 class="font-bold text-gray-900 mt-4">Why Confidence Matters</h4>
+                        <p>A study by Octopus Money showed that people from less wealthy families are less confident about retirement. Only 35% of working-class professionals believe they will have enough money to retire. In richer groups, 67% feel confident.</p>
+                        <p>The same pattern happens with daily life. Just 35% of working-class people say their salary covers their needs. Among wealthier people, 67% say the same.</p>
+                        <p>When it comes to investing, the gap is even bigger. Only 28% of people from poorer backgrounds invest for the future, compared to 63% of richer people. Even with the same salary, poorer workers are three times more likely to say they cannot pay an unexpected £500 bill. This shows that confidence, not just income, shapes how people manage money.</p>
+
+                        <h4 class="font-bold text-gray-900 mt-4">Real-Life Example</h4>
+                        <p>Ella Rathiel, a 26-year-old admin worker, grew up in a single-parent home. Money was never discussed, and saving was not part of life. For her, money was only about surviving.</p>
+                        <p>At work, she joined a financial coaching session. She learned how to build an emergency fund and check her pension. After the session, she felt emotional but stronger. Debt was no longer a secret shame. She realised she was not alone, and money became more manageable.</p>
+
+                        <h4 class="font-bold text-gray-900 mt-4">How to Build Confidence</h4>
+                        <p>Experts say that financial education is the key. People who learn about saving, investing, and pensions feel more secure. Coaching and support can make a big difference.</p>
+                        <p>Workers from less wealthy backgrounds who received coaching were 1.5 times more likely to feel confident about retirement. They were also 22% more likely to say they were financially resilient.</p>
+
+                        <h4 class="font-bold text-gray-900 mt-4">Five Simple Steps</h4>
+                        <ul class="list-disc pl-5">
+                            <li><strong>Have a plan:</strong> Set short and long-term goals.</li>
+                            <li><strong>Build an emergency fund:</strong> Save 3–6 months of essential costs.</li>
+                            <li><strong>Start small:</strong> Even £50 a month can grow over time.</li>
+                            <li><strong>Know your outgoings:</strong> Track spending and find where to save.</li>
+                            <li><strong>Talk about money:</strong> Sharing ideas builds confidence.</li>
+                        </ul>
+
+                        <h4 class="font-bold text-gray-900 mt-4">Conclusion</h4>
+                        <p>Financial literacy is the missing link in social mobility. Without it, people may never feel safe enough to plan, save, or invest. As one expert said, “Social mobility without financial security is like climbing a ladder with missing rungs. You might start climbing, but you won’t get far.”</p>
+                    </article>
+                </section>
+
+                <!-- Part 4: True/False -->
+                <section id="part4" class="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+                    <h2 class="text-2xl font-bold mb-6 text-sky-800 flex items-center gap-2">
+                        <span class="bg-sky-100 text-sky-700 w-8 h-8 rounded-full flex items-center justify-center text-sm">4</span>
+                        True or False
+                    </h2>
+                    <div id="tf-quiz" class="space-y-3"></div>
+                    <div class="mt-6 flex gap-3">
+                        <button id="check-tf" class="bg-sky-600 text-white px-6 py-2 rounded-md font-medium hover:bg-sky-700 transition shadow-sm">Check Answers</button>
+                        <button onclick="resetQuiz('tf-quiz')" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md font-medium hover:bg-gray-300 transition">Reset</button>
+                        <span id="tf-score" class="self-center font-semibold ml-auto"></span>
+                    </div>
+                </section>
+
+                <!-- Part 5: Quiz -->
+                <section id="part5" class="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+                    <h2 class="text-2xl font-bold mb-6 text-sky-800 flex items-center gap-2">
+                        <span class="bg-sky-100 text-sky-700 w-8 h-8 rounded-full flex items-center justify-center text-sm">5</span>
+                        Multiple Choice
+                    </h2>
+                    <div id="mc-quiz" class="space-y-6"></div>
+                    <div class="mt-6 flex gap-3">
+                        <button id="check-mc" class="bg-sky-600 text-white px-6 py-2 rounded-md font-medium hover:bg-sky-700 transition shadow-sm">Check Answers</button>
+                        <button onclick="resetQuiz('mc-quiz')" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md font-medium hover:bg-gray-300 transition">Reset</button>
+                        <span id="mc-score" class="self-center font-semibold ml-auto"></span>
+                    </div>
+                </section>
+
+                <!-- Part 6: Summary -->
+                <section id="part6" class="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+                    <h2 class="text-2xl font-bold mb-6 text-sky-800 flex items-center gap-2">
+                        <span class="bg-sky-100 text-sky-700 w-8 h-8 rounded-full flex items-center justify-center text-sm">6</span>
+                        Summary Fill-in-the-Blank
+                    </h2>
+                    <div class="p-4 bg-slate-100 rounded-md text-sm font-medium text-slate-700 border border-slate-200 mb-6">
+                        <span class="font-bold text-slate-900 mr-2">Word Bank:</span>
+                        education • debt • confident • invest • salary • emotional
+                    </div>
+                    <div id="summary-quiz" class="leading-loose text-lg text-gray-700 bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+                        A recent study shows that family background affects how people feel about money. People from poorer families are less likely to 
+                        <span class="relative inline-block">
+                            <input type="text" data-answer="invest" class="mx-1 w-32 text-center outline-none border-b-2 border-slate-300 focus:border-sky-500 bg-transparent" placeholder="(1)">
+                            <div class="correct-answer-display"></div>
+                        </span>
+                        in the future, even if they earn a good 
+                        <span class="relative inline-block">
+                            <input type="text" data-answer="salary" class="mx-1 w-32 text-center outline-none border-b-2 border-slate-300 focus:border-sky-500 bg-transparent" placeholder="(2)">
+                            <div class="correct-answer-display"></div>
+                        </span>
+                        . The text gives the example of Ella, who felt 
+                        <span class="relative inline-block">
+                            <input type="text" data-answer="emotional" class="mx-1 w-32 text-center outline-none border-b-2 border-slate-300 focus:border-sky-500 bg-transparent" placeholder="(3)">
+                            <div class="correct-answer-display"></div>
+                        </span>
+                        after a coaching session. Experts believe that financial 
+                        <span class="relative inline-block">
+                            <input type="text" data-answer="education" class="mx-1 w-32 text-center outline-none border-b-2 border-slate-300 focus:border-sky-500 bg-transparent" placeholder="(4)">
+                            <div class="correct-answer-display"></div>
+                        </span>
+                        is the key. When people learn how to save, they become more 
+                        <span class="relative inline-block">
+                            <input type="text" data-answer="confident" class="mx-1 w-32 text-center outline-none border-b-2 border-slate-300 focus:border-sky-500 bg-transparent" placeholder="(5)">
+                            <div class="correct-answer-display"></div>
+                        </span>.
+                    </div>
+                    <div class="mt-6 flex gap-3">
+                        <button id="check-summary" class="bg-sky-600 text-white px-6 py-2 rounded-md font-medium hover:bg-sky-700 transition shadow-sm">Check Answers</button>
+                        <button onclick="resetQuiz('summary-quiz')" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md font-medium hover:bg-gray-300 transition">Reset</button>
+                        <span id="summary-score" class="self-center font-semibold ml-auto"></span>
+                    </div>
+                </section>
+
+                <!-- Part 7: Stats Table -->
+                <section id="part7" class="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+                    <h2 class="text-2xl font-bold mb-6 text-sky-800 flex items-center gap-2">
+                        <span class="bg-sky-100 text-sky-700 w-8 h-8 rounded-full flex items-center justify-center text-sm">7</span>
+                        Table Completion
+                    </h2>
+                    <p class="text-gray-600 mb-6">Scan the section "Why Confidence Matters" to complete the table.</p>
+                    <div id="table-quiz" class="overflow-x-auto border rounded-lg shadow-sm">
+                        <table class="w-full text-sm text-left text-gray-600">
+                            <thead class="bg-gray-100 text-gray-700 uppercase font-semibold">
+                                <tr>
+                                    <th class="px-6 py-4">Category</th>
+                                    <th class="px-6 py-4">Working-Class</th>
+                                    <th class="px-6 py-4">Wealthier</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200 bg-white">
+                                <tr>
+                                    <td class="px-6 py-4 font-medium text-gray-900">Confident about retirement</td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex flex-col">
+                                            <div class="flex items-center">
+                                                <select data-answer="35" class="w-20 p-1 border rounded text-center mr-1 bg-white">
+                                                    <option value="">--</option>
+                                                    <option value="28">28</option>
+                                                    <option value="35">35</option>
+                                                    <option value="63">63</option>
+                                                    <option value="67">67</option>
+                                                </select>%
+                                            </div>
+                                            <div class="correct-answer-display"></div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">67%</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-medium text-gray-900">Invest for the future</td>
+                                    <td class="px-6 py-4">28%</td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex flex-col">
+                                            <div class="flex items-center">
+                                                <select data-answer="63" class="w-20 p-1 border rounded text-center mr-1 bg-white">
+                                                    <option value="">--</option>
+                                                    <option value="28">28</option>
+                                                    <option value="35">35</option>
+                                                    <option value="63">63</option>
+                                                    <option value="67">67</option>
+                                                </select>%
+                                            </div>
+                                            <div class="correct-answer-display"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-medium text-gray-900">Say salary covers needs</td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex flex-col">
+                                            <div class="flex items-center">
+                                                <select data-answer="35" class="w-20 p-1 border rounded text-center mr-1 bg-white">
+                                                    <option value="">--</option>
+                                                    <option value="28">28</option>
+                                                    <option value="35">35</option>
+                                                    <option value="63">63</option>
+                                                    <option value="67">67</option>
+                                                </select>%
+                                            </div>
+                                            <div class="correct-answer-display"></div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">67%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-6 flex gap-3">
+                        <button id="check-table" class="bg-sky-600 text-white px-6 py-2 rounded-md font-medium hover:bg-sky-700 transition shadow-sm">Check Answers</button>
+                        <button onclick="resetQuiz('table-quiz')" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md font-medium hover:bg-gray-300 transition">Reset</button>
+                    </div>
+                </section>
+
+                <!-- Part 8: Scenario - Identifying the Mindset -->
+                <section id="part8" class="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+                    <h2 class="text-2xl font-bold mb-6 text-sky-800 flex items-center gap-2">
+                        <span class="bg-sky-100 text-sky-700 w-8 h-8 rounded-full flex items-center justify-center text-sm">8</span>
+                        Scenario - Identifying the Mindset
+                    </h2>
+                    <p class="text-gray-600 mb-6">Read the two profiles below. Based on the text's description of the "Money Confidence Gap," decide which person is suffering from low money confidence and explain why.</p>
+                    
+                    <div class="grid md:grid-cols-2 gap-6 mb-8">
+                        <div class="bg-slate-50 p-5 rounded-lg border border-slate-200">
+                            <h3 class="font-bold text-gray-900 mb-2">Profile A: David</h3>
+                            <p class="text-sm text-gray-600 leading-relaxed">David earns a high salary. However, he keeps all his money in a basic cash account because he is afraid of the stock market. He never looks at his pension paperwork because he thinks, "I'll never have enough anyway." When his friends talk about saving, he changes the subject.</p>
+                        </div>
+                        <div class="bg-slate-50 p-5 rounded-lg border border-slate-200">
+                            <h3 class="font-bold text-gray-900 mb-2">Profile B: Maria</h3>
+                            <p class="text-sm text-gray-600 leading-relaxed">Maria earns the same salary as David. She saves a small amount (£50) every month into an investment fund. She knows exactly how much her electricity bill costs. She talks openly with her partner about their vacation budget.</p>
+                        </div>
+                    </div>
+
+                    <div id="mindset-quiz" class="space-y-6">
+                        <div class="p-4 bg-white border border-gray-200 rounded-lg">
+                            <p class="font-bold text-gray-800 mb-3">1. Who has the "Money Confidence Gap"?</p>
+                            <div class="flex gap-4">
+                                <label class="cursor-pointer flex items-center gap-2 p-2 border rounded hover:bg-gray-50"><input type="radio" name="mindset-person" value="David"> David</label>
+                                <label class="cursor-pointer flex items-center gap-2 p-2 border rounded hover:bg-gray-50"><input type="radio" name="mindset-person" value="Maria"> Maria</label>
+                            </div>
+                            <div class="feedback-span mt-2"></div>
+                        </div>
+
+                        <div class="p-4 bg-white border border-gray-200 rounded-lg">
+                            <p class="font-bold text-gray-800 mb-3">2. Give two reasons based on the text (e.g., investing, talking about money, fear).</p>
+                            <div class="space-y-3">
+                                <input type="text" id="mindset-r1" class="w-full" placeholder="Reason 1...">
+                                <input type="text" id="mindset-r2" class="w-full" placeholder="Reason 2...">
+                            </div>
+                            <div class="model-answer" id="mindset-model">
+                                <strong>Model Answers:</strong><br>
+                                • Fear of investing/stock market.<br>
+                                • Avoids talking about money.<br>
+                                • Negative mindset ("never have enough").
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 flex gap-3">
+                        <button id="check-mindset" class="bg-sky-600 text-white px-6 py-2 rounded-md font-medium hover:bg-sky-700 transition shadow-sm">Check Answers</button>
+                        <button onclick="resetQuiz('mindset-quiz')" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md font-medium hover:bg-gray-300 transition">Reset</button>
+                    </div>
+                </section>
+
+                <!-- Part 9: Scenario - The Financial Health Check -->
+                <section id="part9" class="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+                    <h2 class="text-2xl font-bold mb-6 text-sky-800 flex items-center gap-2">
+                        <span class="bg-sky-100 text-sky-700 w-8 h-8 rounded-full flex items-center justify-center text-sm">9</span>
+                        Scenario - The Financial Health Check
+                    </h2>
+                    <p class="text-gray-600 mb-6">Read the checklist for Sam. Compare Sam’s habits to the "Five Simple Steps" in the text. Mark whether he is doing it right (✓) or missing that step (X).</p>
+
+                    <div class="bg-amber-50 p-5 rounded-lg border border-amber-200 mb-8">
+                        <h3 class="font-bold text-amber-900 mb-2">Sam's Habits:</h3>
+                        <ul class="list-disc pl-5 space-y-1 text-amber-800 text-sm">
+                            <li>He wants to buy a house in 5 years. (Goal set).</li>
+                            <li>He has £0 saved for emergencies.</li>
+                            <li>He saves £200 a month.</li>
+                            <li>He has no idea how much he spends on coffee or transport.</li>
+                            <li>He refuses to tell his family how much he earns or spends.</li>
+                        </ul>
+                    </div>
+
+                    <div id="health-quiz" class="space-y-6">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm">
+                                <thead>
+                                    <tr class="bg-gray-100 text-gray-700">
+                                        <th class="p-3 text-left rounded-l">The "Five Steps"</th>
+                                        <th class="p-3 text-center w-32">Status</th>
+                                        <th class="p-3 text-center w-10 rounded-r"></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100">
+                                    <tr data-step="1" data-correct="tick">
+                                        <td class="p-3">1. Have a plan</td>
+                                        <td class="p-3 flex justify-center gap-2">
+                                            <button class="scorecard-btn" onclick="toggleScorecard(this, 'tick')">✓</button>
+                                            <button class="scorecard-btn" onclick="toggleScorecard(this, 'cross')">X</button>
+                                        </td>
+                                        <td class="p-3 text-center feedback-icon"></td>
+                                    </tr>
+                                    <tr data-step="2" data-correct="cross">
+                                        <td class="p-3">2. Build an emergency fund</td>
+                                        <td class="p-3 flex justify-center gap-2">
+                                            <button class="scorecard-btn" onclick="toggleScorecard(this, 'tick')">✓</button>
+                                            <button class="scorecard-btn" onclick="toggleScorecard(this, 'cross')">X</button>
+                                        </td>
+                                        <td class="p-3 text-center feedback-icon"></td>
+                                    </tr>
+                                    <tr data-step="3" data-correct="tick">
+                                        <td class="p-3">3. Start small</td>
+                                        <td class="p-3 flex justify-center gap-2">
+                                            <button class="scorecard-btn" onclick="toggleScorecard(this, 'tick')">✓</button>
+                                            <button class="scorecard-btn" onclick="toggleScorecard(this, 'cross')">X</button>
+                                        </td>
+                                        <td class="p-3 text-center feedback-icon"></td>
+                                    </tr>
+                                    <tr data-step="4" data-correct="cross">
+                                        <td class="p-3">4. Know your outgoings</td>
+                                        <td class="p-3 flex justify-center gap-2">
+                                            <button class="scorecard-btn" onclick="toggleScorecard(this, 'tick')">✓</button>
+                                            <button class="scorecard-btn" onclick="toggleScorecard(this, 'cross')">X</button>
+                                        </td>
+                                        <td class="p-3 text-center feedback-icon"></td>
+                                    </tr>
+                                    <tr data-step="5" data-correct="cross">
+                                        <td class="p-3">5. Talk about money</td>
+                                        <td class="p-3 flex justify-center gap-2">
+                                            <button class="scorecard-btn" onclick="toggleScorecard(this, 'tick')">✓</button>
+                                            <button class="scorecard-btn" onclick="toggleScorecard(this, 'cross')">X</button>
+                                        </td>
+                                        <td class="p-3 text-center feedback-icon"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="p-4 bg-white border border-gray-200 rounded-lg">
+                            <p class="font-bold text-gray-800 mb-2">What is the <span class="text-sky-600">first</span> thing Sam should do to improve?</p>
+                            <input type="text" id="health-action" class="w-full" placeholder="Sam should...">
+                            <div class="model-answer" id="health-model">
+                                <strong>Suggested Answer:</strong> Build an emergency fund or Track his spending (outgoings).
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 flex gap-3">
+                        <button id="check-health" class="bg-sky-600 text-white px-6 py-2 rounded-md font-medium hover:bg-sky-700 transition shadow-sm">Check Answers</button>
+                        <button id="reset-health" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md font-medium hover:bg-gray-300 transition">Reset</button>
+                    </div>
+                </section>
+
+                <!-- Part 10: Task -->
+                <section id="part10" class="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+                    <h2 class="text-2xl font-bold mb-6 text-sky-800 flex items-center gap-2">
+                        <span class="bg-sky-100 text-sky-700 w-8 h-8 rounded-full flex items-center justify-center text-sm">10</span>
+                        Scenario Task
+                    </h2>
+                    
+                    <div class="bg-amber-50 p-6 rounded-lg border border-amber-200 text-amber-900 mb-6">
+                        <h3 class="font-bold text-lg mb-2 flex items-center gap-2"><i data-lucide="trending-up"></i> The Scenario: Lucas</h3>
+                        <p class="mb-2">Lucas is 24 years old. He has a good job, but at the end of every month, his bank account is empty. He is worried because his car is old, and if it breaks down, he has no extra money.</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <h4 class="font-bold text-gray-800">Your Advice (using 'should', 'could', 'needs to'):</h4>
+                        <textarea id="task-input" class="w-full p-4 border border-gray-300 rounded-lg h-40 focus:ring-2 focus:ring-sky-500 outline-none" placeholder="Lucas needs to..."></textarea>
+                    </div>
+                    
+                    <div class="mt-8 text-center">
+                        <button onclick="alert('Lesson Completed! Great job working on your financial confidence.')" class="bg-green-600 text-white px-8 py-3 rounded-lg font-bold text-lg hover:bg-green-700 transition shadow-lg transform hover:-translate-y-1">Finish Lesson</button>
+                    </div>
+                </section>
+
+            </main>
+
+            <!-- Toast Notification REMOVED -->
+            
+            <!-- Footer -->
+            <footer class="text-center p-6 text-gray-500 text-sm bg-white border-t">
+                <p>Designed by <a href="https://fajarudinakbar.online" class="text-sky-600 hover:underline" target="_blank">fajarudinakbar.online</a></p>
+            </footer>
+            
+        </div>
+    </div>
+    
+    <!-- JavaScript Module -->
+    <script type="module">
+        lucide.createIcons();
+
+        // --- Data ---
+        const vocabData = [
+            { id: 1, word: "Retirement", def: "The time in life when you stop working completely." },
+            { id: 2, word: "Salary", def: "A fixed amount of money you earn each month/year." },
+            { id: 3, word: "Invest", def: "To put money into a business to make a profit." },
+            { id: 4, word: "Emergency fund", def: "Money saved specifically for unexpected costs." },
+            { id: 5, word: "Pension", def: "Money paid regularly to a person who has stopped working." },
+            { id: 6, word: "Resilient", def: "Able to recover and become strong again." },
+            { id: 7, word: "Gap", def: "A difference or space between two things." },
+            { id: 8, word: "Debt", def: "Money that you owe to a person or a bank." },
+            { id: 9, word: "Outgoings", def: "The money you have to spend regularly." },
+            { id: 10, word: "Social mobility", def: "The ability to move from one social class to another." }
+        ];
+
+        const tfData = [
+            { id: 1, text: 'The "money confidence gap" refers to the difference in salary between two people.', answer: false, explanation: "It is about confidence/feelings, not salary." },
+            { id: 2, text: 'More than half of the wealthy people surveyed feel confident about retiring.', answer: true, explanation: "67% is more than half." },
+            { id: 3, text: '35% of working-class people feel their salary covers all their daily needs.', answer: true, explanation: "This matches the text statistic." },
+            { id: 4, text: 'People from poorer backgrounds are more likely to invest money than wealthier people.', answer: false, explanation: "Wealthier people are more likely (63% vs 28%)." },
+            { id: 5, text: 'Poorer workers are three times more likely to struggle with a £500 unexpected bill.', answer: true, explanation: "The text states they are three times more likely." },
+            { id: 6, text: 'Ella Rathiel’s family often talked about money when she was a child.', answer: false, explanation: "Money was never discussed." },
+            { id: 7, text: 'After the coaching session, Ella felt weaker and more confused.', answer: false, explanation: "She felt emotional but stronger." },
+            { id: 8, text: 'Financial coaching makes people feel more financially resilient.', answer: true, explanation: "Workers were 22% more likely to say they were resilient." },
+            { id: 9, text: 'Jackie Spencer suggests that learning about money should start when you are an adult.', answer: false, explanation: "She says children and young people should learn early." },
+            { id: 10, text: 'The conclusion compares social mobility without money skills to a broken ladder.', answer: true, explanation: "It mentions climbing a ladder with missing rungs." }
+        ];
+
+        const mcData = [
+            { id: 1, q: "What percentage of working-class professionals believe they can retire comfortably?", opts: ["67%", "35%", "28%"], ans: "35%" },
+            { id: 2, q: "Ella Rathiel works as an:", opts: ["Accountant", "Admin worker", "Financial coach"], ans: "Admin worker" },
+            { id: 3, q: "What is the 'missing link' in social mobility?", opts: ["Higher salaries", "Better pensions", "Financial literacy"], ans: "Financial literacy" }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- Inject Dynamic Content ---
+            
+            // Vocab
+            const vocabContainer = document.getElementById('vocab-quiz');
+            vocabData.forEach(item => {
+                const div = document.createElement('div');
+                div.className = "flex flex-col md:flex-row md:items-center gap-2 p-4 rounded-lg border border-slate-200 vocab-item";
+                // Generate options string
+                const options = [...vocabData].sort((a,b) => a.def.localeCompare(b.def)).map(opt => `<option value="${opt.def}">${opt.def}</option>`).join('');
+                div.innerHTML = `
+                    <label class="font-semibold w-full md:w-1/4 text-sky-800">${item.id}. ${item.word}</label>
+                    <div class="w-full md:w-2/3">
+                        <select data-answer="${item.def}" class="w-full bg-white text-sm">
+                            <option value="">Choose definition...</option>
+                            ${options}
+                        </select>
+                        <div class="correct-answer-display"></div>
+                    </div>
+                    <span class="feedback-span"></span>
+                `;
+                vocabContainer.appendChild(div);
+            });
+
+            // True/False
+            const tfContainer = document.getElementById('tf-quiz');
+            tfData.forEach(item => {
+                const div = document.createElement('div');
+                div.className = "p-4 rounded-lg border border-gray-200 hover:bg-gray-50 transition tf-item";
+                div.dataset.answer = item.answer ? "T" : "F";
+                div.dataset.explanation = item.explanation;
+                div.innerHTML = `
+                    <p class="font-medium mb-2">${item.id}. ${item.text}</p>
+                    <div class="flex gap-4">
+                        <label class="cursor-pointer flex items-center gap-2"><input type="radio" name="tf${item.id}" value="T"> True</label>
+                        <label class="cursor-pointer flex items-center gap-2"><input type="radio" name="tf${item.id}" value="F"> False</label>
+                    </div>
+                    <span class="feedback-span block mt-2"></span>
+                `;
+                tfContainer.appendChild(div);
+            });
+
+            // Multiple Choice
+            const mcContainer = document.getElementById('mc-quiz');
+            mcData.forEach(item => {
+                const div = document.createElement('div');
+                div.className = "p-4 bg-slate-50 rounded border border-slate-200 mc-item";
+                div.dataset.answer = item.ans;
+                const opts = item.opts.map(opt => `<label class="block p-2 rounded hover:bg-white border border-transparent hover:border-gray-200 cursor-pointer transition"><input type="radio" name="mc${item.id}" value="${opt}" class="mr-2"> ${opt}</label>`).join('');
+                div.innerHTML = `
+                    <p class="font-bold text-gray-800 mb-3">${item.id}. ${item.q}</p>
+                    <div class="space-y-1">${opts}</div>
+                    <span class="feedback-span block mt-2 text-sm"></span>
+                `;
+                mcContainer.appendChild(div);
+            });
+
+            lucide.createIcons(); // Re-run for dynamic icons
+
+            // --- Navigation Logic ---
+            const sections = [];
+            for(let i=1; i<=10; i++) sections.push(document.getElementById(`part${i}`));
+            const totalSteps = 10;
+            let currentStep = 1;
+            const navLinks = document.querySelectorAll('#nav-links a[data-target]');
+            const progressBar = document.getElementById('progress-bar');
+            const stepCounter = document.getElementById('step-counter');
+            const mainScroll = document.getElementById('main-scroll');
+            // toast removed
+
+            function showStep(step) {
+                if (step < 1 || step > totalSteps) return;
+                
+                // Save progress
+                localStorage.setItem('b1_money_step', step);
+                // showToast() call removed
+
+                // UI Update
+                sections.forEach(sec => sec.classList.remove('active-section'));
+                sections[step - 1].classList.add('active-section');
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('nav-link-active');
+                    if (link.getAttribute('data-target') === `part${step}`) {
+                        link.classList.add('nav-link-active');
+                    }
+                });
+
+                currentStep = step;
+                progressBar.style.width = `${(currentStep / totalSteps) * 100}%`;
+                stepCounter.textContent = currentStep;
+                mainScroll.scrollTop = 0;
+            }
+
+            // --- Buttons & Listeners ---
+            sections.forEach((section, index) => {
+                const stepNum = index + 1;
+                const btnContainer = document.createElement('div');
+                btnContainer.className = 'nav-btn-container';
+
+                const prevBtn = document.createElement('button');
+                prevBtn.className = 'nav-btn nav-btn-prev';
+                prevBtn.innerHTML = 'Previous';
+                if (stepNum === 1) prevBtn.style.visibility = 'hidden';
+                prevBtn.addEventListener('click', () => showStep(stepNum - 1));
+
+                const nextBtn = document.createElement('button');
+                nextBtn.className = 'nav-btn nav-btn-next';
+                nextBtn.innerHTML = stepNum === totalSteps ? 'Finish' : 'Next';
+                nextBtn.addEventListener('click', () => showStep(stepNum + 1));
+
+                btnContainer.appendChild(prevBtn);
+                btnContainer.appendChild(nextBtn);
+                section.appendChild(btnContainer);
+            });
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('data-target');
+                    const stepIndex = sections.findIndex(sec => sec.id === targetId);
+                    if (stepIndex !== -1) showStep(stepIndex + 1);
+                    if (window.innerWidth < 768) document.getElementById('sidebar').classList.add('-translate-x-full');
+                });
+            });
+
+            document.getElementById('menu-toggle').addEventListener('click', () => {
+                document.getElementById('sidebar').classList.toggle('-translate-x-full');
+            });
+
+            document.getElementById('reset-progress').addEventListener('click', () => {
+                if(confirm("Reset all progress?")) {
+                    localStorage.clear();
+                    window.location.reload();
+                }
+            });
+
+            // Load initial
+            const savedStep = localStorage.getItem('b1_money_step');
+            if(savedStep) showStep(parseInt(savedStep));
+            else showStep(1);
+
+            // --- Checking Logic ---
+
+            // Helper: Reset
+            window.resetQuiz = function(id) {
+                const container = document.getElementById(id);
+                container.querySelectorAll('select, input:not([type="radio"])').forEach(el => {
+                    el.value = "";
+                    el.style.backgroundColor = "";
+                    el.style.borderColor = "";
+                });
+                container.querySelectorAll('input[type="radio"]').forEach(el => el.checked = false);
+                container.querySelectorAll('.feedback-span').forEach(el => el.textContent = "");
+                container.querySelectorAll('.correct-answer-display').forEach(el => el.textContent = "");
+                container.querySelectorAll('.model-answer').forEach(el => el.style.display = "none");
+                
+                // Clear parent scoring logic highlights
+                container.querySelectorAll('.vocab-item, .tf-item, .mc-item').forEach(el => {
+                    el.classList.remove('bg-green-50', 'bg-red-50', 'border-green-500', 'border-red-500');
+                    el.classList.add('border-slate-200');
+                });
+            }
+
+            // 1. Vocab Check
+            document.getElementById('check-vocab').addEventListener('click', () => {
+                let score = 0;
+                const items = document.querySelectorAll('.vocab-item');
+                items.forEach(item => {
+                    const select = item.querySelector('select');
+                    const feedback = item.querySelector('.feedback-span');
+                    const correctDisplay = item.querySelector('.correct-answer-display');
+                    const isCorrect = select.value === select.dataset.answer;
+
+                    item.classList.remove('bg-green-50', 'bg-red-50', 'border-green-500', 'border-red-500');
+                    correctDisplay.textContent = "";
+
+                    if(isCorrect) {
+                        score++;
+                        item.classList.add('bg-green-50', 'border-green-500');
+                        feedback.innerHTML = '<span class="text-green-600">✓</span>';
+                    } else {
+                        item.classList.add('bg-red-50', 'border-red-500');
+                        feedback.innerHTML = '<span class="text-red-600">✗</span>';
+                        correctDisplay.textContent = `Correct: ${select.dataset.answer}`;
+                    }
+                });
+                document.getElementById('vocab-score').textContent = `Score: ${score}/${items.length}`;
+            });
+
+            // 2. TF Check
+            document.getElementById('check-tf').addEventListener('click', () => {
+                let score = 0;
+                const items = document.querySelectorAll('.tf-item');
+                items.forEach(item => {
+                    const selected = item.querySelector('input:checked');
+                    const feedback = item.querySelector('.feedback-span');
+                    const correctAnswer = item.dataset.answer;
+                    const explanation = item.dataset.explanation || "";
+
+                    item.classList.remove('bg-green-50', 'bg-red-50', 'border-green-500', 'border-red-500');
+                    
+                    if(selected) {
+                        if(selected.value === correctAnswer) {
+                            score++;
+                            item.classList.add('bg-green-50', 'border-green-200');
+                            feedback.innerHTML = `<span class="text-green-600 font-bold">✓ Correct</span> <span class="explanation-text">${explanation}</span>`;
+                        } else {
+                            item.classList.add('bg-red-50', 'border-red-200');
+                            feedback.innerHTML = `<span class="text-red-600 font-bold">✗ Incorrect (Answer: ${correctAnswer})</span> <span class="explanation-text">${explanation}</span>`;
+                        }
+                    }
+                });
+                document.getElementById('tf-score').textContent = `Score: ${score}/${items.length}`;
+            });
+
+            // 3. MC Check
+            document.getElementById('check-mc').addEventListener('click', () => {
+                let score = 0;
+                const items = document.querySelectorAll('.mc-item');
+                items.forEach(item => {
+                    const selected = item.querySelector('input:checked');
+                    const feedback = item.querySelector('.feedback-span');
+                    const correctVal = item.dataset.answer;
+
+                    item.classList.remove('bg-green-50', 'bg-red-50', 'border-green-500', 'border-red-500');
+                    
+                    if(selected) {
+                        if(selected.value === correctVal) {
+                            score++;
+                            item.classList.add('bg-green-50', 'border-green-500');
+                            feedback.innerHTML = '<span class="text-green-600 font-bold">✓ Correct</span>';
+                        } else {
+                            item.classList.add('bg-red-50', 'border-red-500');
+                            feedback.innerHTML = `<span class="text-red-600 font-bold">✗ Incorrect (Answer: ${correctVal})</span>`;
+                        }
+                    }
+                });
+                document.getElementById('mc-score').textContent = `Score: ${score}/${items.length}`;
+            });
+
+            // 4. Fill-in-Blanks (Summary, Table) Logic
+            function checkInputs(containerId, scoreId) {
+                const container = document.getElementById(containerId);
+                // Updated to select BOTH text inputs and selects
+                const inputs = container.querySelectorAll('input[type="text"], select');
+                let score = 0;
+                
+                inputs.forEach(input => {
+                    const userVal = input.value.trim().toLowerCase();
+                    const correctVal = input.dataset.answer.toLowerCase();
+                    
+                    // Robust display finding
+                    let display = input.nextElementSibling;
+                    if (!display || !display.classList.contains('correct-answer-display')) {
+                        // Check if it's nested in a wrapper (like the table with %)
+                        // Structure: wrapper > input + text ... sibling > display
+                        if (input.parentElement.nextElementSibling && input.parentElement.nextElementSibling.classList.contains('correct-answer-display')) {
+                            display = input.parentElement.nextElementSibling;
+                        }
+                    }
+
+                    if (display) display.textContent = ""; // Guard against null
+                    
+                    if(userVal === correctVal) {
+                        score++;
+                        input.style.borderColor = "#16a34a";
+                        input.style.backgroundColor = "#f0fdf4";
+                        input.style.color = "#15803d";
+                    } else {
+                        input.style.borderColor = "#dc2626";
+                        input.style.backgroundColor = "#fef2f2";
+                        input.style.color = "#991b1b";
+                        if (display) display.textContent = `Ans: ${input.dataset.answer}`;
+                    }
+                });
+                if(scoreId) document.getElementById(scoreId).textContent = `Score: ${score}/${inputs.length}`;
+            }
+
+            document.getElementById('check-summary').addEventListener('click', () => checkInputs('summary-quiz', 'summary-score'));
+            document.getElementById('check-table').addEventListener('click', () => checkInputs('table-quiz', null));
+
+            // --- Part 8: Identifying Mindset Logic ---
+            document.getElementById('check-mindset').addEventListener('click', () => {
+                const selected = document.querySelector('input[name="mindset-person"]:checked');
+                const feedbackSpan = document.querySelector('#mindset-quiz .feedback-span');
+                const modelAnswer = document.getElementById('mindset-model');
+                
+                feedbackSpan.innerHTML = "";
+                if(selected) {
+                    if(selected.value === 'David') {
+                        feedbackSpan.innerHTML = '<span class="text-green-600 font-bold">✓ Correct. David has the gap.</span>';
+                    } else {
+                        feedbackSpan.innerHTML = '<span class="text-red-600 font-bold">✗ Incorrect. Compare David\'s fear to Maria\'s confidence.</span>';
+                    }
+                    modelAnswer.style.display = 'block';
+                } else {
+                    alert("Please select either David or Maria first.");
+                }
+            });
+
+            // --- Part 9: Financial Check Logic ---
+            window.toggleScorecard = function(btn, type) {
+                // Reset siblings
+                const parent = btn.parentElement;
+                parent.querySelectorAll('button').forEach(b => {
+                    b.classList.remove('selected-tick', 'selected-cross');
+                });
+                // Set active
+                if(type === 'tick') btn.classList.add('selected-tick');
+                else btn.classList.add('selected-cross');
+                
+                // Store value for checking
+                parent.dataset.selection = type;
+            };
+
+            document.getElementById('check-health').addEventListener('click', () => {
+                const rows = document.querySelectorAll('#health-quiz tbody tr');
+                rows.forEach(row => {
+                    const selection = row.querySelector('td:nth-child(2)').dataset.selection;
+                    const correct = row.dataset.correct;
+                    const iconCell = row.querySelector('.feedback-icon');
+                    
+                    iconCell.innerHTML = "";
+                    if(selection) {
+                        if(selection === correct) {
+                            iconCell.innerHTML = '<span class="text-green-600 font-bold">✓</span>';
+                        } else {
+                            iconCell.innerHTML = '<span class="text-red-600 font-bold">✗</span>';
+                        }
+                    }
+                });
+                
+                // Show model answer for text input
+                document.getElementById('health-model').style.display = 'block';
+            });
+
+            document.getElementById('reset-health').addEventListener('click', () => {
+                 document.querySelectorAll('.scorecard-btn').forEach(b => b.classList.remove('selected-tick', 'selected-cross'));
+                 document.querySelectorAll('#health-quiz tbody td:nth-child(2)').forEach(td => delete td.dataset.selection);
+                 document.querySelectorAll('.feedback-icon').forEach(td => td.innerHTML = "");
+                 document.getElementById('health-action').value = "";
+                 document.getElementById('health-model').style.display = "none";
+            });
+        });
+    </script>
+</body>
+</html>
