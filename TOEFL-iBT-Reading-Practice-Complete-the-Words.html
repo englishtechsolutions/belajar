@@ -27,21 +27,24 @@
             padding: 2px;
             margin: 0 4px;
             /* Width will be set dynamically by JavaScript based on maxlength */
-            /* Add a min-width as a fallback */
             min-width: 4ch;
+            background-color: transparent;
         }
         .fill-in:focus {
             border-bottom-color: #3B82F6; /* blue-500 */
             transform: scale(1.05);
+            background-color: #F8FAFC; /* slate-50 */
         }
         
         .input-correct {
             border-bottom-color: #10B981 !important; /* green-500 */
             background-color: #D1FAE5; /* green-100 */
+            color: #047857;
         }
         .input-incorrect {
             border-bottom-color: #EF4444 !important; /* red-500 */
             background-color: #FEE2E2; /* red-100 */
+            color: #B91C1C;
         }
     </style>
 </head>
@@ -56,102 +59,117 @@
             <p class="text-md text-slate-500 font-medium">Levels: A2 → B2 (Progressive Difficulty)</p>
         </header>
 
-        <div id="score-tracker" class="sticky top-0 bg-white/80 backdrop-blur-sm z-10 p-4 rounded-lg shadow-md mb-8 flex flex-col sm:flex-row justify-center items-center gap-4">
-            <!-- REVISION: Total score is now dynamic. Removed hardcoded '71'. -->
+        <div id="score-tracker" class="sticky top-0 bg-white/90 backdrop-blur-sm z-10 p-4 rounded-lg shadow-md mb-8 flex flex-col sm:flex-row justify-center items-center gap-4 border border-slate-200">
             <h2 class="text-xl font-bold text-slate-700">Your Score: <span id="score" class="text-blue-700">0</span> / <span id="total">0</span></h2>
         </div>
 
         <main class="space-y-8">
 
             <!-- A2 Level -->
-            <!-- REVISION: Removed all 'size' attributes from inputs. Width is now set by JS. -->
-            <section class="task-card bg-white p-6 rounded-lg shadow-md">
-                <h2 class="text-2xl font-semibold mb-6 text-blue-600">A2 Level (Items 1–10)</h2>
-                <div id="a2" class="space-y-4 text-lg">
-                    <p>1. I rea<input id="q1_1" type="text" maxlength="1" class="fill-in"> a bo<input id="q1_2" type="text" maxlength="2" class="fill-in"> before bed.</p>
-                    <p>2. The sun is sh<input id="q2_1" type="text" maxlength="5" class="fill-in"> today.</p>
-                    <p>3. We st<input id="q3_1" type="text" maxlength="3" class="fill-in"> at school in the morn<input id="q3_2" type="text" maxlength="3" class="fill-in">.</p>
-                    <p>4. She is dri<input id="q4_1" type="text" maxlength="5" class="fill-in"> coffee in the café.</p>
-                    <p>5. My fri<input id="q5_1" type="text" maxlength="3" class="fill-in"> and I play foo<input id="q5_2" type="text" maxlength="4" class="fill-in">.</p>
-                    <p>6. It is imp<input id="q6_1" type="text" maxlength="6" class="fill-in"> to eat brea<input id="q6_2" type="text" maxlength="5" class="fill-in"> every day.</p>
-                    <p>7. He wa<input id="q7_1" type="text" maxlength="5" class="fill-in"> TV in the evening.</p>
-                    <p>8. The te<input id="q8_1" type="text" maxlength="4" class="fill-in"> gives us homework.</p>
-                    <p>9. We ha<input id="q9_1" type="text" maxlength="2" class="fill-in"> lunch at tw<input id="q9_2"type="text" maxlength="4" class="fill-in"> o’clock.</p>
-                    <p>10. They wor<input id="q10_1" type="text" maxlength="1" class="fill-in"> hard every day.</p>
+            <section class="task-card bg-white p-6 rounded-lg shadow-md border border-slate-100">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-semibold text-blue-600">A2 Level</h2>
+                    <span class="text-sm font-medium text-slate-400">Items 1–10</span>
+                </div>
+                <div id="a2" class="space-y-4 text-lg leading-relaxed">
+                    <p>1. I rea<input id="q1_1" type="text" maxlength="1" class="fill-in" autocomplete="off"> a bo<input id="q1_2" type="text" maxlength="2" class="fill-in" autocomplete="off"> before bed.</p>
+                    <p>2. The sun is sh<input id="q2_1" type="text" maxlength="5" class="fill-in" autocomplete="off"> today.</p>
+                    <p>3. We st<input id="q3_1" type="text" maxlength="3" class="fill-in" autocomplete="off"> at school in the morn<input id="q3_2" type="text" maxlength="3" class="fill-in" autocomplete="off">.</p>
+                    <p>4. She is dri<input id="q4_1" type="text" maxlength="5" class="fill-in" autocomplete="off"> coffee in the café.</p>
+                    <!-- FIXED: Changed "foo" to "foot" so answer "ball" makes "football" -->
+                    <p>5. My fri<input id="q5_1" type="text" maxlength="3" class="fill-in" autocomplete="off"> and I play foot<input id="q5_2" type="text" maxlength="4" class="fill-in" autocomplete="off">.</p>
+                    <p>6. It is imp<input id="q6_1" type="text" maxlength="6" class="fill-in" autocomplete="off"> to eat brea<input id="q6_2" type="text" maxlength="5" class="fill-in" autocomplete="off"> every day.</p>
+                    <p>7. He wa<input id="q7_1" type="text" maxlength="5" class="fill-in" autocomplete="off"> TV in the evening.</p>
+                    <!-- FIXED: Changed maxlength to 5 so "acher" fits to make "teacher" -->
+                    <p>8. The te<input id="q8_1" type="text" maxlength="5" class="fill-in" autocomplete="off"> gives us homework.</p>
+                    <p>9. We ha<input id="q9_1" type="text" maxlength="2" class="fill-in" autocomplete="off"> lunch at tw<input id="q9_2"type="text" maxlength="4" class="fill-in" autocomplete="off"> o’clock.</p>
+                    <p>10. They wor<input id="q10_1" type="text" maxlength="1" class="fill-in" autocomplete="off"> hard every day.</p>
                 </div>
                 <div class="mt-8 text-center space-x-4">
-                    <button data-section="a2" class="check-btn bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition">Check A2 Answers</button>
-                    <button data-section="a2" class="retry-btn bg-yellow-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-yellow-600 transition hidden">Retry</button>
+                    <button data-section="a2" class="check-btn bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition shadow-sm hover:shadow-md">Check A2 Answers</button>
+                    <button data-section="a2" class="retry-btn bg-yellow-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-yellow-600 transition hidden shadow-sm hover:shadow-md">Retry</button>
                 </div>
             </section>
             
             <!-- A2 -> B1 Level -->
-            <section class="task-card bg-white p-6 rounded-lg shadow-md">
-                <h2 class="text-2xl font-semibold mb-6 text-blue-600">A2 → B1 Level (Items 11–20)</h2>
-                <div id="b1_1" class="space-y-4 text-lg">
-                    <p>11. Scientists do exp<input id="q11_1" type="text" maxlength="8" class="fill-in"> to learn new things.</p>
-                    <p>12. The stu<input id="q12_1" type="text" maxlength="5" class="fill-in"> are taking a test today.</p>
-                    <p>13. She wro<input id="q13_1" type="text" maxlength="2" class="fill-in"> an e-ma<input id="q13_2" type="text" maxlength="2" class="fill-in"> to her teacher.</p>
-                    <p>14. Peo<input id="q14_1" type="text" maxlength="3" class="fill-in"> use en<input id="q14_2" type="text" maxlength="4" class="fill-in"> to pow<input id="q14_3" type="text" maxlength="2" class="fill-in"> their homes.</p>
-                    <p>15. I need to com<input id="q15_1" type="text" maxlength="5" class="fill-in"> my project this week.</p>
-                    <p>16. He wor<input id="q16_1" type="text" maxlength="2" class="fill-in"> as an engi<input id="q16_2" type="text" maxlength="4" class="fill-in"> in the city.</p>
-                    <p>17. The mu<input id="q17_1" type="text" maxlength="2" class="fill-in"> is very beautiful.</p>
-                    <p>18. The cl<input id="q18_1" type="text" maxlength="3" class="fill-in"> starts at nine o’clock.</p>
-                    <p>19. Stu<input id="q19_1" type="text" maxlength="5" class="fill-in"> must bring their tex<input id="q19_2" type="text" maxlength="4" class="fill-in"> to class.</p>
-                    <p>20. I don’t li<input id="q20_1" type="text" maxlength="2" class="fill-in"> rainy weather.</p>
+            <section class="task-card bg-white p-6 rounded-lg shadow-md border border-slate-100">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-semibold text-blue-600">A2 → B1 Level</h2>
+                    <span class="text-sm font-medium text-slate-400">Items 11–20</span>
+                </div>
+                <div id="b1_1" class="space-y-4 text-lg leading-relaxed">
+                    <p>11. Scientists do exp<input id="q11_1" type="text" maxlength="8" class="fill-in" autocomplete="off"> to learn new things.</p>
+                    <p>12. The stu<input id="q12_1" type="text" maxlength="5" class="fill-in" autocomplete="off"> are taking a test today.</p>
+                    <p>13. She wro<input id="q13_1" type="text" maxlength="2" class="fill-in" autocomplete="off"> an e-ma<input id="q13_2" type="text" maxlength="2" class="fill-in" autocomplete="off"> to her teacher.</p>
+                    <p>14. Peo<input id="q14_1" type="text" maxlength="3" class="fill-in" autocomplete="off"> use en<input id="q14_2" type="text" maxlength="4" class="fill-in" autocomplete="off"> to pow<input id="q14_3" type="text" maxlength="2" class="fill-in" autocomplete="off"> their homes.</p>
+                    <p>15. I need to com<input id="q15_1" type="text" maxlength="5" class="fill-in" autocomplete="off"> my project this week.</p>
+                    <p>16. He wor<input id="q16_1" type="text" maxlength="2" class="fill-in" autocomplete="off"> as an engi<input id="q16_2" type="text" maxlength="4" class="fill-in" autocomplete="off"> in the city.</p>
+                    <p>17. The mu<input id="q17_1" type="text" maxlength="2" class="fill-in" autocomplete="off"> is very beautiful.</p>
+                    <p>18. The cl<input id="q18_1" type="text" maxlength="3" class="fill-in" autocomplete="off"> starts at nine o’clock.</p>
+                    <!-- FIXED: Changed "tex" to "text" so answer "book" makes "textbook" -->
+                    <p>19. Stu<input id="q19_1" type="text" maxlength="5" class="fill-in" autocomplete="off"> must bring their text<input id="q19_2" type="text" maxlength="4" class="fill-in" autocomplete="off"> to class.</p>
+                    <p>20. I don’t li<input id="q20_1" type="text" maxlength="2" class="fill-in" autocomplete="off"> rainy weather.</p>
                 </div>
                 <div class="mt-8 text-center space-x-4">
-                    <button data-section="b1_1" class="check-btn bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition">Check A2 → B1 Answers</button>
-                    <button data-section="b1_1" class="retry-btn bg-yellow-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-yellow-600 transition hidden">Retry</button>
+                    <button data-section="b1_1" class="check-btn bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition shadow-sm hover:shadow-md">Check A2 → B1 Answers</button>
+                    <button data-section="b1_1" class="retry-btn bg-yellow-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-yellow-600 transition hidden shadow-sm hover:shadow-md">Retry</button>
                 </div>
             </section>
             
             <!-- B1 Level -->
-            <section class="task-card bg-white p-6 rounded-lg shadow-md">
-                <h2 class="text-2xl font-semibold mb-6 text-blue-600">B1 Level (Items 21–30)</h2>
-                <div id="b1_2" class="space-y-4 text-lg">
-                    <p>21. The exp<input id="q21_1" type="text" maxlength="7" class="fill-in"> showed new resu<input id="q21_2" type="text" maxlength="3" class="fill-in">.</p>
-                    <p>22. The uni<input id="q22_1" type="text" maxlength="7" class="fill-in"> has a large library.</p>
-                    <p>23. The teac<input id="q23_1" type="text" maxlength="3" class="fill-in"> encouraged us to ask qu<input id="q23_2" type="text" maxlength="7" class="fill-in">.</p>
-                    <p>24. Students col<input id="q24_1" type="text" maxlength="5" class="fill-in"> data during the exp<input id="q24_2" type="text" maxlength="7" class="fill-in">.</p>
-                    <p>25. Many animals live in the oce<input id="q25_1" type="text" maxlength="2" class="fill-in">.</p>
-                    <p>26. It is imp<input id="q26_1" type="text" maxlength="6" class="fill-in"> to save wat<input id="q26_2" type="text" maxlength="2" class="fill-in">.</p>
-                    <p>27. The gov<input id="q27_1" type="text" maxlength="6" class="fill-in"> wants to reduce poll<input id="q27_2" type="text" maxlength="5" class="fill-in">.</p>
-                    <p>28. Peo<input id="q28_1" type="text" maxlength="3" class="fill-in"> need exer<input id="q28_2" type="text" maxlength="4" class="fill-in"> to stay healthy.</p>
-                    <p>29. The com<input id="q29_1" type="text" maxlength="6" class="fill-in"> was very interesting.</p>
-                    <p>30. The sci<input id="q30_1" type="text" maxlength="5" class="fill-in"> wrote a rep<input id="q30_2" type="text" maxlength="3" class="fill-in"> about her findings.</p>
+            <section class="task-card bg-white p-6 rounded-lg shadow-md border border-slate-100">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-semibold text-blue-600">B1 Level</h2>
+                    <span class="text-sm font-medium text-slate-400">Items 21–30</span>
+                </div>
+                <div id="b1_2" class="space-y-4 text-lg leading-relaxed">
+                    <p>21. The exp<input id="q21_1" type="text" maxlength="7" class="fill-in" autocomplete="off"> showed new resu<input id="q21_2" type="text" maxlength="3" class="fill-in" autocomplete="off">.</p>
+                    <p>22. The uni<input id="q22_1" type="text" maxlength="7" class="fill-in" autocomplete="off"> has a large library.</p>
+                    <p>23. The teac<input id="q23_1" type="text" maxlength="3" class="fill-in" autocomplete="off"> encouraged us to ask qu<input id="q23_2" type="text" maxlength="7" class="fill-in" autocomplete="off">.</p>
+                    <p>24. Students col<input id="q24_1" type="text" maxlength="5" class="fill-in" autocomplete="off"> data during the exp<input id="q24_2" type="text" maxlength="7" class="fill-in" autocomplete="off">.</p>
+                    <p>25. Many animals live in the oce<input id="q25_1" type="text" maxlength="2" class="fill-in" autocomplete="off">.</p>
+                    <p>26. It is imp<input id="q26_1" type="text" maxlength="6" class="fill-in" autocomplete="off"> to save wat<input id="q26_2" type="text" maxlength="2" class="fill-in" autocomplete="off">.</p>
+                    <p>27. The gov<input id="q27_1" type="text" maxlength="6" class="fill-in" autocomplete="off"> wants to reduce poll<input id="q27_2" type="text" maxlength="5" class="fill-in" autocomplete="off">.</p>
+                    <p>28. Peo<input id="q28_1" type="text" maxlength="3" class="fill-in" autocomplete="off"> need exer<input id="q28_2" type="text" maxlength="4" class="fill-in" autocomplete="off"> to stay healthy.</p>
+                    <p>29. The com<input id="q29_1" type="text" maxlength="6" class="fill-in" autocomplete="off"> was very interesting.</p>
+                    <!-- FIXED: Changed "sci" to "scie" so answer "ntist" makes "scientist" -->
+                    <p>30. The scie<input id="q30_1" type="text" maxlength="5" class="fill-in" autocomplete="off"> wrote a rep<input id="q30_2" type="text" maxlength="3" class="fill-in" autocomplete="off"> about her findings.</p>
                 </div>
                 <div class="mt-8 text-center space-x-4">
-                    <button data-section="b1_2" class="check-btn bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition">Check B1 Answers</button>
-                    <button data-section="b1_2" class="retry-btn bg-yellow-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-yellow-600 transition hidden">Retry</button>
+                    <button data-section="b1_2" class="check-btn bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition shadow-sm hover:shadow-md">Check B1 Answers</button>
+                    <button data-section="b1_2" class="retry-btn bg-yellow-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-yellow-600 transition hidden shadow-sm hover:shadow-md">Retry</button>
                 </div>
             </section>
             
             <!-- B2 Level -->
-            <section class="task-card bg-white p-6 rounded-lg shadow-md">
-                <h2 class="text-2xl font-semibold mb-6 text-blue-600">B2 Level (Items 31–40)</h2>
-                <div id="b2" class="space-y-4 text-lg">
-                    <p>31. The rese<input id="q31_1" type="text" maxlength="6" class="fill-in"> found strong evid<input id="q31_2" type="text" maxlength="4" class="fill-in"> for the theory.</p>
-                    <p>32. Uni<input id="q32_1" type="text" maxlength="8" class="fill-in"> offer courses in many subj<input id="q32_2" type="text" maxlength="5" class="fill-in">.</p>
-                    <p>33. The exper<input id="q33_1" type="text" maxlength="9" class="fill-in"> results were ana<input id="q33_2" type="text" maxlength="5" class="fill-in"> carefully.</p>
-                    <p>34. Tec<input id="q34_1" type="text" maxlength="8" class="fill-in"> has changed the way we commu<input id="q34_2" type="text" maxlength="8" class="fill-in">.</p>
-                    <p>35. The stu<input id="q35_1" type="text" maxlength="2" class="fill-in"> compared two dif<input id="q35_2" type="text" maxlength="7" class="fill-in"> methods.</p>
-                    <p>36. Envi<input id="q36_1" type="text" maxlength="10" class="fill-in"> problems are becoming more ser<input id="q36_2" type="text" maxlength="5" class="fill-in">.</p>
-                    <p>37. The compa<input id="q37_1" type="text" maxlength="2" class="fill-in"> is plan<input id="q37_2" type="text" maxlength="5" class="fill-in"> to open a new branch.</p>
-                    <p>38. The art<input id="q38_1" type="text" maxlength="4" class="fill-in"> discu<input id="q38_2" type="text" maxlength="5" class="fill-in"> the causes of clim<input id="q38_3" type="text" maxlength="3" class="fill-in"> change.</p>
-                    <p>39. The rese<input id="q39_1" type="text" maxlength="6" class="fill-in"> used acc<input id="q39_2" type="text" maxlength="6" class="fill-in"> data to supp<input id="q39_3" type="text" maxlength="3" class="fill-in"> her argu<input id="q39_4" type="text" maxlength="4" class="fill-in">.</p>
-                    <p>40. The scie<input id="q40_1" type="text" maxlength="6" class="fill-in"> presented her find<input id="q40_2" type="text" maxlength="4" class="fill-in"> at a conf<input id="q40_3" type="text" maxlength="7" class="fill-in">.</p>
+            <section class="task-card bg-white p-6 rounded-lg shadow-md border border-slate-100">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-semibold text-blue-600">B2 Level</h2>
+                    <span class="text-sm font-medium text-slate-400">Items 31–40</span>
+                </div>
+                <div id="b2" class="space-y-4 text-lg leading-relaxed">
+                    <p>31. The rese<input id="q31_1" type="text" maxlength="6" class="fill-in" autocomplete="off"> found strong evid<input id="q31_2" type="text" maxlength="4" class="fill-in" autocomplete="off"> for the theory.</p>
+                    <p>32. Uni<input id="q32_1" type="text" maxlength="8" class="fill-in" autocomplete="off"> offer courses in many subj<input id="q32_2" type="text" maxlength="5" class="fill-in" autocomplete="off">.</p>
+                    <p>33. The exper<input id="q33_1" type="text" maxlength="9" class="fill-in" autocomplete="off"> results were ana<input id="q33_2" type="text" maxlength="5" class="fill-in" autocomplete="off"> carefully.</p>
+                    <!-- FIXED: Changed "Tec" to "Tech" so answer "nology" makes "Technology" -->
+                    <p>34. Tech<input id="q34_1" type="text" maxlength="8" class="fill-in" autocomplete="off"> has changed the way we commu<input id="q34_2" type="text" maxlength="8" class="fill-in" autocomplete="off">.</p>
+                    <p>35. The stu<input id="q35_1" type="text" maxlength="2" class="fill-in" autocomplete="off"> compared two dif<input id="q35_2" type="text" maxlength="7" class="fill-in" autocomplete="off"> methods.</p>
+                    <p>36. Envi<input id="q36_1" type="text" maxlength="10" class="fill-in" autocomplete="off"> problems are becoming more ser<input id="q36_2" type="text" maxlength="5" class="fill-in" autocomplete="off">.</p>
+                    <p>37. The compa<input id="q37_1" type="text" maxlength="2" class="fill-in" autocomplete="off"> is plan<input id="q37_2" type="text" maxlength="5" class="fill-in" autocomplete="off"> to open a new branch.</p>
+                    <p>38. The art<input id="q38_1" type="text" maxlength="4" class="fill-in" autocomplete="off"> discu<input id="q38_2" type="text" maxlength="5" class="fill-in" autocomplete="off"> the causes of clim<input id="q38_3" type="text" maxlength="3" class="fill-in" autocomplete="off"> change.</p>
+                    <p>39. The rese<input id="q39_1" type="text" maxlength="6" class="fill-in" autocomplete="off"> used acc<input id="q39_2" type="text" maxlength="6" class="fill-in" autocomplete="off"> data to supp<input id="q39_3" type="text" maxlength="3" class="fill-in" autocomplete="off"> her argu<input id="q39_4" type="text" maxlength="4" class="fill-in" autocomplete="off">.</p>
+                    <p>40. The scie<input id="q40_1" type="text" maxlength="6" class="fill-in" autocomplete="off"> presented her find<input id="q40_2" type="text" maxlength="4" class="fill-in" autocomplete="off"> at a conf<input id="q40_3" type="text" maxlength="7" class="fill-in" autocomplete="off">.</p>
                 </div>
                 <div class="mt-8 text-center space-x-4">
-                    <button data-section="b2" class="check-btn bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition">Check B2 Answers</button>
-                    <button data-section="b2" class="retry-btn bg-yellow-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-yellow-600 transition hidden">Retry</button>
+                    <button data-section="b2" class="check-btn bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition shadow-sm hover:shadow-md">Check B2 Answers</button>
+                    <button data-section="b2" class="retry-btn bg-yellow-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-yellow-600 transition hidden shadow-sm hover:shadow-md">Retry</button>
                 </div>
             </section>
             
         </main>
 
         <footer class="text-center mt-12 py-6 text-slate-500 text-sm">
-            Designed by <a href="https://fajarudinakbar.online" target="_blank" class="text-blue-600 hover:underline">fajarudinakbar.online</a>
+            Designed for Educational Practice
         </footer>
 
     </div>
@@ -165,12 +183,6 @@
             document.querySelectorAll('.check-btn').forEach(btn => {
                 btn.dataset.originalText = btn.textContent;
             });
-
-            // Remove the 'retry-all' button from the DOM (logic kept from original)
-            const retryAllBtn = document.getElementById('retry-all');
-            if (retryAllBtn) {
-                retryAllBtn.remove();
-            }
 
             const updateScore = (points) => {
                 score += points;
@@ -187,7 +199,8 @@
                     q5_1: 'end', q5_2: 'ball',
                     q6_1: 'ortant', q6_2: 'kfast',
                     q7_1: 'tches',
-                    q8_1: 'cher',
+                    // FIXED: Changed "cher" to "acher" to correct spelling of "teacher"
+                    q8_1: 'acher',
                     q9_1: 've', q9_2: 'elve',
                     q10_1: 'k'
                 },
@@ -212,7 +225,8 @@
                     q26_1: 'ortant', q26_2: 'er',
                     q27_1: 'ernment', q27_2: 'ution',
                     q28_1: 'ple', q28_2: 'cise',
-                    q29_1: 'unity',
+                    // FIXED: Key changed to 'munity' because text is 'com' and length is 6
+                    q29_1: 'munity',
                     q30_1: 'ntist', q30_2: 'ort'
                 },
                 b2: {
@@ -229,48 +243,41 @@
                 }
             };
 
-            // --- REVISION: Calculate Total Score Dynamically ---
+            // Calculate Total Score Dynamically
             let totalScore = 0;
             Object.values(answerKeys).forEach(section => {
                 totalScore += Object.keys(section).length;
             });
             document.getElementById('total').textContent = totalScore;
-            // --- End Revision ---
 
-            // --- REVISION: Dynamically set input widths based on maxlength ---
+            // Dynamically set input widths based on maxlength
             document.querySelectorAll('.fill-in').forEach(input => {
                 const len = input.maxLength;
                 if (len > 0) {
-                    // Set width based on maxlength. Add 2ch for padding/breathing room.
-                    // Use Math.max() to ensure a minimum width of 5ch.
+                    // Set width based on maxlength + padding
                     input.style.width = `${Math.max(len + 2, 5)}ch`;
                 }
             });
-            // --- End Revision ---
-
 
             // To track scores per section, preventing double-counting
             const sectionScores = { a2: 0, b1_1: 0, b1_2: 0, b2: 0 };
 
             /**
              * Checks the answers for a given section with 2-attempt logic.
-             * @param {string} sectionKey - The key for the answerKeys object (e.g., 'a2', 'b1_1').
-             * @param {HTMLElement} button - The button that was clicked.
              */
             function checkSection(sectionKey, button) {
-                // Get attempt count from the button's parent section
                 const sectionElement = button.closest('section');
                 let attempts = parseInt(sectionElement.dataset.attempts || 0);
                 attempts++;
                 sectionElement.dataset.attempts = attempts;
 
-                const isFinalAttempt = (attempts >= 2); // Check if this is the 2nd (or later) attempt
+                const isFinalAttempt = (attempts >= 2); 
 
                 const answerKey = answerKeys[sectionKey];
                 let totalInputsInSection = 0;
-                let incorrectInputs = []; // To track which ones to show answers for
+                let incorrectInputs = []; 
 
-                // First, subtract the old score for this section before recalculating
+                // Reset section score before recalculating
                 updateScore(-sectionScores[sectionKey]);
                 let newSectionScore = 0;
 
@@ -286,13 +293,13 @@
                         if (userAnswer === correctAnswer) {
                             input.classList.add('input-correct');
                             newSectionScore++;
-                            if (isFinalAttempt) { // Only disable on the final attempt
-                                input.disabled = true;
-                            }
+                            // On correct, we can lock it immediately or wait till final attempt.
+                            // To be helpful, let's lock correct answers immediately so user focuses on errors.
+                            input.disabled = true; 
                         } else {
                             input.classList.add('input-incorrect');
-                            incorrectInputs.push(input); // Add to list for attempt 2
-                            if (isFinalAttempt) { // On final attempt, disable and show answer
+                            incorrectInputs.push(input);
+                            if (isFinalAttempt) { 
                                 input.value = correctAnswer;
                                 input.classList.remove('input-incorrect');
                                 input.classList.add('input-correct');
@@ -302,104 +309,90 @@
                     }
                 });
 
-                // Update global score with the new total score for this section
+                // Update global score
                 sectionScores[sectionKey] = newSectionScore;
                 updateScore(newSectionScore);
 
-                // --- Handle Attempts & Feedback ---
-
-                // Find or create feedback element
+                // Feedback Logic
                 let feedbackEl = sectionElement.querySelector('.feedback-msg');
                 if (!feedbackEl) {
                     feedbackEl = document.createElement('p');
-                    feedbackEl.className = 'feedback-msg mt-4 text-center text-sm font-medium'; // Centered feedback
-                    // Insert after the button container
                     button.closest('div').appendChild(feedbackEl);
                 }
 
-                if (!isFinalAttempt) { // This is Attempt 1
+                if (!isFinalAttempt) { // Attempt 1
                     if (newSectionScore === totalInputsInSection) {
-                        // Perfect score on first try
-                        feedbackEl.textContent = `You got ${newSectionScore} out of ${totalInputsInSection} correct. Well done!`;
-                        feedbackEl.className = 'feedback-msg mt-4 text-center text-sm font-medium text-green-600';
-                        button.textContent = 'Checked!';
+                        feedbackEl.textContent = `Excellent! ${newSectionScore}/${totalInputsInSection} Correct.`;
+                        feedbackEl.className = 'feedback-msg mt-4 text-center text-sm font-bold text-green-600 animate-pulse';
+                        button.textContent = 'Completed';
                         button.disabled = true;
-                        button.classList.add('bg-gray-400', 'cursor-not-allowed');
-                        // Also disable all inputs since they got it perfect
-                        sectionElement.querySelectorAll('.fill-in').forEach(input => input.disabled = true);
+                        button.classList.add('bg-slate-400', 'cursor-not-allowed');
+                        button.classList.remove('bg-blue-600', 'hover:bg-blue-700');
                     } else {
-                        // Not perfect, allow second attempt
-                        feedbackEl.textContent = `You got ${newSectionScore} out of ${totalInputsInSection}. Review your answers and try again!`;
-                        feedbackEl.className = 'feedback-msg mt-4 text-center text-sm font-medium text-yellow-700';
-                        button.textContent = 'Check Again'; // Change button text
+                        feedbackEl.textContent = `You got ${newSectionScore} out of ${totalInputsInSection}. Review the red boxes and try again!`;
+                        feedbackEl.className = 'feedback-msg mt-4 text-center text-sm font-medium text-amber-600';
+                        button.textContent = 'Check Again';
                     }
-                } else if (attempts >= 2) { // This is the Final Attempt (Attempt 2)
-                    // This is the second attempt
-                    button.textContent = 'Checked!';
+                } else { // Final Attempt
+                    button.textContent = 'Completed';
                     button.disabled = true;
-                    button.classList.add('bg-gray-400', 'cursor-not-allowed');
+                    button.classList.add('bg-slate-400', 'cursor-not-allowed');
+                    button.classList.remove('bg-blue-600', 'hover:bg-blue-700');
 
                     if (newSectionScore === totalInputsInSection) {
-                        feedbackEl.textContent = `You got ${newSectionScore} out of ${totalInputsInSection} correct on the second try!`;
-                        feedbackEl.className = 'feedback-msg mt-4 text-center text-sm font-medium text-green-600';
+                        feedbackEl.textContent = `Great job! ${newSectionScore}/${totalInputsInSection} Correct on the second try.`;
+                        feedbackEl.className = 'feedback-msg mt-4 text-center text-sm font-bold text-green-600';
                     } else {
-                        feedbackEl.textContent = `Final score for this section: ${newSectionScore} out of ${totalInputsInSection}. Correct answers are shown.`;
-                        feedbackEl.className = 'feedback-msg mt-4 text-center text-sm font-medium text-red-600';
+                        feedbackEl.textContent = `Section Complete. Final Score: ${newSectionScore}/${totalInputsInSection}. Correct answers shown.`;
+                        feedbackEl.className = 'feedback-msg mt-4 text-center text-sm font-medium text-slate-600';
                     }
                 }
                 
-                // Show the "Retry" button for this section
                 const retryBtn = sectionElement.querySelector('.retry-btn');
                 if (retryBtn) {
                     retryBtn.classList.remove('hidden');
                 }
             }
 
-            // Add event listeners to all check buttons
+            // Event Listeners
             document.querySelectorAll('.check-btn').forEach(button => {
                 button.addEventListener('click', () => {
-                    // We don't check button.disabled here because "Check Again" is not disabled
                     const sectionKey = button.getAttribute('data-section');
                     checkSection(sectionKey, button);
                 });
             });
 
-            // Add new event listeners for all section "Retry" buttons
+            // Retry Logic
             document.querySelectorAll('.retry-btn').forEach(button => {
                 button.addEventListener('click', () => {
                     const sectionKey = button.getAttribute('data-section');
                     const sectionElement = button.closest('section');
                     if (!sectionElement || !sectionKey) return;
 
-                    // 1. Subtract this section's score from the total score
                     updateScore(-sectionScores[sectionKey]);
                     
-                    // 2. Reset the section score and attempts
                     sectionScores[sectionKey] = 0;
                     sectionElement.dataset.attempts = 0;
 
-                    // 3. Re-enable all inputs, clear them, and remove classes
                     sectionElement.querySelectorAll('.fill-in').forEach(input => {
                         input.disabled = false;
                         input.value = '';
                         input.classList.remove('input-correct', 'input-incorrect');
                     });
 
-                    // 4. Reset the "Check" button
                     const checkBtn = sectionElement.querySelector('.check-btn');
                     if (checkBtn) {
                         checkBtn.disabled = false;
                         checkBtn.textContent = checkBtn.dataset.originalText;
-                        checkBtn.classList.remove('bg-gray-400', 'cursor-not-allowed');
+                        checkBtn.classList.remove('bg-slate-400', 'cursor-not-allowed');
+                        checkBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
                     }
 
-                    // 5. Remove the feedback message
                     const feedbackEl = sectionElement.querySelector('.feedback-msg');
                     if (feedbackEl) {
                         feedbackEl.remove();
                     }
 
-                    // 6. Hide the "Retry" button itself
                     button.classList.add('hidden');
                 });
             });
@@ -407,4 +400,3 @@
     </script>
 </body>
 </html>
-
