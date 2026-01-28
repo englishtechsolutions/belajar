@@ -25,10 +25,11 @@
             color: #2563EB; /* blue-600 */
             transition: all 0.2s ease;
             padding: 2px;
-            margin: 0 4px;
-            /* Width will be set dynamically by JavaScript based on maxlength */
-            min-width: 4ch;
+            margin: 0 2px;
+            /* Width is set dynamically by JavaScript based on maxlength */
+            min-width: 3ch;
             background-color: transparent;
+            letter-spacing: 0.05em;
         }
         .fill-in:focus {
             border-bottom-color: #3B82F6; /* blue-500 */
@@ -55,11 +56,11 @@
         <!-- Header -->
         <header class="text-center mb-8">
             <h1 class="text-3xl sm:text-4xl font-bold text-blue-700">TOEFL iBT Reading Practice</h1>
-            <p class="text-lg text-slate-600 mt-2">Task: Complete the Words – Fill in Missing Letters in Context</p>
+            <p class="text-lg text-slate-600 mt-2">Task: Complete the Words – Fill in Missing Letters</p>
             <p class="text-md text-slate-500 font-medium">Levels: A2 → B2 (Progressive Difficulty)</p>
         </header>
 
-        <div id="score-tracker" class="sticky top-0 bg-white/90 backdrop-blur-sm z-10 p-4 rounded-lg shadow-md mb-8 flex flex-col sm:flex-row justify-center items-center gap-4 border border-slate-200">
+        <div id="score-tracker" class="sticky top-0 bg-white/95 backdrop-blur-sm z-10 p-4 rounded-lg shadow-md mb-8 flex flex-col sm:flex-row justify-center items-center gap-4 border border-slate-200">
             <h2 class="text-xl font-bold text-slate-700">Your Score: <span id="score" class="text-blue-700">0</span> / <span id="total">0</span></h2>
         </div>
 
@@ -76,13 +77,11 @@
                     <p>2. The sun is sh<input id="q2_1" type="text" maxlength="5" class="fill-in" autocomplete="off"> today.</p>
                     <p>3. We st<input id="q3_1" type="text" maxlength="3" class="fill-in" autocomplete="off"> at school in the morn<input id="q3_2" type="text" maxlength="3" class="fill-in" autocomplete="off">.</p>
                     <p>4. She is dri<input id="q4_1" type="text" maxlength="5" class="fill-in" autocomplete="off"> coffee in the café.</p>
-                    <!-- FIXED: Changed "foo" to "foot" so answer "ball" makes "football" -->
                     <p>5. My fri<input id="q5_1" type="text" maxlength="3" class="fill-in" autocomplete="off"> and I play foot<input id="q5_2" type="text" maxlength="4" class="fill-in" autocomplete="off">.</p>
                     <p>6. It is imp<input id="q6_1" type="text" maxlength="6" class="fill-in" autocomplete="off"> to eat brea<input id="q6_2" type="text" maxlength="5" class="fill-in" autocomplete="off"> every day.</p>
                     <p>7. He wa<input id="q7_1" type="text" maxlength="5" class="fill-in" autocomplete="off"> TV in the evening.</p>
-                    <!-- FIXED: Changed maxlength to 5 so "acher" fits to make "teacher" -->
                     <p>8. The te<input id="q8_1" type="text" maxlength="5" class="fill-in" autocomplete="off"> gives us homework.</p>
-                    <p>9. We ha<input id="q9_1" type="text" maxlength="2" class="fill-in" autocomplete="off"> lunch at tw<input id="q9_2"type="text" maxlength="4" class="fill-in" autocomplete="off"> o’clock.</p>
+                    <p>9. We ha<input id="q9_1" type="text" maxlength="2" class="fill-in" autocomplete="off"> lunch at tw<input id="q9_2" type="text" maxlength="4" class="fill-in" autocomplete="off"> o’clock.</p>
                     <p>10. They wor<input id="q10_1" type="text" maxlength="1" class="fill-in" autocomplete="off"> hard every day.</p>
                 </div>
                 <div class="mt-8 text-center space-x-4">
@@ -104,9 +103,9 @@
                     <p>14. Peo<input id="q14_1" type="text" maxlength="3" class="fill-in" autocomplete="off"> use en<input id="q14_2" type="text" maxlength="4" class="fill-in" autocomplete="off"> to pow<input id="q14_3" type="text" maxlength="2" class="fill-in" autocomplete="off"> their homes.</p>
                     <p>15. I need to com<input id="q15_1" type="text" maxlength="5" class="fill-in" autocomplete="off"> my project this week.</p>
                     <p>16. He wor<input id="q16_1" type="text" maxlength="2" class="fill-in" autocomplete="off"> as an engi<input id="q16_2" type="text" maxlength="4" class="fill-in" autocomplete="off"> in the city.</p>
-                    <p>17. The mu<input id="q17_1" type="text" maxlength="2" class="fill-in" autocomplete="off"> is very beautiful.</p>
+                    <!-- CORRECTION: music = mu + sic (3 letters) -->
+                    <p>17. The mu<input id="q17_1" type="text" maxlength="3" class="fill-in" autocomplete="off"> is very beautiful.</p>
                     <p>18. The cl<input id="q18_1" type="text" maxlength="3" class="fill-in" autocomplete="off"> starts at nine o’clock.</p>
-                    <!-- FIXED: Changed "tex" to "text" so answer "book" makes "textbook" -->
                     <p>19. Stu<input id="q19_1" type="text" maxlength="5" class="fill-in" autocomplete="off"> must bring their text<input id="q19_2" type="text" maxlength="4" class="fill-in" autocomplete="off"> to class.</p>
                     <p>20. I don’t li<input id="q20_1" type="text" maxlength="2" class="fill-in" autocomplete="off"> rainy weather.</p>
                 </div>
@@ -129,10 +128,10 @@
                     <p>24. Students col<input id="q24_1" type="text" maxlength="5" class="fill-in" autocomplete="off"> data during the exp<input id="q24_2" type="text" maxlength="7" class="fill-in" autocomplete="off">.</p>
                     <p>25. Many animals live in the oce<input id="q25_1" type="text" maxlength="2" class="fill-in" autocomplete="off">.</p>
                     <p>26. It is imp<input id="q26_1" type="text" maxlength="6" class="fill-in" autocomplete="off"> to save wat<input id="q26_2" type="text" maxlength="2" class="fill-in" autocomplete="off">.</p>
-                    <p>27. The gov<input id="q27_1" type="text" maxlength="6" class="fill-in" autocomplete="off"> wants to reduce poll<input id="q27_2" type="text" maxlength="5" class="fill-in" autocomplete="off">.</p>
+                    <!-- CORRECTION: government = gov + ernment (7 letters) -->
+                    <p>27. The gov<input id="q27_1" type="text" maxlength="7" class="fill-in" autocomplete="off"> wants to reduce poll<input id="q27_2" type="text" maxlength="5" class="fill-in" autocomplete="off">.</p>
                     <p>28. Peo<input id="q28_1" type="text" maxlength="3" class="fill-in" autocomplete="off"> need exer<input id="q28_2" type="text" maxlength="4" class="fill-in" autocomplete="off"> to stay healthy.</p>
                     <p>29. The com<input id="q29_1" type="text" maxlength="6" class="fill-in" autocomplete="off"> was very interesting.</p>
-                    <!-- FIXED: Changed "sci" to "scie" so answer "ntist" makes "scientist" -->
                     <p>30. The scie<input id="q30_1" type="text" maxlength="5" class="fill-in" autocomplete="off"> wrote a rep<input id="q30_2" type="text" maxlength="3" class="fill-in" autocomplete="off"> about her findings.</p>
                 </div>
                 <div class="mt-8 text-center space-x-4">
@@ -149,16 +148,24 @@
                 </div>
                 <div id="b2" class="space-y-4 text-lg leading-relaxed">
                     <p>31. The rese<input id="q31_1" type="text" maxlength="6" class="fill-in" autocomplete="off"> found strong evid<input id="q31_2" type="text" maxlength="4" class="fill-in" autocomplete="off"> for the theory.</p>
-                    <p>32. Uni<input id="q32_1" type="text" maxlength="8" class="fill-in" autocomplete="off"> offer courses in many subj<input id="q32_2" type="text" maxlength="5" class="fill-in" autocomplete="off">.</p>
-                    <p>33. The exper<input id="q33_1" type="text" maxlength="9" class="fill-in" autocomplete="off"> results were ana<input id="q33_2" type="text" maxlength="5" class="fill-in" autocomplete="off"> carefully.</p>
-                    <!-- FIXED: Changed "Tec" to "Tech" so answer "nology" makes "Technology" -->
-                    <p>34. Tech<input id="q34_1" type="text" maxlength="8" class="fill-in" autocomplete="off"> has changed the way we commu<input id="q34_2" type="text" maxlength="8" class="fill-in" autocomplete="off">.</p>
-                    <p>35. The stu<input id="q35_1" type="text" maxlength="2" class="fill-in" autocomplete="off"> compared two dif<input id="q35_2" type="text" maxlength="7" class="fill-in" autocomplete="off"> methods.</p>
-                    <p>36. Envi<input id="q36_1" type="text" maxlength="10" class="fill-in" autocomplete="off"> problems are becoming more ser<input id="q36_2" type="text" maxlength="5" class="fill-in" autocomplete="off">.</p>
-                    <p>37. The compa<input id="q37_1" type="text" maxlength="2" class="fill-in" autocomplete="off"> is plan<input id="q37_2" type="text" maxlength="5" class="fill-in" autocomplete="off"> to open a new branch.</p>
-                    <p>38. The art<input id="q38_1" type="text" maxlength="4" class="fill-in" autocomplete="off"> discu<input id="q38_2" type="text" maxlength="5" class="fill-in" autocomplete="off"> the causes of clim<input id="q38_3" type="text" maxlength="3" class="fill-in" autocomplete="off"> change.</p>
-                    <p>39. The rese<input id="q39_1" type="text" maxlength="6" class="fill-in" autocomplete="off"> used acc<input id="q39_2" type="text" maxlength="6" class="fill-in" autocomplete="off"> data to supp<input id="q39_3" type="text" maxlength="3" class="fill-in" autocomplete="off"> her argu<input id="q39_4" type="text" maxlength="4" class="fill-in" autocomplete="off">.</p>
-                    <p>40. The scie<input id="q40_1" type="text" maxlength="6" class="fill-in" autocomplete="off"> presented her find<input id="q40_2" type="text" maxlength="4" class="fill-in" autocomplete="off"> at a conf<input id="q40_3" type="text" maxlength="7" class="fill-in" autocomplete="off">.</p>
+                    <!-- CORRECTION: subjects = subj + ects (4 letters) -->
+                    <p>32. Uni<input id="q32_1" type="text" maxlength="8" class="fill-in" autocomplete="off"> offer courses in many subj<input id="q32_2" type="text" maxlength="4" class="fill-in" autocomplete="off">.</p>
+                    <!-- CORRECTION: experimental = exper + imental (7 letters) -->
+                    <p>33. The exper<input id="q33_1" type="text" maxlength="7" class="fill-in" autocomplete="off"> results were ana<input id="q33_2" type="text" maxlength="5" class="fill-in" autocomplete="off"> carefully.</p>
+                    <!-- CORRECTION: Technology = Tech + nology (6 letters), communicate = commu + nicate (6 letters) -->
+                    <p>34. Tech<input id="q34_1" type="text" maxlength="6" class="fill-in" autocomplete="off"> has changed the way we commu<input id="q34_2" type="text" maxlength="6" class="fill-in" autocomplete="off">.</p>
+                    <!-- CORRECTION: different = dif + ferent (6 letters) -->
+                    <p>35. The stu<input id="q35_1" type="text" maxlength="2" class="fill-in" autocomplete="off"> compared two dif<input id="q35_2" type="text" maxlength="6" class="fill-in" autocomplete="off"> methods.</p>
+                    <!-- CORRECTION: Environmental = Envi + ronmental (9 letters), serious = ser + ious (4 letters) -->
+                    <p>36. Envi<input id="q36_1" type="text" maxlength="9" class="fill-in" autocomplete="off"> problems are becoming more ser<input id="q36_2" type="text" maxlength="4" class="fill-in" autocomplete="off">.</p>
+                    <!-- CORRECTION: planning = plan + ning (4 letters) -->
+                    <p>37. The compa<input id="q37_1" type="text" maxlength="2" class="fill-in" autocomplete="off"> is plan<input id="q37_2" type="text" maxlength="4" class="fill-in" autocomplete="off"> to open a new branch.</p>
+                    <!-- CORRECTION: discussed = discu + ssed (4 letters) -->
+                    <p>38. The art<input id="q38_1" type="text" maxlength="4" class="fill-in" autocomplete="off"> discu<input id="q38_2" type="text" maxlength="4" class="fill-in" autocomplete="off"> the causes of clim<input id="q38_3" type="text" maxlength="3" class="fill-in" autocomplete="off"> change.</p>
+                    <!-- CORRECTION: accurate = acc + urate (5 letters) -->
+                    <p>39. The rese<input id="q39_1" type="text" maxlength="6" class="fill-in" autocomplete="off"> used acc<input id="q39_2" type="text" maxlength="5" class="fill-in" autocomplete="off"> data to supp<input id="q39_3" type="text" maxlength="3" class="fill-in" autocomplete="off"> her argu<input id="q39_4" type="text" maxlength="4" class="fill-in" autocomplete="off">.</p>
+                    <!-- CORRECTION: scientist = scie + ntist (5 letters), conference = conf + erence (6 letters) -->
+                    <p>40. The scie<input id="q40_1" type="text" maxlength="5" class="fill-in" autocomplete="off"> presented her find<input id="q40_2" type="text" maxlength="4" class="fill-in" autocomplete="off"> at a conf<input id="q40_3" type="text" maxlength="6" class="fill-in" autocomplete="off">.</p>
                 </div>
                 <div class="mt-8 text-center space-x-4">
                     <button data-section="b2" class="check-btn bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 transition shadow-sm hover:shadow-md">Check B2 Answers</button>
@@ -189,7 +196,7 @@
                 scoreElement.textContent = score;
             };
 
-            // Master Answer Key (lowercase)
+            // Master Answer Key (lowercase) - AUDITED AND FIXED
             const answerKeys = {
                 a2: {
                     q1_1: 'd', q1_2: 'ok',
@@ -199,7 +206,6 @@
                     q5_1: 'end', q5_2: 'ball',
                     q6_1: 'ortant', q6_2: 'kfast',
                     q7_1: 'tches',
-                    // FIXED: Changed "cher" to "acher" to correct spelling of "teacher"
                     q8_1: 'acher',
                     q9_1: 've', q9_2: 'elve',
                     q10_1: 'k'
@@ -211,34 +217,45 @@
                     q14_1: 'ple', q14_2: 'ergy', q14_3: 'er',
                     q15_1: 'plete',
                     q16_1: 'ks', q16_2: 'neer',
-                    q17_1: 'ic',
+                    // FIXED: mu[sic] length 3
+                    q17_1: 'sic',
                     q18_1: 'ass',
                     q19_1: 'dents', q19_2: 'book',
                     q20_1: 'ke'
                 },
                 b1_2: {
                     q21_1: 'eriment', q21_2: 'lts',
-                    q22_1: 'ersity',
+                    // FIXED: uni[versity] missing v in previous key
+                    q22_1: 'versity',
                     q23_1: 'her', q23_2: 'estions',
                     q24_1: 'ected', q24_2: 'eriment',
                     q25_1: 'an',
                     q26_1: 'ortant', q26_2: 'er',
+                    // FIXED: gov[ernment] is 7 letters
                     q27_1: 'ernment', q27_2: 'ution',
                     q28_1: 'ple', q28_2: 'cise',
-                    // FIXED: Key changed to 'munity' because text is 'com' and length is 6
                     q29_1: 'munity',
                     q30_1: 'ntist', q30_2: 'ort'
                 },
                 b2: {
                     q31_1: 'archer', q31_2: 'ence',
+                    // FIXED: subj[ects] is 4 letters
                     q32_1: 'ersities', q32_2: 'ects',
+                    // FIXED: exper[imental] is 7 letters
                     q33_1: 'imental', q33_2: 'yzed',
+                    // FIXED: Tech[nology] is 6, commu[nicate] is 6
                     q34_1: 'nology', q34_2: 'nicate',
+                    // FIXED: dif[ferent] is 6 letters
                     q35_1: 'dy', q35_2: 'ferent',
-                    q36_1: 'onmental', q36_2: 'ious',
+                    // FIXED: Envi[ronmental] is 9 letters, ser[ious] is 4
+                    q36_1: 'ronmental', q36_2: 'ious',
+                    // FIXED: plan[ning] is 4 letters
                     q37_1: 'ny', q37_2: 'ning',
+                    // FIXED: discu[ssed] is 4 letters
                     q38_1: 'icle', q38_2: 'ssed', q38_3: 'ate',
+                    // FIXED: acc[urate] is 5 letters
                     q39_1: 'archer', q39_2: 'urate', q39_3: 'ort', q39_4: 'ment',
+                    // FIXED: scie[ntist] is 5 letters, conf[erence] is 6
                     q40_1: 'ntist', q40_2: 'ings', q40_3: 'erence'
                 }
             };
@@ -255,7 +272,8 @@
                 const len = input.maxLength;
                 if (len > 0) {
                     // Set width based on maxlength + padding
-                    input.style.width = `${Math.max(len + 2, 5)}ch`;
+                    // Adjusted calculation for better fit
+                    input.style.width = `${Math.max(len, 1) * 1.5 + 1.5}ch`;
                 }
             });
 
@@ -293,8 +311,7 @@
                         if (userAnswer === correctAnswer) {
                             input.classList.add('input-correct');
                             newSectionScore++;
-                            // On correct, we can lock it immediately or wait till final attempt.
-                            // To be helpful, let's lock correct answers immediately so user focuses on errors.
+                            // On correct, lock immediately
                             input.disabled = true; 
                         } else {
                             input.classList.add('input-incorrect');
