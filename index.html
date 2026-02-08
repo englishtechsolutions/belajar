@@ -53,10 +53,18 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            /* Fallback color if gradient fails */
+            color: #2563eb;
         }
 
         .dark .text-gradient {
-            background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+            /* Use background-image to prevent resetting background-clip */
+            background-image: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            /* Fallback color for dark mode */
+            color: #60a5fa;
         }
 
         /* Tech Grid Background */
@@ -109,9 +117,9 @@
         </button>
         
         <div class="flex flex-col bg-white dark:bg-slate-800 rounded-full border border-slate-200 dark:border-slate-700 shadow-lg overflow-hidden p-1 gap-1">
-            <button class="font-size-btn w-8 h-8 flex items-center justify-center rounded-full text-xs font-bold hover:bg-slate-100 dark:hover:bg-slate-700" data-size="small">A</button>
-            <button class="font-size-btn w-8 h-8 flex items-center justify-center rounded-full text-sm font-bold hover:bg-slate-100 dark:hover:bg-slate-700" data-size="normal">A</button>
-            <button class="font-size-btn w-8 h-8 flex items-center justify-center rounded-full text-base font-bold hover:bg-slate-100 dark:hover:bg-slate-700" data-size="large">A</button>
+            <button class="font-size-btn w-8 h-8 flex items-center justify-center rounded-full text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700" data-size="small">A</button>
+            <button class="font-size-btn w-8 h-8 flex items-center justify-center rounded-full text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700" data-size="normal">A</button>
+            <button class="font-size-btn w-8 h-8 flex items-center justify-center rounded-full text-base font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700" data-size="large">A</button>
         </div>
     </div>
 
@@ -263,22 +271,22 @@
                     
                     <div class="relative mt-8 lg:mt-0">
                         <div class="relative bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-8 shadow-xl">
-                            <h3 class="text-xl font-bold mb-6 border-b border-slate-100 dark:border-slate-700 pb-4">Gimana Cara Belajarnya?</h3>
+                            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-6 border-b border-slate-100 dark:border-slate-700 pb-4">Gimana Cara Belajarnya?</h3>
                             <ul class="space-y-6">
                                 <li class="flex flex-col gap-1">
                                     <span class="text-sm font-bold text-blue-600 uppercase tracking-wider">Langkah 1</span>
                                     <span class="text-slate-800 dark:text-slate-200 font-medium">Needs Analysis (Cek Kebutuhan)</span>
-                                    <span class="text-sm text-slate-500">Kita ngobrol dulu, kamu butuhnya apa dan goal-nya kemana.</span>
+                                    <span class="text-sm text-slate-500 dark:text-slate-400">Kita ngobrol dulu, kamu butuhnya apa dan goal-nya kemana.</span>
                                 </li>
                                 <li class="flex flex-col gap-1">
                                     <span class="text-sm font-bold text-blue-600 uppercase tracking-wider">Langkah 2</span>
                                     <span class="text-slate-800 dark:text-slate-200 font-medium">Customized Curriculum</span>
-                                    <span class="text-sm text-slate-500">Materi disiapin khusus buat kamu. Gak pake template massal.</span>
+                                    <span class="text-sm text-slate-500 dark:text-slate-400">Materi disiapin khusus buat kamu. Gak pake template massal.</span>
                                 </li>
                                 <li class="flex flex-col gap-1">
                                     <span class="text-sm font-bold text-blue-600 uppercase tracking-wider">Langkah 3</span>
                                     <span class="text-slate-800 dark:text-slate-200 font-medium">Interactive Session</span>
-                                    <span class="text-sm text-slate-500">Sesi live yang interaktif, banyak praktek, dan integrasi teknologi.</span>
+                                    <span class="text-sm text-slate-500 dark:text-slate-400">Sesi live yang interaktif, banyak praktek, dan integrasi teknologi.</span>
                                 </li>
                             </ul>
                             <div class="mt-8 pt-6 border-t border-slate-100 dark:border-slate-700">
@@ -288,7 +296,7 @@
                                     </div>
                                     <div>
                                         <p class="text-sm font-bold text-slate-900 dark:text-white">Fajarudin Akbar</p>
-                                        <p class="text-xs text-slate-500">English Language Learning and Educational Technology Consultant</p>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400">English Language Learning and Educational Technology Consultant</p>
                                     </div>
                                 </div>
                             </div>
@@ -354,14 +362,15 @@
                             </div>
                         </div>
 
-                        <div class="bg-white rounded-2xl p-8 text-center shadow-xl">
-                            <h3 class="text-xl font-bold text-slate-900 mb-2">Siap Mulai?</h3>
-                            <p class="text-slate-600 mb-8 text-sm">Teknologi jalan terus, jangan sampe ketinggalan. Yuk, upgrade skill kamu hari ini.</p>
+                        <!-- Dark mode fixed for this card: dark:bg-slate-800 and text adjustments -->
+                        <div class="bg-white dark:bg-slate-800 rounded-2xl p-8 text-center shadow-xl transition-colors duration-300">
+                            <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Siap Mulai?</h3>
+                            <p class="text-slate-600 dark:text-slate-300 mb-8 text-sm">Teknologi jalan terus, jangan sampe ketinggalan. Yuk, upgrade skill kamu hari ini.</p>
                             
                             <a href="http://s.id/englishtech-pvt" target="_blank" rel="noopener noreferrer" class="block w-full py-4 px-6 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-colors mb-4 shadow-lg shadow-blue-600/20">
                                 Daftar Sekarang
                             </a>
-                            <a href="http://wa.me/6282225642124" target="_blank" rel="noopener noreferrer" class="block w-full py-4 px-6 bg-slate-50 hover:bg-slate-100 text-slate-700 font-semibold rounded-xl transition-colors border border-slate-200">
+                            <a href="http://wa.me/6282225642124" target="_blank" rel="noopener noreferrer" class="block w-full py-4 px-6 bg-slate-50 hover:bg-slate-100 text-slate-700 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-white font-semibold rounded-xl transition-colors border border-slate-200 dark:border-slate-600">
                                 Chat via WhatsApp
                             </a>
                         </div>
@@ -408,7 +417,7 @@
             </div>
             
             <div class="border-t border-slate-200 dark:border-slate-800 pt-8 text-center">
-                <p class="text-sm text-slate-500">© EnglishTech Solutions | Membangun masa depan pendidikan</p>
+                <p class="text-sm text-slate-500 dark:text-slate-400">© EnglishTech Solutions | Membangun masa depan pendidikan</p>
             </div>
         </div>
     </footer>
@@ -428,6 +437,9 @@
         themeToggle.addEventListener('click', () => {
             html.classList.toggle('dark');
             localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+            // Refresh font buttons state to ensure correct color in new theme
+            const currentSize = localStorage.getItem('fontSize') || 'normal';
+            setActiveFontSize(currentSize);
         });
 
         // Font Size Logic
