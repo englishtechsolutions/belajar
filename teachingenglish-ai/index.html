@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teaching English Innovatively with AI</title>
+    
+    <!-- Meta Preview & Favicon -->
+    <link rel="icon" type="image/png" href="https://github.com/fajarudinakbar/Images/blob/main/Screenshot%202026-02-04%20172650.png?raw=true">
+    <meta property="og:title" content="Teaching English Innovatively with AI">
+    <meta property="og:description" content="Move beyond simple automation. Join Teacher Fajar on a journey to become an Educational Architect, transforming your ELT practice with surgical precision and creative technology.">
+    <meta property="og:image" content="https://github.com/fajarudinakbar/Images/blob/main/Screenshot%202026-02-04%20172650.png?raw=true">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://github.com/fajarudinakbar/Images/blob/main/Screenshot%202026-02-04%20172650.png?raw=true">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .smooth-scroll { scroll-behavior: smooth; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* Animation Utilities */
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body class="bg-white text-gray-800 h-screen overflow-hidden relative">
+
+    <!-- =========================
+         VIEW 1: LANDING PAGE 
+         ========================= -->
+    <div id="home-view" class="h-full overflow-y-auto smooth-scroll">
+        <!-- Navbar -->
+        <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between h-20 items-center">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 bg-[#0ea5e9] rounded text-white flex items-center justify-center font-bold text-sm shadow-sm">
+                            <i data-lucide="zap" class="w-5 h-5"></i>
+                        </div>
+                        <span class="font-bold text-lg text-gray-900 tracking-tight">Teaching English Innovatively</span>
+                    </div>
+                    <div class="flex items-center gap-6">
+                        <a href="#instructor" class="hidden md:block text-sm font-medium text-gray-600 hover:text-[#0ea5e9] transition">Instructor</a>
+                        <button onclick="openLoginModal()" class="bg-[#0ea5e9] text-white px-5 py-2.5 rounded-lg font-bold text-sm hover:bg-[#0284c7] transition shadow-md shadow-sky-500/20">
+                            Login / Start Course
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <header class="relative pt-20 pb-32 overflow-hidden">
+            <div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-sky-100 via-white to-white"></div>
+            <div class="max-w-5xl mx-auto px-4 text-center">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-50 border border-sky-100 text-[#0ea5e9] text-xs font-bold uppercase tracking-wide mb-8">
+                    <i data-lucide="sparkles" class="w-3 h-3"></i> Professional Development
+                </div>
+                <h1 class="text-5xl md:text-7xl font-extrabold text-gray-900 mb-6 tracking-tight leading-tight">
+                    Teaching English<br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#0ea5e9] to-blue-600">Innovatively with AI</span>
+                </h1>
+                <p class="text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
+                    Move beyond simple automation. Join Teacher Fajar on a journey to become an Educational Architect, transforming your ELT practice with surgical precision and creative technology.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button onclick="openLoginModal()" class="inline-flex items-center justify-center gap-2 bg-[#0ea5e9] text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-[#0284c7] transition shadow-lg shadow-sky-500/30">
+                        Start Learning Now <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </button>
+                    <a href="#instructor" class="inline-flex items-center justify-center gap-2 bg-white text-gray-700 border border-gray-200 px-8 py-4 rounded-xl font-bold text-lg hover:bg-gray-50 transition">
+                        Meet Your Instructor
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Instructor Section -->
+        <section id="instructor" class="py-24 bg-blue-900 text-white">
+            <div class="max-w-5xl mx-auto px-4">
+                <div class="flex flex-col md:flex-row items-center gap-12">
+                    
+                    <!-- Avatar/Image Column -->
+                    <div class="flex-shrink-0 relative group">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-teal-400 to-blue-500 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+                        <img src="https://raw.githubusercontent.com/fajarudinakbar/Images/refs/heads/main/Fajarudin%20Akbar.png" alt="Teacher Fajar" class="relative w-48 h-48 md:w-64 md:h-64 rounded-full border-4 border-blue-800 shadow-2xl object-cover">
+                    </div>
+
+                    <!-- Content Column -->
+                    <div class="text-center md:text-left">
+                        <div class="inline-block px-3 py-1 bg-blue-800 text-teal-300 rounded-full text-xs font-bold uppercase tracking-wider mb-4 border border-blue-700">The Instructor</div>
+                        <h2 class="text-3xl md:text-4xl font-extrabold mb-6 text-white">Teacher Fajar</h2>
+                        <p class="text-lg text-blue-100 mb-6 leading-relaxed">
+                            Fajarudin Akbar is an English Language Teacher and Educational Technology Practitioner based in Indonesia.
+                        </p>
+                        <p class="text-base text-blue-200 mb-8 leading-relaxed max-w-2xl">
+                            Passionate about tech-enhanced, inclusive learning, Teacher Fajar moves beyond simple "prompt engineering" to teach educators how to build sustainable, pedagogical tools. He is a fervent supporter of open education principles and creating learner-centered materials.
+                        </p>
+                        <div class="flex flex-wrap items-center justify-center md:justify-start gap-4">
+                            <div class="flex items-center gap-2 bg-blue-800/50 px-4 py-2 rounded-lg border border-blue-700">
+                                <i data-lucide="map-pin" class="w-5 h-5 text-yellow-400"></i>
+                                <span class="font-medium text-blue-100">Indonesia</span>
+                            </div>
+                            
+                            <a href="https://www.linkedin.com/in/fajarudinakbar" target="_blank" class="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-5 py-2 rounded-lg font-bold transition-all shadow-lg hover:shadow-blue-500/30">
+                                <i data-lucide="linkedin" class="w-5 h-5"></i>
+                                Connect on LinkedIn
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-gray-50 border-t border-gray-200 py-12">
+            <div class="max-w-7xl mx-auto px-4 text-center">
+                <p class="text-gray-500 mb-4">Teaching English Innovatively with AI</p>
+                <p class="text-sm text-gray-400">
+                    Designed by <a href="https://fajarudinakbar.online" target="_blank" class="text-[#0ea5e9] hover:underline font-bold">fajarudinakbar.online</a>
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- =========================
+         VIEW 2: LMS APPLICATION 
+         ========================= -->
+    <div id="lms-view" class="hidden h-full flex overflow-hidden fade-in">
+        
+        <!-- Mobile Sidebar Backdrop -->
+        <div id="mobile-backdrop" class="fixed inset-0 bg-black bg-opacity-50 z-20 hidden lg:hidden" onclick="toggleSidebar()"></div>
+
+        <!-- Sidebar -->
+        <aside id="sidebar" class="bg-[#F5F5F5] border-r border-gray-200 flex flex-col flex-shrink-0 w-80 h-full absolute lg:relative z-30 transform -translate-x-full lg:translate-x-0 transition-transform duration-300">
+            <!-- Sidebar Header -->
+            <div class="p-6 border-b border-gray-200 bg-white">
+                <div class="flex items-center gap-3 mb-2">
+                    <button onclick="switchView('home')" class="hover:opacity-75 transition">
+                         <div class="w-10 h-10 bg-[#0ea5e9] rounded text-white flex items-center justify-center font-bold text-base shadow-sm">
+                            <i data-lucide="zap" class="w-6 h-6"></i>
+                        </div>
+                    </button>
+                    <div>
+                        <h1 class="font-bold text-base text-gray-900 leading-tight">Teaching English<br>Innovatively</h1>
+                    </div>
+                </div>
+                <button onclick="toggleSidebar()" class="lg:hidden absolute top-6 right-6 text-gray-400 hover:text-gray-600">
+                    <i data-lucide="chevron-left" class="w-6 h-6"></i>
+                </button>
+            </div>
+
+            <!-- Module List -->
+            <div id="module-list" class="flex-1 overflow-y-auto">
+                <!-- Items injected via JS -->
+            </div>
+
+            <!-- Footer (Updated per request) -->
+            <div class="p-6 border-t border-gray-200 bg-white">
+                <p class="text-sm text-gray-500 text-center">
+                    Designed by <a href="https://fajarudinakbar.online" target="_blank" class="text-[#0ea5e9] hover:underline font-bold">fajarudinakbar.online</a>
+                </p>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 flex flex-col h-full w-full relative bg-white">
+            
+            <!-- Mobile Header Toggle -->
+            <div class="lg:hidden absolute top-4 left-4 z-10">
+                <button onclick="toggleSidebar()" class="p-3 bg-white border border-gray-200 rounded-md shadow-sm">
+                    <i data-lucide="menu" class="w-6 h-6 text-gray-600"></i>
+                </button>
+            </div>
+
+            <!-- Top Navbar -->
+            <div class="h-20 border-b border-gray-200 flex items-center px-6 lg:px-16 flex-shrink-0 justify-between">
+                <div class="flex items-center gap-3 text-base text-gray-600 w-full pl-12 lg:pl-0">
+                    <span class="font-bold text-gray-900 flex-shrink-0" id="nav-module-id">Module 1</span>
+                    <i data-lucide="chevron-right" class="w-5 h-5 text-gray-400 flex-shrink-0"></i>
+                    <span class="truncate block font-medium text-gray-800" id="nav-topic">Topic Name</span>
+                </div>
+                <button onclick="switchView('home')" class="hidden lg:flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-[#0ea5e9]">
+                    <i data-lucide="home" class="w-4 h-4"></i> Home
+                </button>
+            </div>
+
+            <!-- Content Scroll Container -->
+            <div id="content-area" class="flex-1 overflow-y-auto p-6 lg:px-20 lg:py-12 smooth-scroll">
+                <div class="max-w-5xl mx-auto">
+                    <!-- Dynamic Content Injection -->
+                    <div id="dynamic-content"></div>
+                </div>
+            </div>
+
+            <!-- Bottom Navigation Bar -->
+            <div class="bg-white border-t border-gray-200 p-5 px-6 lg:px-20 flex justify-between items-center sticky bottom-0 z-10">
+                <button id="btn-prev" onclick="changeSession(-1)" class="flex items-center gap-2 px-6 py-3 rounded-lg font-bold text-base transition-colors border border-gray-300 text-gray-600 hover:bg-gray-50">
+                    <i data-lucide="chevron-left" class="w-5 h-5"></i> Previous
+                </button>
+
+                <button id="btn-next" onclick="changeSession(1)" class="flex items-center gap-2 px-8 py-3 rounded-lg font-bold text-base transition-colors shadow-sm bg-[#0ea5e9] text-white hover:bg-[#0284c7]">
+                    Next <i data-lucide="chevron-right" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- =========================
+         LOGIN MODAL 
+         ========================= -->
+    <div id="login-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-gray-900/40 backdrop-blur-sm fade-in">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8 relative mx-4">
+            <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 bg-sky-50 text-[#0ea5e9] rounded-2xl flex items-center justify-center mx-auto mb-4 border border-sky-100 shadow-sm">
+                    <i data-lucide="user-circle" class="w-8 h-8"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-900">Welcome to the Class</h2>
+                <p class="text-gray-500 text-sm mt-2">Enter your username to access Teacher Fajar's modules.</p>
+            </div>
+
+            <form id="login-form" onsubmit="handleLogin(event)">
+                <div class="mb-6">
+                    <label for="username" class="block text-sm font-bold text-gray-700 mb-2">Username</label>
+                    <input type="text" id="username" required 
+                           class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-[#0ea5e9] focus:border-[#0ea5e9] outline-none transition-all text-gray-800 bg-gray-50 focus:bg-white" 
+                           placeholder="e.g. educator2026"
+                           oninput="document.getElementById('login-error').classList.add('hidden')">
+                    <p id="login-error" class="hidden text-red-500 text-sm mt-2 font-medium flex items-center gap-1"><i data-lucide="alert-circle" class="w-4 h-4"></i> Incorrect username. Please try again.</p>
+                </div>
+                <button type="submit" class="w-full bg-[#0ea5e9] text-white py-3.5 rounded-xl font-bold hover:bg-[#0284c7] transition-all shadow-lg shadow-sky-500/30 flex justify-center items-center gap-2">
+                    Enter Course <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- Modal Logic ---
+        function openLoginModal() {
+            document.getElementById('login-modal').classList.remove('hidden');
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+            // Auto-focus the input
+            setTimeout(() => document.getElementById('username').focus(), 100);
+        }
+
+        function closeLoginModal() {
+            document.getElementById('login-modal').classList.add('hidden');
+            document.getElementById('login-error').classList.add('hidden');
+        }
+
+        function handleLogin(event) {
+            event.preventDefault(); // Prevent page reload
+            const username = document.getElementById('username').value;
+            const errorMsg = document.getElementById('login-error');
+            
+            // Check if the username matches (case-insensitive)
+            if(username.trim().toLowerCase() === 'danielwidhiatama') {
+                errorMsg.classList.add('hidden');
+                closeLoginModal();
+                switchView('lms');
+                document.getElementById('username').value = ''; // Reset form
+            } else {
+                // Show error message if username is incorrect
+                errorMsg.classList.remove('hidden');
+            }
+        }
+
+        // --- View Switching Logic ---
+        function switchView(viewName) {
+            const homeView = document.getElementById('home-view');
+            const lmsView = document.getElementById('lms-view');
+
+            if (viewName === 'lms') {
+                homeView.classList.add('hidden');
+                lmsView.classList.remove('hidden');
+                // Re-initialize icons just in case
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+            } else {
+                lmsView.classList.add('hidden');
+                homeView.classList.remove('hidden');
+            }
+        }
+
+        // --- LMS Data & Logic ---
+        const sessions = [
+            {
+                id: 1,
+                title: "Pedagogical Precision",
+                focus: "GSE Teacher Toolkit",
+                objective: "Learn to identify specific 'Can-Do' statements and reverse-engineer prompts that align with international standards.",
+                vision: "Say goodbye to 'generic' levels. In this module, you will discover the power of the Global Scale of English (GSE). You will learn to treat AI as a surgical instrument, targeting the exact linguistic needs of your students.",
+                keyLesson: "Identifying the precise 'Can-Do' descriptor and using it as a 'Constraint Anchor' to ensure AI-generated content is perfectly leveled and pedagogically sound.",
+                outcome: "Aligned System Prompts that produce high-quality, scientifically accurate materials every single time.",
+                link: "https://teacherfajar.online/teachingenglish-ai/module1"
+            },
+            {
+                id: 2,
+                title: "Multimodality with AI",
+                focus: "Google AI Studio",
+                objective: "Generate context-specific imagery and natural-sounding audio for immersive scenarios.",
+                vision: "Language learning is a sensory experience. We will explore Google AI Studio to move beyond text and build 'living' contexts. You will see how easy it is to create bespoke worlds where students can see and hear the language in action.",
+                keyLesson: "Using multimodal prompting to combine scripts with realistic audio and visual assets, creating a 360-degree learning environment tailored to specific professional contexts.",
+                outcome: "Audio/Visual Materials that provide a level of immersion traditional textbooks simply cannot match.",
+                link: "https://teacherfajar.online/teachingenglish-ai/module2"
+            },
+            {
+                id: 3,
+                title: "Creating Custom Agents",
+                focus: "Gemini Gems",
+                objective: "Architect a 'Worksheet Architect' Gem that knows your specific formatting rubrics.",
+                vision: "Imagine having a brilliant teaching assistant who knows exactly how you like to teach. You will learn to build your own 'Digital Twin'—a Gemini Gem that scales your expertise and maintains your high standards of rigor.",
+                keyLesson: "Designing sophisticated System Instructions for your 'Worksheet Architect.' This agent will take any input and transform it into a multi-layered, interactive lesson according to your proprietary rubrics.",
+                outcome: "Custom Teaching Assistant that handles the heavy lifting of design, allowing you to focus on student connection.",
+                link: "https://teacherfajar.online/teachingenglish-ai/module3"
+            },
+            {
+                id: 4,
+                title: "Vibe Coding with AI",
+                focus: "Gemini Canvas",
+                objective: "Build interactive web apps—vocabulary games, quizzes—using natural language. No coding required!",
+                vision: "You are now a creator! With 'Vibe Coding,' your words become functional software. We will use Gemini Canvas to turn static lessons into interactive digital experiences. This is where your pedagogy truly comes to life.",
+                keyLesson: "Using natural language logic to build 'Negotiation Simulators' or 'Branching Narrative Games' where students get instant, AI-guided feedback as they interact with your content.",
+                outcome: "Interactive Web App that engages students and provides a modern, gamified learning path.",
+                link: "https://teacherfajar.online/teachingenglish-ai/module4"
+            },
+            {
+                id: 5,
+                title: "Global Deployment",
+                focus: "GitHub Pages",
+                objective: "Build your professional portfolio. Deploy tools to the web to showcase your innovation to a global audience.",
+                vision: "Your innovations deserve to be seen. In this final module, we will host your interactive tools and portfolio on the web. This establishes you as a thought leader in the EdTech space and showcases your value to the world.",
+                keyLesson: "Mastering the basics of GitHub Pages to host your apps and your 'Innovation Portfolio.' You will learn to share your work with colleagues and clients across the globe.",
+                outcome: "Live Portfolio that serves as a professional beacon, attracting clients and establishing your authority as an AI-Integrated Educator.",
+                link: "https://teacherfajar.online/teachingenglish-ai/module5"
+            }
+        ];
+
+        let activeSessionId = 1;
+
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            renderSidebar();
+            renderContent();
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        });
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const backdrop = document.getElementById('mobile-backdrop');
+            sidebar.classList.toggle('-translate-x-full');
+            backdrop.classList.toggle('hidden');
+        }
+
+        function setActiveSession(id) {
+            activeSessionId = id;
+            
+            // Close sidebar on mobile when selection is made
+            if (window.innerWidth < 1024) {
+                toggleSidebar();
+            }
+
+            renderSidebar();
+            renderContent();
+            
+            // Scroll to top of content
+            document.getElementById('content-area').scrollTop = 0;
+            
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        }
+
+        function changeSession(delta) {
+            const newId = activeSessionId + delta;
+            if (newId >= 1 && newId <= sessions.length) {
+                setActiveSession(newId);
+            }
+        }
+
+        function renderSidebar() {
+            const container = document.getElementById('module-list');
+            container.innerHTML = sessions.map(session => {
+                const isActive = session.id === activeSessionId;
+                const activeClasses = isActive 
+                    ? "bg-white border-l-[6px] border-[#0ea5e9] shadow-sm" 
+                    : "bg-[#F5F5F5] hover:bg-gray-100 border-l-[6px] border-transparent text-gray-600";
+                
+                const iconColor = isActive ? "text-[#0ea5e9]" : "text-gray-400";
+                const titleColor = isActive ? "text-gray-900" : "text-gray-700";
+
+                return `
+                    <button onclick="setActiveSession(${session.id})" class="w-full text-left p-5 text-base transition-all duration-200 flex gap-4 border-b border-gray-100 ${activeClasses}">
+                        <div class="mt-1 flex-shrink-0">
+                            ${isActive 
+                                ? `<i data-lucide="play-circle" class="w-6 h-6 ${iconColor}"></i>`
+                                : `<div class="w-6 h-6 rounded-full border-2 border-gray-400 flex items-center justify-center"><span class="text-xs font-bold text-gray-500">${session.id}</span></div>`
+                            }
+                        </div>
+                        <div>
+                            <span class="block font-bold text-base ${titleColor}">
+                                Module ${session.id}
+                            </span>
+                            <span class="text-sm text-gray-500 mt-1 line-clamp-2 block leading-relaxed font-medium">
+                                ${session.title}
+                            </span>
+                        </div>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function renderContent() {
+            const session = sessions.find(s => s.id === activeSessionId);
+            
+            // Update Nav
+            document.getElementById('nav-module-id').textContent = `Module ${session.id}`;
+            document.getElementById('nav-topic').textContent = session.title;
+
+            // Update Navigation Buttons State
+            const btnPrev = document.getElementById('btn-prev');
+            const btnNext = document.getElementById('btn-next');
+            
+            if (activeSessionId === 1) {
+                btnPrev.classList.add('opacity-50', 'cursor-not-allowed');
+                btnPrev.classList.remove('hover:bg-gray-50');
+            } else {
+                btnPrev.classList.remove('opacity-50', 'cursor-not-allowed');
+                btnPrev.classList.add('hover:bg-gray-50');
+            }
+
+            if (activeSessionId === sessions.length) {
+                btnNext.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400');
+                btnNext.classList.remove('bg-[#0ea5e9]', 'hover:bg-[#0284c7]');
+            } else {
+                btnNext.classList.remove('opacity-50', 'cursor-not-allowed', 'bg-gray-400');
+                btnNext.classList.add('bg-[#0ea5e9]', 'hover:bg-[#0284c7]');
+            }
+
+            // Button Logic
+            let buttonHtml = '';
+            if (session.link && session.link !== "#") {
+                buttonHtml = `
+                    <a href="${session.link}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-3 bg-[#0ea5e9] text-white px-8 py-4 rounded-lg text-base font-bold hover:bg-[#0284c7] transition-colors shadow-sm">
+                        Access Module <i data-lucide="external-link" class="w-5 h-5"></i>
+                    </a>
+                `;
+            } else {
+                buttonHtml = `
+                    <button disabled class="bg-gray-100 text-gray-400 px-8 py-4 rounded-lg text-base font-bold cursor-not-allowed border border-gray-200">
+                        Module Coming Soon
+                    </button>
+                `;
+            }
+
+            // Map Original Content to Framework Slots
+            const contentDiv = document.getElementById('dynamic-content');
+            contentDiv.innerHTML = `
+                <!-- Header (Vision) -->
+                <div class="mb-12 animate-fade-in">
+                    <h1 class="text-3xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+                        ${session.title}
+                    </h1>
+                    <p class="text-xl text-gray-700 leading-relaxed font-normal">
+                        ${session.vision}
+                    </p>
+                </div>
+
+                <hr class="border-gray-200 mb-12" />
+
+                <!-- Core Components (Mapped to 'Activities' visual slot) -->
+                <section class="mb-12">
+                    <h3 class="font-bold text-2xl text-gray-900 mb-6">Module Breakdown</h3>
+                    <div class="space-y-0 border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+                        
+                        <div class="flex gap-5 p-6 border-b border-gray-100 hover:bg-gray-50 transition-colors bg-white items-start">
+                            <i data-lucide="target" class="w-6 h-6 text-[#0ea5e9] flex-shrink-0 mt-1"></i>
+                            <div>
+                                <span class="block font-bold text-gray-900 text-sm uppercase tracking-wide mb-1">Focus</span>
+                                <span class="text-gray-800 text-lg leading-relaxed">${session.focus}</span>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-5 p-6 border-b border-gray-100 hover:bg-gray-50 transition-colors bg-white items-start">
+                            <i data-lucide="compass" class="w-6 h-6 text-[#0ea5e9] flex-shrink-0 mt-1"></i>
+                            <div>
+                                <span class="block font-bold text-gray-900 text-sm uppercase tracking-wide mb-1">Objective</span>
+                                <span class="text-gray-800 text-lg leading-relaxed">${session.objective}</span>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-5 p-6 hover:bg-gray-50 transition-colors bg-white items-start">
+                            <i data-lucide="check-circle-2" class="w-6 h-6 text-green-600 flex-shrink-0 mt-1"></i>
+                            <div>
+                                <span class="block font-bold text-gray-900 text-sm uppercase tracking-wide mb-1">Outcome</span>
+                                <span class="text-gray-800 text-lg leading-relaxed">${session.outcome}</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- Key Lesson (Mapped to 'Case Study' visual slot) -->
+                <section>
+                    <h3 class="font-bold text-2xl text-gray-900 mb-6">Key Lesson</h3>
+                    
+                    <div class="border border-gray-200 rounded-xl overflow-hidden shadow-md">
+                        <div class="bg-gray-50 px-8 py-5 border-b border-gray-200 flex justify-between items-center">
+                            <div class="flex items-center gap-3">
+                                <i data-lucide="lightbulb" class="w-6 h-6 text-[#0ea5e9]"></i>
+                                <span class="font-bold text-gray-800 text-base uppercase tracking-wide">Core Insight</span>
+                            </div>
+                        </div>
+                        <div class="p-8 bg-white">
+                            <p class="text-gray-800 font-serif text-2xl leading-relaxed italic mb-8 pl-4 border-l-4 border-gray-300">
+                                "${session.keyLesson}"
+                            </p>
+                            ${buttonHtml}
+                        </div>
+                    </div>
+                </section>
+            `;
+            
+            // Re-init icons for new content
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        }
+    </script>
+</body>
+</html>
